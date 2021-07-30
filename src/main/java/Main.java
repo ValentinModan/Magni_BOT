@@ -1,4 +1,6 @@
-import java.net.URL;
+import board.Board;
+import board.setup.BoardSetup;
+import game.GameBoard;
 
 public class Main {
 
@@ -7,7 +9,8 @@ public class Main {
 
         System.out.println("Testing the responses");
 
-    //    PostRequests.sendRequest();
-//
+        GameBoard gameBoard = new GameBoard();
+
+        gameBoard.startGame();
     }
 }
