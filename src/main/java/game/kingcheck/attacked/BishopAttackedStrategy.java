@@ -13,7 +13,7 @@ public class BishopAttackedStrategy implements AttackedStrategy {
 
     List<Movement> bishopMovementList = new ArrayList<>(Arrays.asList(
             Movement.UP_LEFT,
-            Movement.DOWN_LEFT,
+            Movement.LEFT_DOWN,
             Movement.DOWN_RIGHT,
             Movement.UP_RIGHT
     ));
@@ -26,6 +26,7 @@ public class BishopAttackedStrategy implements AttackedStrategy {
             {
                 return true;
             }
+            XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing, Piece::isBishop);
         }
         return false;
     }

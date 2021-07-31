@@ -33,6 +33,6 @@ public class PawnAttackedStrategy implements AttackedStrategy {
         if (isWhiteKing) {
             return Arrays.asList(Movement.UP_LEFT, Movement.UP_RIGHT);
         }
-        return Arrays.asList(Movement.DOWN_LEFT, Movement.DOWN_RIGHT);
+        return Arrays.asList(Movement.LEFT_DOWN, Movement.DOWN_RIGHT);
     }
 }
