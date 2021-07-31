@@ -11,6 +11,14 @@ public class Main {
 
         GameBoard gameBoard = new GameBoard();
 
-        gameBoard.startGame();
+        try {
+
+
+            gameBoard.startGame();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 }

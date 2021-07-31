@@ -1,6 +1,7 @@
 package game;
 
 import board.Board;
+import board.moves.MoveConvertor;
 import board.moves.results.Endgame;
 import board.setup.BoardSetup;
 import game.kingcheck.attacked.KingSafety;
@@ -21,10 +22,15 @@ public class GameBoard {
     public void startGame()
     {
         System.out.println(actualBoard);
+        actualBoard.computePossibleMoves();
         while(true) {
             if (isWhiteToPlay) {
                 String move = ConsoleReader.readMove();
 
+                if(!actualBoard.isMoveValid(MoveConvertor.toMove(move)))
+                {
+                    System.out.println(move + " is invalid");
+                }
                 actualBoard.movePiece(move);
 
                 if(KingSafety.getNumberOfAttackers(actualBoard,false)>0)

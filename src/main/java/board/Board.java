@@ -1,16 +1,29 @@
 package board;
 
+import board.moves.Move;
+import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board implements Cloneable {
     private Map<Position, Piece> boardMap = new HashMap<>();
     private static final String EMPTY_POSITION = ".  ";
 
-    private static Position whiteKingPosition;
-    private static Position blackKingPosition;
+    private Position whiteKingPosition;
+    private Position blackKingPosition;
+
+    boolean isWhiteToMove = true;
+
+    private List<Position> whitePiecesPositions = new ArrayList<>();
+    private List<Position> blackPiecesPositions = new ArrayList<>();
+
+    private PossibleMovesCalculator possibleMovesCalculator = new PossibleMovesCalculator();
+
+    private List<Move> possibleMoves;
 
     public void addPosition(Position position) {
         addPosition(position, null);
@@ -19,8 +32,7 @@ public class Board implements Cloneable {
     public void addPosition(Position position, Piece piece) {
         boardMap.put(position, piece);
 
-        if(piece == null)
-        {
+        if (piece == null) {
             return;
         }
         if (piece.isKing()) {
@@ -30,7 +42,18 @@ public class Board implements Cloneable {
                 blackKingPosition = position;
             }
         }
+
+        if (piece.isWhite()) {
+            whitePiecesPositions.add(position);
+        } else {
+            blackPiecesPositions.add(position);
+        }
     }
+
+    public List<Position> getCurrentPlayerPositionList() {
+        return isWhiteToMove ? whitePiecesPositions : blackPiecesPositions;
+    }
+
 
     public Piece getPosition(String string) {
         if (string.length() != 2) {
@@ -45,11 +68,45 @@ public class Board implements Cloneable {
                 new Position(string.charAt(2), (int) string.charAt(3) - '0'));
     }
 
+    public void computePossibleMoves()
+    {
+        possibleMoves = possibleMovesCalculator.getPossibleMoves(this);
+    }
+
+    public boolean isMoveValid(Move move)
+    {
+        return  possibleMoves.contains(move);
+    }
+
     public void movePiece(Position initialPosition, Position destinationPosition) {
+
+
+        Piece destinationPiece = boardMap.get(destinationPosition);
+        List<Position> colorPieceList = isWhiteToMove ? blackPiecesPositions : whitePiecesPositions;
         Piece movingPiece = boardMap.get(initialPosition);
+
+        //keeping the pieces list updated
+        if (destinationPiece != null && destinationPiece.isWhite() != isWhiteToMove) {
+
+            boolean operationSuccessful = colorPieceList.remove(destinationPosition);
+            if (!operationSuccessful) {
+                System.out.println("Something was wrong then removing a piece:");
+                System.out.println(whitePiecesPositions);
+                System.out.println(destinationPiece);
+            } else {
+                System.out.println(movingPiece + " on " + initialPosition + " captures " + destinationPiece + " on " + destinationPosition);
+            }
+        }
+
+        //moving the actual piece
         boardMap.put(destinationPosition, movingPiece);
         clearPosition(initialPosition);
+
+        //swaping player
+        isWhiteToMove = !isWhiteToMove;
+
     }
+
 
     private void clearPosition(Position position) {
         boardMap.put(position, null);
@@ -60,24 +117,32 @@ public class Board implements Cloneable {
         return boardMap.get(position);
     }
 
+    public Map<Position, Piece> getBoardMap() {
+        return boardMap;
+    }
+
+    public void setBoardMap(Map<Position, Piece> boardMap) {
+        this.boardMap = boardMap;
+    }
+
     public Position getWhiteKingPosition() {
         return whiteKingPosition;
     }
 
     public void setWhiteKingPosition(Position whiteKingPosition) {
-        Board.whiteKingPosition = whiteKingPosition;
+        this.whiteKingPosition = whiteKingPosition;
     }
 
     public Position getKing(boolean isWhite) {
         return isWhite ? whiteKingPosition : blackKingPosition;
     }
 
-    public static Position getBlackKingPosition() {
+    public Position getBlackKingPosition() {
         return blackKingPosition;
     }
 
-    public static void setBlackKingPosition(Position blackKingPosition) {
-        Board.blackKingPosition = blackKingPosition;
+    public void setBlackKingPosition(Position blackKingPosition) {
+        blackKingPosition = blackKingPosition;
     }
 
     @Override
