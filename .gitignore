@@ -15,6 +15,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# added by me
+.gradle/
+
 # Package Files #
 *.jar
 *.war
