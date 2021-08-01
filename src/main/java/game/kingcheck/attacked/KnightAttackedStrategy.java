@@ -1,6 +1,5 @@
 package game.kingcheck.attacked;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
@@ -29,8 +28,7 @@ public class KnightAttackedStrategy implements AttackedStrategy {
 
         for (Movement movement : knightsPossibleMovements) {
             Piece piece = board.getPiece(kingPosition.move(movement));
-            if(piece!=null && piece.getPieceType() == PieceType.KNIGHT && piece.isWhite() != board.isWhiteToMove())
-            {
+            if (piece != null && piece.getPieceType() == PieceType.KNIGHT && piece.isWhite() != board.isWhiteToMove()) {
                 return true;
             }
         }

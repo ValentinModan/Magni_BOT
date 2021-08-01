@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 public class XrayAttack {
 
+    //up,down,left,right and diagonal
     public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing,PieceType pieceType) {
         currentPosition = currentPosition.move(movement);
         if (!currentPosition.isValid()) {

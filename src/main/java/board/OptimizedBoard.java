@@ -69,6 +69,12 @@ public class OptimizedBoard {
         }
     }
 
+    public Piece getPiece(Position position)
+    {
+        Piece piece = whitePiecesMap.get(position);
+        return piece!=null?piece: blackPiecesMap.get(position);
+    }
+
     public void computePossibleMoves()
     {
 
@@ -119,9 +125,5 @@ public class OptimizedBoard {
 
     public void setWhiteToMove(boolean whiteToMove) {
         isWhiteToMove = whiteToMove;
-    }
-
-    public Piece getPiece(Position position){
-        return null;
     }
 }

@@ -31,8 +31,6 @@ public class GameBoard {
         Move move = MoveConvertor.toMove(moveString);
         while(true) {
             if (isWhiteToPlay) {
-
-
                 if(!actualBoard.isValidMove(move))
                 {
                     System.out.println(move + " is invalid");
@@ -51,7 +49,6 @@ public class GameBoard {
                     System.out.println("Check!");
                 }
             }
-
             System.out.println(actualBoard);
 
         }

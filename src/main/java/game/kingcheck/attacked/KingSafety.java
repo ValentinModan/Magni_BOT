@@ -1,6 +1,5 @@
 package game.kingcheck.attacked;
 
-import board.Board;
 import board.OptimizedBoard;
 
 import java.util.ArrayList;
@@ -9,26 +8,22 @@ import java.util.List;
 
 public class KingSafety {
 
-    private static List<AttackedStrategy> attackedStrategyList = new ArrayList<>(Arrays.asList(
+    private static final List<AttackedStrategy> attackedStrategyList = new ArrayList<>(Arrays.asList(
             new PawnAttackedStrategy(),
             new RookAttackedStrategy(),
             new KnightAttackedStrategy(),
             new BishopAttackedStrategy(),
             new QueenAttackedStrategy()));
 
-    public static int getNumberOfAttackers(OptimizedBoard board, boolean isWhiteKing)
-    {
+    public static int getNumberOfAttackers(OptimizedBoard board, boolean isWhiteKing) {
         int numberOfAttackers = 0;
 
-        for(AttackedStrategy attackedStrategy: attackedStrategyList)
-        {
-            if(attackedStrategy.isAttackingTheKing(board))
-            {
+        for (AttackedStrategy attackedStrategy : attackedStrategyList) {
+            if (attackedStrategy.isAttackingTheKing(board)) {
                 numberOfAttackers++;
             }
             // You can not be attacked by more than two pieces
-            if(numberOfAttackers>1)
-            {
+            if (numberOfAttackers > 1) {
                 return numberOfAttackers;
             }
         }
