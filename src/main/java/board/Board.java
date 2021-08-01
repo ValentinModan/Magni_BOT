@@ -3,6 +3,7 @@ package board;
 import board.moves.Move;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class Board implements Cloneable {
         if (piece == null) {
             return;
         }
-        if (piece.isKing()) {
+        if (piece.getPieceType() == PieceType.KING) {
             if (piece.isWhite()) {
                 whiteKingPosition = position;
             } else {
