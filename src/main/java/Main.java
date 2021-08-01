@@ -1,3 +1,4 @@
+import api.Controller;
 import board.Board;
 import board.setup.BoardSetup;
 import game.GameBoard;
@@ -13,8 +14,11 @@ public class Main {
 
         try {
 
+            Controller controller  = new Controller();
 
-            gameBoard.startGame();
+            controller.sendRestTemplateRequest();
+
+            //gameBoard.startGame();
         }
         catch (Exception e)
         {
