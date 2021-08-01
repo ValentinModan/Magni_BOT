@@ -3,20 +3,19 @@ package board;
 import board.moves.Move;
 import board.pieces.Piece;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OptimizedBoard {
 
-    private List<Move> possibleMoves;
+    private List<Move> possibleMoves = new ArrayList<>();
     private Map<Position, Piece> whitePiecesMap = new HashMap<>();
     private Map<Position, Piece> blackPiecesMap = new HashMap<>();
 
+    private static final String EMPTY_POSITION = ".  ";
+
     private List<Move> allMoves = new ArrayList<>();
 
-    private boolean isWhiteToMove;
+    private boolean isWhiteToMove = true;
 
     Position whiteKingPosition;
 
@@ -40,6 +39,7 @@ public class OptimizedBoard {
         }
         updateMovingPiece(move);
         updateTakenPiece(move);
+        actualMove(move);
     }
 
 
@@ -47,14 +47,28 @@ public class OptimizedBoard {
         //move moving piece
         getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
         //clear original position
-        getMovingPiecesMap().put(move.getInitialPosition(),null);
+        getMovingPiecesMap().remove(move.getInitialPosition());
 
         //clear taken position
-        getTakenPiecesMap().put(move.getFinalPosition(),null);
+        getTakenPiecesMap().remove(move.getFinalPosition());
 
         allMoves.add(move);
 
 
+    }
+
+    public void undoMove(Move move) {
+        //put the piece back where it was
+        getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+        //clear moved piece position
+        getMovingPiecesMap().remove(move.getFinalPosition());
+
+        Piece takenPiece = move.getTakenPiece();
+
+        if(takenPiece!=null)
+        {
+            getTakenPiecesMap().put(move.getFinalPosition(),move.getTakenPiece());
+        }
     }
 
     public void addPiece(Position position,Piece piece)
@@ -80,14 +94,7 @@ public class OptimizedBoard {
 
     }
 
-    private void undoMove(Move move) {
-        //put the piece back where it was
-        getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
-        //clear moved piece position
-        getMovingPiecesMap().put(move.getFinalPosition(), null);
 
-        getTakenPiecesMap().put(move.getFinalPosition(),move.getTakenPiece());
-    }
 
     private Map<Position, Piece> getMovingPiecesMap() {
         return isWhiteToMove ? whitePiecesMap : blackPiecesMap;
@@ -126,4 +133,36 @@ public class OptimizedBoard {
     public void setWhiteToMove(boolean whiteToMove) {
         isWhiteToMove = whiteToMove;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OptimizedBoard that = (OptimizedBoard) o;
+        return whitePiecesMap.equals(that.whitePiecesMap) && blackPiecesMap.equals(that.blackPiecesMap);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(whitePiecesMap, blackPiecesMap);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i = 8; i >= 1; i--) {
+            for (char letter = 'a'; letter <= 'h'; letter++) {
+                //TODO: refactor this
+               Piece piece = getPiece(new Position(letter,i));
+                String l = piece!=null? piece.toString()+ "  ": EMPTY_POSITION ;
+                stringBuilder.append(l);
+                //  stringBuilder.append(' ');
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
 }
+
+

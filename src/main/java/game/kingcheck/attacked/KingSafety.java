@@ -15,7 +15,7 @@ public class KingSafety {
             new BishopAttackedStrategy(),
             new QueenAttackedStrategy()));
 
-    public static int getNumberOfAttackers(OptimizedBoard board, boolean isWhiteKing) {
+    public static int getNumberOfAttackers(OptimizedBoard board) {
         int numberOfAttackers = 0;
 
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {

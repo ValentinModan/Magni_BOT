@@ -1,15 +1,11 @@
 package game;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import board.moves.results.Endgame;
 import board.setup.BoardSetup;
 import game.kingcheck.attacked.KingSafety;
 import reader.ConsoleReader;
-
-import javax.swing.*;
 
 public class GameBoard {
     boolean isWhiteToPlay = true;
@@ -37,14 +33,14 @@ public class GameBoard {
                 }
                 actualBoard.move(move);
 
-                if(KingSafety.getNumberOfAttackers(actualBoard,false)>0)
+                if(KingSafety.getNumberOfAttackers(actualBoard)>0)
                 {
                     System.out.println("Check!");
                 }
 
             } else {
                 actualBoard.move(move);
-                if(KingSafety.getNumberOfAttackers(actualBoard,true)>0)
+                if(KingSafety.getNumberOfAttackers(actualBoard)>0)
                 {
                     System.out.println("Check!");
                 }
