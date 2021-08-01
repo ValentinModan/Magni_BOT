@@ -1,13 +1,8 @@
 package board.moves.calculator;
 
-import board.Board;
-import board.Position;
-import board.moves.Move;
 import board.moves.calculator.pieces.*;
 import board.pieces.Piece;
 import board.pieces.PieceType;
-
-import java.util.List;
 
 public class PieceMoveStrategy {
 
