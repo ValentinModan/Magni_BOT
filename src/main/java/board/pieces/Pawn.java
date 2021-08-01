@@ -8,9 +8,8 @@ public class Pawn extends Piece {
 
 
     @Override
-    public boolean isPawn()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.PAWN;
     }
 
     @Override

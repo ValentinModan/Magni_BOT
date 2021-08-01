@@ -1,6 +1,8 @@
 package game;
 
 import board.Board;
+import board.OptimizedBoard;
+import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.moves.results.Endgame;
 import board.setup.BoardSetup;
@@ -12,10 +14,10 @@ import javax.swing.*;
 public class GameBoard {
     boolean isWhiteToPlay = true;
 
-    Board actualBoard;
+    OptimizedBoard actualBoard;
 
     public GameBoard() {
-        actualBoard = new Board();
+        actualBoard = new OptimizedBoard();
         BoardSetup.setupBoard(actualBoard);
     }
 
@@ -23,15 +25,19 @@ public class GameBoard {
     {
         System.out.println(actualBoard);
         actualBoard.computePossibleMoves();
+
+        String moveString = ConsoleReader.readMove();
+
+        Move move = MoveConvertor.toMove(moveString);
         while(true) {
             if (isWhiteToPlay) {
-                String move = ConsoleReader.readMove();
 
-                if(!actualBoard.isMoveValid(MoveConvertor.toMove(move)))
+
+                if(!actualBoard.isValidMove(move))
                 {
                     System.out.println(move + " is invalid");
                 }
-                actualBoard.movePiece(move);
+                actualBoard.move(move);
 
                 if(KingSafety.getNumberOfAttackers(actualBoard,false)>0)
                 {
@@ -39,9 +45,7 @@ public class GameBoard {
                 }
 
             } else {
-                String move = ConsoleReader.readMove();
-
-                actualBoard.movePiece(move);
+                actualBoard.move(move);
                 if(KingSafety.getNumberOfAttackers(actualBoard,true)>0)
                 {
                     System.out.println("Check!");

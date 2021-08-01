@@ -6,11 +6,9 @@ public class Bishop extends Piece {
         super(isWhite);
     }
 
-
     @Override
-    public boolean isBishop()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.BISHOP;
     }
 
     @Override

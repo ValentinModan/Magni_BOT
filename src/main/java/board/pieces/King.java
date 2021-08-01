@@ -6,11 +6,9 @@ public class King extends Piece {
         super(isWhite);
     }
 
-
     @Override
-    public boolean isKing()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.KING;
     }
 
     @Override

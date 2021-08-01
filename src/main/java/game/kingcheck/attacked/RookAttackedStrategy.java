@@ -1,9 +1,9 @@
 package game.kingcheck.attacked;
 
-import board.Board;
+import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
-import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,11 +19,13 @@ public class RookAttackedStrategy implements AttackedStrategy {
     ));
 
     @Override
-    public boolean isAttackingTheKing(Board board, boolean isWhiteKing) {
+    public boolean isAttackingTheKing(OptimizedBoard board) {
+
+        boolean isWhiteKing = board.isWhiteToMove();
         Position kingPosition = board.getKing(isWhiteKing);
 
         for (Movement movement : rookMovementList) {
-            if (XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing, Piece::isRook)) {
+            if (XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing, PieceType.ROOK)) {
                 return true;
             }
         }

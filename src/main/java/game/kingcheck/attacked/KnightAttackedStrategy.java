@@ -1,9 +1,11 @@
 package game.kingcheck.attacked;
 
 import board.Board;
+import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +24,12 @@ public class KnightAttackedStrategy implements AttackedStrategy {
             Movement.KNIGHT_UP_RIGHT));
 
     @Override
-    public boolean isAttackingTheKing(Board board, boolean isWhiteKing) {
-        Position kingPosition = board.getKing(isWhiteKing);
+    public boolean isAttackingTheKing(OptimizedBoard board) {
+        Position kingPosition = board.getKing(board.isWhiteToMove());
 
         for (Movement movement : knightsPossibleMovements) {
-            Piece piece = board.getPosition(kingPosition.move(movement));
-            if(piece!=null && piece.isKnight() && piece.isWhite() != isWhiteKing)
+            Piece piece = board.getPiece(kingPosition.move(movement));
+            if(piece!=null && piece.getPieceType() == PieceType.KNIGHT && piece.isWhite() != board.isWhiteToMove())
             {
                 return true;
             }

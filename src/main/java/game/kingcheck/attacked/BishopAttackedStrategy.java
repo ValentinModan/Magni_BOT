@@ -1,9 +1,11 @@
 package game.kingcheck.attacked;
 
 import board.Board;
+import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,27 +21,30 @@ public class BishopAttackedStrategy implements AttackedStrategy {
     ));
 
     @Override
-    public boolean isAttackingTheKing(Board board, boolean isWhiteKing) {
+    public boolean isAttackingTheKing(OptimizedBoard board) {
+
+        boolean isWhiteKing = board.isWhiteToMove();
+
         Position kingPosition = board.getKing(isWhiteKing);
         for (Movement movement : bishopMovementList) {
-            if (isDiagonallyAttacked(board, kingPosition, movement, isWhiteKing))
+            if (isDiagonallyAttacked(board, kingPosition, movement, isWhiteKing,PieceType.BISHOP))
             {
                 return true;
             }
-            XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing, Piece::isBishop);
+            XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing,PieceType.BISHOP);
         }
         return false;
     }
 
-    public boolean isDiagonallyAttacked(Board board, Position currentPosition, Movement movement, boolean isWhiteKing) {
+    public boolean isDiagonallyAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing, PieceType pieceType) {
         currentPosition = currentPosition.move(movement);
         if (!currentPosition.isValid()) {
             return false;
         }
-        Piece piece = board.getPosition(currentPosition);
+        Piece piece = board.getPiece(currentPosition);
         if (piece != null) {
-            return piece.isBishop() && piece.isWhite() != isWhiteKing;
+            return piece.getPieceType()== pieceType && piece.isWhite() != isWhiteKing;
         }
-        return isDiagonallyAttacked(board, currentPosition, movement, isWhiteKing);
+        return isDiagonallyAttacked(board, currentPosition, movement, isWhiteKing, pieceType);
     }
 }

@@ -7,9 +7,8 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isQueen()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.QUEEN;
     }
 
     @Override

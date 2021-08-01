@@ -7,9 +7,8 @@ public class Rook extends Piece {
 
 
     @Override
-    public boolean isRook()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.ROOK;
     }
 
     @Override

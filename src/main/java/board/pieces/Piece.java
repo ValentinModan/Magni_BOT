@@ -5,6 +5,9 @@ public abstract class Piece {
     private boolean isWhite;
     private char displayLetter = '.';
 
+    private PieceType pieceType;
+
+
     public Piece(boolean isWhite) {
         this.isWhite = isWhite;
     }
@@ -13,28 +16,12 @@ public abstract class Piece {
         return isWhite;
     }
 
-    public boolean isPawn() {
-        return false;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
-    public boolean isKnight() {
-        return false;
-    }
-
-    public boolean isBishop() {
-        return false;
-    }
-
-    public boolean isRook() {
-        return false;
-    }
-
-    public boolean isQueen() {
-        return false;
-    }
-
-    public boolean isKing() {
-        return false;
+    public void setPieceType(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 
     @Override

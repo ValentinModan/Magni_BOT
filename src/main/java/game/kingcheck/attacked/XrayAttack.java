@@ -1,23 +1,25 @@
 package game.kingcheck.attacked;
 
 import board.Board;
+import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.function.Function;
 
 public class XrayAttack {
 
-    public static boolean isXRayAttacked(Board board, Position currentPosition, Movement movement, boolean isWhiteKing, Function<Piece, Boolean> predicate) {
+    public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing,PieceType pieceType) {
         currentPosition = currentPosition.move(movement);
         if (!currentPosition.isValid()) {
             return false;
         }
-        Piece piece = board.getPosition(currentPosition);
+        Piece piece = board.getPiece(currentPosition);
         if (piece != null) {
-            return predicate.apply(piece) && piece.isWhite() != isWhiteKing;
+            return piece.getPieceType()== pieceType && piece.isWhite() != isWhiteKing;
         }
-        return isXRayAttacked(board, currentPosition, movement, isWhiteKing,predicate);
+        return isXRayAttacked(board, currentPosition, movement, isWhiteKing,pieceType);
     }
 }

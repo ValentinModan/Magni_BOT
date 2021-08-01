@@ -23,12 +23,6 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
         if (upPiece == null) {
             pawnMoves.add(new Move(position, upPosition));
         }
-
-
-
-
-
-
         return pawnMoves;
     }
 }

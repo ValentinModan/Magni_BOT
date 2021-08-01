@@ -8,9 +8,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean isKnight()
-    {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.KNIGHT;
     }
 
     @Override

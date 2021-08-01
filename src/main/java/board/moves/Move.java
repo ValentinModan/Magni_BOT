@@ -1,12 +1,16 @@
 package board.moves;
 
 import board.Position;
+import board.pieces.Piece;
 
 import java.util.Objects;
 
 public class Move {
     private Position initialPosition;
     private Position finalPosition;
+    private Piece movingPiece;
+    private Piece takenPiece;
+    private int score;
 
     public Move(Position initialPosition, Position finalPosition) {
         this.initialPosition = initialPosition;
@@ -27,6 +31,30 @@ public class Move {
 
     public void setFinalPosition(Position finalPosition) {
         this.finalPosition = finalPosition;
+    }
+
+    public Piece getMovingPiece() {
+        return movingPiece;
+    }
+
+    public void setMovingPiece(Piece movingPiece) {
+        this.movingPiece = movingPiece;
+    }
+
+    public Piece getTakenPiece() {
+        return takenPiece;
+    }
+
+    public void setTakenPiece(Piece takenPiece) {
+        this.takenPiece = takenPiece;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override
