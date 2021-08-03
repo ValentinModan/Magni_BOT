@@ -10,7 +10,7 @@ public class Position {
     private int row;
 
     public Position(int column, int row) {
-        this((char) column, row);
+        this((char)('a'-1 + column), row);
     }
 
     public Position(char column, int row) {
@@ -40,7 +40,7 @@ public class Position {
     }
 
     public Position move(Movement movements) {
-        return new Position(column + movements.getColumn(), row + movements.getRow());
+        return new Position(column-'a' + movements.getColumn(), row + movements.getRow());
     }
 
     @Override

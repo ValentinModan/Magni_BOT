@@ -2,6 +2,7 @@ package board;
 
 import board.moves.Move;
 import board.moves.MoveConvertor;
+import board.moves.Movement;
 import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.setup.BoardSetup;
@@ -46,5 +47,31 @@ class OptimizedBoardTest {
         originalBoard.addPiece(position1, secondPawn);
 
         assertEquals(board, originalBoard);
+    }
+
+    @Test
+    void blackPieceMove() {
+        OptimizedBoard board = new OptimizedBoard();
+        BoardSetup.setupBoard(board);
+        board.setWhiteToMove(false);
+
+        Move move = MoveConvertor.toMove("b8c6");
+
+
+       board.computePossibleMoves();
+        assert board.isValidMove(move);
+
+        System.out.println(board.getPossibleMoves().size());
+    }
+
+    @Test
+    void firstMove() {
+        OptimizedBoard board = new OptimizedBoard();
+
+        board.addPiece(new Position(2, 2), new Pawn(true));
+
+        board.computePossibleMoves();
+
+        assertEquals( 2,board.getPossibleMoves().size());
     }
 }

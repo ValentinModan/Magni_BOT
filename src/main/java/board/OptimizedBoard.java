@@ -23,7 +23,6 @@ public class OptimizedBoard {
 
     Position blackKingPosition;
 
-
     public boolean isValidMove(Move move) {
         return possibleMoves.contains(move);
     }
@@ -55,6 +54,10 @@ public class OptimizedBoard {
         allMoves.add(move);
 
 
+    }
+
+    public List<Move> getPossibleMoves() {
+        return possibleMoves;
     }
 
     public void undoMove(Move move) {
@@ -134,6 +137,7 @@ public class OptimizedBoard {
 
     public void setWhiteToMove(boolean whiteToMove) {
         isWhiteToMove = whiteToMove;
+        computePossibleMoves();
     }
 
     @Override
