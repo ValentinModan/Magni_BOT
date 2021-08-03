@@ -22,10 +22,10 @@ public class GameBoard {
         System.out.println(actualBoard);
         actualBoard.computePossibleMoves();
 
-        String moveString = ConsoleReader.readMove();
-
-        Move move = MoveConvertor.toMove(moveString);
         while(true) {
+            String moveString = ConsoleReader.readMove();
+
+            Move move = MoveConvertor.toMove(moveString);
             if (isWhiteToPlay) {
                 if(!actualBoard.isValidMove(move))
                 {
@@ -45,6 +45,7 @@ public class GameBoard {
                     System.out.println("Check!");
                 }
             }
+            actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
             System.out.println(actualBoard);
 
         }

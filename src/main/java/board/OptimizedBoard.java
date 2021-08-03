@@ -3,6 +3,7 @@ package board;
 import board.moves.Move;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.*;
 
@@ -71,8 +72,16 @@ public class OptimizedBoard {
 
     public void addPiece(Position position, Piece piece) {
         if (piece.isWhite()) {
+            if(piece.getPieceType() == PieceType.KING)
+            {
+                whiteKingPosition = position;
+            }
             whitePiecesMap.put(position, piece);
         } else {
+            if(piece.getPieceType() == PieceType.KING)
+            {
+                blackKingPosition = position;
+            }
             blackPiecesMap.put(position, piece);
         }
     }
@@ -97,6 +106,7 @@ public class OptimizedBoard {
     }
 
     private void updateMovingPiece(Move move) {
+        //piece is already set
         if (move.getMovingPiece() != null)
             return;
 

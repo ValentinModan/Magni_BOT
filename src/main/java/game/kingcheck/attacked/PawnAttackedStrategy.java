@@ -7,7 +7,6 @@ import board.moves.pieces.PawnMovement;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PawnAttackedStrategy implements AttackedStrategy {
