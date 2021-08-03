@@ -1,14 +1,30 @@
 package board.moves.calculator.pieces;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Move;
+import board.moves.Movement;
+import board.moves.pieces.MovementCalculator;
+import board.pieces.Piece;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PieceMoveCalculator {
 
+    public List<Move> computeMoves(OptimizedBoard board, Position position) {
+        List<Move> moveList = new ArrayList<>();
+        Piece piece = board.getPiece(position);
+        List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
-   public abstract List<Move> computeMoves(OptimizedBoard board, Position position);
+        for (Movement movement : movementList) {
+            Position finalPosition = position.move(movement);
+            Piece destinationPiece = board.getPiece(finalPosition);
+            if (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isWhite() != piece.isWhite())) {
+                Move move = new Move(position, finalPosition);
+                moveList.add(move);
+            }
+        }
+        return moveList;
+    }
 }

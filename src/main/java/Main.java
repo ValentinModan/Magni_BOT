@@ -16,9 +16,9 @@ public class Main {
 
             Controller controller  = new Controller();
 
-            controller.sendRestTemplateRequest();
+            //controller.sendRestTemplateRequest();
 
-            //gameBoard.startGame();
+            gameBoard.startGame();
         }
         catch (Exception e)
         {

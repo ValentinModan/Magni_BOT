@@ -9,8 +9,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KingMoveCalculator extends PieceMoveCalculator {
-    @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position) {
-        return null;
-    }
+
 }

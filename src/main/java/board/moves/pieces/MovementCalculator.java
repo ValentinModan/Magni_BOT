@@ -16,14 +16,19 @@ public class MovementCalculator {
         {
             case PAWN:
                 pieceMovement = new PawnMovement();
+                break;
             case ROOK:
                 pieceMovement = new RookMovement();
+                break;
             case KING:
                 pieceMovement = new KingMovement();
+                break;
             case QUEEN:
                 pieceMovement = new QueenMovement();
+                break;
             case KNIGHT:
                 pieceMovement = new KnightMovement();
+                break;
             case BISHOP:
                 pieceMovement = new BishopMovement();
                 break;
