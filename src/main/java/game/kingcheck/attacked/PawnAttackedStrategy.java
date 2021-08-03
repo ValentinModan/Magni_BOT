@@ -1,6 +1,5 @@
 package game.kingcheck.attacked;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PawnAttackedStrategy implements AttackedStrategy {
-
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {

@@ -3,6 +3,8 @@ package game.kingcheck.attacked;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
+import board.moves.pieces.MovementCalculator;
+import board.pieces.EmptyPiece;
 import board.pieces.PieceType;
 
 import java.util.ArrayList;
@@ -11,12 +13,7 @@ import java.util.List;
 
 public class RookAttackedStrategy implements AttackedStrategy {
 
-    private static final List<Movement> rookMovementList = new ArrayList<>(Arrays.asList(
-            Movement.UP,
-            Movement.LEFT,
-            Movement.DOWN,
-            Movement.RIGHT
-    ));
+    private static final List<Movement> rookMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.ROOK);
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {

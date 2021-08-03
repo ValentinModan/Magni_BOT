@@ -1,28 +1,17 @@
 package game.kingcheck.attacked;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
-import board.pieces.Piece;
+import board.moves.pieces.MovementCalculator;
+import board.pieces.EmptyPiece;
 import board.pieces.PieceType;
-import board.pieces.Queen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class QueenAttackedStrategy implements AttackedStrategy{
 
-    List<Movement> queenMovementList = new ArrayList<>(Arrays.asList(
-            Movement.UP,
-            Movement.UP_LEFT,
-            Movement.LEFT,
-            Movement.LEFT_DOWN,
-            Movement.DOWN,
-            Movement.DOWN_RIGHT,
-            Movement.RIGHT,
-            Movement.UP_RIGHT));
+   private static final List<Movement> queenMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.KNIGHT);
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {

@@ -1,43 +1,26 @@
-board/moves/calculator/pieces/BishopMoveCalculator.java
- board.moves.calculator.pieces.BishopMoveCalculator
-board/pieces/King.java
- board.pieces.King
-PostRequests.java
- PostRequests
-board/pieces/Queen.java
- board.pieces.Queen
-game/GameBoard.java
- game.GameBoard
+board/moves/pieces/MovementCalculator.java
+ board.moves.pieces.MovementCalculator
+ board.moves.pieces.MovementCalculator$1
 board/moves/calculator/PossibleMovesCalculator.java
  board.moves.calculator.PossibleMovesCalculator
 board/Position.java
  board.Position
-game/kingcheck/attacked/XrayAttack.java
- game.kingcheck.attacked.XrayAttack
 game/kingcheck/attacked/PawnAttackedStrategy.java
  game.kingcheck.attacked.PawnAttackedStrategy
-game/kingcheck/attacked/BishopAttackedStrategy.java
- game.kingcheck.attacked.BishopAttackedStrategy
-board/moves/calculator/pieces/KnightMoveCalculator.java
- board.moves.calculator.pieces.KnightMoveCalculator
-board/OptimizedBoard.java
- board.OptimizedBoard
-game/MovesCalculator.java
- game.MovesCalculator
+api/TestingClass.java
+ api.TestingClass
 board/Board.java
  board.Board
 board/moves/calculator/PieceMoveStrategy.java
  board.moves.calculator.PieceMoveStrategy
 game/kingcheck/attacked/KingSafety.java
  game.kingcheck.attacked.KingSafety
-board/moves/Move.java
- board.moves.Move
+board/moves/pieces/KnightMovement.java
+ board.moves.pieces.KnightMovement
 game/kingcheck/attacked/KnightAttackedStrategy.java
  game.kingcheck.attacked.KnightAttackedStrategy
 game/kingcheck/attacked/AttackedStrategy.java
  game.kingcheck.attacked.AttackedStrategy
-board/moves/Movement.java
- board.moves.Movement
 game/kingcheck/attacked/QueenAttackedStrategy.java
  game.kingcheck.attacked.QueenAttackedStrategy
 board/pieces/Piece.java
@@ -46,14 +29,58 @@ reader/ConsoleReader.java
  reader.ConsoleReader
 board/setup/BoardSetup.java
  board.setup.BoardSetup
+board/pieces/Bishop.java
+ board.pieces.Bishop
+board/pieces/Pawn.java
+ board.pieces.Pawn
+board/moves/pieces/PieceMovement.java
+ board.moves.pieces.PieceMovement
+Test.java
+ Test
+game/kingcheck/attacked/BishopAttackedStrategy.java
+ game.kingcheck.attacked.BishopAttackedStrategy
+board/moves/calculator/pieces/BishopMoveCalculator.java
+ board.moves.calculator.pieces.BishopMoveCalculator
+api/Controller.java
+ api.Controller
+board/pieces/King.java
+ board.pieces.King
+PostRequests.java
+ PostRequests
+board/pieces/Queen.java
+ board.pieces.Queen
+game/GameBoard.java
+ game.GameBoard
+board/moves/pieces/KingMovement.java
+ board.moves.pieces.KingMovement
+board/moves/pieces/QueenMovement.java
+ board.moves.pieces.QueenMovement
+game/kingcheck/attacked/XrayAttack.java
+ game.kingcheck.attacked.XrayAttack
+Main.java
+ Main
+board/moves/pieces/BishopMovement.java
+ board.moves.pieces.BishopMovement
+board/OptimizedBoard.java
+ board.OptimizedBoard
+board/moves/calculator/pieces/KnightMoveCalculator.java
+ board.moves.calculator.pieces.KnightMoveCalculator
+game/MovesCalculator.java
+ game.MovesCalculator
+board/moves/Move.java
+ board.moves.Move
+board/moves/pieces/PawnMovement.java
+ board.moves.pieces.PawnMovement
+board/moves/Movement.java
+ board.moves.Movement
+board/moves/pieces/RookMovement.java
+ board.moves.pieces.RookMovement
 board/pieces/Rook.java
  board.pieces.Rook
 board/moves/calculator/pieces/QueenMoveCalculator.java
  board.moves.calculator.pieces.QueenMoveCalculator
 board/pieces/Knight.java
  board.pieces.Knight
-board/pieces/Bishop.java
- board.pieces.Bishop
 board/moves/calculator/pieces/RookMoveCalculator.java
  board.moves.calculator.pieces.RookMoveCalculator
 board/moves/results/Endgame.java
@@ -64,19 +91,11 @@ board/moves/calculator/pieces/KingMoveCalculator.java
  board.moves.calculator.pieces.KingMoveCalculator
 board/moves/MoveConvertor.java
  board.moves.MoveConvertor
-board/pieces/Pawn.java
- board.pieces.Pawn
 board/pieces/PieceType.java
  board.pieces.PieceType
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
 game/kingcheck/attacked/RookAttackedStrategy.java
  game.kingcheck.attacked.RookAttackedStrategy
-Test.java
- Test
-api/Controller.java
- api.Controller
-Main.java
- Main
-api/TestingClass.java
- api.TestingClass
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece

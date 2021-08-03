@@ -1,6 +1,7 @@
 package board;
 
 import board.moves.Move;
+import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
 
 import java.util.*;
@@ -22,14 +23,12 @@ public class OptimizedBoard {
     Position blackKingPosition;
 
 
-
     public boolean isValidMove(Move move) {
         return possibleMoves.contains(move);
     }
 
-    public Position getKing(boolean isWhite)
-    {
-        return isWhiteToMove? whiteKingPosition : blackKingPosition;
+    public Position getKing(boolean isWhite) {
+        return isWhiteToMove ? whiteKingPosition : blackKingPosition;
     }
 
     public void move(Move move) {
@@ -65,38 +64,31 @@ public class OptimizedBoard {
 
         Piece takenPiece = move.getTakenPiece();
 
-        if(takenPiece!=null)
-        {
-            getTakenPiecesMap().put(move.getFinalPosition(),move.getTakenPiece());
+        if (takenPiece != null) {
+            getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
         }
     }
 
-    public void addPiece(Position position,Piece piece)
-    {
-        if(piece.isWhite())
-        {
-            whitePiecesMap.put(position,piece);
-        }
-        else
-        {
-            blackPiecesMap.put(position,piece);
+    public void addPiece(Position position, Piece piece) {
+        if (piece.isWhite()) {
+            whitePiecesMap.put(position, piece);
+        } else {
+            blackPiecesMap.put(position, piece);
         }
     }
 
-    public Piece getPiece(Position position)
-    {
+    public Piece getPiece(Position position) {
         Piece piece = whitePiecesMap.get(position);
-        return piece!=null?piece: blackPiecesMap.get(position);
+        return piece != null ? piece : blackPiecesMap.get(position);
     }
 
-    public void computePossibleMoves()
-    {
-
+    public void computePossibleMoves() {
+        possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
     }
 
 
-
-    private Map<Position, Piece> getMovingPiecesMap() {
+    //TODO: rename method name
+    public Map<Position, Piece> getMovingPiecesMap() {
         return isWhiteToMove ? whitePiecesMap : blackPiecesMap;
     }
 
@@ -153,8 +145,8 @@ public class OptimizedBoard {
         for (int i = 8; i >= 1; i--) {
             for (char letter = 'a'; letter <= 'h'; letter++) {
                 //TODO: refactor this
-               Piece piece = getPiece(new Position(letter,i));
-                String l = piece!=null? piece.toString()+ "  ": EMPTY_POSITION ;
+                Piece piece = getPiece(new Position(letter, i));
+                String l = piece != null ? piece.toString() + "  " : EMPTY_POSITION;
                 stringBuilder.append(l);
                 //  stringBuilder.append(' ');
             }

@@ -2,7 +2,9 @@ package board.moves;
 
 public enum Movement {
     UP(0, 1),
+    UP_TWO(0,2),
     DOWN(0, -1),
+    DOWN_TWO(0,-2),
     LEFT(-1, 0),
     RIGHT(1, 0),
     UP_LEFT(-1, 1),

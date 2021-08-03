@@ -2,8 +2,20 @@ package board.pieces;
 
 public class Pawn extends Piece {
 
+    private boolean hasMoved = false;
+
     public Pawn(boolean isWhite) {
         super(isWhite);
+    }
+
+    public boolean hasMoved()
+    {
+        return hasMoved;
+    }
+
+    public void moved()
+    {
+        hasMoved = true;
     }
 
 

@@ -4,6 +4,9 @@ import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
+import board.moves.calculator.PossibleMovesCalculator;
+import board.moves.pieces.MovementCalculator;
+import board.pieces.EmptyPiece;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
@@ -13,12 +16,7 @@ import java.util.List;
 
 public class BishopAttackedStrategy implements AttackedStrategy {
 
-    List<Movement> bishopMovementList = new ArrayList<>(Arrays.asList(
-            Movement.UP_LEFT,
-            Movement.LEFT_DOWN,
-            Movement.DOWN_RIGHT,
-            Movement.UP_RIGHT
-    ));
+    List<Movement> bishopMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.BISHOP);
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {

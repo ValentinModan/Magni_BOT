@@ -71,7 +71,7 @@ public class Board implements Cloneable {
 
     public void computePossibleMoves()
     {
-        possibleMoves = possibleMovesCalculator.getPossibleMoves(this);
+        //possibleMoves = possibleMovesCalculator.getPossibleMoves(this);
     }
 
     public boolean isMoveValid(Move move)
