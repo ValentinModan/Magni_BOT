@@ -11,8 +11,8 @@ api/TestingClass.java
  api.TestingClass
 board/Board.java
  board.Board
-board/moves/calculator/PieceMoveStrategy.java
- board.moves.calculator.PieceMoveStrategy
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
 game/kingcheck/attacked/KingSafety.java
  game.kingcheck.attacked.KingSafety
 board/moves/pieces/KnightMovement.java
@@ -37,8 +37,8 @@ board/moves/pieces/PieceMovement.java
  board.moves.pieces.PieceMovement
 game/kingcheck/attacked/BishopAttackedStrategy.java
  game.kingcheck.attacked.BishopAttackedStrategy
-board/moves/calculator/pieces/BishopMoveCalculator.java
- board.moves.calculator.pieces.BishopMoveCalculator
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
 api/Controller.java
  api.Controller
 board/pieces/King.java
@@ -79,8 +79,8 @@ board/moves/calculator/pieces/QueenMoveCalculator.java
  board.moves.calculator.pieces.QueenMoveCalculator
 board/pieces/Knight.java
  board.pieces.Knight
-board/moves/calculator/pieces/RookMoveCalculator.java
- board.moves.calculator.pieces.RookMoveCalculator
+board/moves/calculator/pieces/BishopMoveCalculator.java
+ board.moves.calculator.pieces.BishopMoveCalculator
 board/moves/results/Endgame.java
  board.moves.results.Endgame
 board/moves/calculator/pieces/PieceMoveCalculator.java
@@ -93,7 +93,7 @@ board/pieces/PieceType.java
  board.pieces.PieceType
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+board/moves/calculator/PieceMoveStrategy.java
+ board.moves.calculator.PieceMoveStrategy
+board/moves/calculator/pieces/RookMoveCalculator.java
+ board.moves.calculator.pieces.RookMoveCalculator

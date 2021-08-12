@@ -39,6 +39,11 @@ public class PawnPossibleMovesTest {
         Position whitePawnPosition = new Position('b',2);
         Position blackPawnPosition = new Position('b',3);
         optimizedBoard.addPiece(whitePawnPosition, whitePawn);
+        optimizedBoard.addPiece(blackPawnPosition, blackPawn);
+
+        optimizedBoard.computePossibleMoves();
+
+        assert optimizedBoard.getPossibleMoves().size()==0;
 
     }
 }
