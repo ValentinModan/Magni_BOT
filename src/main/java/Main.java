@@ -8,21 +8,23 @@ public class Main {
     public static void main(String[] args) {
 
 
-        System.out.println("Testing the responses");
-
-        GameBoard gameBoard = new GameBoard();
-
         try {
+            System.out.println("Testing the responses");
 
-          //  Controller controller  = new Controller();
+            GameBoard gameBoard = new GameBoard();
 
-            //controller.sendRestTemplateRequest();
+
+            Controller controller = new Controller();
+
+            // controller.sendRestTemplateRequest();
 
             gameBoard.startGame();
+
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            e.printStackTrace();
         }
+
     }
 }

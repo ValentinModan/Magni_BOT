@@ -40,7 +40,7 @@ public class Position {
     }
 
     public Position move(Movement movements) {
-        return new Position(column-'a' + movements.getColumn(), row + movements.getRow());
+        return new Position(column-'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
     @Override

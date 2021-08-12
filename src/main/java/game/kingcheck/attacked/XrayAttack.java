@@ -1,13 +1,10 @@
 package game.kingcheck.attacked;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.Piece;
 import board.pieces.PieceType;
-
-import java.util.function.Function;
 
 public class XrayAttack {
 

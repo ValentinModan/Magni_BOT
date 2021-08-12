@@ -9,12 +9,19 @@ import board.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.INFO;
 
 public abstract class PieceMoveCalculator {
+
+    static Logger logger = Logger.getLogger(PieceMoveCalculator.class.getName());
 
     public List<Move> computeMoves(OptimizedBoard board, Position position) {
         List<Move> moveList = new ArrayList<>();
         Piece piece = board.getPiece(position);
+        logger.log(INFO,"Calculating moves for " + piece + "at position " +position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
@@ -25,6 +32,9 @@ public abstract class PieceMoveCalculator {
                 moveList.add(move);
             }
         }
+
+        logger.log(INFO, "Possible moves: " + moveList);
+
         return moveList;
     }
 }

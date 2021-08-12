@@ -4,6 +4,11 @@ public class Pawn extends Piece {
 
     private boolean hasMoved = false;
 
+    public Pawn()
+    {
+        super(true);
+    }
+
     public Pawn(boolean isWhite) {
         super(isWhite);
     }

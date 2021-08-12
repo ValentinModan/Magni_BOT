@@ -48,7 +48,7 @@ public class Controller {
         httpHeaders.set("Content-Length", "0");
         HttpEntity<String> httpEntity = new HttpEntity<>("body",httpHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/l1Ire5U2/move/b2b4", HttpMethod.POST,httpEntity,String.class);
+        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/vjR0LVBP/move/a2a4", HttpMethod.POST,httpEntity,String.class);
 
         System.out.println("Response is:");
         System.out.println(response);

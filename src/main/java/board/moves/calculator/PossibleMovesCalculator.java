@@ -1,6 +1,5 @@
 package board.moves.calculator;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Move;
@@ -9,7 +8,6 @@ import board.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class PossibleMovesCalculator {
@@ -30,6 +28,7 @@ public class PossibleMovesCalculator {
         Piece currentPiece = board.getPiece(position);
         PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.getCalculator(currentPiece);
 
+        //TODO: current piece can also be passed as a parameter
         return pieceMoveCalculator.computeMoves(board, position);
     }
 

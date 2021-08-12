@@ -20,7 +20,8 @@ public class RookMoveCalculator extends PieceMoveCalculator{
 
         for (Movement movement : movementList) {
             Position finalPosition = position.move(movement);
-            while (finalPosition.isValid()) {
+            Piece destinationPiece = board.getPiece(finalPosition);
+            while (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isWhite() != piece.isWhite())) {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
                 finalPosition = finalPosition.move(movement);

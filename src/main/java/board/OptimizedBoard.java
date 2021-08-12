@@ -4,9 +4,11 @@ import board.moves.Move;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
+@Slf4j
 public class OptimizedBoard {
 
     private List<Move> possibleMoves = new ArrayList<>();
@@ -27,14 +29,20 @@ public class OptimizedBoard {
         return possibleMoves.contains(move);
     }
 
-    public Position getKing(boolean isWhite) {
+    public Position getKing()
+    {
         return isWhiteToMove ? whiteKingPosition : blackKingPosition;
+    }
+
+    public Position getKing(boolean isWhite) {
+        return isWhite ? whiteKingPosition : blackKingPosition;
     }
 
     public void move(Move move) {
 
         if (!isValidMove(move)) {
-            System.out.println("Warning, invalid move!");
+            log.warn("Warning, invalid move!");
+         //   System.out.println("Warning, invalid move!");
         }
         updateMovingPiece(move);
         updateTakenPiece(move);
@@ -95,6 +103,7 @@ public class OptimizedBoard {
     }
 
     public void computePossibleMoves() {
+        log.info("Compiling possible moves");
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
     }
 
@@ -137,7 +146,6 @@ public class OptimizedBoard {
 
     public void setWhiteToMove(boolean whiteToMove) {
         isWhiteToMove = whiteToMove;
-        computePossibleMoves();
     }
 
     @Override
