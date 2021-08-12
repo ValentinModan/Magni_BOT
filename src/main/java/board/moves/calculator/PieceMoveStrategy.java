@@ -9,6 +9,10 @@ public class PieceMoveStrategy {
 
     public static PieceMoveCalculator getCalculator(Piece piece)
     {
+        if(piece ==null)
+        {
+            return null;
+        }
         if(piece.getPieceType() == PieceType.KING)
         {
             return new KingMoveCalculator();

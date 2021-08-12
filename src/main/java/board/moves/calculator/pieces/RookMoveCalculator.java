@@ -25,10 +25,12 @@ public class RookMoveCalculator extends PieceMoveCalculator{
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
                 finalPosition = finalPosition.move(movement);
+                destinationPiece = board.getPiece(finalPosition);
                 if(destinationPiece!=null)
                 {
                     break;
                 }
+
             }
         }
         return moveList;

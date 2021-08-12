@@ -41,11 +41,11 @@ public class OptimizedBoard {
     public void move(Move move) {
 
         if (!isValidMove(move)) {
-            log.warn("Warning, invalid move!");
+            log.warn("Warning, invalid move: " + move);
          //   System.out.println("Warning, invalid move!");
         }
-        updateMovingPiece(move);
-        updateTakenPiece(move);
+        setMovingPiece(move);
+        setTakenPiece(move);
         actualMove(move);
     }
 
@@ -60,6 +60,11 @@ public class OptimizedBoard {
         getTakenPiecesMap().remove(move.getFinalPosition());
 
         allMoves.add(move);
+
+        if(whitePiecesMap.size()!=16)
+        {
+            System.out.println("meeh");
+        }
 
 
     }
@@ -78,6 +83,10 @@ public class OptimizedBoard {
 
         if (takenPiece != null) {
             getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
+        }
+        if(whitePiecesMap.size()!=16)
+        {
+            System.out.println("meeh");
         }
     }
 
@@ -117,7 +126,7 @@ public class OptimizedBoard {
         return isWhiteToMove ? blackPiecesMap : whitePiecesMap;
     }
 
-    private void updateMovingPiece(Move move) {
+    private void setMovingPiece(Move move) {
         //piece is already set
         if (move.getMovingPiece() != null)
             return;
@@ -129,7 +138,7 @@ public class OptimizedBoard {
         move.setMovingPiece(blackPiecesMap.get(move.getInitialPosition()));
     }
 
-    private void updateTakenPiece(Move move) {
+    private void setTakenPiece(Move move) {
         if (move.getTakenPiece() != null)
             return;
 

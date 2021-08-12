@@ -21,10 +21,17 @@ public class QueenMoveCalculator extends PieceMoveCalculator{
 
         for (Movement movement : movementList) {
             Position finalPosition = position.move(movement);
-            while (finalPosition.isValid()) {
+            Piece takenPiece = board.getPiece(finalPosition);
+            while (finalPosition.isValid() && (takenPiece == null ||
+                    piece.isWhite()!=takenPiece.isWhite())) {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
                 finalPosition = finalPosition.move(movement);
+                takenPiece = board.getPiece(finalPosition);
+                if(takenPiece!=null)
+                {
+                    break;
+                }
             }
         }
         return moveList;

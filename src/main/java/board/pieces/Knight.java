@@ -4,7 +4,7 @@ public class Knight extends Piece {
 
 
     public Knight(boolean isWhite) {
-        super(isWhite);
+        super(isWhite, PieceType.KNIGHT);
     }
 
     @Override

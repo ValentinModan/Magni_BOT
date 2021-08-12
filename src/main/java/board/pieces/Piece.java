@@ -14,6 +14,12 @@ public abstract class Piece {
         this.isWhite = isWhite;
     }
 
+    public Piece(boolean isWhite,PieceType pieceType)
+    {
+        this.isWhite = isWhite;
+        this.pieceType = pieceType;
+    }
+
     public boolean isWhite() {
         return isWhite;
     }

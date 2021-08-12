@@ -27,6 +27,7 @@ public class BishopMoveCalculator extends PieceMoveCalculator {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
                 finalPosition = finalPosition.move(movement);
+                takenPiece = board.getPiece(finalPosition);
                 if(takenPiece!=null)
                 {
                     break;

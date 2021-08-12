@@ -11,3 +11,6 @@
 ## Optimizations
     1.An optimization is when you are in check to count the number of attackers( MAX = 2)
       and if it's TWO then you must move the king!
+
+Corner case
+Moving pieces calculator (for two adjacent opposite color bishops)
