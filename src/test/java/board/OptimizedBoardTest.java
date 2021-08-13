@@ -91,7 +91,7 @@ class OptimizedBoardTest
 
         BoardSetup.setupBoard(board);
 
-        assert DepthCalculator.possibleMoves(board,1) == 20;
+        assert DepthCalculator.possibleMoves(board, 1) == 20;
     }
 
     @Test
@@ -101,8 +101,8 @@ class OptimizedBoardTest
 
         BoardSetup.setupBoard(board);
 
-        int result = DepthCalculator.possibleMoves(board,2);
-        assert  result== 400;
+        int result = DepthCalculator.possibleMoves(board, 2);
+        assert result == 400;
     }
 
     @Test
@@ -111,7 +111,8 @@ class OptimizedBoardTest
         OptimizedBoard optimizedBoard = new OptimizedBoard();
 
         BoardSetup.setupBoard(optimizedBoard);
-        int result = DepthCalculator.possibleMoves(optimizedBoard,4);
-        assert result == 197742;
+        int result = DepthCalculator.possibleMoves(optimizedBoard, 4);
+        //  assert result == 197742;
+        assertEquals(197742, result);
     }
 }

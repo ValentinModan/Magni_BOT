@@ -6,6 +6,18 @@ public class King extends Piece {
         super(isWhite);
     }
 
+    private boolean hasMoved = false;
+
+    public boolean isHasMoved()
+    {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved)
+    {
+        this.hasMoved = hasMoved;
+    }
+
     @Override
     public PieceType getPieceType() {
         return PieceType.KING;
