@@ -19,6 +19,7 @@ public class PossibleMovesCalculator {
         List<Move> moveList = new ArrayList<>();
         Set<Position> positionList = board.getMovingPiecesMap().keySet();
 
+
         positionList.forEach(position -> moveList.addAll(computeAllPossibleMovesFromPosition(board, position)));
 
         //todo check possible stream

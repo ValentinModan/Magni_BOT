@@ -10,28 +10,27 @@ import board.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueenMoveCalculator extends PieceMoveCalculator{
+public class QueenMoveCalculator extends PieceMoveCalculator
+{
 
     @Override
     public List<Move> computeMoves(OptimizedBoard board, Position position)
     {
-        List<Move> moveList = new ArrayList<>();
-        Piece piece = board.getPiece(position);
+        List<Move>     moveList     = new ArrayList<>();
+        Piece          piece        = board.getPiece(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
             Position finalPosition = position.move(movement);
-            Piece takenPiece = board.getPiece(finalPosition);
-            while (finalPosition.isValid() && (takenPiece == null ||
-                    piece.isWhite()!=takenPiece.isWhite())) {
+            Piece    takenPiece    = board.getPiece(finalPosition);
+            while (finalPosition.isValid() && destinationIsValid(piece, takenPiece)) {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
-                finalPosition = finalPosition.move(movement);
-                takenPiece = board.getPiece(finalPosition);
-                if(takenPiece!=null)
-                {
+                if (takenPiece != null) {
                     break;
                 }
+                finalPosition = finalPosition.move(movement);
+                takenPiece = board.getPiece(finalPosition);
             }
         }
         return moveList;

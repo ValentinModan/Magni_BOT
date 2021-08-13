@@ -11,6 +11,15 @@ public class Move {
     private Piece movingPiece;
     private Piece takenPiece;
     private int score;
+    private boolean isPawnPromotion = false;
+
+    public Move(Position initialPosition, Position finalPosition, Piece movingPiece, boolean isPawnPromotion)
+    {
+        this.initialPosition = initialPosition;
+        this.finalPosition = finalPosition;
+        this.movingPiece = movingPiece;
+        this.isPawnPromotion = isPawnPromotion;
+    }
 
     public Move(Position initialPosition, Position finalPosition) {
         this.initialPosition = initialPosition;

@@ -1,4 +1,4 @@
-package board.possibleMoves;
+package board.possibleMoves.piece;
 
 import board.OptimizedBoard;
 import board.Position;

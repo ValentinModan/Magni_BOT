@@ -4,47 +4,47 @@ import board.moves.Movement;
 
 import java.util.Objects;
 
-public class Position {
+public class Position
+{
 
     private char column;
-    private int row;
+    private int  row;
 
-    public Position(int column, int row) {
-        this((char)('a'-1 + column), row);
+    public Position(int column, int row)
+    {
+        this((char) ('a' - 1 + column), row);
     }
 
-    public Position(char column, int row) {
+    public Position(char column, int row)
+    {
         this.column = column;
         this.row = row;
     }
 
-    public char getColumn() {
+    public char getColumn()
+    {
         return column;
     }
 
-    public void setColumn(char column) {
-        this.column = column;
-    }
-
-    public int getRow() {
+    public int getRow()
+    {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public boolean isValid() {
+    public boolean isValid()
+    {
         return ('a' <= column && column <= 'h') &&
                 (1 <= row && row <= 8);
     }
 
-    public Position move(Movement movements) {
-        return new Position(column-'a' + 1 + movements.getColumn(), row + movements.getRow());
+    public Position move(Movement movements)
+    {
+        return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position1 = (Position) o;
@@ -52,12 +52,14 @@ public class Position {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(column, row);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "" + column + row;
     }
 

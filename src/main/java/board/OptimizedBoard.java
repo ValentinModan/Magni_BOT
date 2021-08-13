@@ -51,6 +51,11 @@ public class OptimizedBoard {
 
 
     private void actualMove(Move move) {
+        if(whitePiecesMap.size()!=16 || blackPiecesMap.size()!=16)
+        {
+
+        }
+
         //move moving piece
         getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
         //clear original position
@@ -61,9 +66,9 @@ public class OptimizedBoard {
 
         allMoves.add(move);
 
-        if(whitePiecesMap.size()!=16)
+        if(whitePiecesMap.size()!=16 || blackPiecesMap.size()!=16)
         {
-            System.out.println("meeh");
+            //System.out.println("meeh");
         }
 
 
@@ -74,6 +79,9 @@ public class OptimizedBoard {
     }
 
     public void undoMove(Move move) {
+        if(whitePiecesMap.size()!=16 || blackPiecesMap.size()!=16)
+        {
+        }
         //put the piece back where it was
         getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
         //clear moved piece position
@@ -84,10 +92,11 @@ public class OptimizedBoard {
         if (takenPiece != null) {
             getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
         }
-        if(whitePiecesMap.size()!=16)
+        if(whitePiecesMap.size()!=16 || blackPiecesMap.size()!=16)
         {
-            System.out.println("meeh");
+
         }
+        allMoves.remove(move);
     }
 
     public void addPiece(Position position, Piece piece) {

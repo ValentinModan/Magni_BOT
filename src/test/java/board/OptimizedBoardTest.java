@@ -5,6 +5,7 @@ import board.moves.MoveConvertor;
 import board.moves.Movement;
 import board.pieces.Pawn;
 import board.pieces.Piece;
+import board.possibleMoves.resource.DepthCalculator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.Test;
 
@@ -84,37 +85,33 @@ class OptimizedBoardTest
     }
 
     @Test
-    void moves()
+    void singleMoveTest()
     {
         OptimizedBoard board = new OptimizedBoard();
 
         BoardSetup.setupBoard(board);
 
-        // System.out.println(possibleMoves(board,1));
-        System.out.println(possibleMoves(board, 4));
-
-
+        assert DepthCalculator.possibleMoves(board,1) == 20;
     }
 
-    public int possibleMoves(OptimizedBoard board, int depth)
+    @Test
+    void twoMovesTest()
     {
-        if (depth == 0) {
-            return 1;
-        }
+        OptimizedBoard board = new OptimizedBoard();
 
-        int moves = 0;
+        BoardSetup.setupBoard(board);
 
-        board.computePossibleMoves();
+        int result = DepthCalculator.possibleMoves(board,2);
+        assert  result== 400;
+    }
 
-        List<Move> moveList = board.getPossibleMoves();
+    @Test
+    void fourMovesTest()
+    {
+        OptimizedBoard optimizedBoard = new OptimizedBoard();
 
-        for (Move move : moveList) {
-            board.move(move);
-            board.setWhiteToMove(!board.isWhiteToMove());
-            moves += possibleMoves(board, depth - 1);
-            board.setWhiteToMove(!board.isWhiteToMove());
-            board.undoMove(move);
-        }
-        return moves;
+        BoardSetup.setupBoard(optimizedBoard);
+        int result = DepthCalculator.possibleMoves(optimizedBoard,4);
+        assert result == 197742;
     }
 }

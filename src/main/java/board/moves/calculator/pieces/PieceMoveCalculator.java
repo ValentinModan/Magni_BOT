@@ -37,4 +37,14 @@ public abstract class PieceMoveCalculator {
 
         return moveList;
     }
+
+    public boolean destinationIsValid(Piece movingPiece, Piece takenPiece)
+    {
+        return takenPiece == null || oppositeColorPieces(movingPiece,takenPiece);
+    }
+
+    public boolean oppositeColorPieces(Piece firstPiece, Piece secondPiece)
+    {
+        return firstPiece.isWhite() != secondPiece.isWhite();
+    }
 }

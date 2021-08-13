@@ -10,28 +10,28 @@ import board.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BishopMoveCalculator extends PieceMoveCalculator {
+public class BishopMoveCalculator extends PieceMoveCalculator
+{
 
     @Override
     public List<Move> computeMoves(OptimizedBoard board, Position position)
     {
-        List<Move> moveList = new ArrayList<>();
-        Piece piece = board.getPiece(position);
+        List<Move>     moveList     = new ArrayList<>();
+        Piece          piece        = board.getPiece(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
             Position finalPosition = position.move(movement);
-            Piece takenPiece = board.getPiece(finalPosition);
-            while (finalPosition.isValid() && (takenPiece==null
-            ||takenPiece.isWhite()!=piece.isWhite())) {
+            Piece    takenPiece    = board.getPiece(finalPosition);
+            while (finalPosition.isValid() && (takenPiece == null
+                    || takenPiece.isWhite() != piece.isWhite())) {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
-                finalPosition = finalPosition.move(movement);
-                takenPiece = board.getPiece(finalPosition);
-                if(takenPiece!=null)
-                {
+                if (takenPiece != null) {
                     break;
                 }
+                finalPosition = finalPosition.move(movement);
+                takenPiece = board.getPiece(finalPosition);
             }
         }
         return moveList;
