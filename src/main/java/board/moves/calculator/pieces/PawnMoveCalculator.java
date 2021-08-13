@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static board.moves.Movement.DOWN_TWO;
 import static board.moves.Movement.UP_TWO;
 
 public class PawnMoveCalculator extends PieceMoveCalculator
@@ -53,8 +54,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         Position   destinationPosition = position.move(movement);
         Piece      takenPiece          = board.getPiece(destinationPosition);
 
-        if(!destinationPosition.isValid())
-        {
+        if (!destinationPosition.isValid()) {
             return Collections.emptyList();
         }
         switch (movement) {
@@ -65,8 +65,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                 }
                 if (isPawnPromotion(pawn, destinationPosition)) {
                     moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
-                }
-                else {
+                } else {
                     moveList.add(new Move(position, destinationPosition));
                 }
                 break;
@@ -76,7 +75,10 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     return Collections.emptyList();
                 }
                 //can not double jump over pieces
-                if (board.getPiece(position.move(Movement.UP)) != null) {
+                if (movement == UP_TWO && board.getPiece(position.move(Movement.UP)) != null) {
+                    return Collections.emptyList();
+                }
+                if (movement == DOWN_TWO && board.getPiece(position.move(Movement.DOWN)) != null) {
                     return Collections.emptyList();
                 }
                 if (pawn.hasMoved()) {
@@ -90,13 +92,14 @@ public class PawnMoveCalculator extends PieceMoveCalculator
             case UP_RIGHT:
             case DOWN_RIGHT:
             case LEFT_DOWN:
-                if(takenPiece == null)
-                {
+                if (takenPiece == null) {
                     return Collections.emptyList();
                 }
-                if(oppositeColorPieces(pawn,takenPiece))
-                {
-                    moveList.add(new Move(position,destinationPosition));
+                if (oppositeColorPieces(pawn, takenPiece)) {
+                    if (isPawnPromotion(pawn, destinationPosition)) {
+                        moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
+                    } else
+                        moveList.add(new Move(position, destinationPosition));
                 }
 
             default:
@@ -108,8 +111,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 
     private boolean canDoubleJump(Pawn pawn, Position position)
     {
-        if(pawn.isWhite() && position.getRow() ==2)
-        {
+        if (pawn.isWhite() && position.getRow() == 2) {
             return true;
         }
 

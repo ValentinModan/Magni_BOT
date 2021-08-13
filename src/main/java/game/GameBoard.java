@@ -26,6 +26,7 @@ public class GameBoard {
             String moveString = ConsoleReader.readMove();
 
             Move move = MoveConvertor.toMove(moveString);
+            actualBoard.computePossibleMoves();
             if (isWhiteToPlay) {
                 if(!actualBoard.isValidMove(move))
                 {

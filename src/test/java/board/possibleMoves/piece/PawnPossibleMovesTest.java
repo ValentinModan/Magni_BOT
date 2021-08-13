@@ -2,6 +2,7 @@ package board.possibleMoves.piece;
 
 import board.OptimizedBoard;
 import board.Position;
+import board.pieces.Knight;
 import board.pieces.Pawn;
 import board.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
@@ -104,4 +105,23 @@ public class PawnPossibleMovesTest
 
         assert optimizedBoard.getPossibleMoves().size() == 4;
     }
+
+    @Test
+    public void blackPawnPromotions()
+    {
+        Position blackPawnPosition = new Position('b',2);
+        Position knightPosition = new Position('a',1);
+        Position secondKnightPosition = new Position('c',1);
+        optimizedBoard.addPiece(blackPawnPosition,blackPawn);
+        optimizedBoard.addPiece(knightPosition,new Knight(true));
+        optimizedBoard.addPiece(secondKnightPosition, new Knight(true));
+
+        optimizedBoard.setWhiteToMove(false);
+        optimizedBoard.computePossibleMoves();
+
+        assert optimizedBoard.getPossibleMoves().size() == 12;
+    }
+
+
+
 }
