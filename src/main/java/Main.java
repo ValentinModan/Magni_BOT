@@ -1,4 +1,5 @@
 import api.Controller;
+import api.challenges.Challenge;
 import board.Board;
 import board.setup.BoardSetup;
 import game.GameBoard;
@@ -18,7 +19,9 @@ public class Main {
 
             // controller.sendRestTemplateRequest();
 
-            gameBoard.startGame();
+            //gameBoard.startGame();
+
+           Challenge.getChallenges();
 
         }
         catch (Exception e)

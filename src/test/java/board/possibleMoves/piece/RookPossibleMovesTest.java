@@ -50,4 +50,18 @@ public class RookPossibleMovesTest
 
         assert optimizedBoard.getPossibleMoves().size() == 2;
     }
+
+    @Test
+    public void sameLineRooks()
+    {
+        Position firstWhiteRookPosition = new Position ('b',2);
+        Position secondWhiteRookPosition = new Position('f',2);
+
+        optimizedBoard.addPiece(firstWhiteRookPosition, whiteRook);
+        optimizedBoard.addPiece(secondWhiteRookPosition,secondWhiteRook);
+
+        optimizedBoard.computePossibleMoves();
+
+        assert optimizedBoard.getPossibleMoves().size() == 23;
+    }
 }

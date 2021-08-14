@@ -6,16 +6,16 @@ public class King extends Piece {
         super(isWhite);
     }
 
-    private boolean hasMoved = false;
+    private boolean moved = false;
 
-    public boolean isHasMoved()
+    public boolean hasMoved()
     {
-        return hasMoved;
+        return moved;
     }
 
-    public void setHasMoved(boolean hasMoved)
+    public void setMoved(boolean moved)
     {
-        this.hasMoved = hasMoved;
+        this.moved = moved;
     }
 
     @Override

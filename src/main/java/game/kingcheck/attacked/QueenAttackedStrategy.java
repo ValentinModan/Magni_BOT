@@ -11,7 +11,7 @@ import java.util.List;
 
 public class QueenAttackedStrategy implements AttackedStrategy{
 
-   private static final List<Movement> queenMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.KNIGHT);
+   private static final List<Movement> queenMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.QUEEN);
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {

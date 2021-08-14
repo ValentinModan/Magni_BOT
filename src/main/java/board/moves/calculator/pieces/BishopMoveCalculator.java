@@ -24,7 +24,7 @@ public class BishopMoveCalculator extends PieceMoveCalculator
             Position finalPosition = position.move(movement);
             Piece    takenPiece    = board.getPiece(finalPosition);
             while (finalPosition.isValid() && (takenPiece == null
-                    || takenPiece.isWhite() != piece.isWhite())) {
+                    || oppositeColorPieces(piece,takenPiece))) {
                 Move move = new Move(position, finalPosition);
                 moveList.add(move);
                 if (takenPiece != null) {
