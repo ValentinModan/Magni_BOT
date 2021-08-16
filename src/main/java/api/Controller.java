@@ -37,7 +37,7 @@ public class Controller {
         }
     }
 
-    public void sendRestTemplateRequest() {
+    public void sendRestTemplateRequest(String gameId, String move) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -48,7 +48,7 @@ public class Controller {
         httpHeaders.set("Content-Length", "0");
         HttpEntity<String> httpEntity = new HttpEntity<>("body",httpHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/vjR0LVBP/move/a2a4", HttpMethod.POST,httpEntity,String.class);
+        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/" + gameId + "/move/" + move, HttpMethod.POST,httpEntity,String.class);
 
 
         System.out.println("Response is:");
@@ -57,7 +57,7 @@ public class Controller {
 
     public void sendMove() {
         try {
-            URL url = new URL("https://lichess.org/api/board/game/l1Ire5U2/move/a2a4");
+            URL url = new URL("https://lichess.org/api/board/game/S68FFz8F/move/a7a5");
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setRequestMethod("POST");
             http.setDoOutput(true);

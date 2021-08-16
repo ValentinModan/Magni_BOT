@@ -1,4 +1,4 @@
-package api.json;
+package api.json.challenge.property;
 
 public class Challenger
 {

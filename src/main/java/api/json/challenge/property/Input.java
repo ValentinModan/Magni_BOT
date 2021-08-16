@@ -1,9 +1,11 @@
-package api.json;
+package api.json.challenge.property;
+
+import api.json.challenge.property.Challenger;
 
 public class Input
 {
-    private String id;
-    private String url;
+    private String     id;
+    private String     url;
     private Challenger challenger;
 
     private String status;
