@@ -18,12 +18,11 @@ public class Main
     public static void main(String[] args)
     {
 
-        String[] whiteMoves = {"d2d4", "a1a2", "b2b4"};
+        String[] whiteMoves = {"d2d4", "a2a3", "b2b4"};
         String[] blackMoves = {"a7a5", "b7b5", "c7c5"};
 
 
-      try {
-
+        try {
 
 
             //  AccountUpgrade accountUpgrade = new AccountUpgrade();
@@ -44,7 +43,7 @@ public class Main
 
             ListYourChallenges listYourChallenges = new ListYourChallenges();
 
-            listYourChallenges =(ListYourChallenges) RequestController.sendRequest(listYourChallenges);
+            listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
 
             AcceptChallenge acceptChallenge = new AcceptChallenge(listYourChallenges.getIn().get(0).getId());
 
@@ -54,9 +53,9 @@ public class Main
 
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
 
-            int i =0;
+            int          i = 0;
             MakeABotMove makeABotMove;
-            while(true) {
+            while (true) {
                 while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
                     getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
 
@@ -67,26 +66,18 @@ public class Main
 
 
                 if (nowPlaying.getColor().equals("white")) {
-                   //makeABotMove = new MakeABotMove(nowPlaying.getGameId(), whiteMoves[i++]);
-                    controller.sendRestTemplateRequest(nowPlaying.getGameId(), whiteMoves[i++]);
-
+                    makeABotMove = new MakeABotMove(nowPlaying.getGameId(), whiteMoves[i++]);
                 } else {
-                    // makeABotMove = new MakeABotMove(nowPlaying.getGameId(), blackMoves[i++]);
-                    controller.sendRestTemplateRequest(nowPlaying.getGameId(), blackMoves[i++]);
+                    makeABotMove = new MakeABotMove(nowPlaying.getGameId(), blackMoves[i++]);
                 }
-               // RequestController.sendRequest(makeABotMove);
-
+                // RequestController.sendRestTemplateRequest(makeABotMove, makeABotMove.getGameId(), makeABotMove.getMove());
+                RequestController.sendRequest(makeABotMove);
                 Thread.sleep(20000);
             }
 
-           //Challenge.getChallenges();
-
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }
