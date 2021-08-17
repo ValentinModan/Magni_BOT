@@ -4,9 +4,11 @@ import board.moves.Move;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import game.kingcheck.attacked.KingSafety;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class OptimizedBoard {
@@ -143,6 +145,12 @@ public class OptimizedBoard {
     public void computePossibleMoves() {
         //log.info("Compiling possible moves");
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
+        possibleMoves = possibleMoves.stream().filter(move -> {
+            move(move);
+            int attackers = KingSafety.getNumberOfAttackers(this);
+            undoMove(move);
+            return attackers==0;
+        }).collect(Collectors.toList());
     }
 
 
