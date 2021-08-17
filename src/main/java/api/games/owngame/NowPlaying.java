@@ -9,6 +9,8 @@ public class NowPlaying
 
     private String isMyTurn;
 
+    private String lastMove;
+
 
     public String getGameId()
     {

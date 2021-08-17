@@ -10,6 +10,7 @@ import board.setup.BoardSetup;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Timer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -126,7 +127,6 @@ class OptimizedBoardTest
     }
 
 
-    @Test
     void fiveMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();
@@ -137,10 +137,12 @@ class OptimizedBoardTest
         assertEquals(4865609, result);
     }
 
-    @Test
+
+
     void sixMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();
+
 
         BoardSetup.setupBoard(optimizedBoard);
         int result = DepthCalculator.possibleMoves(optimizedBoard, 6);
