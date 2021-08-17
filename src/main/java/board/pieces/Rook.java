@@ -19,6 +19,12 @@ public class Rook extends Piece {
     }
 
     @Override
+    public int getScore()
+    {
+        return 5;
+    }
+
+    @Override
     public PieceType getPieceType() {
         return PieceType.ROOK;
     }

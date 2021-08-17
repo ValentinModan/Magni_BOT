@@ -12,6 +12,13 @@ public class Knight extends Piece {
         return PieceType.KNIGHT;
     }
 
+
+    @Override
+    public int getScore()
+    {
+        return 3;
+    }
+
     @Override
     public String toString() {
         return isWhite() ? "♘" : "♞";

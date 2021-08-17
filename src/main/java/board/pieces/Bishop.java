@@ -12,6 +12,12 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public int getScore()
+    {
+        return 3;
+    }
+
+    @Override
     public String toString() {
         return isWhite() ? "♗" : "♗";
     }

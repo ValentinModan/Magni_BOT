@@ -13,6 +13,11 @@ public class Move {
     private int score;
     private boolean isPawnPromotion = false;
 
+    public Move(int score)
+    {
+        this.score = score;
+    }
+
     public Move(Position initialPosition, Position finalPosition, Piece movingPiece, boolean isPawnPromotion)
     {
         this.initialPosition = initialPosition;

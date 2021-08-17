@@ -24,6 +24,12 @@ public class King extends Piece {
     }
 
     @Override
+    public int getScore()
+    {
+        return 100;
+    }
+
+    @Override
     public String toString() {
         return isWhite() ? "♔" : "♚";
     }

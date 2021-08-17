@@ -6,6 +6,7 @@ public abstract class Piece {
 
     private boolean isWhite;
     private char displayLetter = '.';
+    private final int score = 0;
 
     private PieceType pieceType;
 
@@ -30,6 +31,11 @@ public abstract class Piece {
 
     public void setPieceType(PieceType pieceType) {
         this.pieceType = pieceType;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 
     @Override

@@ -11,6 +11,13 @@ public class Queen extends Piece {
         return PieceType.QUEEN;
     }
 
+
+    @Override
+    public int getScore()
+    {
+        return 9;
+    }
+
     @Override
     public String toString() {
         return "♕";

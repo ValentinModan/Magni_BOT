@@ -86,7 +86,10 @@ public class GameBoard {
 
                 int possibleMoves =actualBoard.getPossibleMoves().size();
 
-                Move actualMove = tryMove(actualBoard,possibleMoves,nowPlaying);
+                //Move actualMove = tryMove(actualBoard,possibleMoves,nowPlaying);
+                Move actualMove = MovesCalculator.calculate(actualBoard,30,5);
+                MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
+                RequestController.sendRequest(makeABotMove1);
 
                 actualBoard.move(actualMove);
 
