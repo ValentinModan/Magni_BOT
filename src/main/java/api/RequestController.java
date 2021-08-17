@@ -18,6 +18,11 @@ public class RequestController
 
     public static RequestAPI sendRequest(RequestAPI requestAPI)
     {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders  httpHeaders  = new HttpHeaders();
         httpHeaders.set("Accept", "application/json");

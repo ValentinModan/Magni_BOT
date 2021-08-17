@@ -66,6 +66,8 @@ public class OptimizedBoard {
 
         allMoves.add(move);
 
+        System.out.println(move);
+
         if(move.getMovingPiece().getPieceType()==PieceType.KING)
         {
             if(isWhiteToMove)

@@ -34,6 +34,11 @@ public class GameBoard {
 
         listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
 
+        while(listYourChallenges.getIn().size()==0)
+        {
+            listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
+
+        }
         AcceptChallenge acceptChallenge = new AcceptChallenge(listYourChallenges.getIn().get(0).getId());
 
         RequestController.sendRequest(acceptChallenge);
