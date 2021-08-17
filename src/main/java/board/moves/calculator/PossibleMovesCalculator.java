@@ -30,7 +30,7 @@ public class PossibleMovesCalculator {
 
     public static List<Move> computeAllPossibleMovesFromPosition(OptimizedBoard board, Position position) {
         Piece currentPiece = board.getPiece(position);
-        log.info("Computing possible moves for: " + currentPiece + position);
+        //log.info("Computing possible moves for: " + currentPiece + position);
 
         if(currentPiece == null)
         {

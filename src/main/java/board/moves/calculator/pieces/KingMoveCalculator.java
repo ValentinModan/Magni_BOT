@@ -22,11 +22,11 @@ public class KingMoveCalculator extends PieceMoveCalculator {
     {
         List<Move> moveList = super.computeMoves(board,position);
 
-        Move castle = leftCastle(board, position);
+      //  Move castle = leftCastle(board, position);
 
-        if(castle!=null)
+      //  if(castle!=null)
         {
-            moveList.add(castle);
+        //    moveList.add(castle);
         }
         //whiteCastle
 

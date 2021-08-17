@@ -106,13 +106,45 @@ class OptimizedBoardTest
     }
 
     @Test
+    void threeMovesTest()
+    {
+        OptimizedBoard board = new OptimizedBoard();
+
+        BoardSetup.setupBoard(board);
+
+        int result = DepthCalculator.possibleMoves(board, 3);
+        assert result == 8902;
+    }
+    @Test
     void fourMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();
 
         BoardSetup.setupBoard(optimizedBoard);
         int result = DepthCalculator.possibleMoves(optimizedBoard, 4);
+        assertEquals(197281, result);
+    }
+
+
+    @Test
+    void fiveMovesTest()
+    {
+        OptimizedBoard optimizedBoard = new OptimizedBoard();
+
+        BoardSetup.setupBoard(optimizedBoard);
+        int result = DepthCalculator.possibleMoves(optimizedBoard, 5);
         //  assert result == 197742;
-        assertEquals(197742, result);
+        assertEquals(4865609, result);
+    }
+
+    @Test
+    void sixMovesTest()
+    {
+        OptimizedBoard optimizedBoard = new OptimizedBoard();
+
+        BoardSetup.setupBoard(optimizedBoard);
+        int result = DepthCalculator.possibleMoves(optimizedBoard, 6);
+        //  assert result == 197742;
+        assertEquals(119060324, result);
     }
 }
