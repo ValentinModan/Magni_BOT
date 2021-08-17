@@ -12,6 +12,16 @@ public class NowPlaying
     private String lastMove;
 
 
+    public String getLastMove()
+    {
+        return lastMove;
+    }
+
+    public void setLastMove(String lastMove)
+    {
+        this.lastMove = lastMove;
+    }
+
     public String getGameId()
     {
         return gameId;

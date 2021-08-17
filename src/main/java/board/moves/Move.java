@@ -74,6 +74,11 @@ public class Move {
         return initialPosition.equals(move.initialPosition) && finalPosition.equals(move.finalPosition);
     }
 
+    public String move()
+    {
+        return "" + initialPosition + finalPosition;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(initialPosition, finalPosition);
