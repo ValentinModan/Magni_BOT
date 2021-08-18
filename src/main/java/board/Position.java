@@ -42,6 +42,15 @@ public class Position
         return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
+    public Movement castleDirection(Position position)
+    {
+        if(column< position.column)
+        {
+            return Movement.RIGHT;
+        }
+        return Movement.LEFT;
+    }
+
     @Override
     public boolean equals(Object o)
     {

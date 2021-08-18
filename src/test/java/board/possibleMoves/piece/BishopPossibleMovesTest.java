@@ -2,12 +2,20 @@ package board.possibleMoves.piece;
 
 import board.OptimizedBoard;
 import board.Position;
+import board.moves.Move;
+import board.moves.calculator.pieces.BishopMoveCalculator;
 import board.pieces.Bishop;
 import board.pieces.Piece;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BishopPossibleMovesTest {
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class BishopPossibleMovesTest
+{
 
     OptimizedBoard optimizedBoard;
 
@@ -16,6 +24,8 @@ public class BishopPossibleMovesTest {
     Piece blackBishop;
 
     Piece secondWhiteBishop;
+
+    BishopMoveCalculator bishopMoveCalculator = new BishopMoveCalculator();
 
 
     @BeforeEach
@@ -30,41 +40,46 @@ public class BishopPossibleMovesTest {
     @Test
     public void singleWhiteBishop()
     {
-        Position whitePosition = new Position('a',1);
+        Position whiteBishopPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(whitePosition,whiteBishop);
-
-        optimizedBoard.computePossibleMoves();
+        optimizedBoard.addPiece(whiteBishopPosition, whiteBishop);
 
 
-        assert  optimizedBoard.getPossibleMoves().size() == 7;
+        int bishopMoves = bishopMoveCalculator.computeMoves(optimizedBoard,whiteBishopPosition).size();
+
+
+        assertEquals(7,bishopMoves);
     }
 
     @Test
     public void twoAdjacentWhiteBishops()
     {
-        Position firstWhitePosition = new Position('d',4);
-        Position secondWhitePosition = new Position('e',5);
+        Position firstWhitePosition  = new Position('d', 4);
+        Position secondWhitePosition = new Position('e', 5);
 
         optimizedBoard.addPiece(firstWhitePosition, whiteBishop);
         optimizedBoard.addPiece(secondWhitePosition, secondWhiteBishop);
 
-        optimizedBoard.computePossibleMoves();
+        int firstBishopMoves  = bishopMoveCalculator.computeMoves(optimizedBoard, firstWhitePosition).size();
+        int secondBishopMoves = bishopMoveCalculator.computeMoves(optimizedBoard, secondWhitePosition).size();
 
-        assert optimizedBoard.getPossibleMoves().size() == 18;
+        assertEquals(firstBishopMoves, 9);
+        assertEquals(secondBishopMoves, 9);
     }
 
     @Test
     public void twoAdjacentOppositeBishops()
     {
-        Position whitePosition = new Position('d',4);
-        Position blackPosition = new Position('e',5);
+        Position whitePosition = new Position('d', 4);
+        Position blackPosition = new Position('e', 5);
 
         optimizedBoard.addPiece(whitePosition, whiteBishop);
         optimizedBoard.addPiece(blackPosition, blackBishop);
 
-        optimizedBoard.computePossibleMoves();
+        int whiteMoves = bishopMoveCalculator.computeMoves(optimizedBoard, whitePosition).size();
+        int blackMoves = bishopMoveCalculator.computeMoves(optimizedBoard, blackPosition).size();
 
-        assert optimizedBoard.getPossibleMoves().size() == 10;
+        assertEquals(10, whiteMoves);
+        assertEquals(10, blackMoves);
     }
 }

@@ -12,6 +12,7 @@ public class Move {
     private Piece takenPiece;
     private int score;
     private boolean isPawnPromotion = false;
+    private boolean isCastleMove = false;
 
     public Move(int score)
     {
@@ -29,6 +30,16 @@ public class Move {
     public Move(Position initialPosition, Position finalPosition) {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
+    }
+
+    public boolean isCastleMove()
+    {
+        return isCastleMove;
+    }
+
+    public void setCastleMove(boolean castleMove)
+    {
+        isCastleMove = castleMove;
     }
 
     public Position getInitialPosition() {

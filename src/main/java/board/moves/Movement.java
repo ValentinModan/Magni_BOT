@@ -28,6 +28,16 @@ public enum Movement {
         this.row = row;
     }
 
+    public Movement opposite()
+    {
+        switch (this){
+            case LEFT: return RIGHT;
+            case RIGHT: return LEFT;
+            default: throw new IllegalStateException("Something went wrong");
+        }
+
+    }
+
     public int getRow() {
         return row;
     }
