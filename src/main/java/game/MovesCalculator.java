@@ -13,11 +13,11 @@ public class MovesCalculator
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         optimizedBoard.computePossibleMoves();
-        if(depth == 1)
+       /* if(depth == 1)
         {
             int random = new Random().nextInt(optimizedBoard.getPossibleMoves().size());
             return optimizedBoard.getPossibleMoves().get(random);
-        }
+        }*/
 
         if (depth == 1) {
             Move bestMove = optimizedBoard.getPossibleMoves().get(0);
@@ -27,13 +27,18 @@ public class MovesCalculator
                 }
 
             }
+            bestMove.setScore(scoreCalculator(optimizedBoard,bestMove));
             return bestMove;
         }
 
         Move bestMove = new Move(-1000);
         for (Move move : optimizedBoard.getPossibleMoves()) {
+            //make the supposed move
             optimizedBoard.move(move);
+            move.setScore(scoreCalculator(optimizedBoard,move));
             optimizedBoard.setWhiteToMove(!optimizedBoard.isWhiteToMove());
+
+            //compute the best response
             Move bestMoveForCurrent = calculate(optimizedBoard, moves, depth - 1);
             move.setScore(move.getScore() - bestMoveForCurrent.getScore());
 
@@ -48,7 +53,7 @@ public class MovesCalculator
 
     private static int scoreCalculator(OptimizedBoard optimizedBoard, Move move)
     {
-        Piece takenPiece = optimizedBoard.getPiece(move.getFinalPosition());
+        Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
         if (takenPiece == null) {
             return 0;
         }

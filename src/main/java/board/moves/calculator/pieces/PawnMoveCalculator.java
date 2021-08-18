@@ -83,6 +83,11 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     if (board.getPiece(linePosition) != null
                             && board.getPiece(linePosition).getPieceType() == PieceType.PAWN) {
                         Move lastMove = board.lastMove();
+
+                        if(lastMove==null)
+                        {
+                            return Collections.emptyList();
+                        }
                         //last pawn move was here
                         if (lastMove.getFinalPosition().equals(linePosition)) {
                             if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {

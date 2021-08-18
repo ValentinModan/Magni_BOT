@@ -11,7 +11,7 @@ public class Move {
     private Position takenAnPassant;
     private Piece movingPiece;
     private Piece takenPiece;
-    private int score;
+    private int score = -1000;
     private boolean isPawnPromotion = false;
     private boolean isCastleMove = false;
     private boolean isAnPassant = false;

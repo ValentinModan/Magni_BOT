@@ -267,7 +267,7 @@ public class OptimizedBoard
         return isWhiteToMove ? whitePiecesMap : blackPiecesMap;
     }
 
-    private Map<Position, Piece> getTakenPiecesMap()
+    public Map<Position, Piece> getTakenPiecesMap()
     {
         return isWhiteToMove ? blackPiecesMap : whitePiecesMap;
     }

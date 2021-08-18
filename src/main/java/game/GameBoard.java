@@ -77,7 +77,7 @@ public class GameBoard
                 //compute the possible moves
                 actualBoard.computePossibleMoves();
 
-                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 1);
+                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 4);
                 MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
                 RequestController.sendRequest(makeABotMove1);
 
