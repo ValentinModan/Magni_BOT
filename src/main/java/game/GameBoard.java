@@ -7,12 +7,16 @@ import api.games.owngame.NowPlaying;
 import api.json.challenge.AcceptChallenge;
 import api.json.challenge.ListYourChallenges;
 import board.OptimizedBoard;
+import board.Position;
 import board.moves.Move;
 import board.moves.MoveConvertor;
+import board.pieces.Piece;
 import board.setup.BoardSetup;
 import game.kingcheck.attacked.KingSafety;
 import reader.ConsoleReader;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
@@ -78,10 +82,13 @@ public class GameBoard
                 actualBoard.computePossibleMoves();
 
                 Move actualMove = null;
-                int  depth      = 4;
+                int  depth      = 6;
 
-                while (actualMove == null && depth > 1) {
+
+                backup();
+                while (actualMove == null && depth >= 1) {
                     try {
+                        restore();
                         actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
                         actualMove = MovesCalculator.calculate(actualBoard, 6, depth);
                     } catch (Exception e) {
@@ -100,6 +107,23 @@ public class GameBoard
 
             }
         }
+    }
+
+    private Map<Position, Piece> whitePieces;
+    private Map<Position,Piece> blackPieces;
+    void backup()
+    {
+        whitePieces = new HashMap<>(actualBoard.getWhitePiecesMap());
+        blackPieces = new HashMap<>(actualBoard.getBlackPiecesMap());
+    }
+
+    void restore()
+    {
+        actualBoard.getWhitePiecesMap().clear();
+        actualBoard.getBlackPiecesMap().clear();
+
+        actualBoard.getWhitePiecesMap().putAll(whitePieces);
+        actualBoard.getBlackPiecesMap().putAll(blackPieces);
     }
 
     public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)
