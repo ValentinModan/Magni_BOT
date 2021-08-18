@@ -1,10 +1,11 @@
 package board.moves;
 
-public enum Movement {
+public enum Movement
+{
     UP(0, 1),
-    UP_TWO(0,2),
+    UP_TWO(0, 2),
     DOWN(0, -1),
-    DOWN_TWO(0,-2),
+    DOWN_TWO(0, -2),
     LEFT(-1, 0),
     RIGHT(1, 0),
     UP_LEFT(-1, 1),
@@ -23,26 +24,51 @@ public enum Movement {
     private final int row;
     private final int column;
 
-    Movement(int column, int row) {
+    Movement(int column, int row)
+    {
         this.column = column;
         this.row = row;
     }
 
     public Movement opposite()
     {
-        switch (this){
-            case LEFT: return RIGHT;
-            case RIGHT: return LEFT;
-            default: throw new IllegalStateException("Something went wrong");
+        switch (this) {
+            case LEFT:
+                return RIGHT;
+            case RIGHT:
+                return LEFT;
+            default:
+                throw new IllegalStateException("You need opposite only for castling");
         }
-
     }
 
-    public int getRow() {
+    public static Movement upTwo(boolean isWhite)
+    {
+        return isWhite? UP_TWO : DOWN_TWO;
+    }
+
+    //used for an passant
+    public Movement lineFromDiagonal()
+    {
+        switch (this) {
+            case UP_LEFT:
+            case LEFT_DOWN:
+                return LEFT;
+            case UP_RIGHT:
+            case DOWN_RIGHT:
+                return RIGHT;
+            default:
+                throw new IllegalStateException("This method should be used only for an passant!");
+        }
+    }
+
+    public int getRow()
+    {
         return row;
     }
 
-    public int getColumn() {
+    public int getColumn()
+    {
         return column;
     }
 }

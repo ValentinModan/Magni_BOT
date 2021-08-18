@@ -4,6 +4,7 @@ import board.moves.Move;
 import board.moves.Movement;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.pieces.King;
+import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
@@ -16,9 +17,9 @@ import java.util.stream.Collectors;
 public class OptimizedBoard
 {
 
-    private List<Move>           possibleMoves  = new ArrayList<>();
-    private Map<Position, Piece> whitePiecesMap = new HashMap<>();
-    private Map<Position, Piece> blackPiecesMap = new HashMap<>();
+    private       List<Move>           possibleMoves  = new ArrayList<>();
+    private final Map<Position, Piece> whitePiecesMap = new HashMap<>();
+    private final Map<Position, Piece> blackPiecesMap = new HashMap<>();
 
     private static final String EMPTY_POSITION = ".  ";
 
@@ -37,7 +38,7 @@ public class OptimizedBoard
 
     public King getKing()
     {
-        return (King)getPiece(getKingPosition(isWhiteToMove));
+        return (King) getPiece(getKingPosition(isWhiteToMove));
     }
 
     public Position getKingPosition(boolean isWhite)
@@ -56,7 +57,47 @@ public class OptimizedBoard
         setTakenPiece(move);
 
         updateCastleMove(move);
+        updateAnPassantMove(move);
         actualMove(move);
+    }
+
+    public void updateAnPassantMove(Move move)
+    {
+
+        Position initialPosition = move.getInitialPosition();
+        Piece    takenPiece      = move.getTakenPiece();
+        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+            return;
+        }
+
+        Pawn     pawn     = (Pawn) move.getMovingPiece();
+        Movement movement = initialPosition.getDiagonal(move.getFinalPosition());
+        Movement line     = movement.lineFromDiagonal();
+
+        if (takenPiece != null) {
+            return;
+        }
+        Position linePosition = initialPosition.move(line);
+
+        Piece linePiece = getPiece(linePosition);
+        if (linePiece == null || linePiece.getPieceType() != PieceType.PAWN) {
+            return;
+        }
+
+
+        Move lastMove = lastMove();
+        if (lastMove == null) {
+            return;
+        }
+        //last pawn move was here
+        if (lastMove.getFinalPosition().equals(linePosition)) {
+            if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
+                move.setAnPassant(true);
+                move.setTakenAnPassant(linePosition);
+            }
+
+        }
+
     }
 
     private void updateCastleMove(Move move)
@@ -80,29 +121,9 @@ public class OptimizedBoard
     private void actualMove(Move move)
     {
         if (move.isCastleMove()) {
-            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
-
-            Position kingInitial = move.getInitialPosition();
-            Position rookInitial = move.getFinalPosition();
-
-            Position kingFinal = kingInitial.move(direction).move(direction);
-            Position rookFinal = kingFinal.move(direction.opposite());
-
-            //move the king
-            getMovingPiecesMap().put(kingFinal, move.getMovingPiece());
-            getMovingPiecesMap().remove(kingInitial);
-
-
-            //move rook
-            getMovingPiecesMap().put(rookFinal, move.getTakenPiece());
-            getMovingPiecesMap().remove(rookInitial);
-
-            //update king position
-            if (isWhiteToMove) {
-                whiteKingPosition = kingFinal;
-            } else {
-                blackKingPosition = kingFinal;
-            }
+            castleMove(move);
+        } else if (move.isAnPassant()) {
+            anPassant(move);
         } else {
             //move moving piece
             getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
@@ -122,6 +143,55 @@ public class OptimizedBoard
             }
         }
         allMoves.add(move);
+    }
+
+    private void anPassant(Move move)
+    {
+        //add pawn to new position
+        getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
+
+        //remove taken pawn
+        getTakenPiecesMap().remove(move.getTakenAnPassant());
+
+        //remove initial position
+        getMovingPiecesMap().remove(move.getInitialPosition());
+    }
+
+    private void castleMove(Move move)
+    {
+        Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
+
+        Position kingInitial = move.getInitialPosition();
+        Position rookInitial = move.getFinalPosition();
+
+        Position kingFinal = kingInitial.move(direction).move(direction);
+        Position rookFinal = kingFinal.move(direction.opposite());
+
+        //move the king
+        getMovingPiecesMap().put(kingFinal, move.getMovingPiece());
+        getMovingPiecesMap().remove(kingInitial);
+
+
+        //move rook
+        getMovingPiecesMap().put(rookFinal, move.getTakenPiece());
+        getMovingPiecesMap().remove(rookInitial);
+
+        //update king position
+        if (isWhiteToMove) {
+            whiteKingPosition = kingFinal;
+        } else {
+            blackKingPosition = kingFinal;
+        }
+    }
+
+    public Map<Position, Piece> getWhitePiecesMap()
+    {
+        return whitePiecesMap;
+    }
+
+    public Map<Position, Piece> getBlackPiecesMap()
+    {
+        return blackPiecesMap;
     }
 
     public List<Move> getPossibleMoves()
@@ -235,6 +305,13 @@ public class OptimizedBoard
     public void setWhiteToMove(boolean whiteToMove)
     {
         isWhiteToMove = whiteToMove;
+    }
+
+    public Move lastMove()
+    {
+        if (allMoves.size() == 0)
+            return null;
+        return allMoves.get(allMoves.size() - 1);
     }
 
     @Override

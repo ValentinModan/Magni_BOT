@@ -8,11 +8,13 @@ import java.util.Objects;
 public class Move {
     private Position initialPosition;
     private Position finalPosition;
+    private Position takenAnPassant;
     private Piece movingPiece;
     private Piece takenPiece;
     private int score;
     private boolean isPawnPromotion = false;
     private boolean isCastleMove = false;
+    private boolean isAnPassant = false;
 
     public Move(int score)
     {
@@ -80,6 +82,26 @@ public class Move {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean isAnPassant()
+    {
+        return isAnPassant;
+    }
+
+    public void setAnPassant(boolean anPassant)
+    {
+        isAnPassant = anPassant;
+    }
+
+    public Position getTakenAnPassant()
+    {
+        return takenAnPassant;
+    }
+
+    public void setTakenAnPassant(Position takenAnPassant)
+    {
+        this.takenAnPassant = takenAnPassant;
     }
 
     @Override

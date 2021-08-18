@@ -42,10 +42,25 @@ public class Position
         return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
+    public Movement getDiagonal(Position position)
+    {
+        if (row < position.row) {
+            if (column < position.column) {
+                return Movement.UP_RIGHT;
+            }
+            return Movement.UP_LEFT;
+        }
+
+        if (column < position.column) {
+            return Movement.DOWN_RIGHT;
+        }
+
+        return Movement.LEFT_DOWN;
+    }
+
     public Movement castleDirection(Position position)
     {
-        if(column< position.column)
-        {
+        if (column < position.column) {
             return Movement.RIGHT;
         }
         return Movement.LEFT;

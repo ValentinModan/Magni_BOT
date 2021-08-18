@@ -5,7 +5,6 @@ import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
-import board.moves.pieces.PawnMovement;
 import board.pieces.*;
 
 import java.util.ArrayList;
@@ -78,6 +77,23 @@ public class PawnMoveCalculator extends PieceMoveCalculator
             case DOWN_RIGHT:
             case LEFT_DOWN:
                 if (takenPiece == null) {
+
+                    //moving an passant
+                    Position linePosition = position.move(movement.lineFromDiagonal());
+                    if (board.getPiece(linePosition) != null
+                            && board.getPiece(linePosition).getPieceType() == PieceType.PAWN) {
+                        Move lastMove = board.lastMove();
+                        //last pawn move was here
+                        if (lastMove.getFinalPosition().equals(linePosition)) {
+                            if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
+                                Move move = new Move(position, destinationPosition);
+                                move.setAnPassant(true);
+                                move.setTakenAnPassant(linePosition);
+                                moveList.add(move);
+                                return moveList;
+                            }
+                        }
+                    }
                     return Collections.emptyList();
                 }
                 if (oppositeColorPieces(pawn, takenPiece)) {

@@ -72,12 +72,12 @@ public class GameBoard
             } else {
                 //make the opponent move on the board
                 actualBoard.move(MoveConvertor.toMove(nowPlaying.getLastMove()));
-                actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
+                actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
 
                 //compute the possible moves
                 actualBoard.computePossibleMoves();
 
-                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 2);
+                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 1);
                 MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
                 RequestController.sendRequest(makeABotMove1);
 

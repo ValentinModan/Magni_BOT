@@ -6,12 +6,18 @@ import board.pieces.Piece;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MovesCalculator
 {
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         optimizedBoard.computePossibleMoves();
+        if(depth == 1)
+        {
+            int random = new Random().nextInt(optimizedBoard.getPossibleMoves().size());
+            return optimizedBoard.getPossibleMoves().get(random);
+        }
 
         if (depth == 1) {
             Move bestMove = optimizedBoard.getPossibleMoves().get(0);
