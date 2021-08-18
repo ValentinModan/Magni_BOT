@@ -18,7 +18,7 @@ public class BishopAttackedStrategy implements AttackedStrategy {
 
         boolean isWhiteKing = board.isWhiteToMove();
 
-        Position kingPosition = board.getKing(isWhiteKing);
+        Position kingPosition = board.getKingPosition(isWhiteKing);
         for (Movement movement : bishopMovementList) {
             if(XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing,PieceType.BISHOP))
             {

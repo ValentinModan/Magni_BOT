@@ -27,23 +27,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 
 
         for (Movement movement : movementList) {
-            Position finalPosition    = position.move(movement);
-            Piece    destinationPiece = board.getPiece(finalPosition);
-
-
             moveList.addAll(moveCalculator(board, movement, position, piece));
 
-//            if (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isWhite() != piece.isWhite())) {
-//
-//                //extra checks for attacking pawns
-//                boolean isAttackPawnMovement = PawnMovement.attackMovements(piece.isWhite()).contains(movement);
-//                if ((!isAttackPawnMovement && destinationPiece == null)//is not an attack pawn movement
-//                        || ((destinationPiece != null && destinationPiece.isWhite() != piece.isWhite()))) {
-//                    Move move = new Move(position, finalPosition);
-//
-//                    moveList.add(move);
-//                }
-//            }
         }
         return moveList;
     }

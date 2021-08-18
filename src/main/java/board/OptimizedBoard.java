@@ -3,6 +3,7 @@ package board;
 import board.moves.Move;
 import board.moves.Movement;
 import board.moves.calculator.PossibleMovesCalculator;
+import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
@@ -34,12 +35,12 @@ public class OptimizedBoard
         return possibleMoves.contains(move);
     }
 
-    public Position getKing()
+    public King getKing()
     {
-        return isWhiteToMove ? whiteKingPosition : blackKingPosition;
+        return (King)getPiece(getKingPosition(isWhiteToMove));
     }
 
-    public Position getKing(boolean isWhite)
+    public Position getKingPosition(boolean isWhite)
     {
         return isWhite ? whiteKingPosition : blackKingPosition;
     }

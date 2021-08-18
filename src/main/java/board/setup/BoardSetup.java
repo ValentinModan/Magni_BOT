@@ -1,6 +1,5 @@
 package board.setup;
 
-import board.Board;
 import board.OptimizedBoard;
 import board.Position;
 import board.pieces.*;

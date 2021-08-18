@@ -9,12 +9,8 @@ import java.util.Map;
 
 public class MovesCalculator
 {
-
-
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
-        Map<Move, Integer> moveScoreMap = new HashMap<>();
-
         optimizedBoard.computePossibleMoves();
 
         if (depth == 1) {
@@ -46,7 +42,7 @@ public class MovesCalculator
 
     private static int scoreCalculator(OptimizedBoard optimizedBoard, Move move)
     {
-        Piece takenPiece  = optimizedBoard.getPiece(move.getFinalPosition());
+        Piece takenPiece = optimizedBoard.getPiece(move.getFinalPosition());
         if (takenPiece == null) {
             return 0;
         }

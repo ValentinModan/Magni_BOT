@@ -7,8 +7,6 @@ import board.moves.pieces.MovementCalculator;
 import board.pieces.EmptyPiece;
 import board.pieces.PieceType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RookAttackedStrategy implements AttackedStrategy {
@@ -19,7 +17,7 @@ public class RookAttackedStrategy implements AttackedStrategy {
     public boolean isAttackingTheKing(OptimizedBoard board) {
 
         boolean isWhiteKing = board.isWhiteToMove();
-        Position kingPosition = board.getKing(isWhiteKing);
+        Position kingPosition = board.getKingPosition(isWhiteKing);
 
         for (Movement movement : rookMovementList) {
             if (XrayAttack.isXRayAttacked(board, kingPosition, movement, isWhiteKing, PieceType.ROOK)) {

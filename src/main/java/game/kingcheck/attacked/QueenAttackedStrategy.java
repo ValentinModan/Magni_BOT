@@ -17,7 +17,7 @@ public class QueenAttackedStrategy implements AttackedStrategy{
     public boolean isAttackingTheKing(OptimizedBoard board) {
 
         boolean isWhiteKing = board.isWhiteToMove();
-        Position kingPosition = board.getKing(isWhiteKing);
+        Position kingPosition = board.getKingPosition(isWhiteKing);
 
         for(Movement movement:queenMovementList)
         {

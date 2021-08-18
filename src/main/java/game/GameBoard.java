@@ -17,25 +17,26 @@ import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
-public class GameBoard {
+public class GameBoard
+{
     boolean isWhiteToPlay = true;
 
     OptimizedBoard actualBoard;
 
-    public GameBoard() {
+    public GameBoard()
+    {
         actualBoard = new OptimizedBoard();
         BoardSetup.setupBoard(actualBoard);
     }
 
 
-    public void startPlayerGame() throws InterruptedException
+    public void startPlayerGame()
     {
         ListYourChallenges listYourChallenges = new ListYourChallenges();
 
         listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
 
-        while(listYourChallenges.getIn().size()==0)
-        {
+        while (listYourChallenges.getIn().size() == 0) {
             listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
 
         }
@@ -47,33 +48,28 @@ public class GameBoard {
 
 
         while (true) {
-            getMyOwnGoingGames =(GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
+            getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
                 getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
-
-                sleep(2000);
             }
 
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
 
 
-            if(nowPlaying.getLastMove().equals(""))
-            {
+            if (nowPlaying.getLastMove().equals("")) {
                 //do the first move
                 actualBoard.computePossibleMoves();
-                Move  actualMove = actualBoard.getPossibleMoves().get(0);
+                Move actualMove = actualBoard.getPossibleMoves().get(0);
                 actualBoard.move(actualMove);
 
                 //set black to move
                 actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
 
                 //send the actual move
-                MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(),actualMove.move());
+                MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
                 RequestController.sendRequest(makeABotMove1);
 
-            }
-            else
-            {
+            } else {
                 //make the opponent move on the board
                 actualBoard.move(MoveConvertor.toMove(nowPlaying.getLastMove()));
                 actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
@@ -81,13 +77,7 @@ public class GameBoard {
                 //compute the possible moves
                 actualBoard.computePossibleMoves();
 
-
-                //do the move on the board
-
-                int possibleMoves =actualBoard.getPossibleMoves().size();
-
-                //Move actualMove = tryMove(actualBoard,possibleMoves,nowPlaying);
-                Move actualMove = MovesCalculator.calculate(actualBoard,30,2);
+                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 2);
                 MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
                 RequestController.sendRequest(makeABotMove1);
 
@@ -98,66 +88,58 @@ public class GameBoard {
 
 
             }
-
-
-            sleep(2000);
         }
-
     }
 
-   public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)
-   {
-       Move actualMove;
-       try {
-           int randomnumber = new Random().nextInt();
-           if (randomnumber < 0) {
-               randomnumber = randomnumber * -1;
-           }
+    public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)
+    {
+        Move actualMove;
+        try {
+            int randomnumber = new Random().nextInt();
+            if (randomnumber < 0) {
+                randomnumber = randomnumber * -1;
+            }
 
-           randomnumber = randomnumber % possibleMoves;
-           actualMove = actualBoard.getPossibleMoves().get(randomnumber);
-           //send the move
-           MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
-           RequestController.sendRequest(makeABotMove1);
-       }
-       catch (Exception e)
-       {
-           try {
-               sleep(200);
-           } catch (InterruptedException interruptedException) {
-               interruptedException.printStackTrace();
-           }
-           return tryMove(actualBoard,possibleMoves,nowPlaying);
-       }
+            randomnumber = randomnumber % possibleMoves;
+            actualMove = actualBoard.getPossibleMoves().get(randomnumber);
+            //send the move
+            MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
+            RequestController.sendRequest(makeABotMove1);
+        } catch (Exception e) {
+            try {
+                sleep(200);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+            return tryMove(actualBoard, possibleMoves, nowPlaying);
+        }
 
-       return actualMove;
-   }
+        return actualMove;
+    }
+
     public void startGame()
     {
         System.out.println(actualBoard);
         actualBoard.computePossibleMoves();
 
-        while(true) {
+        while (true) {
             String moveString = ConsoleReader.readMove();
 
             Move move = MoveConvertor.toMove(moveString);
             actualBoard.computePossibleMoves();
             if (isWhiteToPlay) {
-                if(!actualBoard.isValidMove(move))
-                {
+                if (!actualBoard.isValidMove(move)) {
                     System.out.println(move + " is invalid");
                 }
                 actualBoard.move(move);
 
-                if(KingSafety.getNumberOfAttackers(actualBoard)>0)
-                {
+                if (KingSafety.getNumberOfAttackers(actualBoard) > 0) {
                     System.out.println("Check!");
                 }
 
             } else {
                 actualBoard.move(move);
-                if(KingSafety.getNumberOfAttackers(actualBoard)>0)
-                {
+                if (KingSafety.getNumberOfAttackers(actualBoard) > 0) {
                     System.out.println("Check!");
                 }
             }

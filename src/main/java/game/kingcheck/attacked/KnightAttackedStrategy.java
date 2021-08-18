@@ -8,8 +8,6 @@ import board.pieces.EmptyPiece;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class KnightAttackedStrategy implements AttackedStrategy {
@@ -18,7 +16,7 @@ public class KnightAttackedStrategy implements AttackedStrategy {
 
     @Override
     public boolean isAttackingTheKing(OptimizedBoard board) {
-        Position kingPosition = board.getKing(board.isWhiteToMove());
+        Position kingPosition = board.getKingPosition(board.isWhiteToMove());
 
 
         for (Movement movement : knightsPossibleMovements) {
