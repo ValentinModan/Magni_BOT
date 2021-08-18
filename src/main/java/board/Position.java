@@ -50,7 +50,6 @@ public class Position
             }
             return Movement.UP_LEFT;
         }
-
         if (column < position.column) {
             return Movement.DOWN_RIGHT;
         }

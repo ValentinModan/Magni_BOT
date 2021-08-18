@@ -78,9 +78,9 @@ public class GameBoard
                 actualBoard.computePossibleMoves();
 
                 Move actualMove = null;
-                int depth = 7;
+                int  depth      = 4;
 
-                while(actualMove==null&&depth>1) {
+                while (actualMove == null && depth > 1) {
                     try {
                         actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
                         actualMove = MovesCalculator.calculate(actualBoard, 6, depth);
