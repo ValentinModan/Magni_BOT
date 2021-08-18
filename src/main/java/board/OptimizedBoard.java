@@ -100,6 +100,8 @@ public class OptimizedBoard
 
     }
 
+    private static int count =0;
+
     private void updateCastleMove(Move move)
     {
         Piece movingPiece = move.getMovingPiece();
@@ -108,13 +110,19 @@ public class OptimizedBoard
         if (takenPiece == null) {
             return;
         }
-        if (movingPiece.getPieceType() == PieceType.KING) {
-            if (takenPiece.getPieceType() == PieceType.ROOK) {
-                if (movingPiece.isWhite() == movingPiece.isWhite()) {
-                    move.setCastleMove(true);
-                }
-            }
-        }
+      try {
+          if (movingPiece.getPieceType() == PieceType.KING) {
+              if (takenPiece.getPieceType() == PieceType.ROOK) {
+                  if (movingPiece.isWhite() == movingPiece.isWhite()) {
+                      move.setCastleMove(true);
+                  }
+              }
+          }
+      }
+      catch (Exception e)
+      {
+          System.out.println(move);
+      }
     }
 
 

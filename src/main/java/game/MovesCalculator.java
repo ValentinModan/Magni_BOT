@@ -4,38 +4,44 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.pieces.Piece;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class MovesCalculator
 {
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         optimizedBoard.computePossibleMoves();
-       /* if(depth == 1)
-        {
-            int random = new Random().nextInt(optimizedBoard.getPossibleMoves().size());
-            return optimizedBoard.getPossibleMoves().get(random);
-        }*/
+        List<Move> moveList = optimizedBoard.getPossibleMoves();
 
         if (depth == 1) {
-            Move bestMove = optimizedBoard.getPossibleMoves().get(0);
-            for (Move move : optimizedBoard.getPossibleMoves()) {
+            if(moveList.size()==0)
+            {
+                return new Move(-100000);
+            }
+            Move bestMove = moveList.get(0);
+            for (Move move : moveList) {
                 if (scoreCalculator(optimizedBoard, move) > scoreCalculator(optimizedBoard, bestMove)) {
                     bestMove = move;
                 }
 
             }
-            bestMove.setScore(scoreCalculator(optimizedBoard,bestMove));
+            bestMove.setScore(scoreCalculator(optimizedBoard, bestMove));
             return bestMove;
         }
 
         Move bestMove = new Move(-1000);
-        for (Move move : optimizedBoard.getPossibleMoves()) {
+
+        for (Move move : moveList) {
+            move.setScore(scoreCalculator(optimizedBoard, move));
+        }
+        int maxIndex = Math.min(optimizedBoard.getPossibleMoves().size(), moves);
+        Collections.sort(moveList);
+
+        moveList = moveList.subList(0, maxIndex);
+        for (Move move : moveList) {
             //make the supposed move
             optimizedBoard.move(move);
-            move.setScore(scoreCalculator(optimizedBoard,move));
+            move.setScore(scoreCalculator(optimizedBoard, move));
             optimizedBoard.setWhiteToMove(!optimizedBoard.isWhiteToMove());
 
             //compute the best response

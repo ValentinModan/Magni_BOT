@@ -77,7 +77,18 @@ public class GameBoard
                 //compute the possible moves
                 actualBoard.computePossibleMoves();
 
-                Move         actualMove    = MovesCalculator.calculate(actualBoard, 30, 4);
+                Move actualMove = null;
+                int depth = 7;
+
+                while(actualMove==null&&depth>1) {
+                    try {
+                        actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
+                        actualMove = MovesCalculator.calculate(actualBoard, 6, depth);
+                    } catch (Exception e) {
+                        depth--;
+                        System.out.println(e);
+                    }
+                }
                 MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
                 RequestController.sendRequest(makeABotMove1);
 

@@ -2,19 +2,21 @@ package board.moves;
 
 import board.Position;
 import board.pieces.Piece;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Move {
+public class Move implements Comparable<Move>
+{
     private Position initialPosition;
     private Position finalPosition;
     private Position takenAnPassant;
-    private Piece movingPiece;
-    private Piece takenPiece;
-    private int score = -1000;
-    private boolean isPawnPromotion = false;
-    private boolean isCastleMove = false;
-    private boolean isAnPassant = false;
+    private Piece    movingPiece;
+    private Piece    takenPiece;
+    private int      score           = -1000;
+    private boolean  isPawnPromotion = false;
+    private boolean  isCastleMove    = false;
+    private boolean  isAnPassant     = false;
 
     public Move(int score)
     {
@@ -29,7 +31,8 @@ public class Move {
         this.isPawnPromotion = isPawnPromotion;
     }
 
-    public Move(Position initialPosition, Position finalPosition) {
+    public Move(Position initialPosition, Position finalPosition)
+    {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
     }
@@ -44,43 +47,53 @@ public class Move {
         isCastleMove = castleMove;
     }
 
-    public Position getInitialPosition() {
+    public Position getInitialPosition()
+    {
         return initialPosition;
     }
 
-    public void setInitialPosition(Position initialPosition) {
+    public void setInitialPosition(Position initialPosition)
+    {
         this.initialPosition = initialPosition;
     }
 
-    public Position getFinalPosition() {
+    public Position getFinalPosition()
+    {
         return finalPosition;
     }
 
-    public void setFinalPosition(Position finalPosition) {
+    public void setFinalPosition(Position finalPosition)
+    {
         this.finalPosition = finalPosition;
     }
 
-    public Piece getMovingPiece() {
+    public Piece getMovingPiece()
+    {
         return movingPiece;
     }
 
-    public void setMovingPiece(Piece movingPiece) {
+    public void setMovingPiece(Piece movingPiece)
+    {
         this.movingPiece = movingPiece;
     }
 
-    public Piece getTakenPiece() {
+    public Piece getTakenPiece()
+    {
         return takenPiece;
     }
 
-    public void setTakenPiece(Piece takenPiece) {
+    public void setTakenPiece(Piece takenPiece)
+    {
         this.takenPiece = takenPiece;
     }
 
-    public int getScore() {
+    public int getScore()
+    {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(int score)
+    {
         this.score = score;
     }
 
@@ -105,7 +118,8 @@ public class Move {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Move move = (Move) o;
@@ -118,12 +132,23 @@ public class Move {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(initialPosition, finalPosition);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Move{" + initialPosition + finalPosition + '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Move o)
+    {
+        if (score == o.getScore()) {
+            return 0;
+        }
+        return score < o.getScore() ? 1 : -1;
     }
 }
