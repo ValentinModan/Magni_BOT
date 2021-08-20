@@ -17,6 +17,13 @@ public class Move implements Comparable<Move>
     private boolean  isPawnPromotion = false;
     private boolean  isCastleMove    = false;
     private boolean  isAnPassant     = false;
+    private boolean isCheckMate;
+
+    public Move(boolean isCheckMate)
+    {
+        this.isCheckMate = isCheckMate;
+        score = -10000;
+    }
 
     public Move(int score)
     {
@@ -35,6 +42,16 @@ public class Move implements Comparable<Move>
     {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
+    }
+
+    public boolean isCheckMate()
+    {
+        return isCheckMate;
+    }
+
+    public void setCheckMate(boolean checkMate)
+    {
+        isCheckMate = checkMate;
     }
 
     public boolean isCastleMove()
@@ -140,7 +157,7 @@ public class Move implements Comparable<Move>
     @Override
     public String toString()
     {
-        return "Move{" + initialPosition + finalPosition + '}';
+        return "" + initialPosition + finalPosition;
     }
 
     @Override

@@ -6,14 +6,10 @@ import board.moves.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.Piece;
-import game.kingcheck.attacked.KingSafety;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static java.util.logging.Level.INFO;
 
 public abstract class PieceMoveCalculator {
 

@@ -4,9 +4,8 @@ import java.util.Objects;
 
 public abstract class Piece {
 
-    private boolean isWhite;
-    private char displayLetter = '.';
-    private final int score = 0;
+    private final boolean isWhite;
+    private final char    displayLetter = '.';
 
     private PieceType pieceType;
 
@@ -35,6 +34,7 @@ public abstract class Piece {
 
     public int getScore()
     {
+        int score = 0;
         return score;
     }
 

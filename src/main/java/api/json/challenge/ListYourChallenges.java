@@ -6,7 +6,6 @@ import api.json.challenge.property.Input;
 import api.json.challenge.property.Output;
 import org.springframework.http.HttpMethod;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 
 public class ListYourChallenges implements RequestAPI

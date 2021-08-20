@@ -2,7 +2,6 @@ package board.moves.pieces;
 
 import board.moves.Movement;
 import board.pieces.Piece;
-import board.pieces.PieceType;
 
 import java.util.List;
 

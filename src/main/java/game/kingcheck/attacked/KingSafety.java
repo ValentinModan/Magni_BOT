@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class KingSafety {
+public class KingSafety
+{
 
     private static final List<AttackedStrategy> attackedStrategyList = new ArrayList<>(Arrays.asList(
             new PawnAttackedStrategy(),
@@ -15,7 +16,8 @@ public class KingSafety {
             new BishopAttackedStrategy(),
             new QueenAttackedStrategy()));
 
-    public static int getNumberOfAttackers(OptimizedBoard board) {
+    public static int getNumberOfAttackers(OptimizedBoard board)
+    {
         int numberOfAttackers = 0;
 
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {

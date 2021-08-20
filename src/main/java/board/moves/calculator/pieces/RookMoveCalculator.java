@@ -6,6 +6,7 @@ import board.moves.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.Piece;
+import game.kingcheck.attacked.Xray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,22 +17,10 @@ public class RookMoveCalculator extends PieceMoveCalculator
     public List<Move> computeMoves(OptimizedBoard board, Position position)
     {
         List<Move>     moveList     = new ArrayList<>();
-        Piece          piece        = board.getPiece(position);
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
+        List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getPiece(position));
 
         for (Movement movement : movementList) {
-            Position finalPosition    = position.move(movement);
-            Piece    destinationPiece = board.getPiece(finalPosition);
-            while (finalPosition.isValid() && destinationIsValid(piece,destinationPiece)) {
-                Move move = new Move(position, finalPosition);
-                moveList.add(move);
-                finalPosition = finalPosition.move(movement);
-                if (destinationPiece != null) {
-                    break;
-                }
-                destinationPiece = board.getPiece(finalPosition);
-
-            }
+            Xray.xRayMoves(board, moveList, position, position, movement);
         }
         return moveList;
     }

@@ -1,14 +1,17 @@
 package board.pieces;
 
-public class Knight extends Piece {
+public class Knight extends Piece
+{
 
 
-    public Knight(boolean isWhite) {
+    public Knight(boolean isWhite)
+    {
         super(isWhite, PieceType.KNIGHT);
     }
 
     @Override
-    public PieceType getPieceType() {
+    public PieceType getPieceType()
+    {
         return PieceType.KNIGHT;
     }
 
@@ -20,7 +23,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return isWhite() ? "♘" : "♞";
     }
 }

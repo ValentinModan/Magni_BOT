@@ -10,16 +10,7 @@ public class BoardSetup {
     private static final boolean BLACK = false;
 
     public static void setupBoard(OptimizedBoard board) {
-     //  initializePositions(board);
         setPieces(board);
-    }
-
-    private static void initializePositions(OptimizedBoard board) {
-        for (int position = 1; position <= 8; position++) {
-            for (char letter = 'a'; letter <= 'h'; letter++) {
-                board.addPiece(new Position(letter, position),null);
-            }
-        }
     }
 
     private static void setPieces(OptimizedBoard board) {

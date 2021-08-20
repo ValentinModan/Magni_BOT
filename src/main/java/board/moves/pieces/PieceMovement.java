@@ -5,13 +5,8 @@ import board.pieces.Piece;
 
 import java.util.List;
 
-public interface PieceMovement {
+public interface PieceMovement
+{
 
     List<Movement> getMovements(Piece piece);
-
-     static List<Movement> getMovements() {
-        return null;
-    }
-
-
 }

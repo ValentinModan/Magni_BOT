@@ -21,7 +21,7 @@ public class QueenAttackedStrategy implements AttackedStrategy{
 
         for(Movement movement:queenMovementList)
         {
-            if(XrayAttack.isXRayAttacked(board,kingPosition,movement,isWhiteKing, PieceType.QUEEN))
+            if(Xray.isXRayAttacked(board,kingPosition,movement,isWhiteKing, PieceType.QUEEN))
             {
                 return true;
             }

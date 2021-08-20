@@ -23,7 +23,7 @@ public class OptimizedBoard
 
     private static final String EMPTY_POSITION = ".  ";
 
-    private List<Move> allMoves = new ArrayList<>();
+    public static List<Move> allMoves = new ArrayList<>();
 
     private boolean isWhiteToMove = true;
 
@@ -31,14 +31,16 @@ public class OptimizedBoard
 
     Position blackKingPosition;
 
-    public boolean isValidMove(Move move)
+    public boolean isInvalidMove(Move move)
     {
-        return possibleMoves.contains(move);
+        return !possibleMoves.contains(move);
     }
 
     public King getKing()
     {
-        return (King) getPiece(getKingPosition(isWhiteToMove));
+        Piece piece = getPiece(getKingPosition(isWhiteToMove));
+        return piece != null ? (King) piece : null;
+
     }
 
     public Position getKingPosition(boolean isWhite)
@@ -48,17 +50,22 @@ public class OptimizedBoard
 
     public void move(Move move)
     {
-
-        if (!isValidMove(move)) {
-            //    log.warn("Warning, invalid move: " + move);
-            //   System.out.println("Warning, invalid move!");
-        }
+        //TODO check also validity
         setMovingPiece(move);
         setTakenPiece(move);
-
+        updateCheckMate(move);
         updateCastleMove(move);
         updateAnPassantMove(move);
         actualMove(move);
+    }
+
+    public void updateCheckMate(Move move)
+    {
+        Piece takenPiece = move.getTakenPiece();
+        if (takenPiece != null && takenPiece.getPieceType() == PieceType.KING) {
+            move.setCheckMate(true);
+            move.setScore(1000);
+        }
     }
 
     public void updateAnPassantMove(Move move)
@@ -100,8 +107,6 @@ public class OptimizedBoard
 
     }
 
-    private static int count =0;
-
     private void updateCastleMove(Move move)
     {
         Piece movingPiece = move.getMovingPiece();
@@ -110,19 +115,16 @@ public class OptimizedBoard
         if (takenPiece == null) {
             return;
         }
-      try {
-          if (movingPiece.getPieceType() == PieceType.KING) {
-              if (takenPiece.getPieceType() == PieceType.ROOK) {
-                  if (movingPiece.isWhite() == movingPiece.isWhite()) {
-                      move.setCastleMove(true);
-                  }
-              }
-          }
-      }
-      catch (Exception e)
-      {
-          System.out.println(move);
-      }
+        if (movingPiece == null) {
+            System.err.println("Invalid move " + move);
+        }
+        if (movingPiece.getPieceType() == PieceType.KING) {
+            if (takenPiece.getPieceType() == PieceType.ROOK) {
+                if (movingPiece.isWhite() == movingPiece.isWhite()) {
+                    move.setCastleMove(true);
+                }
+            }
+        }
     }
 
 
@@ -141,7 +143,6 @@ public class OptimizedBoard
             //clear taken position
             getTakenPiecesMap().remove(move.getFinalPosition());
 
-
             if (move.getMovingPiece().getPieceType() == PieceType.KING) {
                 if (isWhiteToMove) {
                     whiteKingPosition = move.getFinalPosition();
@@ -151,6 +152,15 @@ public class OptimizedBoard
             }
         }
         allMoves.add(move);
+    }
+
+    public boolean noPieceExistsAt(Position position)
+    {
+        Piece piece = whitePiecesMap.get(position);
+        if (piece != null)
+            return false;
+        piece = blackPiecesMap.get(position);
+        return piece == null;
     }
 
     private void anPassant(Move move)
@@ -164,6 +174,17 @@ public class OptimizedBoard
         //remove initial position
         getMovingPiecesMap().remove(move.getInitialPosition());
     }
+
+    public void previousTurn()
+    {
+        nextTurn();
+    }
+
+    public void nextTurn()
+    {
+        isWhiteToMove = !isWhiteToMove;
+    }
+
 
     private void castleMove(Move move)
     {
@@ -209,9 +230,7 @@ public class OptimizedBoard
 
     public void undoMove(Move move)
     {
-        if (whitePiecesMap.size() != 16 || blackPiecesMap.size() != 16) {
-        }
-
+        allMoves.remove(move);
         if (move.getMovingPiece().getPieceType() == PieceType.KING) {
             if (isWhiteToMove) {
                 whiteKingPosition = move.getInitialPosition();
@@ -231,8 +250,6 @@ public class OptimizedBoard
         if (takenPiece != null) {
             getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
         }
-
-        allMoves.remove(move);
     }
 
     public void addPiece(Position position, Piece piece)
@@ -252,8 +269,10 @@ public class OptimizedBoard
 
     public Piece getPiece(Position position)
     {
-        Piece piece = whitePiecesMap.get(position);
-        return piece != null ? piece : blackPiecesMap.get(position);
+        if (isWhiteToMove) {
+            return whitePiecesMap.get(position);
+        }
+        return blackPiecesMap.get(position);
     }
 
     public void computePossibleMoves()
@@ -261,11 +280,22 @@ public class OptimizedBoard
         //log.info("Compiling possible moves");
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
         possibleMoves = possibleMoves.stream().filter(move -> {
+            if(!theMoveExists(move))
+            {
+                return false;
+            }
             move(move);
             int attackers = KingSafety.getNumberOfAttackers(this);
             undoMove(move);
             return attackers == 0;
         }).collect(Collectors.toList());
+    }
+
+    public boolean theMoveExists(Move move)
+    {
+        if (getMovingPiecesMap().get(move.getInitialPosition())!=null)
+            return true;
+        return false;
     }
 
 
@@ -335,6 +365,13 @@ public class OptimizedBoard
     public int hashCode()
     {
         return Objects.hash(whitePiecesMap, blackPiecesMap);
+    }
+
+    public static void displayAllMoves()
+    {
+        for (Move move : allMoves) {
+            System.out.print(move.move() + " ");
+        }
     }
 
     @Override

@@ -3,18 +3,20 @@ package board.possibleMoves.piece;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
+import board.moves.calculator.pieces.QueenMoveCalculator;
 import board.pieces.Piece;
 import board.pieces.Queen;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class QueenPossibleMovesTest
 {
-    OptimizedBoard optimizedBoard;
-    Piece          whiteQueen;
-    Piece          blackQueen;
-    Piece          secondWhiteQueen;
-
+    OptimizedBoard      optimizedBoard;
+    Piece               whiteQueen;
+    Piece               blackQueen;
+    Piece               secondWhiteQueen;
+    QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
 
     @BeforeEach
     private void setUp()
@@ -31,10 +33,10 @@ public class QueenPossibleMovesTest
         Position queenPosition = new Position('d', 4);
 
         optimizedBoard.addPiece(queenPosition, whiteQueen);
+        int result = queenMoveCalculator.computeMoves(optimizedBoard, queenPosition).size();
 
-        optimizedBoard.computePossibleMoves();
+        Assertions.assertEquals(27, result);
 
-        assert optimizedBoard.getPossibleMoves().size() == 27;
     }
 
     @Test
@@ -45,9 +47,12 @@ public class QueenPossibleMovesTest
         optimizedBoard.addPiece(whiteQueenPosition, whiteQueen);
         optimizedBoard.addPiece(blackQueenPosition, blackQueen);
 
-        optimizedBoard.computePossibleMoves();
+        int result = queenMoveCalculator.computeMoves(optimizedBoard,whiteQueenPosition).size();
+        Assertions.assertEquals(24,result);
 
-        assert optimizedBoard.getPossibleMoves().size() == 24;
+        result = queenMoveCalculator.computeMoves(optimizedBoard,whiteQueenPosition).size();
+        Assertions.assertEquals(24,result);
+
     }
 
     @Test

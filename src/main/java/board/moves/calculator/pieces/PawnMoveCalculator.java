@@ -36,7 +36,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
     {
         List<Move> moveList            = new ArrayList<>();
         Position   destinationPosition = position.move(movement);
-        Piece      takenPiece          = board.getPiece(destinationPosition);
+        Piece      takenPiece          = board.getTakenPiecesMap().get(destinationPosition);
 
         if (!destinationPosition.isValid()) {
             return Collections.emptyList();
@@ -44,7 +44,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         switch (movement) {
             case UP:
             case DOWN:
-                if (takenPiece != null) {
+                if (takenPiece != null || board.getMovingPiecesMap().get(destinationPosition) != null) {
                     return Collections.emptyList();
                 }
                 if (isPawnPromotion(pawn, destinationPosition)) {
@@ -59,19 +59,18 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     return Collections.emptyList();
                 }
                 //can not double jump over pieces
-                if (movement == UP_TWO && board.getPiece(position.move(Movement.UP)) != null) {
-                    return Collections.emptyList();
-                }
-                if (movement == DOWN_TWO && board.getPiece(position.move(Movement.DOWN)) != null) {
-                    return Collections.emptyList();
-                }
-                if (pawn.hasMoved()) {
-                    return Collections.emptyList();
-                }
-                if (canDoubleJump(pawn, position)) {
-                    moveList.add(new Move(position, destinationPosition));
-                }
-                break;
+                if (movement == UP_TWO && (!board.noPieceExistsAt(position.move(Movement.UP))
+                        || !board.noPieceExistsAt(position.move(UP_TWO)))) {
+                return Collections.emptyList();
+            }
+            if (movement == DOWN_TWO && !board.noPieceExistsAt(position.move(Movement.DOWN))||
+                    !board.noPieceExistsAt(position.move(DOWN_TWO))) {
+                return Collections.emptyList();
+            }
+            if (canDoubleJump(pawn, position)) {
+                moveList.add(new Move(position, destinationPosition));
+            }
+            break;
             case UP_LEFT:
             case UP_RIGHT:
             case DOWN_RIGHT:
@@ -84,8 +83,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                             && board.getPiece(linePosition).getPieceType() == PieceType.PAWN) {
                         Move lastMove = board.lastMove();
 
-                        if(lastMove==null)
-                        {
+                        if (lastMove == null) {
                             return Collections.emptyList();
                         }
                         //last pawn move was here

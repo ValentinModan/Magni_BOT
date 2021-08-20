@@ -11,12 +11,6 @@ public class AcceptChallenge implements RequestAPI
 
     private String challengeID;
 
-    private boolean ok;
-
-    public AcceptChallenge()
-    {
-    }
-
     public AcceptChallenge(String challengeID)
     {
         this.challengeID = challengeID;

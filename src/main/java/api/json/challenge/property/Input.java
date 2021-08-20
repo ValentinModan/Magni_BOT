@@ -1,7 +1,5 @@
 package api.json.challenge.property;
 
-import api.json.challenge.property.Challenger;
-
 public class Input
 {
     private String     id;

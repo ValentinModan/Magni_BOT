@@ -35,13 +35,13 @@ class PawnMoveCalculatorTest
         optimizedBoard.addPiece(blackPawnPosition, blackPawn);
 
         optimizedBoard.setWhiteToMove(false);
-        optimizedBoard.move(MoveConvertor.toMove("c7c5"));
+        optimizedBoard.move(MoveConvertor.stringToMove("c7c5"));
         optimizedBoard.setWhiteToMove(true);
         int result = pawnMoveCalculator.computeMoves(optimizedBoard, whitePawnPosition).size();
 
         assertEquals(result, 2);
 
-        optimizedBoard.move(MoveConvertor.toMove("d5c6"));
+        optimizedBoard.move(MoveConvertor.stringToMove("d5c6"));
 
         assertEquals(0, optimizedBoard.getBlackPiecesMap().size());
         assertEquals(1, optimizedBoard.getWhitePiecesMap().size());

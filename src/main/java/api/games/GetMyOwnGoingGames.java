@@ -18,11 +18,6 @@ public class GetMyOwnGoingGames implements RequestAPI
         return nowPlaying;
     }
 
-    public void setNowPlaying(List<NowPlaying> nowPlaying)
-    {
-        this.nowPlaying = nowPlaying;
-    }
-
     @Override
     public HttpMethod getRequestType()
     {

@@ -3,8 +3,12 @@ package board.possibleMoves.piece;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
+import board.moves.MovesGenerator;
+import board.moves.calculator.pieces.RookMoveCalculator;
 import board.pieces.Piece;
 import board.pieces.Rook;
+import board.setup.BoardSetup;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,5 +67,21 @@ public class RookPossibleMovesTest
         optimizedBoard.computePossibleMoves();
 
         assert optimizedBoard.getPossibleMoves().size() == 23;
+    }
+
+    @Test
+    public void complexRookPosition()
+    {
+        String firstMoves = "f2f3 e7e6 g2g4 d8h4 h2h3 h4h3";
+        BoardSetup.setupBoard(optimizedBoard);
+
+        MovesGenerator.makeMoves(optimizedBoard,firstMoves);
+
+        RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
+
+        int rookMoves = rookMoveCalculator.computeMoves(optimizedBoard,new Position('h',1)).size();
+
+        Assertions.assertEquals(2,rookMoves);
+
     }
 }

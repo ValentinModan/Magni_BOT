@@ -2,15 +2,11 @@ package board.possibleMoves.piece;
 
 import board.OptimizedBoard;
 import board.Position;
-import board.moves.Move;
 import board.moves.calculator.pieces.BishopMoveCalculator;
 import board.pieces.Bishop;
 import board.pieces.Piece;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

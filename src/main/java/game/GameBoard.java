@@ -15,16 +15,14 @@ import board.setup.BoardSetup;
 import game.kingcheck.attacked.KingSafety;
 import reader.ConsoleReader;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    boolean isWhiteToPlay = true;
-
+    private static final int DEPTH = 4;
+    private static final int MOVES = 10;
     OptimizedBoard actualBoard;
 
     public GameBoard()
@@ -32,7 +30,6 @@ public class GameBoard
         actualBoard = new OptimizedBoard();
         BoardSetup.setupBoard(actualBoard);
     }
-
 
     public void startPlayerGame()
     {
@@ -50,7 +47,6 @@ public class GameBoard
 
         GetMyOwnGoingGames getMyOwnGoingGames = new GetMyOwnGoingGames();
 
-
         while (true) {
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
@@ -59,84 +55,69 @@ public class GameBoard
 
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
 
-
             if (nowPlaying.getLastMove().equals("")) {
                 //do the first move
-                actualBoard.computePossibleMoves();
-                Move actualMove = actualBoard.getPossibleMoves().get(0);
-                actualBoard.move(actualMove);
-
-                //set black to move
-                actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
-
-                //send the actual move
-                MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
-                RequestController.sendRequest(makeABotMove1);
-
+                firstMove(nowPlaying.getGameId());
             } else {
-                //make the opponent move on the board
-                actualBoard.move(MoveConvertor.toMove(nowPlaying.getLastMove()));
-                actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
+                OptimizedBoard.displayAllMoves();
 
-                //compute the possible moves
-                actualBoard.computePossibleMoves();
+                makeEnemyMove(nowPlaying.getLastMove());
 
-                Move actualMove = null;
-                int  depth      = 6;
-
-
-                backup();
-                while (actualMove == null && depth >= 1) {
-                    try {
-                        restore();
-                        actualBoard.setWhiteToMove(nowPlaying.getColor().equals("white"));
-                        actualMove = MovesCalculator.calculate(actualBoard, 6, depth);
-                    } catch (Exception e) {
-                        depth--;
-                        System.out.println(e);
-                    }
-                }
-                MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
-                RequestController.sendRequest(makeABotMove1);
-
-                actualBoard.move(actualMove);
-
-
-                actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
-
-
+                makeMyOwnMove(nowPlaying.getGameId());
             }
         }
     }
 
+    private void makeMyOwnMove(String gameId)
+    {
+        List<Move> backUpMoves = new ArrayList<>(OptimizedBoard.allMoves);
+        Move actualMove = MovesCalculator.calculate(actualBoard, MOVES, DEPTH);
+        OptimizedBoard.allMoves = new ArrayList<>(backUpMoves);
+
+        MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
+        RequestController.sendRequest(makeABotMove1);
+
+        actualBoard.move(actualMove);
+        actualBoard.nextTurn();
+    }
+
+    private void makeEnemyMove(String lastMove)
+    {
+        //make the opponent move on the board
+        actualBoard.move(MoveConvertor.stringToMove(lastMove));
+        actualBoard.nextTurn();
+    }
+
+    private void firstMove(String gameId)
+    {
+        //do the first move
+        actualBoard.computePossibleMoves();
+        Move actualMove = actualBoard.getPossibleMoves().get(0);
+        actualBoard.move(actualMove);
+
+        //set black to move
+        actualBoard.nextTurn();
+
+        //send the actual move
+        MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
+        RequestController.sendRequest(makeABotMove1);
+    }
+
     private Map<Position, Piece> whitePieces;
-    private Map<Position,Piece> blackPieces;
-    void backup()
-    {
-        whitePieces = new HashMap<>(actualBoard.getWhitePiecesMap());
-        blackPieces = new HashMap<>(actualBoard.getBlackPiecesMap());
-    }
+    private Map<Position, Piece> blackPieces;
 
-    void restore()
-    {
-        actualBoard.getWhitePiecesMap().clear();
-        actualBoard.getBlackPiecesMap().clear();
-
-        actualBoard.getWhitePiecesMap().putAll(whitePieces);
-        actualBoard.getBlackPiecesMap().putAll(blackPieces);
-    }
-
+    //remains as backup
     public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)
     {
         Move actualMove;
         try {
-            int randomnumber = new Random().nextInt();
-            if (randomnumber < 0) {
-                randomnumber = randomnumber * -1;
+            int randomNumber = new Random().nextInt();
+            if (randomNumber < 0) {
+                randomNumber = randomNumber * -1;
             }
 
-            randomnumber = randomnumber % possibleMoves;
-            actualMove = actualBoard.getPossibleMoves().get(randomnumber);
+            randomNumber = randomNumber % possibleMoves;
+            actualMove = actualBoard.getPossibleMoves().get(randomNumber);
             //send the move
             MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
             RequestController.sendRequest(makeABotMove1);
@@ -150,37 +131,5 @@ public class GameBoard
         }
 
         return actualMove;
-    }
-
-    public void startGame()
-    {
-        System.out.println(actualBoard);
-        actualBoard.computePossibleMoves();
-
-        while (true) {
-            String moveString = ConsoleReader.readMove();
-
-            Move move = MoveConvertor.toMove(moveString);
-            actualBoard.computePossibleMoves();
-            if (isWhiteToPlay) {
-                if (!actualBoard.isValidMove(move)) {
-                    System.out.println(move + " is invalid");
-                }
-                actualBoard.move(move);
-
-                if (KingSafety.getNumberOfAttackers(actualBoard) > 0) {
-                    System.out.println("Check!");
-                }
-
-            } else {
-                actualBoard.move(move);
-                if (KingSafety.getNumberOfAttackers(actualBoard) > 0) {
-                    System.out.println("Check!");
-                }
-            }
-            actualBoard.setWhiteToMove(!actualBoard.isWhiteToMove());
-            System.out.println(actualBoard);
-
-        }
     }
 }

@@ -1,7 +1,6 @@
 package board.moves.pieces;
 
 import board.moves.Movement;
-import board.pieces.EmptyPiece;
 import board.pieces.Piece;
 
 import java.util.ArrayList;

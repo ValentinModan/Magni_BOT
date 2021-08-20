@@ -47,7 +47,7 @@ public enum Movement
         return isWhite? UP_TWO : DOWN_TWO;
     }
 
-    //used for an passant
+    //used for en passant
     public Movement lineFromDiagonal()
     {
         switch (this) {

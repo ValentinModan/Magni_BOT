@@ -6,6 +6,7 @@ import board.moves.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.Piece;
+import game.kingcheck.attacked.Xray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +22,7 @@ public class QueenMoveCalculator extends PieceMoveCalculator
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
-            Position finalPosition = position.move(movement);
-            Piece    takenPiece    = board.getPiece(finalPosition);
-            while (finalPosition.isValid() && destinationIsValid(piece, takenPiece)) {
-                Move move = new Move(position, finalPosition);
-                moveList.add(move);
-                if (takenPiece != null) {
-                    break;
-                }
-                finalPosition = finalPosition.move(movement);
-                takenPiece = board.getPiece(finalPosition);
-            }
+            Xray.xRayMoves(board, moveList, position, position, movement);
         }
         return moveList;
     }

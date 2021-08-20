@@ -10,13 +10,19 @@ public class MovesCalculator
 {
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
+        if(optimizedBoard.lastMove()!=null && optimizedBoard.lastMove().isCheckMate())
+        {
+            return new Move(-1000);
+        }
         optimizedBoard.computePossibleMoves();
         List<Move> moveList = optimizedBoard.getPossibleMoves();
-
+        for (Move move : moveList) {
+            move.setScore(scoreCalculator(optimizedBoard, move));
+        }
+        Collections.sort(moveList);
         if (depth == 1) {
-            if(moveList.size()==0)
-            {
-                return new Move(-100000);
+            if (moveList.size() == 0) {
+                return new Move(true);
             }
             Move bestMove = moveList.get(0);
             for (Move move : moveList) {
@@ -31,18 +37,14 @@ public class MovesCalculator
 
         Move bestMove = new Move(-1000);
 
-        for (Move move : moveList) {
-            move.setScore(scoreCalculator(optimizedBoard, move));
-        }
         int maxIndex = Math.min(optimizedBoard.getPossibleMoves().size(), moves);
-        Collections.sort(moveList);
 
         moveList = moveList.subList(0, maxIndex);
         for (Move move : moveList) {
             //make the supposed move
-            optimizedBoard.move(move);
             move.setScore(scoreCalculator(optimizedBoard, move));
-            optimizedBoard.setWhiteToMove(!optimizedBoard.isWhiteToMove());
+            optimizedBoard.move(move);
+            optimizedBoard.nextTurn();
 
             //compute the best response
             Move bestMoveForCurrent = calculate(optimizedBoard, moves, depth - 1);
@@ -51,7 +53,7 @@ public class MovesCalculator
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
             }
-            optimizedBoard.setWhiteToMove(!optimizedBoard.isWhiteToMove());
+            optimizedBoard.previousTurn();
             optimizedBoard.undoMove(move);
         }
         return bestMove;
@@ -59,6 +61,10 @@ public class MovesCalculator
 
     private static int scoreCalculator(OptimizedBoard optimizedBoard, Move move)
     {
+        if(move == null)
+        {
+            return 0;
+        }
         Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
         if (takenPiece == null) {
             return 0;

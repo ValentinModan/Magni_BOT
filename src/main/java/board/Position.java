@@ -7,8 +7,8 @@ import java.util.Objects;
 public class Position
 {
 
-    private char column;
-    private int  row;
+    private final char column;
+    private final int  row;
 
     public Position(int column, int row)
     {

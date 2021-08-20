@@ -2,15 +2,12 @@ package board;
 
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import board.moves.Movement;
+import board.moves.calculator.pieces.PawnMoveCalculator;
 import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.possibleMoves.resource.DepthCalculator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Timer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +25,7 @@ class OptimizedBoardTest
         BoardSetup.setupBoard(board);
 
         assertEquals(board, originalBoard);
-        Move move = MoveConvertor.toMove("d2d4");
+        Move move = MoveConvertor.stringToMove("d2d4");
 
         board.move(move);
 
@@ -77,12 +74,15 @@ class OptimizedBoardTest
     void firstMove()
     {
         OptimizedBoard board = new OptimizedBoard();
+        Position pawnPosition = new Position(2,2);
 
-        board.addPiece(new Position(2, 2), new Pawn(true));
+        board.addPiece(pawnPosition, new Pawn(true));
 
-        board.computePossibleMoves();
+        PawnMoveCalculator pawnMoveCalculator = new PawnMoveCalculator();
 
-        assertEquals(2, board.getPossibleMoves().size());
+        int moves = pawnMoveCalculator.computeMoves(board,pawnPosition).size();
+
+        assertEquals(2, moves);
     }
 
     @Test

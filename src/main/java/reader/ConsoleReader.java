@@ -1,8 +1,5 @@
 package reader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -17,11 +14,5 @@ public class ConsoleReader {
             move = reader.nextLine();
 
         return move.substring(0,4).toLowerCase(Locale.ROOT);
-    }
-
-    //todo
-    private boolean isValidMove()
-    {
-        return true;
     }
 }

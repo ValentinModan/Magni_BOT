@@ -13,4 +13,4 @@
       and if it's TWO then you must move the king!
 
 Corner case
-Moving pieces calculator (for two adjacent opposite color bishops)
+Moving pieces' calculator (for two adjacent opposite color bishops)

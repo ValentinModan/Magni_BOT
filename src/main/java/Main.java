@@ -1,3 +1,4 @@
+import board.OptimizedBoard;
 import game.GameBoard;
 
 public class Main
@@ -12,9 +13,8 @@ public class Main
 
         try {
             gameBoard.startPlayerGame();
-
-
         } catch (Exception e) {
+            OptimizedBoard.displayAllMoves();
             e.printStackTrace();
         }
 

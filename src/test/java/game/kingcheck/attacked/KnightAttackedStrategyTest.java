@@ -4,7 +4,6 @@ import board.OptimizedBoard;
 import board.Position;
 import board.pieces.King;
 import board.pieces.Knight;
-import board.pieces.Queen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -14,9 +14,6 @@ import java.net.URL;
 
 public class Controller {
 
-    @Value("{game_id}")
-    private String asd;
-
     public void sentRequest() {
         URL url = null;
         try {
@@ -30,8 +27,6 @@ public class Controller {
             System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
             http.disconnect();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

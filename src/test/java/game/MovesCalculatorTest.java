@@ -52,7 +52,7 @@ class MovesCalculatorTest
     }
 
     @Test
-    void calculateDepth1_3_faling_test_to_investigate()
+    void calculateDepth1_3_failing_test_to_investigate()
     {
         String move = "c2c3 e7e6 b1a3 g8f6 a1b1 f8c5 b1a1 b8c6 b2b3 c5a3";
 
@@ -67,7 +67,7 @@ class MovesCalculatorTest
     }
 
     @Test
-    void calculateDepth1_3_faling_test_to_()
+    void calculateDepth1_3_failing_test_to_()
     {
         String move = "c2c3 e7e6 b1a3 g8f6 a1b1 f8c5 b1a1 b8c6 b2b3 c5a3";
 
@@ -79,5 +79,64 @@ class MovesCalculatorTest
 
         assertEquals(new Position('c', 1), move1.getInitialPosition());
         assertEquals( new Position('a', 3),move1.getFinalPosition());
+    }
+
+    @Test
+    void computeRandomMoves()
+    {
+        String moves = "c2c3 e7e5 b1a3";
+
+        MovesGenerator.makeMoves(optimizedBoard,moves);
+        optimizedBoard.computePossibleMoves();
+        Move bestMove = MovesCalculator.calculate(optimizedBoard,1,7);
+
+
+        System.out.println("success");
+    }
+
+    @Test
+    void randomTest2()
+    {
+        try {
+            String moves = "c2c3 e7e6 b1a3 f8a3 b2a3 b8c6";
+
+            MovesGenerator.makeMoves(optimizedBoard, moves);
+            Move bestMove = MovesCalculator.calculate(optimizedBoard, 6, 6);
+            System.out.println(bestMove);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            System.out.println(OptimizedBoard.allMoves);
+        }
+
+        System.out.println("success");
+    }
+
+    @Test
+    void randomTest3()
+    {
+        String moves = "c2c3 e7e6 b1a3 g8f6 a1b1 f8a3";
+        MovesGenerator.makeMoves(optimizedBoard,moves);
+        Move bestMove = MovesCalculator.calculate(optimizedBoard, 2, 3);
+        System.out.println(bestMove);
+    }
+
+    @Test
+    void randomTest4()
+    {
+        String moves = "c2c3 e7e6 b1a3 d8f6";
+        MovesGenerator.makeMoves(optimizedBoard,moves);
+        Move bestMove = MovesCalculator.calculate(optimizedBoard, 10, 1);
+        System.out.println(bestMove);
+    }
+
+    @Test
+    void randomTestDepth1Check()
+    {
+        String moves = "c2c3 e7e6 b1a3 g8f6 a1b1 b8c6 b1a1 f8a3 b2a3 d7d5 c3c4 d5c4 a1b1 d8d5 b1b7 c8b7 a3a4 f6e4 a2a3 d5f5 a4a5 e8h8 a3a4 f8d8 a5a6 d8d2 d1d2 e4d2 a6b7 a8b8 e1d2 f5g5";
+        MovesGenerator.makeMoves(optimizedBoard,moves);
+        Move bestMove = MovesCalculator.calculate(optimizedBoard, 40, 1);
+        System.out.println(bestMove);
     }
 }
