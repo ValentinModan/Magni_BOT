@@ -59,12 +59,12 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     return Collections.emptyList();
                 }
                 //can not double jump over pieces
-                if (movement == UP_TWO && (!board.noPieceExistsAt(position.move(Movement.UP))
-                        || !board.noPieceExistsAt(position.move(UP_TWO)))) {
+                if (movement == UP_TWO && (board.pieceExistsAt(position.move(Movement.UP))
+                        || board.pieceExistsAt(position.move(UP_TWO)))) {
                 return Collections.emptyList();
             }
-            if (movement == DOWN_TWO && !board.noPieceExistsAt(position.move(Movement.DOWN))||
-                    !board.noPieceExistsAt(position.move(DOWN_TWO))) {
+            if (movement == DOWN_TWO && board.pieceExistsAt(position.move(Movement.DOWN)) ||
+                    board.pieceExistsAt(position.move(DOWN_TWO))) {
                 return Collections.emptyList();
             }
             if (canDoubleJump(pawn, position)) {

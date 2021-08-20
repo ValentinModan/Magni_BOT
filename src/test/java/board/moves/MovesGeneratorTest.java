@@ -27,8 +27,8 @@ class MovesGeneratorTest
     {
         MovesGenerator.makeMoves(optimizedBoard, "b2b4 b7b5");
 
-        assertSame(optimizedBoard.getWhitePiecesMap().get(new Position('b', 4)).getPieceType(), PieceType.PAWN);
-        assertSame(optimizedBoard.getBlackPiecesMap().get(new Position('b', 5)).getPieceType(), PieceType.PAWN);
+        assertSame(optimizedBoard.getMovingPiecesMap().get(new Position('b', 4)).getPieceType(), PieceType.PAWN);
+        assertSame(optimizedBoard.getTakenPiecesMap().get(new Position('b', 5)).getPieceType(), PieceType.PAWN);
 
 
     }

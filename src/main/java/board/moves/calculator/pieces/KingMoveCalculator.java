@@ -23,7 +23,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
 
         King king = board.getKing();
 
-        //implement castle
+        //todo implement castle
 
         return moveList;
     }

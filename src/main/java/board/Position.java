@@ -42,7 +42,7 @@ public class Position
         return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
-    public Movement getDiagonal(Position position)
+    public Movement getDiagonalMovement(Position position)
     {
         if (row < position.row) {
             if (column < position.column) {

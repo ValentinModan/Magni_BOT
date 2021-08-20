@@ -3,10 +3,11 @@ board/moves/pieces/MovementCalculator.java
  board.moves.pieces.MovementCalculator$1
 api/json/challenge/property/Input.java
  api.json.challenge.property.Input
-board/moves/MoveConvertor.java
- board.moves.MoveConvertor
-board/Position.java
- board.Position
+board/pieces/Rook.java
+ board.pieces.Rook
+board/moves/Movement.java
+ board.moves.Movement
+ board.moves.Movement$1
 game/GameBoardHelper.java
  game.GameBoardHelper
 board/moves/results/Endgame.java
@@ -15,17 +16,16 @@ api/account/AccountUpgrade.java
  api.account.AccountUpgrade
 api/TestingClass.java
  api.TestingClass
+board/pieces/Knight.java
+ board.pieces.Knight
 board/moves/pieces/PawnMovement.java
  board.moves.pieces.PawnMovement
-board/moves/Move.java
- board.moves.Move
-board/moves/pieces/KnightMovement.java
- board.moves.pieces.KnightMovement
+api/RequestController.java
+ api.RequestController
 api/RequestAPI.java
  api.RequestAPI
-board/moves/Movement.java
- board.moves.Movement
- board.moves.Movement$1
+board/moves/pieces/RookMovement.java
+ board.moves.pieces.RookMovement
 board/pieces/PiecesScore.java
  board.pieces.PiecesScore
 board/pieces/Piece.java
@@ -34,8 +34,8 @@ reader/ConsoleReader.java
  reader.ConsoleReader
 api/json/challenge/property/Challenger.java
  api.json.challenge.property.Challenger
-board/moves/pieces/RookMovement.java
- board.moves.pieces.RookMovement
+board/pieces/PieceType.java
+ board.pieces.PieceType
 board/pieces/Bishop.java
  board.pieces.Bishop
 api/json/challenge/AcceptChallenge.java
@@ -54,8 +54,8 @@ api/json/challenge/ListYourChallenges.java
  api.json.challenge.ListYourChallenges
 api/json/challenge/property/Output.java
  api.json.challenge.property.Output
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+api/games/owngame/NowPlaying.java
+ api.games.owngame.NowPlaying
 api/Controller.java
  api.Controller
 board/pieces/King.java
@@ -64,66 +64,70 @@ PostRequests.java
  PostRequests
 board/pieces/Queen.java
  board.pieces.Queen
-board/pieces/PieceType.java
- board.pieces.PieceType
+board/moves/pieces/KnightMovement.java
+ board.moves.pieces.KnightMovement
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
+board/moves/pieces/BishopMovement.java
+ board.moves.pieces.BishopMovement
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
 board/moves/pieces/QueenMovement.java
  board.moves.pieces.QueenMovement
-board/pieces/Knight.java
- board.pieces.Knight
-board/moves/pieces/BishopMovement.java
- board.moves.pieces.BishopMovement
-board/pieces/Rook.java
- board.pieces.Rook
-api/RequestController.java
- api.RequestController
-api/games/owngame/NowPlaying.java
- api.games.owngame.NowPlaying
 board/moves/calculator/pieces/BishopMoveCalculator.java
  board.moves.calculator.pieces.BishopMoveCalculator
-game/kingcheck/attacked/AttackedStrategy.java
- game.kingcheck.attacked.AttackedStrategy
-game/kingcheck/attacked/QueenAttackedStrategy.java
- game.kingcheck.attacked.QueenAttackedStrategy
-board/setup/BoardSetup.java
- board.setup.BoardSetup
-game/kingcheck/attacked/BishopAttackedStrategy.java
- game.kingcheck.attacked.BishopAttackedStrategy
-board/moves/calculator/pieces/QueenMoveCalculator.java
- board.moves.calculator.pieces.QueenMoveCalculator
+game/GameBoard.java
+ game.GameBoard
 board/moves/calculator/PossibleMovesCalculator.java
  board.moves.calculator.PossibleMovesCalculator
-board/moves/calculator/pieces/RookMoveCalculator.java
- board.moves.calculator.pieces.RookMoveCalculator
-board/moves/calculator/pieces/PieceMoveCalculator.java
- board.moves.calculator.pieces.PieceMoveCalculator
-board/moves/calculator/pieces/KingMoveCalculator.java
- board.moves.calculator.pieces.KingMoveCalculator
+board/Position.java
+ board.Position
 game/kingcheck/attacked/PawnAttackedStrategy.java
  game.kingcheck.attacked.PawnAttackedStrategy
-game/kingcheck/attacked/KnightAttackedStrategy.java
- game.kingcheck.attacked.KnightAttackedStrategy
-board/moves/MovesGenerator.java
- board.moves.MovesGenerator
+Main.java
+ Main
 board/OptimizedBoard.java
  board.OptimizedBoard
 board/moves/calculator/pieces/KnightMoveCalculator.java
  board.moves.calculator.pieces.KnightMoveCalculator
 game/MovesCalculator.java
  game.MovesCalculator
+game/kingcheck/attacked/Xray.java
+ game.kingcheck.attacked.Xray
+game/kingcheck/attacked/KingSafety.java
+ game.kingcheck.attacked.KingSafety
+board/moves/Move.java
+ board.moves.Move
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
  board.moves.calculator.pieces.PawnMoveCalculator$1
-game/kingcheck/attacked/Xray.java
- game.kingcheck.attacked.Xray
+game/kingcheck/attacked/KnightAttackedStrategy.java
+ game.kingcheck.attacked.KnightAttackedStrategy
+game/kingcheck/attacked/AttackedStrategy.java
+ game.kingcheck.attacked.AttackedStrategy
+game/kingcheck/attacked/QueenAttackedStrategy.java
+ game.kingcheck.attacked.QueenAttackedStrategy
 game/kingcheck/attacked/RookAttackedStrategy.java
  game.kingcheck.attacked.RookAttackedStrategy
+board/setup/BoardSetup.java
+ board.setup.BoardSetup
+board/moves/calculator/pieces/QueenMoveCalculator.java
+ board.moves.calculator.pieces.QueenMoveCalculator
+board/moves/calculator/pieces/RookMoveCalculator.java
+ board.moves.calculator.pieces.RookMoveCalculator
+board/moves/calculator/pieces/PieceMoveCalculator.java
+ board.moves.calculator.pieces.PieceMoveCalculator
+game/kingcheck/attacked/BishopAttackedStrategy.java
+ game.kingcheck.attacked.BishopAttackedStrategy
+board/moves/MoveConvertor.java
+ board.moves.MoveConvertor
+board/moves/MovesGenerator.java
+ board.moves.MovesGenerator
+board/moves/calculator/pieces/KingMoveCalculator.java
+ board.moves.calculator.pieces.KingMoveCalculator
+board/moves/MoveUpdateHelper.java
+ board.moves.MoveUpdateHelper
 board/moves/calculator/PieceMoveStrategy.java
  board.moves.calculator.PieceMoveStrategy
-game/kingcheck/attacked/KingSafety.java
- game.kingcheck.attacked.KingSafety
-Main.java
- Main
-game/GameBoard.java
- game.GameBoard
+board/moves/controller/MoveController.java
+ board.moves.controller.MoveController

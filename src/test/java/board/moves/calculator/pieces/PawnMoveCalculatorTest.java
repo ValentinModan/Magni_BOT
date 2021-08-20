@@ -43,7 +43,7 @@ class PawnMoveCalculatorTest
 
         optimizedBoard.move(MoveConvertor.stringToMove("d5c6"));
 
-        assertEquals(0, optimizedBoard.getBlackPiecesMap().size());
-        assertEquals(1, optimizedBoard.getWhitePiecesMap().size());
+        assertEquals(0, optimizedBoard.getTakenPiecesMap().size());
+        assertEquals(1, optimizedBoard.getMovingPiecesMap().size());
     }
 }

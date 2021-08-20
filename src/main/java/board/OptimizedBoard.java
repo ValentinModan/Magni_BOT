@@ -1,10 +1,11 @@
 package board;
 
 import board.moves.Move;
+import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
 import board.moves.calculator.PossibleMovesCalculator;
+import board.moves.controller.MoveController;
 import board.pieces.King;
-import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
@@ -16,10 +17,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OptimizedBoard
 {
-
     private       List<Move>           possibleMoves  = new ArrayList<>();
     private final Map<Position, Piece> whitePiecesMap = new HashMap<>();
     private final Map<Position, Piece> blackPiecesMap = new HashMap<>();
+
+    private final MoveController moveController = new MoveController();
 
     private static final String EMPTY_POSITION = ".  ";
 
@@ -31,16 +33,10 @@ public class OptimizedBoard
 
     Position blackKingPosition;
 
-    public boolean isInvalidMove(Move move)
-    {
-        return !possibleMoves.contains(move);
-    }
-
     public King getKing()
     {
         Piece piece = getPiece(getKingPosition(isWhiteToMove));
         return piece != null ? (King) piece : null;
-
     }
 
     public Position getKingPosition(boolean isWhite)
@@ -50,129 +46,25 @@ public class OptimizedBoard
 
     public void move(Move move)
     {
-        //TODO check also validity
-        setMovingPiece(move);
-        setTakenPiece(move);
-        updateCheckMate(move);
-        updateCastleMove(move);
-        updateAnPassantMove(move);
-        actualMove(move);
+        moveController.move(this, move);
     }
 
-    public void updateCheckMate(Move move)
-    {
-        Piece takenPiece = move.getTakenPiece();
-        if (takenPiece != null && takenPiece.getPieceType() == PieceType.KING) {
-            move.setCheckMate(true);
-            move.setScore(1000);
-        }
-    }
-
-    public void updateAnPassantMove(Move move)
-    {
-
-        Position initialPosition = move.getInitialPosition();
-        Piece    takenPiece      = move.getTakenPiece();
-        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
-            return;
-        }
-
-        Pawn     pawn     = (Pawn) move.getMovingPiece();
-        Movement movement = initialPosition.getDiagonal(move.getFinalPosition());
-        Movement line     = movement.lineFromDiagonal();
-
-        if (takenPiece != null) {
-            return;
-        }
-        Position linePosition = initialPosition.move(line);
-
-        Piece linePiece = getPiece(linePosition);
-        if (linePiece == null || linePiece.getPieceType() != PieceType.PAWN) {
-            return;
-        }
-
-
-        Move lastMove = lastMove();
-        if (lastMove == null) {
-            return;
-        }
-        //last pawn move was here
-        if (lastMove.getFinalPosition().equals(linePosition)) {
-            if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
-                move.setAnPassant(true);
-                move.setTakenAnPassant(linePosition);
-            }
-
-        }
-
-    }
-
-    private void updateCastleMove(Move move)
-    {
-        Piece movingPiece = move.getMovingPiece();
-        Piece takenPiece  = move.getTakenPiece();
-
-        if (takenPiece == null) {
-            return;
-        }
-        if (movingPiece == null) {
-            System.err.println("Invalid move " + move);
-        }
-        if (movingPiece.getPieceType() == PieceType.KING) {
-            if (takenPiece.getPieceType() == PieceType.ROOK) {
-                if (movingPiece.isWhite() == movingPiece.isWhite()) {
-                    move.setCastleMove(true);
-                }
-            }
-        }
-    }
-
-
-    private void actualMove(Move move)
-    {
-        if (move.isCastleMove()) {
-            castleMove(move);
-        } else if (move.isAnPassant()) {
-            anPassant(move);
-        } else {
-            //move moving piece
-            getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
-            //clear original position
-            getMovingPiecesMap().remove(move.getInitialPosition());
-
-            //clear taken position
-            getTakenPiecesMap().remove(move.getFinalPosition());
-
-            if (move.getMovingPiece().getPieceType() == PieceType.KING) {
-                if (isWhiteToMove) {
-                    whiteKingPosition = move.getFinalPosition();
-                } else {
-                    blackKingPosition = move.getFinalPosition();
-                }
-            }
-        }
-        allMoves.add(move);
-    }
-
-    public boolean noPieceExistsAt(Position position)
+    public boolean pieceExistsAt(Position position)
     {
         Piece piece = whitePiecesMap.get(position);
         if (piece != null)
-            return false;
+            return true;
         piece = blackPiecesMap.get(position);
-        return piece == null;
+        return piece != null;
     }
 
-    private void anPassant(Move move)
+    public void updateKingPosition(Position position)
     {
-        //add pawn to new position
-        getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
-
-        //remove taken pawn
-        getTakenPiecesMap().remove(move.getTakenAnPassant());
-
-        //remove initial position
-        getMovingPiecesMap().remove(move.getInitialPosition());
+        if (isWhiteToMove) {
+            whiteKingPosition = position;
+        } else {
+            blackKingPosition = position;
+        }
     }
 
     public void previousTurn()
@@ -185,44 +77,6 @@ public class OptimizedBoard
         isWhiteToMove = !isWhiteToMove;
     }
 
-
-    private void castleMove(Move move)
-    {
-        Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
-
-        Position kingInitial = move.getInitialPosition();
-        Position rookInitial = move.getFinalPosition();
-
-        Position kingFinal = kingInitial.move(direction).move(direction);
-        Position rookFinal = kingFinal.move(direction.opposite());
-
-        //move the king
-        getMovingPiecesMap().put(kingFinal, move.getMovingPiece());
-        getMovingPiecesMap().remove(kingInitial);
-
-
-        //move rook
-        getMovingPiecesMap().put(rookFinal, move.getTakenPiece());
-        getMovingPiecesMap().remove(rookInitial);
-
-        //update king position
-        if (isWhiteToMove) {
-            whiteKingPosition = kingFinal;
-        } else {
-            blackKingPosition = kingFinal;
-        }
-    }
-
-    public Map<Position, Piece> getWhitePiecesMap()
-    {
-        return whitePiecesMap;
-    }
-
-    public Map<Position, Piece> getBlackPiecesMap()
-    {
-        return blackPiecesMap;
-    }
-
     public List<Move> getPossibleMoves()
     {
         return possibleMoves;
@@ -230,26 +84,7 @@ public class OptimizedBoard
 
     public void undoMove(Move move)
     {
-        allMoves.remove(move);
-        if (move.getMovingPiece().getPieceType() == PieceType.KING) {
-            if (isWhiteToMove) {
-                whiteKingPosition = move.getInitialPosition();
-            } else {
-                blackKingPosition = move.getInitialPosition();
-            }
-        }
-
-
-        //put the piece back where it was
-        getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
-        //clear moved piece position
-        getMovingPiecesMap().remove(move.getFinalPosition());
-
-        Piece takenPiece = move.getTakenPiece();
-
-        if (takenPiece != null) {
-            getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
-        }
+        moveController.undoMove(this, move);
     }
 
     public void addPiece(Position position, Piece piece)
@@ -280,24 +115,12 @@ public class OptimizedBoard
         //log.info("Compiling possible moves");
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
         possibleMoves = possibleMoves.stream().filter(move -> {
-            if(!theMoveExists(move))
-            {
-                return false;
-            }
             move(move);
             int attackers = KingSafety.getNumberOfAttackers(this);
             undoMove(move);
             return attackers == 0;
         }).collect(Collectors.toList());
     }
-
-    public boolean theMoveExists(Move move)
-    {
-        if (getMovingPiecesMap().get(move.getInitialPosition())!=null)
-            return true;
-        return false;
-    }
-
 
     //TODO: rename method name
     public Map<Position, Piece> getMovingPiecesMap()
@@ -308,31 +131,6 @@ public class OptimizedBoard
     public Map<Position, Piece> getTakenPiecesMap()
     {
         return isWhiteToMove ? blackPiecesMap : whitePiecesMap;
-    }
-
-    private void setMovingPiece(Move move)
-    {
-        //piece is already set
-        if (move.getMovingPiece() != null)
-            return;
-
-        if (isWhiteToMove) {
-            move.setMovingPiece(whitePiecesMap.get(move.getInitialPosition()));
-            return;
-        }
-        move.setMovingPiece(blackPiecesMap.get(move.getInitialPosition()));
-    }
-
-    private void setTakenPiece(Move move)
-    {
-        if (move.getTakenPiece() != null)
-            return;
-
-        if (blackPiecesMap.get(move.getFinalPosition()) != null) {
-            move.setTakenPiece(blackPiecesMap.get(move.getFinalPosition()));
-            return;
-        }
-        move.setTakenPiece(whitePiecesMap.get(move.getFinalPosition()));
     }
 
     public boolean isWhiteToMove()
