@@ -15,10 +15,10 @@ public class QueenMoveCalculator extends PieceMoveCalculator
 {
 
     @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position)
+    public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
     {
         List<Move>     moveList     = new ArrayList<>();
-        Piece          piece        = board.getPiece(position);
+        Piece          piece        = board.getPieceAt(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {

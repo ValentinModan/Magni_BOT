@@ -15,7 +15,8 @@ public abstract class PieceMoveCalculator {
 
     static Logger logger = Logger.getLogger(PieceMoveCalculator.class.getName());
 
-    public List<Move> computeMoves(OptimizedBoard board, Position position) {
+    public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
+    {
         List<Move> moveList = new ArrayList<>();
         Piece piece = board.getPiece(position);
        // logger.log(INFO,"Calculating moves for " + piece + "at position " +position);

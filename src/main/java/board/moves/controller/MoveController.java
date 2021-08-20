@@ -12,8 +12,8 @@ public class MoveController
 {
     public void undoMove(OptimizedBoard board, Move move)
     {
-        OptimizedBoard.allMoves.remove(move);
-        if (move.getMovingPiece().getPieceType() == PieceType.KING) {
+        OptimizedBoard.allMoves.remove(OptimizedBoard.allMoves.size()-1);
+        if (move.getMovingPiece()!=null&& move.getMovingPiece().getPieceType() == PieceType.KING) {
             board.updateKingPosition(move.getInitialPosition());
         }
 
@@ -47,7 +47,7 @@ public class MoveController
             //clear taken position
             board.getTakenPiecesMap().remove(move.getFinalPosition());
 
-            if (move.getMovingPiece().getPieceType() == PieceType.KING) {
+            if (move.getMovingPiece()!=null && move.getMovingPiece().getPieceType() == PieceType.KING) {
                 board.updateKingPosition(move.getFinalPosition());
             }
         }

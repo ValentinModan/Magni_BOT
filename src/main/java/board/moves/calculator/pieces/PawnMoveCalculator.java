@@ -61,16 +61,16 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                 //can not double jump over pieces
                 if (movement == UP_TWO && (board.pieceExistsAt(position.move(Movement.UP))
                         || board.pieceExistsAt(position.move(UP_TWO)))) {
-                return Collections.emptyList();
-            }
-            if (movement == DOWN_TWO && board.pieceExistsAt(position.move(Movement.DOWN)) ||
-                    board.pieceExistsAt(position.move(DOWN_TWO))) {
-                return Collections.emptyList();
-            }
-            if (canDoubleJump(pawn, position)) {
-                moveList.add(new Move(position, destinationPosition));
-            }
-            break;
+                    return Collections.emptyList();
+                }
+                if (movement == DOWN_TWO && board.pieceExistsAt(position.move(Movement.DOWN)) ||
+                        board.pieceExistsAt(position.move(DOWN_TWO))) {
+                    return Collections.emptyList();
+                }
+                if (canDoubleJump(pawn, position)) {
+                    moveList.add(new Move(position, destinationPosition));
+                }
+                break;
             case UP_LEFT:
             case UP_RIGHT:
             case DOWN_RIGHT:
@@ -79,8 +79,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 
                     //moving an passant
                     Position linePosition = position.move(movement.lineFromDiagonal());
-                    if (board.getPiece(linePosition) != null
-                            && board.getPiece(linePosition).getPieceType() == PieceType.PAWN) {
+                    Piece anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
+                    if (anPassantTakenPiece != null && anPassantTakenPiece.getPieceType() == PieceType.PAWN) {
                         Move lastMove = board.lastMove();
 
                         if (lastMove == null) {
@@ -118,7 +118,6 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         if (pawn.isWhite() && position.getRow() == 2) {
             return true;
         }
-
         return !pawn.isWhite() && position.getRow() == 7;
     }
 

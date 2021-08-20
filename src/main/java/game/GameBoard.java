@@ -21,8 +21,8 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    private static final int DEPTH = 4;
-    private static final int MOVES = 10;
+    public static final int DEPTH = 4;
+    private static final int MOVES = 90;
     OptimizedBoard actualBoard;
 
     public GameBoard()
@@ -70,21 +70,21 @@ public class GameBoard
 
     private void makeMyOwnMove(String gameId)
     {
-        List<Move> backUpMoves = new ArrayList<>(OptimizedBoard.allMoves);
-        Move actualMove = MovesCalculator.calculate(actualBoard, MOVES, DEPTH);
-        OptimizedBoard.allMoves = new ArrayList<>(backUpMoves);
+        Move actualMove = MovesCalculator.calculate2(actualBoard, MOVES, DEPTH);
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
+        System.out.println("Best move chosen is " + actualMove + " with score of " + actualMove.getScore());
+        System.out.println(actualBoard);
         RequestController.sendRequest(makeABotMove1);
 
-        actualBoard.move(actualMove);
+        actualBoard.actualMove(actualMove);
         actualBoard.nextTurn();
     }
 
     private void makeEnemyMove(String lastMove)
     {
         //make the opponent move on the board
-        actualBoard.move(MoveConvertor.stringToMove(lastMove));
+        actualBoard.actualMove(MoveConvertor.stringToMove(lastMove));
         actualBoard.nextTurn();
     }
 
@@ -93,7 +93,7 @@ public class GameBoard
         //do the first move
         actualBoard.computePossibleMoves();
         Move actualMove = actualBoard.getPossibleMoves().get(0);
-        actualBoard.move(actualMove);
+        actualBoard.actualMove(actualMove);
 
         //set black to move
         actualBoard.nextTurn();

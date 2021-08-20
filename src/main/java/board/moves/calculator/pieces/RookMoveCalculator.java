@@ -17,7 +17,7 @@ public class RookMoveCalculator extends PieceMoveCalculator
     public List<Move> computeMoves(OptimizedBoard board, Position position)
     {
         List<Move>     moveList     = new ArrayList<>();
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getPiece(position));
+        List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getMovingPiecesMap().get(position));
 
         for (Movement movement : movementList) {
             Xray.xRayMoves(board, moveList, position, position, movement);

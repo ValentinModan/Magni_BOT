@@ -13,14 +13,22 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public class PossibleMovesCalculator {
+public class PossibleMovesCalculator
+{
 
-    public static List<Move> getPossibleMoves(OptimizedBoard board) {
-        List<Move> moveList = new ArrayList<>();
+    public static List<Move> getPossibleMoves(OptimizedBoard board)
+    {
+        List<Move>    moveList     = new ArrayList<>();
         Set<Position> positionList = board.getMovingPiecesMap().keySet();
 
 
-        positionList.forEach(position -> moveList.addAll(computeAllPossibleMovesFromPosition(board, position)));
+        positionList.forEach(position -> {
+            try {
+                moveList.addAll(computeAllPossibleMovesFromPosition(board, position));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         //todo check possible stream
         // return positionList.stream().map(position -> computeAllPossibleMovesFromPosition(board,position)).flatMap(Collection::stream).collect(Collectors.toList());
@@ -28,12 +36,12 @@ public class PossibleMovesCalculator {
         return moveList;
     }
 
-    public static List<Move> computeAllPossibleMovesFromPosition(OptimizedBoard board, Position position) {
-        Piece currentPiece = board.getPiece(position);
-      //  log.info("Computing possible moves for: " + currentPiece + position);
+    public static List<Move> computeAllPossibleMovesFromPosition(OptimizedBoard board, Position position) throws Exception
+    {
+        Piece currentPiece = board.getMovingPiecesMap().get(position);
+        //  log.info("Computing possible moves for: " + currentPiece + position);
 
-        if(currentPiece == null)
-        {
+        if (currentPiece == null) {
             return Collections.emptyList();
             //todo remove this
         }

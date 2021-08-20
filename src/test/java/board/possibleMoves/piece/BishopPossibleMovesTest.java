@@ -34,7 +34,7 @@ public class BishopPossibleMovesTest
     }
 
     @Test
-    public void singleWhiteBishop()
+    public void singleWhiteBishop() throws Exception
     {
         Position whiteBishopPosition = new Position('a', 1);
 
@@ -48,7 +48,7 @@ public class BishopPossibleMovesTest
     }
 
     @Test
-    public void twoAdjacentWhiteBishops()
+    public void twoAdjacentWhiteBishops() throws Exception
     {
         Position firstWhitePosition  = new Position('d', 4);
         Position secondWhitePosition = new Position('e', 5);
@@ -64,7 +64,7 @@ public class BishopPossibleMovesTest
     }
 
     @Test
-    public void twoAdjacentOppositeBishops()
+    public void twoAdjacentOppositeBishops() throws Exception
     {
         Position whitePosition = new Position('d', 4);
         Position blackPosition = new Position('e', 5);
@@ -73,6 +73,7 @@ public class BishopPossibleMovesTest
         optimizedBoard.addPiece(blackPosition, blackBishop);
 
         int whiteMoves = bishopMoveCalculator.computeMoves(optimizedBoard, whitePosition).size();
+        optimizedBoard.setWhiteToMove(false);
         int blackMoves = bishopMoveCalculator.computeMoves(optimizedBoard, blackPosition).size();
 
         assertEquals(10, whiteMoves);

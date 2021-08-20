@@ -13,7 +13,7 @@ import java.util.List;
 public class Xray
 {
 
-    //up,down,left,right and diagonal
+    //up, down, left, right and diagonal
     public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing, PieceType pieceType)
     {
         currentPosition = currentPosition.move(movement);
@@ -31,12 +31,11 @@ public class Xray
         return isXRayAttacked(board, currentPosition, movement, isWhiteKing, pieceType);
     }
 
-    public static List<Move> xRayMoveList(OptimizedBoard optimizedBoard,Position initialPosition,List<Movement> movementList)
+    public static List<Move> xRayMoveList(OptimizedBoard optimizedBoard, Position initialPosition, List<Movement> movementList)
     {
         List<Move> moveList = new ArrayList<>();
-        for(Movement movement:movementList)
-        {
-            xRayMoves(optimizedBoard,moveList,initialPosition,initialPosition,movement);
+        for (Movement movement : movementList) {
+            xRayMoves(optimizedBoard, moveList, initialPosition, initialPosition, movement);
         }
         return moveList;
     }

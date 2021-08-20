@@ -10,12 +10,11 @@ public class MovesCalculator
 {
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
-        if(optimizedBoard.lastMove()!=null && optimizedBoard.lastMove().isCheckMate())
-        {
+        if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().isCheckMate()) {
             return new Move(-1000);
         }
         optimizedBoard.computePossibleMoves();
-        List<Move> moveList = optimizedBoard.getPossibleMoves();
+        List<Move> moveList = new ArrayList<>(optimizedBoard.getPossibleMoves());
         for (Move move : moveList) {
             move.setScore(scoreCalculator(optimizedBoard, move));
         }
@@ -37,7 +36,7 @@ public class MovesCalculator
 
         Move bestMove = new Move(-1000);
 
-        int maxIndex = Math.min(optimizedBoard.getPossibleMoves().size(), moves);
+        int maxIndex = Math.min(moveList.size(), moves);
 
         moveList = moveList.subList(0, maxIndex);
         for (Move move : moveList) {
@@ -52,6 +51,10 @@ public class MovesCalculator
 
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
+                if(depth == GameBoard.DEPTH && bestMove.getScore()>=0)
+                {
+                    return bestMove;
+                }
             }
             optimizedBoard.previousTurn();
             optimizedBoard.undoMove(move);
@@ -61,8 +64,7 @@ public class MovesCalculator
 
     private static int scoreCalculator(OptimizedBoard optimizedBoard, Move move)
     {
-        if(move == null)
-        {
+        if (move == null) {
             return 0;
         }
         Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
@@ -73,4 +75,65 @@ public class MovesCalculator
         return takenPiece.getScore();
     }
 
+
+    public static Move calculate2(OptimizedBoard optimizedBoard, int moves, int depth)
+    {
+        optimizedBoard.computePossibleMoves();
+        List<Move> moveList = new ArrayList<>(sortedListMove(optimizedBoard));
+        if(moveList.size()==0)
+        {
+            return new Move(-1000);
+        }
+        if(moveList.size()==1)
+        {
+            return moveList.get(0);
+        }
+        if(depth ==1)
+        {
+            return moveList.get(0);
+        }
+
+        Move bestMove = moveList.get(0);
+
+        optimizedBoard.move(bestMove);
+        optimizedBoard.nextTurn();
+        Move bestResponse = calculate2(optimizedBoard,moves,depth-1);
+        bestMove.setScore(bestMove.getScore() + bestResponse.getScore());
+        optimizedBoard.previousTurn();
+        optimizedBoard.undoMove(bestMove);
+
+        int remainingSize = Math.min(moves,moveList.size());
+
+        moveList = moveList.subList(1, remainingSize);
+
+        for(Move move: moveList)
+        {
+            optimizedBoard.move(move);
+            optimizedBoard.nextTurn();
+          bestResponse =  calculate2(optimizedBoard,moves,depth-1);
+            optimizedBoard.previousTurn();
+            optimizedBoard.undoMove(move);
+
+            move.setScore(move.getScore() + bestResponse.getScore());
+
+            if(move.getScore()>bestMove.getScore())
+            {
+                bestMove = move;
+            }
+        }
+        return bestMove;
+    }
+
+
+
+    private static List<Move> sortedListMove(OptimizedBoard optimizedBoard)
+    {
+        List<Move> moveList = optimizedBoard.getPossibleMoves();
+        for (Move move : moveList) {
+            move.setScore(scoreCalculator(optimizedBoard, move));
+        }
+        Collections.sort(moveList);
+
+        return moveList;
+    }
 }

@@ -20,7 +20,7 @@ public class KnightAttackedStrategy implements AttackedStrategy {
 
 
         for (Movement movement : knightsPossibleMovements) {
-            Piece piece = board.getPiece(kingPosition.move(movement));
+            Piece piece = board.getTakenPiecesMap().get(kingPosition.move(movement));
             if (piece != null && piece.getPieceType() == PieceType.KNIGHT && piece.isWhite() != board.isWhiteToMove()) {
                 return true;
             }

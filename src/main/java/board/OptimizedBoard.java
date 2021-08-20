@@ -1,8 +1,6 @@
 package board;
 
 import board.moves.Move;
-import board.moves.MoveUpdateHelper;
-import board.moves.Movement;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.moves.controller.MoveController;
 import board.pieces.King;
@@ -27,6 +25,8 @@ public class OptimizedBoard
 
     public static List<Move> allMoves = new ArrayList<>();
 
+    public static List<Move> actualMoves = new ArrayList<>();
+
     private boolean isWhiteToMove = true;
 
     Position whiteKingPosition;
@@ -44,6 +44,12 @@ public class OptimizedBoard
         return isWhite ? whiteKingPosition : blackKingPosition;
     }
 
+    public void actualMove(Move move)
+    {
+        actualMoves.add(move);
+        move(move);
+    }
+
     public void move(Move move)
     {
         moveController.move(this, move);
@@ -56,6 +62,20 @@ public class OptimizedBoard
             return true;
         piece = blackPiecesMap.get(position);
         return piece != null;
+    }
+
+    public Piece getPieceAt(Position position) throws Exception
+    {
+        Piece whitePiece = whitePiecesMap.get(position);
+        Piece blackPiece = blackPiecesMap.get(position);
+        if (whitePiece != null && blackPiece != null) {
+            throw new Exception("Invalid board with two pieces at the same position: " + position + " " + allMoves);
+        }
+        if (whitePiece == null) {
+            return blackPiece;
+        }
+
+        return whitePiece;
     }
 
     public void updateKingPosition(Position position)
@@ -167,7 +187,7 @@ public class OptimizedBoard
 
     public static void displayAllMoves()
     {
-        for (Move move : allMoves) {
+        for (Move move : actualMoves) {
             System.out.print(move.move() + " ");
         }
     }

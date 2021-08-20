@@ -2,7 +2,9 @@ package board.possibleMoves.multiplepieces;
 
 import board.OptimizedBoard;
 import board.Position;
+import board.moves.calculator.pieces.QueenMoveCalculator;
 import board.pieces.Queen;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +14,8 @@ public class ComplexPositionsTest
 
     OptimizedBoard optimizedBoard;
 
+    QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
+
     @BeforeEach
     public void setUp()
     {
@@ -19,7 +23,7 @@ public class ComplexPositionsTest
     }
 
     @Test
-    public void threeQueensEach()
+    public void threeQueensEach() throws Exception
     {
         Queen firstWhiteQueen  = new Queen(true);
         Queen secondWhiteQueen = new Queen(true);
@@ -44,20 +48,32 @@ public class ComplexPositionsTest
         optimizedBoard.addPiece(secondBlackQueenPosition, secondBlackQueen);
         optimizedBoard.addPiece(thirdBlackQueenPosition, thirdBlackQueen);
 
-        optimizedBoard.computePossibleMoves();
+        int result;
 
-        int result = optimizedBoard.getPossibleMoves().size();
+        result = queenMoveCalculator.computeMoves(optimizedBoard, firstWhiteQueenPosition).size();
 
-        assert result == 61;
+        Assertions.assertEquals(19, result);
+
+        result = queenMoveCalculator.computeMoves(optimizedBoard, secondWhiteQueenPosition).size();
+
+        Assertions.assertEquals(21, result);
+
+        result = queenMoveCalculator.computeMoves(optimizedBoard, thirdWhiteQueenPosition).size();
+
+        Assertions.assertEquals(21, result);
+
+        result = queenMoveCalculator.computeMoves(optimizedBoard, firstBlackQueenPosition).size();
+
+        Assertions.assertEquals(14, result);
+
+        result = queenMoveCalculator.computeMoves(optimizedBoard, secondBlackQueenPosition).size();
+
+        Assertions.assertEquals(20, result);
+
+        result = queenMoveCalculator.computeMoves(optimizedBoard, thirdBlackQueenPosition).size();
+
+        Assertions.assertEquals(18, result);
 
 
-        optimizedBoard.setWhiteToMove(false);
-
-        optimizedBoard.computePossibleMoves();
-
-        result = optimizedBoard.getPossibleMoves().size();
-
-
-        assert result == 53;
     }
 }

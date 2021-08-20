@@ -16,7 +16,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
     private static final Position BLACK_RIGHT_ROOK_POSITION = new Position('h', 8);
 
     @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position)
+    public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
     {
         List<Move> moveList = super.computeMoves(board, position);
 

@@ -20,7 +20,7 @@ public class PawnAttackedStrategy implements AttackedStrategy {
         List<Movement> movementList = PawnMovement.attackMovements(isWhiteKing);
 
         for (Movement movement : movementList) {
-            Piece possibleAttackingPiece = board.getPiece(kingPosition.move(movement));
+            Piece possibleAttackingPiece = board.getTakenPiecesMap().get(kingPosition.move(movement));
             if (possibleAttackingPiece != null &&
                     possibleAttackingPiece.getPieceType() == PieceType.PAWN &&
                     possibleAttackingPiece.isWhite() != isWhiteKing) {

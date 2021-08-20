@@ -43,7 +43,8 @@ public class MoveUpdateHelper
     {
         Position initialPosition = move.getInitialPosition();
         Piece    takenPiece      = move.getTakenPiece();
-        if (move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+
+        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
             return;
         }
 
@@ -88,6 +89,7 @@ public class MoveUpdateHelper
         }
         if (movingPiece == null) {
             System.err.println("Invalid move " + move);
+            return;
         }
         if (movingPiece.getPieceType() == PieceType.KING) {
             if (takenPiece.getPieceType() == PieceType.ROOK) {

@@ -15,6 +15,8 @@ public class Main
             gameBoard.startPlayerGame();
         } catch (Exception e) {
             OptimizedBoard.displayAllMoves();
+            System.out.println(" ");
+            System.out.println(OptimizedBoard.allMoves);
             e.printStackTrace();
         }
 

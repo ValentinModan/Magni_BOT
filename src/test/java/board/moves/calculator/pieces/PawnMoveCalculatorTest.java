@@ -39,7 +39,7 @@ class PawnMoveCalculatorTest
         optimizedBoard.setWhiteToMove(true);
         int result = pawnMoveCalculator.computeMoves(optimizedBoard, whitePawnPosition).size();
 
-        assertEquals(result, 2);
+        assertEquals(2, result);
 
         optimizedBoard.move(MoveConvertor.stringToMove("d5c6"));
 

@@ -28,7 +28,7 @@ public class QueenPossibleMovesTest
     }
 
     @Test
-    public void singleWhiteQueen()
+    public void singleWhiteQueen() throws Exception
     {
         Position queenPosition = new Position('d', 4);
 
@@ -40,7 +40,7 @@ public class QueenPossibleMovesTest
     }
 
     @Test
-    public void twoOppositeQueens()
+    public void twoOppositeQueens() throws Exception
     {
         Position whiteQueenPosition = new Position('d', 4);
         Position blackQueenPosition = new Position('e', 5);
@@ -56,7 +56,7 @@ public class QueenPossibleMovesTest
     }
 
     @Test
-    public void surroundedQueen()
+    public void surroundedQueen() throws Exception
     {
 
         //maybe use queen direction movements instead
@@ -71,9 +71,9 @@ public class QueenPossibleMovesTest
         optimizedBoard.addPiece(new Position('d', 4).move(Movement.UP_RIGHT), blackQueen);
 
 
-        optimizedBoard.computePossibleMoves();
+       int result =  queenMoveCalculator.computeMoves(optimizedBoard,new Position('d',4)).size();
 
 
-        assert optimizedBoard.getPossibleMoves().size() == 8;
+        Assertions.assertEquals(8,result);
     }
 }
