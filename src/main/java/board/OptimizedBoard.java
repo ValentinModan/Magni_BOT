@@ -6,7 +6,9 @@ import board.moves.controller.MoveController;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import game.GameBoard;
 import game.kingcheck.attacked.KingSafety;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -58,8 +60,9 @@ public class OptimizedBoard
     public boolean pieceExistsAt(Position position)
     {
         Piece piece = whitePiecesMap.get(position);
-        if (piece != null)
+        if (piece != null) {
             return true;
+        }
         piece = blackPiecesMap.get(position);
         return piece != null;
     }
@@ -78,11 +81,26 @@ public class OptimizedBoard
         return whitePiece;
     }
 
+    public int piecesLeft()
+    {
+        return whitePiecesMap.size() + blackPiecesMap.size();
+    }
+
+    public int newDepth()
+    {
+        int piecesLeft = piecesLeft();
+        if (piecesLeft >= 16) {
+            return GameBoard.DEPTH;
+        }
+        return GameBoard.DEPTH + (16 - piecesLeft) / 2 + 1;
+    }
+
     public void updateKingPosition(Position position)
     {
         if (isWhiteToMove) {
             whiteKingPosition = position;
-        } else {
+        }
+        else {
             blackKingPosition = position;
         }
     }
@@ -95,6 +113,11 @@ public class OptimizedBoard
     public void nextTurn()
     {
         isWhiteToMove = !isWhiteToMove;
+    }
+
+    public void setTurn(boolean isWhiteToMove)
+    {
+        this.isWhiteToMove = isWhiteToMove;
     }
 
     public List<Move> getPossibleMoves()
@@ -114,7 +137,8 @@ public class OptimizedBoard
                 whiteKingPosition = position;
             }
             whitePiecesMap.put(position, piece);
-        } else {
+        }
+        else {
             if (piece.getPieceType() == PieceType.KING) {
                 blackKingPosition = position;
             }
@@ -142,10 +166,20 @@ public class OptimizedBoard
         }).collect(Collectors.toList());
     }
 
+    public Piece getMovingPiece(Position position)
+    {
+        return getMovingPiecesMap().get(position);
+    }
+
     //TODO: rename method name
     public Map<Position, Piece> getMovingPiecesMap()
     {
         return isWhiteToMove ? whitePiecesMap : blackPiecesMap;
+    }
+
+    public Piece getTakenPiece(Position position)
+    {
+        return getTakenPiecesMap().get(position);
     }
 
     public Map<Position, Piece> getTakenPiecesMap()
@@ -165,16 +199,21 @@ public class OptimizedBoard
 
     public Move lastMove()
     {
-        if (allMoves.size() == 0)
+        if (allMoves.size() == 0) {
             return null;
+        }
         return allMoves.get(allMoves.size() - 1);
     }
 
     @Override
     public boolean equals(Object o)
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         OptimizedBoard that = (OptimizedBoard) o;
         return whitePiecesMap.equals(that.whitePiecesMap) && blackPiecesMap.equals(that.blackPiecesMap);
     }
@@ -192,6 +231,7 @@ public class OptimizedBoard
         }
     }
 
+    @SneakyThrows
     @Override
     public String toString()
     {
@@ -199,7 +239,7 @@ public class OptimizedBoard
         for (int i = 8; i >= 1; i--) {
             for (char letter = 'a'; letter <= 'h'; letter++) {
                 //TODO: refactor this
-                Piece  piece = getPiece(new Position(letter, i));
+                Piece  piece = getPieceAt(new Position(letter, i));
                 String l     = piece != null ? piece.toString() + "  " : EMPTY_POSITION;
                 stringBuilder.append(l);
                 //  stringBuilder.append(' ');

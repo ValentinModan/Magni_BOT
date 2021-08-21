@@ -51,8 +51,7 @@ public class MovesCalculator
 
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
-                if(depth == GameBoard.DEPTH && bestMove.getScore()>=0)
-                {
+                if (depth == GameBoard.DEPTH && bestMove.getScore() >= 0) {
                     return bestMove;
                 }
             }
@@ -79,17 +78,16 @@ public class MovesCalculator
     public static Move calculate2(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         optimizedBoard.computePossibleMoves();
-        List<Move> moveList = new ArrayList<>(sortedListMove(optimizedBoard));
-        if(moveList.size()==0)
-        {
+        List<Move> moveList      = new ArrayList<>(sortedListMove(optimizedBoard));
+        boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
+
+        if (moveList.size() == 0) {
             return new Move(-1000);
         }
-        if(moveList.size()==1)
-        {
+        if (moveList.size() == 1) {
             return moveList.get(0);
         }
-        if(depth ==1)
-        {
+        if (depth == 1) {
             return moveList.get(0);
         }
 
@@ -97,34 +95,32 @@ public class MovesCalculator
 
         optimizedBoard.move(bestMove);
         optimizedBoard.nextTurn();
-        Move bestResponse = calculate2(optimizedBoard,moves,depth-1);
-        bestMove.setScore(bestMove.getScore() + bestResponse.getScore());
+        Move bestResponse = calculate2(optimizedBoard, moves, depth - 1);
+        bestMove.setScore(bestMove.getScore() - bestResponse.getScore());
         optimizedBoard.previousTurn();
         optimizedBoard.undoMove(bestMove);
-
-        int remainingSize = Math.min(moves,moveList.size());
+        int remainingSize = Math.min(moves, moveList.size());
 
         moveList = moveList.subList(1, remainingSize);
 
-        for(Move move: moveList)
-        {
+        for (Move move : moveList) {
             optimizedBoard.move(move);
-            optimizedBoard.nextTurn();
-          bestResponse =  calculate2(optimizedBoard,moves,depth-1);
-            optimizedBoard.previousTurn();
+            optimizedBoard.setTurn(!isWhiteToMove);
+            bestResponse = calculate2(optimizedBoard, moves, depth - 1);
+            optimizedBoard.setTurn(isWhiteToMove);
             optimizedBoard.undoMove(move);
 
-            move.setScore(move.getScore() + bestResponse.getScore());
+            move.setScore(move.getScore() - bestResponse.getScore());
 
-            if(move.getScore()>bestMove.getScore())
-            {
+            if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
+//                if (depth == GameBoard.DEPTH && bestMove.getScore() >= 0) {
+//                    return bestMove;
+//                }
             }
         }
         return bestMove;
     }
-
-
 
     private static List<Move> sortedListMove(OptimizedBoard optimizedBoard)
     {

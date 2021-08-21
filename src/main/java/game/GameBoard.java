@@ -12,17 +12,16 @@ import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.pieces.Piece;
 import board.setup.BoardSetup;
-import game.kingcheck.attacked.KingSafety;
-import reader.ConsoleReader;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEPTH = 4;
-    private static final int MOVES = 90;
+    public static  int DEPTH = 5;
+    private static final int MOVES = 200;
     OptimizedBoard actualBoard;
 
     public GameBoard()
@@ -55,7 +54,7 @@ public class GameBoard
 
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
 
-            if (nowPlaying.getLastMove().equals("")) {
+            if (GameBoardHelper.isFirstMoveOfTheGame(nowPlaying)) {
                 //do the first move
                 firstMove(nowPlaying.getGameId());
             } else {
@@ -78,6 +77,7 @@ public class GameBoard
         RequestController.sendRequest(makeABotMove1);
 
         actualBoard.actualMove(actualMove);
+        DEPTH = actualBoard.newDepth();
         actualBoard.nextTurn();
     }
 
@@ -102,9 +102,6 @@ public class GameBoard
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
         RequestController.sendRequest(makeABotMove1);
     }
-
-    private Map<Position, Piece> whitePieces;
-    private Map<Position, Piece> blackPieces;
 
     //remains as backup
     public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)

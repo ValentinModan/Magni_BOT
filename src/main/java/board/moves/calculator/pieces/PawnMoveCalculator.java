@@ -44,7 +44,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         switch (movement) {
             case UP:
             case DOWN:
-                if (takenPiece != null || board.getMovingPiecesMap().get(destinationPosition) != null) {
+                if (board.pieceExistsAt(destinationPosition)) {
                     return Collections.emptyList();
                 }
                 if (isPawnPromotion(pawn, destinationPosition)) {
@@ -78,8 +78,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                 if (takenPiece == null) {
 
                     //moving an passant
-                    Position linePosition = position.move(movement.lineFromDiagonal());
-                    Piece anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
+                    Position linePosition        = position.move(movement.lineFromDiagonal());
+                    Piece    anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
                     if (anPassantTakenPiece != null && anPassantTakenPiece.getPieceType() == PieceType.PAWN) {
                         Move lastMove = board.lastMove();
 

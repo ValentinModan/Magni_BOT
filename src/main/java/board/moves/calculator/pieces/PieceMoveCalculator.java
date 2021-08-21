@@ -15,6 +15,7 @@ public abstract class PieceMoveCalculator {
 
     static Logger logger = Logger.getLogger(PieceMoveCalculator.class.getName());
 
+
     public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
     {
         List<Move> moveList = new ArrayList<>();
@@ -34,11 +35,6 @@ public abstract class PieceMoveCalculator {
       //  logger.log(INFO, "Possible moves: " + moveList);
 
         return moveList;
-    }
-
-    public boolean destinationIsValid(Piece movingPiece, Piece takenPiece)
-    {
-        return takenPiece == null || oppositeColorPieces(movingPiece,takenPiece);
     }
 
     public boolean oppositeColorPieces(Piece firstPiece, Piece secondPiece)

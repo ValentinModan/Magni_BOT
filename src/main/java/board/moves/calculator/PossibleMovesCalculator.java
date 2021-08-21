@@ -18,11 +18,13 @@ public class PossibleMovesCalculator
 
     public static List<Move> getPossibleMoves(OptimizedBoard board)
     {
-        List<Move>    moveList     = new ArrayList<>();
-        Set<Position> positionList = board.getMovingPiecesMap().keySet();
+        List<Move>     moveList      = new ArrayList<>();
+        Set<Position>  positionList  = board.getMovingPiecesMap().keySet();
+        List<Position> positionList1 = new ArrayList<>(board.getMovingPiecesMap().keySet());
 
+        Collections.shuffle(positionList1);
 
-        positionList.forEach(position -> {
+        positionList1.forEach(position -> {
             try {
                 moveList.addAll(computeAllPossibleMovesFromPosition(board, position));
             } catch (Exception e) {
@@ -38,7 +40,7 @@ public class PossibleMovesCalculator
 
     public static List<Move> computeAllPossibleMovesFromPosition(OptimizedBoard board, Position position) throws Exception
     {
-        Piece currentPiece = board.getMovingPiecesMap().get(position);
+        Piece currentPiece = board.getMovingPiece(position);
         //  log.info("Computing possible moves for: " + currentPiece + position);
 
         if (currentPiece == null) {

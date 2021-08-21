@@ -14,13 +14,13 @@ public class MoveUpdateHelper
         updateTakenPiece(optimizedBoard, move);
 
         updateCheckMate(move);
-        updateCastleMove(move);
+        updateCastleMove(optimizedBoard, move);
         updateAnPassantMove(optimizedBoard, move);
     }
 
     private static void updateMovingPiece(OptimizedBoard board, Move move)
     {
-        Piece movingPiece = board.getMovingPiecesMap().get(move.getInitialPosition());
+        Piece movingPiece = board.getMovingPiece(move.getInitialPosition());
         move.setMovingPiece(movingPiece);
     }
 
@@ -79,20 +79,17 @@ public class MoveUpdateHelper
         }
     }
 
-    private static void updateCastleMove(Move move)
+    private static void updateCastleMove(OptimizedBoard optimizedBoard, Move move)
     {
         Piece movingPiece = move.getMovingPiece();
-        Piece takenPiece  = move.getTakenPiece();
+        Piece rookPiece  = optimizedBoard.getMovingPiece(move.getFinalPosition());
 
-        if (takenPiece == null) {
-            return;
-        }
-        if (movingPiece == null) {
-            System.err.println("Invalid move " + move);
+        if(rookPiece==null)
+        {
             return;
         }
         if (movingPiece.getPieceType() == PieceType.KING) {
-            if (takenPiece.getPieceType() == PieceType.ROOK) {
+            if (rookPiece.getPieceType() == PieceType.ROOK) {
                 if (movingPiece.isWhite() == movingPiece.isWhite()) {
                     move.setCastleMove(true);
                 }

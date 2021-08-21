@@ -24,7 +24,7 @@ public class Xray
         if (piece != null && piece.getPieceType() == pieceType) {
             return true;
         }
-        piece = board.getMovingPiecesMap().get(currentPosition);
+        piece = board.getMovingPiece(currentPosition);
         if (piece != null) {
             return false;
         }
@@ -50,7 +50,7 @@ public class Xray
         Piece takenPiece  = board.getTakenPiecesMap().get(currentPosition);
         Move  currentMove = new Move(initialPosition, currentPosition);
 
-        if (takenPiece == null && board.getMovingPiecesMap().get(currentPosition) == null) {
+        if (takenPiece == null && board.getMovingPiece(currentPosition) == null) {
             moveList.add(currentMove);
             xRayMoves(board, moveList, initialPosition, currentPosition, movement);
             return;

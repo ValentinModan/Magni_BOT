@@ -17,13 +17,8 @@ public class QueenMoveCalculator extends PieceMoveCalculator
     @Override
     public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
     {
-        List<Move>     moveList     = new ArrayList<>();
-        Piece          piece        = board.getPieceAt(position);
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
+        List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getPieceAt(position));
 
-        for (Movement movement : movementList) {
-            Xray.xRayMoves(board, moveList, position, position, movement);
-        }
-        return moveList;
+        return Xray.xRayMoveList(board, position, movementList);
     }
 }
