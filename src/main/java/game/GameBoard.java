@@ -149,9 +149,12 @@ public class GameBoard
     {
         int piecesLeft = actualBoard.piecesLeft();
         if (piecesLeft >= 16) {
-            GameBoard.depth = GameBoard.DEFAULT_DEPTH;
+            depth = GameBoard.DEFAULT_DEPTH;
         }
-        depth = GameBoard.DEFAULT_DEPTH + (16 - piecesLeft) / 3;
+        else {
+            depth = GameBoard.DEFAULT_DEPTH + (16 - piecesLeft) / 3;
+        }
+
         if (depth > MAX_DEPTH) {
             depth = MAX_DEPTH;
         }

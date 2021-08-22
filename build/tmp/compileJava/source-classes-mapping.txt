@@ -1,8 +1,8 @@
+api/json/challenge/property/Input.java
+ api.json.challenge.property.Input
 board/moves/pieces/MovementCalculator.java
  board.moves.pieces.MovementCalculator
  board.moves.pieces.MovementCalculator$1
-api/json/challenge/property/Input.java
- api.json.challenge.property.Input
 board/moves/calculator/PossibleMovesCalculator.java
  board.moves.calculator.PossibleMovesCalculator
 board/Position.java
@@ -29,34 +29,34 @@ game/kingcheck/attacked/QueenAttackedStrategy.java
  game.kingcheck.attacked.QueenAttackedStrategy
 board/pieces/Piece.java
  board.pieces.Piece
-reader/ConsoleReader.java
- reader.ConsoleReader
 board/moves/MoveUpdateHelper.java
  board.moves.MoveUpdateHelper
-openings/OpeningController.java
- openings.OpeningController
+reader/ConsoleReader.java
+ reader.ConsoleReader
 api/json/challenge/property/Challenger.java
  api.json.challenge.property.Challenger
+openings/OpeningController.java
+ openings.OpeningController
 board/setup/BoardSetup.java
  board.setup.BoardSetup
 board/pieces/Bishop.java
  board.pieces.Bishop
 api/json/challenge/AcceptChallenge.java
  api.json.challenge.AcceptChallenge
-board/pieces/Pawn.java
- board.pieces.Pawn
 api/challenges/Challenge.java
  api.challenges.Challenge
+board/pieces/Pawn.java
+ board.pieces.Pawn
 api/bot/MakeABotMove.java
  api.bot.MakeABotMove
 game/kingcheck/attacked/Xray.java
  game.kingcheck.attacked.Xray
 board/moves/pieces/PieceMovement.java
  board.moves.pieces.PieceMovement
-game/kingcheck/attacked/BishopAttackedStrategy.java
- game.kingcheck.attacked.BishopAttackedStrategy
 api/json/challenge/property/Output.java
  api.json.challenge.property.Output
+game/kingcheck/attacked/BishopAttackedStrategy.java
+ game.kingcheck.attacked.BishopAttackedStrategy
 board/moves/calculator/pieces/BishopMoveCalculator.java
  board.moves.calculator.pieces.BishopMoveCalculator
 api/Controller.java
@@ -98,12 +98,12 @@ board/moves/Movement.java
  board.moves.Movement$1
 api/games/GetMyOwnGoingGames.java
  api.games.GetMyOwnGoingGames
-board/moves/pieces/RookMovement.java
- board.moves.pieces.RookMovement
 api/games/owngame/NowPlaying.java
  api.games.owngame.NowPlaying
 api/RequestController.java
  api.RequestController
+board/moves/pieces/RookMovement.java
+ board.moves.pieces.RookMovement
 board/pieces/Rook.java
  board.pieces.Rook
 openings/Opening.java

@@ -20,7 +20,6 @@ public class KingMoveCalculator extends PieceMoveCalculator
     {
         List<Move> moveList = super.computeMoves(board, position);
 
-
         King king = board.getKing();
 
         //todo implement castle
