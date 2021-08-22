@@ -53,8 +53,6 @@ public class MakeABotMove implements RequestAPI
     @Override
     public String getAPI()
     {
-        String apiResponse = "https://lichess.org/api/board/game/" + gameId + "/move/" + move;
-        System.out.println(apiResponse);
-        return apiResponse;
+        return "https://lichess.org/api/board/game/" + gameId + "/move/" + move;
     }
 }

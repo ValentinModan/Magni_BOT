@@ -102,21 +102,33 @@ public class MoveUpdateHelper
         Piece movingPiece = move.getMovingPiece();
         Piece rookPiece   = optimizedBoard.getMovingPiece(move.getFinalPosition());
 
+        if(movingPiece ==null)
+        {
+            System.err.println("Invalid move"+ move);
+            System.err.println(optimizedBoard);
+            System.err.println(OptimizedBoard.allMoves);
+        }
         if (rookPiece == null) {
             return;
         }
-        if (movingPiece.getPieceType() == PieceType.KING) {
-            if (rookPiece.getPieceType() == PieceType.ROOK) {
-                if (movingPiece.isWhite() == movingPiece.isWhite()) {
+        try {
+            if (movingPiece.getPieceType() == PieceType.KING) {
+                if (rookPiece.getPieceType() == PieceType.ROOK) {
+                    if (movingPiece.isWhite() == movingPiece.isWhite()) {
+                        move.setCastleMove(true);
+                    }
+                }
+
+                //todo improve checks here
+                int distance = move.getInitialPosition().getColumn() - move.getFinalPosition().getColumn();
+                if (distance == 2 || distance == 3) {
                     move.setCastleMove(true);
                 }
             }
-
-            //todo improve checks here
-            int distance = move.getInitialPosition().getColumn() - move.getFinalPosition().getColumn();
-            if (distance == 2 || distance == 3) {
-                move.setCastleMove(true);
-            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

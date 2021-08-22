@@ -69,8 +69,8 @@ PostRequests.java
  PostRequests
 board/pieces/Queen.java
  board.pieces.Queen
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
+game/GameBoard.java
+ game.GameBoard
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
 board/moves/pieces/QueenMovement.java
@@ -83,8 +83,8 @@ board/OptimizedBoard.java
  board.OptimizedBoard
 board/moves/calculator/pieces/KnightMoveCalculator.java
  board.moves.calculator.pieces.KnightMoveCalculator
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+game/MovesCalculator.java
+ game.MovesCalculator
 api/RequestAPI.java
  api.RequestAPI
 api/json/challenge/ListYourChallenges.java
@@ -130,6 +130,8 @@ board/moves/MoveConvertor.java
  board.moves.MoveConvertor
 board/moves/MovesGenerator.java
  board.moves.MovesGenerator
+game/CleanMoveCalculator.java
+ game.CleanMoveCalculator
 board/pieces/PieceType.java
  board.pieces.PieceType
 board/moves/calculator/pieces/PawnMoveCalculator.java
@@ -137,7 +139,7 @@ board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator$1
 board/pieces/PiecesScore.java
  board.pieces.PiecesScore
-game/MovesCalculator.java
- game.MovesCalculator
-game/GameBoard.java
- game.GameBoard
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece

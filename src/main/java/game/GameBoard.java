@@ -19,7 +19,7 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final  int DEFAULT_DEPTH      = 4;
+    public static final  int DEFAULT_DEPTH      = 6;
     public static        int depth              = DEFAULT_DEPTH;
     public static final  int MAX_DEPTH          = 12;
     public static final  int MAX_DEPTH_MID_GAME = 6;
@@ -79,11 +79,7 @@ public class GameBoard
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            try {
-                actualMove = MovesCalculator.calculate2(actualBoard, MOVES, depth);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
@@ -109,45 +105,13 @@ public class GameBoard
     {
         Move actualMove = MoveConvertor.stringToMove(openingController.nextMove());
 
-
-        //do the first move (this can be uncommented)
-        // actualBoard.computePossibleMoves();
-        // Move actualMove = actualBoard.getPossibleMoves().get(0);
         actualBoard.actualMove(actualMove);
-
         //set black to move
         actualBoard.nextTurn();
 
         //send the actual move
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
         RequestController.sendRequest(makeABotMove1);
-    }
-
-    //remains as backup
-    public static Move tryMove(OptimizedBoard actualBoard, int possibleMoves, NowPlaying nowPlaying)
-    {
-        Move actualMove;
-        try {
-            int randomNumber = new Random().nextInt();
-            if (randomNumber < 0) {
-                randomNumber = randomNumber * -1;
-            }
-
-            randomNumber = randomNumber % possibleMoves;
-            actualMove = actualBoard.getPossibleMoves().get(randomNumber);
-            //send the move
-            MakeABotMove makeABotMove1 = new MakeABotMove(nowPlaying.getGameId(), actualMove.move());
-            RequestController.sendRequest(makeABotMove1);
-        } catch (Exception e) {
-            try {
-                sleep(200);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-            return tryMove(actualBoard, possibleMoves, nowPlaying);
-        }
-
-        return actualMove;
     }
 
     public void newDepth()
@@ -165,7 +129,7 @@ public class GameBoard
                 depth = MAX_DEPTH_MID_GAME;
             }
         }
-        depth += OptimizedBoard.actualMoves.size() / 20;
+        depth += OptimizedBoard.actualMoves.size() / 30;
         depth -= depth % 2;
         System.out.println("Computing for new depth: " + depth);
     }

@@ -11,23 +11,32 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 public class Controller {
 
     public void sentRequest() {
-        URL url = null;
+        URL url                = null;
+        HttpURLConnection http = null;
         try {
             url = new URL("https://lichess.org");
+           http = (HttpURLConnection) url.openConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            HttpURLConnection http = (HttpURLConnection) url.openConnection();
+
+        try {
             http.setRequestProperty("Accept", "application/json");
             http.setRequestProperty("Authorization", "Bearer TgrJxTCQpKTt7gqm");
 
-            System.out.println("Request response is:");
-            System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
             http.disconnect();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Request response is:");
+            try {
+                System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
