@@ -14,8 +14,23 @@ public class MoveUpdateHelper
         updateTakenPiece(optimizedBoard, move);
 
         updateCheckMate(move);
+        updatePawnPromotion(move);
         updateCastleMove(optimizedBoard, move);
         updateAnPassantMove(optimizedBoard, move);
+    }
+
+    public static void updatePawnPromotion(Move move)
+    {
+        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+            return;
+        }
+        if (move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 7) {
+            move.setPawnPromotion(true);
+            move.setScore(move.getMovingPiece().getScore());
+        }
+        if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
+            move.setPawnPromotion(true);
+        }
     }
 
     private static void updateMovingPiece(OptimizedBoard board, Move move)
@@ -37,6 +52,9 @@ public class MoveUpdateHelper
     {
         Piece takenPiece = board.getTakenPiecesMap().get(move.getFinalPosition());
         move.setTakenPiece(takenPiece);
+        if (takenPiece != null) {
+            move.setScore(takenPiece.getScore());
+        }
     }
 
     public static void updateAnPassantMove(OptimizedBoard board, Move move)
@@ -82,10 +100,9 @@ public class MoveUpdateHelper
     private static void updateCastleMove(OptimizedBoard optimizedBoard, Move move)
     {
         Piece movingPiece = move.getMovingPiece();
-        Piece rookPiece  = optimizedBoard.getMovingPiece(move.getFinalPosition());
+        Piece rookPiece   = optimizedBoard.getMovingPiece(move.getFinalPosition());
 
-        if(rookPiece==null)
-        {
+        if (rookPiece == null) {
             return;
         }
         if (movingPiece.getPieceType() == PieceType.KING) {
@@ -93,6 +110,10 @@ public class MoveUpdateHelper
                 if (movingPiece.isWhite() == movingPiece.isWhite()) {
                     move.setCastleMove(true);
                 }
+            }
+            int distance = move.getInitialPosition().getColumn() - move.getFinalPosition().getColumn();
+            if (distance == 2) {
+                move.setCastleMove(true);
             }
         }
     }

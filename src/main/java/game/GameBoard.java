@@ -12,6 +12,8 @@ import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.pieces.Piece;
 import board.setup.BoardSetup;
+import openings.OpeningController;
+import openings.OpeningReader;
 
 import java.util.Map;
 import java.util.Random;
@@ -20,9 +22,11 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static  int DEPTH = 5;
-    private static final int MOVES = 200;
-    OptimizedBoard actualBoard;
+    public static final  int DEFAULT_DEPTH = 6;
+    public static        int DEPTH         = DEFAULT_DEPTH;
+    private static final int MOVES         = 300;
+    OptimizedBoard    actualBoard;
+    OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
 
     public GameBoard()
     {
@@ -57,7 +61,8 @@ public class GameBoard
             if (GameBoardHelper.isFirstMoveOfTheGame(nowPlaying)) {
                 //do the first move
                 firstMove(nowPlaying.getGameId());
-            } else {
+            }
+            else {
                 OptimizedBoard.displayAllMoves();
 
                 makeEnemyMove(nowPlaying.getLastMove());
@@ -69,7 +74,13 @@ public class GameBoard
 
     private void makeMyOwnMove(String gameId)
     {
-        Move actualMove = MovesCalculator.calculate2(actualBoard, MOVES, DEPTH);
+        String move = openingController.generateMove();
+        openingController.filterWithMove(move);
+        System.out.println("Generated opening move " + move);
+        Move actualMove = MoveConvertor.stringToMove(move);
+        if (actualMove == null) {
+            actualMove = MovesCalculator.calculate2(actualBoard, MOVES, DEPTH);
+        }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
         System.out.println("Best move chosen is " + actualMove + " with score of " + actualMove.getScore());
@@ -86,13 +97,17 @@ public class GameBoard
         //make the opponent move on the board
         actualBoard.actualMove(MoveConvertor.stringToMove(lastMove));
         actualBoard.nextTurn();
+        openingController.filterWithMove(lastMove);
     }
 
     private void firstMove(String gameId)
     {
-        //do the first move
-        actualBoard.computePossibleMoves();
-        Move actualMove = actualBoard.getPossibleMoves().get(0);
+        Move actualMove = MoveConvertor.stringToMove(openingController.nextMove());
+
+
+        //do the first move (this can be uncommented)
+        // actualBoard.computePossibleMoves();
+        // Move actualMove = actualBoard.getPossibleMoves().get(0);
         actualBoard.actualMove(actualMove);
 
         //set black to move

@@ -33,6 +33,8 @@ reader/ConsoleReader.java
  reader.ConsoleReader
 board/moves/MoveUpdateHelper.java
  board.moves.MoveUpdateHelper
+openings/OpeningController.java
+ openings.OpeningController
 api/json/challenge/property/Challenger.java
  api.json.challenge.property.Challenger
 board/setup/BoardSetup.java
@@ -104,12 +106,16 @@ api/RequestController.java
  api.RequestController
 board/pieces/Rook.java
  board.pieces.Rook
+openings/Opening.java
+ openings.Opening
 board/moves/calculator/pieces/QueenMoveCalculator.java
  board.moves.calculator.pieces.QueenMoveCalculator
 board/pieces/Knight.java
  board.pieces.Knight
 board/moves/calculator/pieces/RookMoveCalculator.java
  board.moves.calculator.pieces.RookMoveCalculator
+openings/OpeningReader.java
+ openings.OpeningReader
 board/moves/results/Endgame.java
  board.moves.results.Endgame
 board/moves/calculator/pieces/PieceMoveCalculator.java

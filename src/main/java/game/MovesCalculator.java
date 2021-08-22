@@ -2,12 +2,19 @@ package game;
 
 import board.OptimizedBoard;
 import board.moves.Move;
+import board.moves.MoveUpdateHelper;
 import board.pieces.Piece;
 
 import java.util.*;
 
 public class MovesCalculator
 {
+    public static Move bestMoveOfAll;
+
+    public static Move getBestMove(OptimizedBoard optimizedBoard, int moves, int depth)
+    {
+        return null;
+    }
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().isCheckMate()) {
@@ -66,6 +73,8 @@ public class MovesCalculator
         if (move == null) {
             return 0;
         }
+        MoveUpdateHelper.moveUpdate(optimizedBoard,move);
+
         Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
         if (takenPiece == null) {
             return 0;

@@ -13,11 +13,12 @@ public class Move implements Comparable<Move>
     private Position takenAnPassant;
     private Piece    movingPiece;
     private Piece    takenPiece;
+    private Piece    promotionPiece;
     private int      score           = -1000;
     private boolean  isPawnPromotion = false;
     private boolean  isCastleMove    = false;
     private boolean  isAnPassant     = false;
-    private boolean isCheckMate;
+    private boolean  isCheckMate;
 
     public Move(boolean isCheckMate)
     {
@@ -137,10 +138,24 @@ public class Move implements Comparable<Move>
     @Override
     public boolean equals(Object o)
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Move move = (Move) o;
         return initialPosition.equals(move.initialPosition) && finalPosition.equals(move.finalPosition);
+    }
+
+    public boolean isPawnPromotion()
+    {
+        return isPawnPromotion;
+    }
+
+    public void setPawnPromotion(boolean pawnPromotion)
+    {
+        isPawnPromotion = pawnPromotion;
     }
 
     public String move()

@@ -5,8 +5,10 @@ import board.Position;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
+import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import board.pieces.Queen;
 
 public class MoveController
 {
@@ -18,7 +20,14 @@ public class MoveController
         }
 
         //put the piece back where it was
-        board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+        if (move.isPawnPromotion()) {
+            //put a pawn back
+            board.getMovingPiecesMap().put(move.getInitialPosition(), new Pawn(move.getMovingPiece().isWhite()));
+        }
+        else {
+            board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+        }
+
         //clear moved piece position
         board.getMovingPiecesMap().remove(move.getFinalPosition());
 
@@ -39,6 +48,9 @@ public class MoveController
         else if (move.isAnPassant()) {
             anPassant(board, move);
         }
+        else if (move.isPawnPromotion()) {
+            pawnPromotion(board, move);
+        }
         else {
             //move moving piece
             board.getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
@@ -53,6 +65,17 @@ public class MoveController
             }
         }
         OptimizedBoard.allMoves.add(move);
+    }
+
+    private void pawnPromotion(OptimizedBoard board, Move move)
+    {
+        //move moving piece
+        board.getMovingPiecesMap().put(move.getFinalPosition(), new Queen(move.getMovingPiece().isWhite()));
+        //clear original position
+        board.getMovingPiecesMap().remove(move.getInitialPosition());
+
+        //clear taken position
+        board.getTakenPiecesMap().remove(move.getFinalPosition());
     }
 
     private void anPassant(OptimizedBoard optimizedBoard, Move move)
