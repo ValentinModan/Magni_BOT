@@ -86,14 +86,6 @@ public class OptimizedBoard
         return whitePiecesMap.size() + blackPiecesMap.size();
     }
 
-    public int newDepth()
-    {
-        int piecesLeft = piecesLeft();
-        if (piecesLeft >= 16) {
-            return GameBoard.DEFAULT_DEPTH;
-        }
-        return GameBoard.DEFAULT_DEPTH + (16 - piecesLeft) / 3;
-    }
 
     public void updateKingPosition(Position position)
     {

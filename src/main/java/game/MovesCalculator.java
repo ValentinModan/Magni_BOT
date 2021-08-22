@@ -15,6 +15,7 @@ public class MovesCalculator
     {
         return null;
     }
+
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().isCheckMate()) {
@@ -58,9 +59,6 @@ public class MovesCalculator
 
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
-                if (depth == GameBoard.DEPTH && bestMove.getScore() >= 0) {
-                    return bestMove;
-                }
             }
             optimizedBoard.previousTurn();
             optimizedBoard.undoMove(move);
@@ -73,7 +71,7 @@ public class MovesCalculator
         if (move == null) {
             return 0;
         }
-        MoveUpdateHelper.moveUpdate(optimizedBoard,move);
+        MoveUpdateHelper.moveUpdate(optimizedBoard, move);
 
         Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
         if (takenPiece == null) {
@@ -91,15 +89,18 @@ public class MovesCalculator
         boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
 
         if (moveList.size() == 0) {
-            return new Move(-1000);
+            if(optimizedBoard.lastMove().isCheckMate())
+            {
+                return new Move(-10000);
+            }
+            return new Move(-100);
         }
         if (moveList.size() == 1) {
             return moveList.get(0);
         }
         if (depth == 1) {
-            return moveList.get(0);
+            return moveList.stream().max(Comparator.comparing(Move::getScore)).orElseThrow(NoSuchElementException::new);
         }
-
         Move bestMove = moveList.get(0);
 
         optimizedBoard.move(bestMove);
@@ -135,7 +136,7 @@ public class MovesCalculator
     {
         List<Move> moveList = optimizedBoard.getPossibleMoves();
         for (Move move : moveList) {
-            move.setScore(scoreCalculator(optimizedBoard, move));
+            MoveUpdateHelper.moveUpdate(optimizedBoard, move);
         }
         Collections.sort(moveList);
 

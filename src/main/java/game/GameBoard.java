@@ -7,23 +7,21 @@ import api.games.owngame.NowPlaying;
 import api.json.challenge.AcceptChallenge;
 import api.json.challenge.ListYourChallenges;
 import board.OptimizedBoard;
-import board.Position;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import board.pieces.Piece;
 import board.setup.BoardSetup;
 import openings.OpeningController;
 import openings.OpeningReader;
 
-import java.util.Map;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final  int DEFAULT_DEPTH = 6;
-    public static        int DEPTH         = DEFAULT_DEPTH;
+    public static final  int DEFAULT_DEPTH = 4;
+    public static        int depth         = DEFAULT_DEPTH;
+    public static final  int MAX_DEPTH     = 10;
     private static final int MOVES         = 300;
     OptimizedBoard    actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
@@ -79,7 +77,7 @@ public class GameBoard
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            actualMove = MovesCalculator.calculate2(actualBoard, MOVES, DEPTH);
+            actualMove = MovesCalculator.calculate2(actualBoard, MOVES, depth);
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
@@ -88,7 +86,7 @@ public class GameBoard
         RequestController.sendRequest(makeABotMove1);
 
         actualBoard.actualMove(actualMove);
-        DEPTH = actualBoard.newDepth();
+        newDepth();
         actualBoard.nextTurn();
     }
 
@@ -98,6 +96,8 @@ public class GameBoard
         actualBoard.actualMove(MoveConvertor.stringToMove(lastMove));
         actualBoard.nextTurn();
         openingController.filterWithMove(lastMove);
+        System.out.println("Enemy made move ");
+        System.out.println(actualBoard);
     }
 
     private void firstMove(String gameId)
@@ -143,5 +143,17 @@ public class GameBoard
         }
 
         return actualMove;
+    }
+
+    public void newDepth()
+    {
+        int piecesLeft = actualBoard.piecesLeft();
+        if (piecesLeft >= 16) {
+            GameBoard.depth = GameBoard.DEFAULT_DEPTH;
+        }
+        depth = GameBoard.DEFAULT_DEPTH + (16 - piecesLeft) / 3;
+        if (depth > MAX_DEPTH) {
+            depth = MAX_DEPTH;
+        }
     }
 }
