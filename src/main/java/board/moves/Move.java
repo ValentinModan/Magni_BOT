@@ -2,6 +2,8 @@ package board.moves;
 
 import board.Position;
 import board.pieces.Piece;
+import board.pieces.PieceType;
+import game.gameSetupOptions.GameOptions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -14,11 +16,12 @@ public class Move implements Comparable<Move>
     private Piece    movingPiece;
     private Piece    takenPiece;
     private Piece    promotionPiece;
-    private int      score           = -1000;
+    private int      score           = 0;
     private boolean  isPawnPromotion = false;
     private boolean  isCastleMove    = false;
     private boolean  isAnPassant     = false;
     private boolean  isCheckMate;
+    private   Move bestResponse;
 
     public Move(boolean isCheckMate)
     {
@@ -110,6 +113,28 @@ public class Move implements Comparable<Move>
         return score;
     }
 
+    private Integer moveScore = null;
+
+    public int moveScore()
+    {
+        if(moveScore != null)
+        {
+            return  moveScore;
+        }
+
+        GameOptions.updateMoveScore(this);
+        if(moveScore==null)
+        {
+            moveScore = 0;
+        }
+        return moveScore;
+    }
+
+    public void setMoveScore(Integer moveScore)
+    {
+        this.moveScore = moveScore;
+    }
+
     public void setScore(int score)
     {
         this.score = score;
@@ -133,6 +158,16 @@ public class Move implements Comparable<Move>
     public void setTakenAnPassant(Position takenAnPassant)
     {
         this.takenAnPassant = takenAnPassant;
+    }
+
+    public Move getBestResponse()
+    {
+        return bestResponse;
+    }
+
+    public void setBestResponse(Move bestResponse)
+    {
+        this.bestResponse = bestResponse;
     }
 
     @Override

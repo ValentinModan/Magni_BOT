@@ -50,6 +50,19 @@ public class OptimizedBoard
     {
         actualMoves.add(move);
         move(move);
+       displayFullMoveLogic(move);
+    }
+
+    void displayFullMoveLogic(Move move)
+    {
+        StringBuilder sb = new StringBuilder();
+        Move currentMove = move;
+        while(currentMove!=null) {
+            sb.append(move).append(" with score ").append(move.getScore()).append(" |");
+            currentMove = currentMove.getBestResponse();
+        }
+
+        log.info(sb.toString());
     }
 
     public void move(Move move)
