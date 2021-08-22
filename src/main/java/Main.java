@@ -1,8 +1,5 @@
 import board.OptimizedBoard;
 import game.GameBoard;
-import openings.Opening;
-import openings.OpeningController;
-import openings.OpeningReader;
 
 public class Main
 {
@@ -17,10 +14,10 @@ public class Main
         try {
             gameBoard.startPlayerGame();
         } catch (Exception e) {
+            e.printStackTrace();
             OptimizedBoard.displayAllMoves();
             System.out.println(" ");
             System.out.println(OptimizedBoard.allMoves);
-            e.printStackTrace();
         }
     }
 }

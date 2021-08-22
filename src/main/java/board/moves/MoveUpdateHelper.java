@@ -111,8 +111,10 @@ public class MoveUpdateHelper
                     move.setCastleMove(true);
                 }
             }
+
+            //todo improve checks here
             int distance = move.getInitialPosition().getColumn() - move.getFinalPosition().getColumn();
-            if (distance == 2) {
+            if (distance == 2 || distance == 3) {
                 move.setCastleMove(true);
             }
         }

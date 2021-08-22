@@ -19,10 +19,11 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final  int DEFAULT_DEPTH = 4;
-    public static        int depth         = DEFAULT_DEPTH;
-    public static final  int MAX_DEPTH     = 10;
-    private static final int MOVES         = 300;
+    public static final  int DEFAULT_DEPTH      = 4;
+    public static        int depth              = DEFAULT_DEPTH;
+    public static final  int MAX_DEPTH          = 12;
+    public static final  int MAX_DEPTH_MID_GAME = 6;
+    private static final int MOVES              = 300;
     OptimizedBoard    actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
 
@@ -74,10 +75,15 @@ public class GameBoard
     {
         String move = openingController.generateMove();
         openingController.filterWithMove(move);
+        newDepth();
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            actualMove = MovesCalculator.calculate2(actualBoard, MOVES, depth);
+            try {
+                actualMove = MovesCalculator.calculate2(actualBoard, MOVES, depth);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
@@ -86,7 +92,6 @@ public class GameBoard
         RequestController.sendRequest(makeABotMove1);
 
         actualBoard.actualMove(actualMove);
-        newDepth();
         actualBoard.nextTurn();
     }
 
@@ -147,13 +152,21 @@ public class GameBoard
 
     public void newDepth()
     {
-        int piecesLeft = actualBoard.piecesLeft();
-        if (piecesLeft >= 16) {
-            GameBoard.depth = GameBoard.DEFAULT_DEPTH;
+        int opponentPiecesLeft = actualBoard.opponentPiecesLeft();
+        if (opponentPiecesLeft >= 10) {
+            depth = GameBoard.DEFAULT_DEPTH;
         }
-        depth = GameBoard.DEFAULT_DEPTH + (16 - piecesLeft) / 3;
-        if (depth > MAX_DEPTH) {
-            depth = MAX_DEPTH;
+        else {
+            depth = GameBoard.DEFAULT_DEPTH + (16 - opponentPiecesLeft) / 2;
+            if (depth > MAX_DEPTH) {
+                depth = MAX_DEPTH;
+            }
+            if (actualBoard.myPiecesLeft() + opponentPiecesLeft >= 8) {
+                depth = MAX_DEPTH_MID_GAME;
+            }
         }
+        depth += OptimizedBoard.actualMoves.size() / 20;
+        depth -= depth % 2;
+        System.out.println("Computing for new depth: " + depth);
     }
 }

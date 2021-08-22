@@ -14,7 +14,8 @@ public class KingSafety
             new RookAttackedStrategy(),
             new KnightAttackedStrategy(),
             new BishopAttackedStrategy(),
-            new QueenAttackedStrategy()));
+            new QueenAttackedStrategy(),
+            new KingAttackedStrategy()));
 
     public static int getNumberOfAttackers(OptimizedBoard board)
     {

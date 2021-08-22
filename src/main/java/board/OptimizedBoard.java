@@ -81,9 +81,14 @@ public class OptimizedBoard
         return whitePiece;
     }
 
-    public int piecesLeft()
+    public int myPiecesLeft()
     {
-        return whitePiecesMap.size() + blackPiecesMap.size();
+        return getTakenPiecesMap().size();
+    }
+
+    public int opponentPiecesLeft()
+    {
+        return getTakenPiecesMap().size();
     }
 
 

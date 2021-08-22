@@ -4,6 +4,7 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.pieces.Piece;
+import game.gameSetupOptions.GameOptions;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class MovesCalculator
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {
         if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().isCheckMate()) {
-            return new Move(-1000);
+            return GameOptions.checkMate();
         }
         optimizedBoard.computePossibleMoves();
         List<Move> moveList = new ArrayList<>(optimizedBoard.getPossibleMoves());
@@ -89,11 +90,10 @@ public class MovesCalculator
         boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
 
         if (moveList.size() == 0) {
-            if(optimizedBoard.lastMove().isCheckMate())
-            {
-                return new Move(-10000);
+            if (optimizedBoard.lastMove().isCheckMate()) {
+                return GameOptions.checkMate();
             }
-            return new Move(-100);
+            return GameOptions.staleMate();
         }
         if (moveList.size() == 1) {
             return moveList.get(0);
@@ -106,6 +106,7 @@ public class MovesCalculator
         optimizedBoard.move(bestMove);
         optimizedBoard.nextTurn();
         Move bestResponse = calculate2(optimizedBoard, moves, depth - 1);
+
         bestMove.setScore(bestMove.getScore() - bestResponse.getScore());
         optimizedBoard.previousTurn();
         optimizedBoard.undoMove(bestMove);
@@ -124,9 +125,6 @@ public class MovesCalculator
 
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
-//                if (depth == GameBoard.DEPTH && bestMove.getScore() >= 0) {
-//                    return bestMove;
-//                }
             }
         }
         return bestMove;
