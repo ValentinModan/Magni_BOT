@@ -14,7 +14,7 @@ public class MoveController
 {
     public void undoMove(OptimizedBoard board, Move move)
     {
-        OptimizedBoard.allMoves.remove(OptimizedBoard.allMoves.size() - 1);
+        board.allMoves.remove(board.allMoves.size() - 1);
         if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
             board.updateKingPosition(move.getInitialPosition());
         }
@@ -64,7 +64,7 @@ public class MoveController
                 board.updateKingPosition(move.getFinalPosition());
             }
         }
-        OptimizedBoard.allMoves.add(move);
+        board.allMoves.add(move);
     }
 
     private void pawnPromotion(OptimizedBoard board, Move move)

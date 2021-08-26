@@ -106,7 +106,7 @@ public class MoveUpdateHelper
         {
             System.err.println("Invalid move"+ move);
             System.err.println(optimizedBoard);
-            System.err.println(OptimizedBoard.allMoves);
+            System.err.println(optimizedBoard.allMoves);
         }
         if (rookPiece == null) {
             return;

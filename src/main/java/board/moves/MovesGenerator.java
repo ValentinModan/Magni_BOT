@@ -13,6 +13,7 @@ public class MovesGenerator
         String[] movesArray = moves.split(" ");
         for (String move : movesArray) {
             optimizedBoard.move(stringToMove(move));
+            optimizedBoard.computePossibleMoves();
             optimizedBoard.nextTurn();
         }
     }

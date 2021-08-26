@@ -21,7 +21,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
     public List<Move> computeMoves(OptimizedBoard board, Position position)
     {
         List<Move>     moveList     = new ArrayList<>();
-        Pawn           piece        = (Pawn) board.getPiece(position);
+        Pawn           piece        = (Pawn) board.getMovingPiece(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
 

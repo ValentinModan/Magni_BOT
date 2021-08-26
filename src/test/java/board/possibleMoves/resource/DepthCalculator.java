@@ -8,7 +8,8 @@ import java.util.List;
 
 public class DepthCalculator
 {
-
+    public static double seconds = 0;
+    public static double check_verification_seconds = 0;
     public static int possibleMoves(OptimizedBoard board, int depth)
     {
         if (depth == 0) {
@@ -16,9 +17,10 @@ public class DepthCalculator
         }
 
         int moves = 0;
-
+        long start = System.nanoTime();
         board.computePossibleMoves();
-
+        long elapsedTime = System.nanoTime() - start;
+        seconds+=(double)elapsedTime / 1_000_000_000.0;
         List<Move> moveList = board.getPossibleMoves();
 
         for (Move move : moveList) {

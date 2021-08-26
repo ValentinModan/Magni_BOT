@@ -123,6 +123,7 @@ class OptimizedBoardTest
 
         BoardSetup.setupBoard(optimizedBoard);
         int result = DepthCalculator.possibleMoves(optimizedBoard, 4);
+
         assertEquals(197281, result);
     }
 
@@ -130,6 +131,25 @@ class OptimizedBoardTest
     void fiveMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();
+
+        BoardSetup.setupBoard(optimizedBoard);
+        int n=5;
+        long startTime = System.nanoTime();
+        for(int i=1;i<=n;i++) {
+            int result = DepthCalculator.possibleMoves(optimizedBoard, 5);
+        }
+        double elapsedTime=(double)(System.nanoTime() - startTime) / 1_000_000_000.0;
+        System.out.println(elapsedTime/n);
+
+        //  assert result == 197742;
+
+       // assertEquals(4865609, result);
+    }
+
+    void fiveeMovesTest()
+    {
+        OptimizedBoard optimizedBoard = new OptimizedBoard();
+
 
         BoardSetup.setupBoard(optimizedBoard);
         int result = DepthCalculator.possibleMoves(optimizedBoard, 5);

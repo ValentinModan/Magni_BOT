@@ -6,7 +6,6 @@ import board.moves.controller.MoveController;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
-import game.GameBoard;
 import game.kingcheck.attacked.KingSafety;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +14,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class OptimizedBoard
+public class OptimizedBoard implements Cloneable
 {
-    private       List<Move>           possibleMoves  = new ArrayList<>();
-    private final Map<Position, Piece> whitePiecesMap = new HashMap<>();
-    private final Map<Position, Piece> blackPiecesMap = new HashMap<>();
+    private List<Move>           possibleMoves  = new ArrayList<>();
+    private Map<Position, Piece> whitePiecesMap = new HashMap<>();
+    private Map<Position, Piece> blackPiecesMap = new HashMap<>();
 
     private final MoveController moveController = new MoveController();
 
     private static final String EMPTY_POSITION = ".  ";
 
-    public static List<Move> allMoves = new ArrayList<>();
+    public List<Move> allMoves = new ArrayList<>();
 
     public static List<Move> actualMoves = new ArrayList<>();
 
@@ -50,14 +49,14 @@ public class OptimizedBoard
     {
         actualMoves.add(move);
         move(move);
-       displayFullMoveLogic(move);
+        displayFullMoveLogic(move);
     }
 
     void displayFullMoveLogic(Move move)
     {
-        StringBuilder sb = new StringBuilder();
-        Move currentMove = move;
-        while(currentMove!=null) {
+        StringBuilder sb          = new StringBuilder();
+        Move          currentMove = move;
+        while (currentMove != null) {
             sb.append(move).append(" with score ").append(move.getScore()).append(" |");
             currentMove = currentMove.getBestResponse();
         }
@@ -164,10 +163,24 @@ public class OptimizedBoard
         return blackPiecesMap.get(position);
     }
 
+    public static double result = 0;
+
+    public List<Move> calculatePossibleMoves()
+    {
+        return PossibleMovesCalculator.getPossibleMoves(this)
+                .stream().filter(move -> {
+                    move(move);
+                    int attackers = KingSafety.getNumberOfAttackers(this);
+                    undoMove(move);
+                    return attackers == 0;
+                }).collect(Collectors.toList());
+    }
+
     public void computePossibleMoves()
     {
         //log.info("Compiling possible moves");
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
+
         possibleMoves = possibleMoves.stream().filter(move -> {
             move(move);
             int attackers = KingSafety.getNumberOfAttackers(this);
@@ -240,6 +253,97 @@ public class OptimizedBoard
             System.out.print(move.move() + " ");
         }
     }
+
+    public void setPossibleMoves(List<Move> possibleMoves)
+    {
+        this.possibleMoves = possibleMoves;
+    }
+
+    public Map<Position, Piece> getWhitePiecesMap()
+    {
+        return whitePiecesMap;
+    }
+
+    public Map<Position, Piece> getBlackPiecesMap()
+    {
+        return blackPiecesMap;
+    }
+
+    public MoveController getMoveController()
+    {
+        return moveController;
+    }
+
+    public static String getEmptyPosition()
+    {
+        return EMPTY_POSITION;
+    }
+
+    public List<Move> getAllMoves()
+    {
+        return allMoves;
+    }
+
+    public void setAllMoves(List<Move> allMoves)
+    {
+        this.allMoves = allMoves;
+    }
+
+    public static List<Move> getActualMoves()
+    {
+        return actualMoves;
+    }
+
+    public static void setActualMoves(List<Move> actualMoves)
+    {
+        OptimizedBoard.actualMoves = actualMoves;
+    }
+
+    public Position getWhiteKingPosition()
+    {
+        return whiteKingPosition;
+    }
+
+    public void setWhiteKingPosition(Position whiteKingPosition)
+    {
+        this.whiteKingPosition = whiteKingPosition;
+    }
+
+    public Position getBlackKingPosition()
+    {
+        return blackKingPosition;
+    }
+
+    public void setBlackKingPosition(Position blackKingPosition)
+    {
+        this.blackKingPosition = blackKingPosition;
+    }
+
+    public void setWhitePiecesMap(Map<Position, Piece> whitePiecesMap)
+    {
+        this.whitePiecesMap = whitePiecesMap;
+    }
+
+    public void setBlackPiecesMap(Map<Position, Piece> blackPiecesMap)
+    {
+        this.blackPiecesMap = blackPiecesMap;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        OptimizedBoard newBoard = (OptimizedBoard) super.clone();
+
+        newBoard.setWhiteToMove(isWhiteToMove);
+        newBoard.setWhitePiecesMap(new HashMap<>(whitePiecesMap));
+        newBoard.setBlackPiecesMap(new HashMap<>(blackPiecesMap));
+        newBoard.setBlackKingPosition(blackKingPosition);
+        newBoard.setWhiteKingPosition(whiteKingPosition);
+        newBoard.setAllMoves(new ArrayList<>(allMoves));
+
+        return newBoard;
+    }
+
 
     @SneakyThrows
     @Override

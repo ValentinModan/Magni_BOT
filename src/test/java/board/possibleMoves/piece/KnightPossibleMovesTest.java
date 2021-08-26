@@ -3,9 +3,11 @@ package board.possibleMoves.piece;
 import board.OptimizedBoard;
 import board.Position;
 import board.moves.Move;
+import board.moves.calculator.pieces.KnightMoveCalculator;
 import board.pieces.Knight;
 import board.pieces.Piece;
 import board.setup.BoardSetup;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,7 @@ public class KnightPossibleMovesTest
     private Piece          whiteKnight;
     private Piece          blackKnight;
     private Piece          secondWhiteKnight;
+    private KnightMoveCalculator knightMoveCalculator = new KnightMoveCalculator();
 
 
     @BeforeEach
@@ -86,7 +89,7 @@ public class KnightPossibleMovesTest
     }
 
     @Test
-    public void whiteToMoveWithNoWhiteKnights()
+    public void whiteToMoveWithNoWhiteKnights() throws Exception
     {
         Piece thirdKnight = new Knight(true);
 
@@ -99,9 +102,9 @@ public class KnightPossibleMovesTest
         optimizedBoard.addPiece(secondWhitePosition, secondWhiteKnight);
         optimizedBoard.addPiece(thirdWhitePosition, thirdKnight);
 
-        optimizedBoard.computePossibleMoves();
-
-        assert optimizedBoard.getPossibleMoves().size() == 20;
+        Assertions.assertEquals(6,knightMoveCalculator.computeMoves(optimizedBoard,firstWhitePosition).size());
+        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(optimizedBoard,secondWhitePosition).size());
+        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(optimizedBoard,thirdWhitePosition).size());
     }
 
 

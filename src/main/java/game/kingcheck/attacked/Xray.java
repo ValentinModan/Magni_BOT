@@ -16,18 +16,20 @@ public class Xray
     //up, down, left, right and diagonal
     public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing, PieceType pieceType)
     {
-        currentPosition = currentPosition.move(movement);
-        if (!currentPosition.isValid()) {
-            return false;
-        }
-        Piece piece = board.getTakenPiecesMap().get(currentPosition);
-        if (piece != null && piece.getPieceType() == pieceType) {
-            return true;
-        }
-        piece = board.getMovingPiece(currentPosition);
-        if (piece != null) {
-            return false;
-        }
+        do {
+            currentPosition = currentPosition.move(movement);
+            if (!currentPosition.isValid()) {
+                return false;
+            }
+            Piece piece = board.getTakenPiecesMap().get(currentPosition);
+            if (piece != null) {
+                return piece.getPieceType() == pieceType;
+            }
+            piece = board.getMovingPiece(currentPosition);
+            if (piece != null) {
+                return false;
+            }
+        } while (!currentPosition.isValid());
         return isXRayAttacked(board, currentPosition, movement, isWhiteKing, pieceType);
     }
 

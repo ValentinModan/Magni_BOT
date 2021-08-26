@@ -4,6 +4,7 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import game.gameSetupOptions.GameOptions;
+import game.kingcheck.attacked.KingSafety;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -17,8 +18,11 @@ import static game.GameBoard.getMyOwnGoingGames;
 public class CleanMoveCalculator
 {
 
+    public static boolean precalculate = false;
+
     public static List<Move> calculateAllMoveBestResponse(OptimizedBoard optimizedBoard, int depth)
     {
+        precalculate = true;
         boolean isWhiteToMove = optimizedBoard.isWhiteToMove();
         optimizedBoard.computePossibleMoves();
         List<Move> moveList   = new ArrayList<>(optimizedBoard.getPossibleMoves());
@@ -33,14 +37,15 @@ public class CleanMoveCalculator
             undoMove(optimizedBoard, move, isWhiteToMove);
             updateMoveWithResponse(move, bestResponse);
 
-            resultList.add(move);
 
             if (!GameBoard.waitingForOpponentMove()) {
                 log.info("Precomputing stopped by actual move");
                 return resultList;
             }
+            resultList.add(move);
 
         }
+        precalculate = false;
         return resultList;
     }
 
@@ -60,8 +65,8 @@ public class CleanMoveCalculator
 
         //stalemate or checkmate
         if (moveList.size() == 0) {
-            if (optimizedBoard.lastMove().isCheckMate()) {
-                return GameOptions.checkMate();
+            if (KingSafety.getNumberOfAttackers(optimizedBoard) > 0) {
+                return GameOptions.checkMate(depth);
             }
             return GameOptions.staleMate();
         }
@@ -78,11 +83,15 @@ public class CleanMoveCalculator
         int length = moveList.size();
 
         return moveList.stream().peek(move -> {
+            if (precalculate) {
+                return;
+            }
             optimizedBoard.setTurn(isWhiteToMove);
             makeMove(optimizedBoard, move);
-            int depth_increase =0;
-            if(move.getTakenPiece()!=null)
-                 depth_increase = 0;
+            int depth_increase = 0;
+            if (move.getTakenPiece() != null) {
+                depth_increase = 0;
+            }
             Move bestResponse = calculate2(optimizedBoard, currentDepth - 1 + depth_increase);
             undoMove(optimizedBoard, move, isWhiteToMove);
             updateMoveWithResponse(move, bestResponse);

@@ -107,7 +107,7 @@ class MovesCalculatorTest
         catch (Exception e)
         {
             System.err.println(e);
-            System.out.println(OptimizedBoard.allMoves);
+            System.out.println(optimizedBoard.allMoves);
         }
 
         System.out.println("success");

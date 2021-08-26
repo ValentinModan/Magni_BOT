@@ -11,11 +11,15 @@ import java.util.List;
 public class GameOptions
 {
     public static final int CHECK_MATE_SCORE = -1000;
-    public static final int STALE_MATE_SCORE = -100;
+    public static final int STALE_MATE_SCORE = 0;
 
     public static final int MINIMUM_MOVES = 10;
     public static final int MAXIMUM_MOVES = 40;
 
+    public static Move checkMate(int depth)
+    {
+        return new Move(CHECK_MATE_SCORE*depth);
+    }
     public static Move checkMate()
     {
         return new Move(CHECK_MATE_SCORE);
@@ -49,10 +53,10 @@ public class GameOptions
             return 100;
         }
         if (depth <= 4) {
-            return 40;
+            return 100;
         }
         if (depth <= 6) {
-            return 30;
+            return 80;
         }
         return 10;
     }
@@ -63,13 +67,13 @@ public class GameOptions
             return 100;
         }
         if (currentDepth <= 6) {
-            return 65;
+            return 100;
         }
         if (currentDepth <= 8) {
             return 20;
         }
         if (currentDepth <= 10) {
-            return 20;
+            return 10;
         }
         return 5;
     }

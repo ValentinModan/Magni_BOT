@@ -2,6 +2,7 @@ package board.possibleMoves.piece;
 
 import board.OptimizedBoard;
 import board.Position;
+import board.moves.calculator.pieces.PawnMoveCalculator;
 import board.pieces.Knight;
 import board.pieces.Pawn;
 import board.pieces.Piece;
@@ -14,6 +15,8 @@ public class PawnPossibleMovesTest
     private OptimizedBoard optimizedBoard;
     private Piece          whitePawn;
     private Piece          blackPawn;
+
+    private PawnMoveCalculator pawnMoveCalculator = new PawnMoveCalculator();
 
 
     @BeforeEach
@@ -30,9 +33,8 @@ public class PawnPossibleMovesTest
         Position whitePawnPosition = new Position('a', 2);
         optimizedBoard.addPiece(whitePawnPosition, whitePawn);
 
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 2;
+        assert pawnMoveCalculator.computeMoves(optimizedBoard, whitePawnPosition).size() == 2;
     }
 
     @Test
@@ -43,9 +45,10 @@ public class PawnPossibleMovesTest
         optimizedBoard.addPiece(whitePawnPosition, whitePawn);
         optimizedBoard.addPiece(blackPawnPosition, blackPawn);
 
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 0;
+        assert pawnMoveCalculator.computeMoves(optimizedBoard, whitePawnPosition).size() == 0;
+        optimizedBoard.nextTurn();
+        assert pawnMoveCalculator.computeMoves(optimizedBoard, blackPawnPosition).size() == 0;
     }
 
     @Test
@@ -59,9 +62,8 @@ public class PawnPossibleMovesTest
         optimizedBoard.addPiece(upLeftBlackPawnPosition, new Pawn(false));
         optimizedBoard.addPiece(upRightBlackPawnPosition, new Pawn(false));
 
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 4;
+        assert pawnMoveCalculator.computeMoves(optimizedBoard,whitePawnPosition).size() == 4;
     }
 
     @Test
@@ -75,9 +77,8 @@ public class PawnPossibleMovesTest
         optimizedBoard.addPiece(upLeftBlackPawnPosition, new Pawn(false));
         optimizedBoard.addPiece(upRightBlackPawnPosition, new Pawn(false));
 
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 3;
+        assert pawnMoveCalculator.computeMoves(optimizedBoard,whitePawnPosition).size() == 3;
     }
 
     @Test
@@ -87,9 +88,9 @@ public class PawnPossibleMovesTest
 
         optimizedBoard.addPiece(whitePawnPosition, whitePawn);
 
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 4;
+
+        assert pawnMoveCalculator.computeMoves(optimizedBoard,whitePawnPosition).size() == 4;
     }
 
 
@@ -101,27 +102,24 @@ public class PawnPossibleMovesTest
         optimizedBoard.addPiece(blackPawnPosition, blackPawn);
         optimizedBoard.setWhiteToMove(false);
 
-        optimizedBoard.computePossibleMoves();
-
-        assert optimizedBoard.getPossibleMoves().size() == 4;
+        assert pawnMoveCalculator.computeMoves(optimizedBoard,blackPawnPosition).size() == 4;
     }
 
     @Test
     public void blackPawnPromotions()
     {
-        Position blackPawnPosition = new Position('b',2);
-        Position knightPosition = new Position('a',1);
-        Position secondKnightPosition = new Position('c',1);
-        optimizedBoard.addPiece(blackPawnPosition,blackPawn);
-        optimizedBoard.addPiece(knightPosition,new Knight(true));
+        Position blackPawnPosition    = new Position('b', 2);
+        Position knightPosition       = new Position('a', 1);
+        Position secondKnightPosition = new Position('c', 1);
+        optimizedBoard.addPiece(blackPawnPosition, blackPawn);
+        optimizedBoard.addPiece(knightPosition, new Knight(true));
         optimizedBoard.addPiece(secondKnightPosition, new Knight(true));
 
         optimizedBoard.setWhiteToMove(false);
-        optimizedBoard.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 12;
+
+        assert pawnMoveCalculator.computeMoves(optimizedBoard,blackPawnPosition).size() == 12;
     }
-
 
 
 }

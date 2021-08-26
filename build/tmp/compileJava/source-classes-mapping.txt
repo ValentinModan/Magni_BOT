@@ -25,6 +25,9 @@ board/moves/pieces/KnightMovement.java
  board.moves.pieces.KnightMovement
 game/kingcheck/attacked/KnightAttackedStrategy.java
  game.kingcheck.attacked.KnightAttackedStrategy
+game/MultiThreadBoard.java
+ game.MultiThreadBoard
+ game.MultiThreadBoard$Worker
 game/kingcheck/attacked/AttackedStrategy.java
  game.kingcheck.attacked.AttackedStrategy
 game/kingcheck/attacked/QueenAttackedStrategy.java
@@ -89,6 +92,9 @@ api/RequestAPI.java
  api.RequestAPI
 api/json/challenge/ListYourChallenges.java
  api.json.challenge.ListYourChallenges
+game/ArrayThreading.java
+ game.ArrayThreading
+ game.ArrayThreading$Worker
 board/moves/Move.java
  board.moves.Move
 board/moves/controller/MoveController.java

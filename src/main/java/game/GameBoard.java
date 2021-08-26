@@ -20,10 +20,10 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH      = 6;
+    public static final int DEFAULT_DEPTH      = 4;
     public static       int depth              = DEFAULT_DEPTH;
     public static final int MAX_DEPTH          = 6;
-    public static final int MAX_DEPTH_MID_GAME = 6;
+    public static final int MAX_DEPTH_MID_GAME = 5;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
@@ -166,7 +166,7 @@ public class GameBoard
             depth = GameBoard.DEFAULT_DEPTH;
         }
         else {
-            depth = GameBoard.DEFAULT_DEPTH + (16 - opponentPiecesLeft) / 2;
+            depth = GameBoard.DEFAULT_DEPTH + (16 - opponentPiecesLeft) / 4;
             if (depth > MAX_DEPTH) {
                 depth = MAX_DEPTH;
             }
@@ -174,7 +174,7 @@ public class GameBoard
                 depth = MAX_DEPTH_MID_GAME;
             }
         }
-        depth += OptimizedBoard.actualMoves.size() / 30;
+      depth += OptimizedBoard.actualMoves.size() / 60;
         System.out.println("Computing for new depth: " + depth);
     }
 }
