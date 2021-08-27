@@ -27,11 +27,15 @@ public class CleanMovesCalculatorTest
     {
         String moves = "b2b4 b8c6 d2d4 d7d6 c2c3";
         MovesGenerator.makeMoves(optimizedBoard, moves);
-        List<Move> moveList = CleanMoveCalculator.calculateAllMoveBestResponse(optimizedBoard, 4);
+        optimizedBoard.setPossibleMoves(null);
+        assert optimizedBoard.getPossibleMoves() == null;
+        Move bestMove = CleanMoveCalculator.calculate2(optimizedBoard, 5);
 
-        Move       move          = null;
-
-        assert moveList.size()>0;
+        for(Move move: optimizedBoard.getPossibleMoves())
+        {
+            System.out.printf("%5d:    ",move.moveScore());
+            System.out.println(move.moveWithBestResponse());
+        }
 
 
     }

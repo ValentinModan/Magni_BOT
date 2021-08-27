@@ -14,14 +14,12 @@ public class KingPossibleMoves
 {
     OptimizedBoard optimizedBoard;
 
-
     @BeforeEach
     public void setUp()
     {
         optimizedBoard = new OptimizedBoard();
         BoardSetup.setupBoard(optimizedBoard);
     }
-
 
     @Test
     public void oneMoveLeft()

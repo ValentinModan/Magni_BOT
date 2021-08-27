@@ -10,12 +10,6 @@ import java.util.*;
 
 public class MovesCalculator
 {
-    public static Move bestMoveOfAll;
-
-    public static Move getBestMove(OptimizedBoard optimizedBoard, int moves, int depth)
-    {
-        return null;
-    }
 
     public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
     {

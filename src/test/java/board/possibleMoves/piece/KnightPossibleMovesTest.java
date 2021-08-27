@@ -46,8 +46,6 @@ public class KnightPossibleMovesTest
     @Test
     public void twoOppositeColorKnightsCornerPossibleMoves()
     {
-
-
         Position whiteKnightPosition = new Position('a', 8);
         Position blackKnightPosition = new Position('h', 1);
 

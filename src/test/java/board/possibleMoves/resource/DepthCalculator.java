@@ -18,10 +18,10 @@ public class DepthCalculator
 
         int moves = 0;
         long start = System.nanoTime();
-        board.computePossibleMoves();
+       // board.computePossibleMoves();
         long elapsedTime = System.nanoTime() - start;
         seconds+=(double)elapsedTime / 1_000_000_000.0;
-        List<Move> moveList = board.getPossibleMoves();
+        List<Move> moveList = board.calculatePossibleMoves();
 
         for (Move move : moveList) {
             if (depth == 6) {

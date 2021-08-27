@@ -21,7 +21,7 @@ public class Move implements Comparable<Move>
     private boolean  isCastleMove    = false;
     private boolean  isAnPassant     = false;
     private boolean  isCheckMate;
-    private   Move bestResponse;
+    private Move     bestResponse;
 
     public Move(boolean isCheckMate)
     {
@@ -113,21 +113,16 @@ public class Move implements Comparable<Move>
         return score;
     }
 
-    private Integer moveScore = null;
+    private int moveScore = 0;
 
     public int moveScore()
     {
-        if(moveScore != null)
-        {
-            return  moveScore;
+        if (bestResponse != null) {
+            moveScore = GameOptions.updateMoveScore(this) - bestResponse.moveScore();
+            return moveScore;
         }
 
-        GameOptions.updateMoveScore(this);
-        if(moveScore==null)
-        {
-            moveScore = 0;
-        }
-        return moveScore;
+        return GameOptions.updateMoveScore(this);
     }
 
     public void setMoveScore(Integer moveScore)
@@ -202,6 +197,16 @@ public class Move implements Comparable<Move>
     public int hashCode()
     {
         return Objects.hash(initialPosition, finalPosition);
+    }
+
+    public String moveWithBestResponse()
+    {
+        if (bestResponse != null) {
+            return toString() + "[" + moveScore() + "] with best response:" + bestResponse.moveWithBestResponse();
+        }
+        else {
+            return toString() + "[" + moveScore() + "]";
+        }
     }
 
     @Override

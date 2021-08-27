@@ -78,9 +78,14 @@ public class GameOptions
         return 5;
     }
 
-    public static void updateMoveScore(Move move)
+    public static int updateMoveScore(Move move)
     {
+
         Piece movingPiece = move.getMovingPiece();
+        if(movingPiece==null)
+        {
+            return  move.getScore();
+        }
 
         int score = move.getScore() * 10;
         if (movingPiece.getPieceType() == PieceType.KING) {
@@ -91,6 +96,6 @@ public class GameOptions
             score += 1;
         }
 
-        move.setMoveScore(score);
+        return score;
     }
 }

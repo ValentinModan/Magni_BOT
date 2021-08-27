@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BishopPossibleMovesTest
 {
-
     OptimizedBoard optimizedBoard;
 
     Piece whiteBishop;
@@ -22,7 +21,6 @@ public class BishopPossibleMovesTest
     Piece secondWhiteBishop;
 
     BishopMoveCalculator bishopMoveCalculator = new BishopMoveCalculator();
-
 
     @BeforeEach
     private void setUp()

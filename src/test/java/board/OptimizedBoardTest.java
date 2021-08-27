@@ -73,14 +73,14 @@ class OptimizedBoardTest
     @Test
     void firstMove()
     {
-        OptimizedBoard board = new OptimizedBoard();
-        Position pawnPosition = new Position(2,2);
+        OptimizedBoard board        = new OptimizedBoard();
+        Position       pawnPosition = new Position(2, 2);
 
         board.addPiece(pawnPosition, new Pawn(true));
 
         PawnMoveCalculator pawnMoveCalculator = new PawnMoveCalculator();
 
-        int moves = pawnMoveCalculator.computeMoves(board,pawnPosition).size();
+        int moves = pawnMoveCalculator.computeMoves(board, pawnPosition).size();
 
         assertEquals(2, moves);
     }
@@ -116,6 +116,7 @@ class OptimizedBoardTest
         int result = DepthCalculator.possibleMoves(board, 3);
         assert result == 8902;
     }
+
     @Test
     void fourMovesTest()
     {
@@ -133,19 +134,20 @@ class OptimizedBoardTest
         OptimizedBoard optimizedBoard = new OptimizedBoard();
 
         BoardSetup.setupBoard(optimizedBoard);
-        int n=5;
+        int  n         = 5;
         long startTime = System.nanoTime();
-        for(int i=1;i<=n;i++) {
+        for (int i = 1; i <= n; i++) {
             int result = DepthCalculator.possibleMoves(optimizedBoard, 5);
         }
-        double elapsedTime=(double)(System.nanoTime() - startTime) / 1_000_000_000.0;
-        System.out.println(elapsedTime/n);
+        double elapsedTime = (double) (System.nanoTime() - startTime) / 1_000_000_000.0;
+        System.out.println(elapsedTime / n);
 
         //  assert result == 197742;
 
-       // assertEquals(4865609, result);
+        // assertEquals(4865609, result);
     }
 
+    // @Test
     void fiveeMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();
@@ -158,7 +160,7 @@ class OptimizedBoardTest
     }
 
 
-
+    @Test
     void sixMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();

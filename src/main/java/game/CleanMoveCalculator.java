@@ -35,7 +35,7 @@ public class CleanMoveCalculator
             move.setBestResponse(bestResponse);
             log.info("Precomputed moves for " + move + " score is " + move.moveScore());
             undoMove(optimizedBoard, move, isWhiteToMove);
-            updateMoveWithResponse(move, bestResponse);
+            move.moveScore();
 
 
             if (!GameBoard.waitingForOpponentMove()) {
@@ -59,9 +59,18 @@ public class CleanMoveCalculator
         else {
             currentDepth = depth;
         }
-        optimizedBoard.computePossibleMoves();
-        List<Move> moveList      = GameOptions.extractMoves(optimizedBoard.getPossibleMoves(), currentDepth);
-        boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
+        List<Move> moveList = null;
+        if (optimizedBoard.getPossibleMoves() == null) {
+            optimizedBoard.computePossibleMoves();
+            moveList = optimizedBoard.getPossibleMoves();
+        }
+        else {
+            moveList = optimizedBoard.calculatePossibleMoves();
+        }
+        //extract a portion of moves
+        moveList = GameOptions.extractMoves(moveList, currentDepth);
+
+        boolean isWhiteToMove = optimizedBoard.isWhiteToMove();
 
         //stalemate or checkmate
         if (moveList.size() == 0) {
@@ -94,8 +103,8 @@ public class CleanMoveCalculator
             }
             Move bestResponse = calculate2(optimizedBoard, currentDepth - 1 + depth_increase);
             undoMove(optimizedBoard, move, isWhiteToMove);
-            updateMoveWithResponse(move, bestResponse);
             move.setBestResponse(bestResponse);
+            move.moveScore();
             if (GameBoard.depth == currentDepth) {
                 log.info("Computed score for move:" + move + " " + "score is " + move.moveScore() + "(" + index + "/" + length + ")");
             }
@@ -103,10 +112,7 @@ public class CleanMoveCalculator
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    private static void updateMoveWithResponse(Move move, Move response)
-    {
-        move.setScore(move.getScore() - response.getScore());
-    }
+
 
     private static void makeMove(OptimizedBoard optimizedBoard, Move move)
     {
