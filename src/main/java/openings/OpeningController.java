@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public class OpeningController
 {
-
     Random random = new Random();
     public static List<Opening> openingList = new ArrayList<>();
 
@@ -15,7 +14,6 @@ public class OpeningController
     {
         for (String element : openingListString) {
             Opening opening = null;
-
             try {
                 opening = new Opening(element);
             } catch (Exception e) {

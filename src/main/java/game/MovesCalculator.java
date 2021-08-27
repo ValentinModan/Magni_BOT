@@ -31,7 +31,6 @@ public class MovesCalculator
                 if (scoreCalculator(optimizedBoard, move) > scoreCalculator(optimizedBoard, bestMove)) {
                     bestMove = move;
                 }
-
             }
             bestMove.setScore(scoreCalculator(optimizedBoard, bestMove));
             return bestMove;

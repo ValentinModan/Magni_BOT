@@ -4,7 +4,6 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import game.gameSetupOptions.GameOptions;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Semaphore;
 
-public class MultiThreadBoard
+public class AllPossibleMovesMultiThreaded
 {
     private static final int          THREAD_COUNT = 8;
     private static       List<Worker> workerList   = new ArrayList<>();
@@ -20,19 +19,18 @@ public class MultiThreadBoard
     private Semaphore allDone;
 
 
-    public Move compute(OptimizedBoard board) throws CloneNotSupportedException
+    public Move possibleMoves(OptimizedBoard board, int depth) throws CloneNotSupportedException
     {
         board.computePossibleMoves();
         if (firstTime) {
-            setup(board);
+            setup(board, depth);
         }
         allDone = new Semaphore(0);
         for (int i = 0; i < THREAD_COUNT; i++) {
             workerList.get(i).setOptimizedBoard((OptimizedBoard) board.clone());
+            workerList.get(i).setDepth(depth);
             workerList.get(i).run();
         }
-
-
         // Wait to finish (this strategy is an alternative to join())
         try {
             System.out.println("Waiting for threads to finish");
@@ -43,16 +41,13 @@ public class MultiThreadBoard
             // regular acquire() here
         } catch (InterruptedException ignored) {
         }
+        int sum = 0;
+       return workerList.stream().map(worker -> worker.bestMove).max(Comparator.comparing(Move::moveScore))
+                .orElseThrow(NoSuchElementException::new);
 
-        for (Worker worker : workerList) {
-            System.out.println("Best Move is " + worker.getBestMove());
-        }
-
-
-        return null;
     }
 
-    private void setup(OptimizedBoard board) throws CloneNotSupportedException
+    private void setup(OptimizedBoard board, int depth) throws CloneNotSupportedException
     {
         int workersNumber       = THREAD_COUNT;
         int possibleMovesLength = board.getPossibleMoves().size();
@@ -65,30 +60,57 @@ public class MultiThreadBoard
             if (i == workersNumber - 1) {
                 end = possibleMovesLength;
             }
-            Worker worker = new Worker((OptimizedBoard) board.clone(), start, end);
+            Worker worker = new Worker((OptimizedBoard) board.clone(), i, start, end, depth);
             workerList.add(worker);
-            worker.start();
+            // worker.start();
             firstTime = false;
         }
     }
 
     private class Worker extends Thread
     {
+        int threadNumber;
 
         int start, end;
+        int            depth;
         OptimizedBoard optimizedBoard;
-        Move bestMove;
 
-        public Worker(OptimizedBoard optimizedBoard, int start, int end)
+        Move bestMove;
+        int possibleMoves = 0;
+
+        public int getDepth()
         {
+            return depth;
+        }
+
+        public void setDepth(int depth)
+        {
+            this.depth = depth;
+        }
+
+        public Worker(OptimizedBoard optimizedBoard, int threadNumber, int start, int end, int depth)
+        {
+            this.threadNumber = threadNumber;
             this.optimizedBoard = optimizedBoard;
             this.start = start;
             this.end = end;
+            this.depth = depth;
+        }
+
+        public int getPossibleMoves()
+        {
+            return possibleMoves;
+        }
+
+        public void setPossibleMoves(int possibleMoves)
+        {
+            this.possibleMoves = possibleMoves;
         }
 
         public void run()
         {
-            bestMove = calculateAllMoveBestResponse(optimizedBoard, GameBoard.depth, start, end)
+            System.out.println("Thread_number_" + threadNumber + ": has started");
+            bestMove = calculateAllMoveBestResponse(optimizedBoard, depth, start, end)
                     .stream()
                     .max(Comparator.comparing(Move::getScore))
                     .orElseThrow(NoSuchElementException::new);
@@ -117,33 +139,29 @@ public class MultiThreadBoard
 
         public List<Move> calculateAllMoveBestResponse(OptimizedBoard optimizedBoard, int depth, int start, int end)
         {
-            System.out.println("Computing moves between " + start + " and " + (end-1));
+            System.out.println("Computing moves between " + start + " and " + (end - 1));
             boolean isWhiteToMove = optimizedBoard.isWhiteToMove();
             optimizedBoard.computePossibleMoves();
             List<Move> moveList   = new ArrayList<>(optimizedBoard.getPossibleMoves());
             List<Move> resultList = new ArrayList<>();
 
+
             for (int i = start; i < end; i++) {
                 Move move = moveList.get(i);
+                System.out.println("Thread " + threadNumber + " has move " + move);
                 makeMove(optimizedBoard, move);
-                Move bestResponse = calculate2(optimizedBoard, depth);
-                move.setBestResponse(bestResponse);
-                System.out.println("Precomputed moves for " + move + " score is " + move.moveScore());
+                Move bestResponse = calculate2(optimizedBoard, depth - 1);
+
                 undoMove(optimizedBoard, move, isWhiteToMove);
-                updateMoveWithResponse(move, bestResponse);
 
                 resultList.add(move);
-
-//                if (!GameBoard.waitingForOpponentMove()) {
-//                    // log.info("Precomputing stopped by actual move");
-//                    return resultList;
-//                }
             }
             return resultList;
         }
 
         public Move calculate2(OptimizedBoard optimizedBoard, int depth)
         {
+
             final int currentDepth;
             if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().getTakenPiece() != null) {
                 currentDepth = depth;
@@ -152,7 +170,7 @@ public class MultiThreadBoard
                 currentDepth = depth;
             }
             optimizedBoard.computePossibleMoves();
-            List<Move> moveList      = GameOptions.extractMoves(optimizedBoard.getPossibleMoves(), currentDepth);
+            List<Move> moveList      = optimizedBoard.getPossibleMoves();
             boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
 
             //stalemate or checkmate
@@ -167,7 +185,11 @@ public class MultiThreadBoard
                 return moveList.get(0);
             }
             if (currentDepth == 1) {
-                return moveList.stream().peek(move -> MoveUpdateHelper.moveUpdate(optimizedBoard, move))
+                return moveList.stream().peek(move -> {
+                                                  MoveUpdateHelper.moveUpdate(optimizedBoard, move);
+                                                  possibleMoves++;
+                                              }
+                )
                         .max(Comparator.comparing(Move::getScore))
                         .orElseThrow(NoSuchElementException::new);
             }
@@ -212,6 +234,8 @@ public class MultiThreadBoard
         {
             return moveList.size() == 1;
         }
-
     }
+
+
+
 }

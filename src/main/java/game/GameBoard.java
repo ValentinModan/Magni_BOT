@@ -20,10 +20,11 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH      = 4;
+    public static final int DEFAULT_DEPTH      = 6;
     public static       int depth              = DEFAULT_DEPTH;
-    public static final int MAX_DEPTH          = 6;
-    public static final int MAX_DEPTH_MID_GAME = 5;
+    public static final int MAX_DEPTH          = 8;
+    public static final int MAX_DEPTH_MID_GAME = 7;
+    public static boolean fastPacedMoves = true;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
@@ -118,13 +119,20 @@ public class GameBoard
         opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
     }
 
+    AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
     private void makeMyOwnMove(String gameId, String move)
     {
         newDepth();
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
+            //actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
+            try {
+                actualMove = allPossibleMovesMultiThreaded.possibleMoves(actualBoard,depth);
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());

@@ -76,6 +76,9 @@ game/GameBoard.java
  game.GameBoard
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
+game/AllPossibleMovesMultiThreaded.java
+ game.AllPossibleMovesMultiThreaded
+ game.AllPossibleMovesMultiThreaded$Worker
 board/moves/pieces/QueenMovement.java
  board.moves.pieces.QueenMovement
 Main.java

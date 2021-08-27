@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Semaphore;
 
-import static java.lang.Thread.sleep;
-
 public class AllPossibleMovesMultiThreaded
 {
     private static final int          THREAD_COUNT = 8;
@@ -25,7 +23,7 @@ public class AllPossibleMovesMultiThreaded
     private Semaphore allDone;
 
 
-    public int possibleMoves(OptimizedBoard board, int depth) throws CloneNotSupportedException
+    public Move possibleMoves(OptimizedBoard board, int depth) throws CloneNotSupportedException
     {
         board.computePossibleMoves();
         if (firstTime) {
@@ -37,8 +35,6 @@ public class AllPossibleMovesMultiThreaded
             workerList.get(i).setDepth(depth);
             workerList.get(i).run();
         }
-
-
         // Wait to finish (this strategy is an alternative to join())
         try {
             System.out.println("Waiting for threads to finish");
@@ -49,14 +45,9 @@ public class AllPossibleMovesMultiThreaded
             // regular acquire() here
         } catch (InterruptedException ignored) {
         }
-
         int sum = 0;
-        for (Worker worker : workerList) {
-
-            sum += worker.possibleMoves;
-        }
-
-        return sum;
+       return workerList.stream().map(worker -> worker.bestMove).max(Comparator.comparing(Move::moveScore))
+                .orElseThrow(NoSuchElementException::new);
 
     }
 
@@ -89,9 +80,7 @@ public class AllPossibleMovesMultiThreaded
         OptimizedBoard optimizedBoard;
 
         Move bestMove;
-
         int possibleMoves = 0;
-
 
         public int getDepth()
         {
@@ -111,7 +100,6 @@ public class AllPossibleMovesMultiThreaded
             this.end = end;
             this.depth = depth;
         }
-
 
         public int getPossibleMoves()
         {
@@ -259,9 +247,10 @@ public class AllPossibleMovesMultiThreaded
         OptimizedBoard optimizedBoard = new OptimizedBoard();
         BoardSetup.setupBoard(optimizedBoard);
 
-        // Assertions.assertEquals(20, possibleMoves(optimizedBoard, 1));
-        Assertions.assertEquals(400, possibleMoves(optimizedBoard, 2));
-      Assertions.assertEquals(8902, possibleMoves(optimizedBoard, 3));
+        //Assertions.assertEquals(20, possibleMoves(optimizedBoard, 1));
+        //Assertions.assertEquals(400, possibleMoves(optimizedBoard, 2));
+       // Assertions.assertEquals(8902, possibleMoves(optimizedBoard, 3));
+       // Assertions.assertEquals(197281, possibleMoves(optimizedBoard, 4));
 
     }
 

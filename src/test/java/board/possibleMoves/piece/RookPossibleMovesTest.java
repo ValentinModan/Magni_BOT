@@ -56,6 +56,7 @@ public class RookPossibleMovesTest
         Assertions.assertEquals(2, result);
     }
 
+
     @Test
     public void sameLineRooks()
     {

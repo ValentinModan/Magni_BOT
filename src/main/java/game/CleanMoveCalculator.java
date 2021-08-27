@@ -45,6 +45,10 @@ public class CleanMoveCalculator
             resultList.add(move);
 
         }
+
+        if (precalculate && resultList.size() > 0) {
+            resultList.remove(resultList.size() - 1);
+        }
         precalculate = false;
         return resultList;
     }
@@ -59,7 +63,7 @@ public class CleanMoveCalculator
         else {
             currentDepth = depth;
         }
-        List<Move> moveList = null;
+        List<Move> moveList;
         if (optimizedBoard.getPossibleMoves() == null) {
             optimizedBoard.computePossibleMoves();
             moveList = optimizedBoard.getPossibleMoves();
@@ -97,11 +101,7 @@ public class CleanMoveCalculator
             }
             optimizedBoard.setTurn(isWhiteToMove);
             makeMove(optimizedBoard, move);
-            int depth_increase = 0;
-            if (move.getTakenPiece() != null) {
-                depth_increase = 0;
-            }
-            Move bestResponse = calculate2(optimizedBoard, currentDepth - 1 + depth_increase);
+            Move bestResponse = calculate2(optimizedBoard, currentDepth - 1);
             undoMove(optimizedBoard, move, isWhiteToMove);
             move.setBestResponse(bestResponse);
             move.moveScore();
@@ -111,8 +111,6 @@ public class CleanMoveCalculator
         }).max(Comparator.comparing(Move::moveScore))
                 .orElseThrow(NoSuchElementException::new);
     }
-
-
 
     private static void makeMove(OptimizedBoard optimizedBoard, Move move)
     {
