@@ -72,13 +72,12 @@ PostRequests.java
  PostRequests
 board/pieces/Queen.java
  board.pieces.Queen
-game/GameBoard.java
- game.GameBoard
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
-game/AllPossibleMovesMultiThreaded.java
- game.AllPossibleMovesMultiThreaded
- game.AllPossibleMovesMultiThreaded$Worker
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
 board/moves/pieces/QueenMovement.java
  board.moves.pieces.QueenMovement
 Main.java
@@ -148,7 +147,8 @@ board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator$1
 board/pieces/PiecesScore.java
  board.pieces.PiecesScore
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+game/GameBoard.java
+ game.GameBoard
+game/AllPossibleMovesMultiThreaded.java
+ game.AllPossibleMovesMultiThreaded
+ game.AllPossibleMovesMultiThreaded$Worker

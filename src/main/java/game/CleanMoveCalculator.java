@@ -96,7 +96,7 @@ public class CleanMoveCalculator
         int length = moveList.size();
 
         return moveList.stream().peek(move -> {
-            if (precalculate) {
+            if (precalculate && !GameBoard.waitingForOpponentMove()) {
                 return;
             }
             optimizedBoard.setTurn(isWhiteToMove);

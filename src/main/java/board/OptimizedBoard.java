@@ -334,7 +334,7 @@ public class OptimizedBoard implements Cloneable
     {
         OptimizedBoard newBoard = (OptimizedBoard) super.clone();
 
-        newBoard.setWhiteToMove(isWhiteToMove);
+        newBoard.setWhiteToMove(Boolean.valueOf(isWhiteToMove));
         newBoard.setWhitePiecesMap(new HashMap<>(whitePiecesMap));
         newBoard.setBlackPiecesMap(new HashMap<>(blackPiecesMap));
         newBoard.setBlackKingPosition(blackKingPosition);

@@ -130,4 +130,9 @@ public class MateIn1
 
         assert bestMove.moveScore()>=4000;
     }
+    @Test
+    public void mate_in_1()
+    {
+        String x = "d2d4 c7c6 c2c4 d7d5 c4d5 c6d5 b2b4 c8f5 b1c3 e7e6 a2a3 d8b6 h2h4 a7a5 b4a5 a8a5 e2e3 g8f6 d1f3 b6b3 c3b1 f5b1 e3e4 b3c3 f3c3 b8c6 e4d5 f6d5 c3h3 c6d4 a1b1 f8a3 c1g5 a3b4 g5d2 d5f4 h3h2 f4d3 f1d3 b4d2 e1d2 e8h8 b1b7 f8d8 f2f3 g7g6 h2f4 d4f5 h4h5 a5a3 h5g6 h7g6 f4g4 d8d3 d2c1 a3a2 b7b8 g8g7 g4h3 g7f6 h3h2 f5e3 g1h3 d3d2 h1e1 d2c2 c1b1 e3d5 g2g4";
+    }
 }

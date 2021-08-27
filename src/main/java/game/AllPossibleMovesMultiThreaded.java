@@ -13,8 +13,9 @@ import java.util.concurrent.Semaphore;
 
 public class AllPossibleMovesMultiThreaded
 {
-    private static final int          THREAD_COUNT = 8;
-    private static       List<Worker> workerList   = new ArrayList<>();
+    private static final int    FINAL_THREAD_COUNT = 8;
+    private static  int          THREAD_COUNT = 8;
+    private static List<Worker> workerList;
     boolean firstTime = true;
     private Semaphore allDone;
 
@@ -22,15 +23,26 @@ public class AllPossibleMovesMultiThreaded
     public Move possibleMoves(OptimizedBoard board, int depth) throws CloneNotSupportedException
     {
         board.computePossibleMoves();
-        if (firstTime) {
+        if (true) {
+            THREAD_COUNT = Math.min(board.getPossibleMoves().size(),FINAL_THREAD_COUNT);
             setup(board, depth);
+            allDone = new Semaphore(0);
+            for (int i = 0; i < THREAD_COUNT; i++) {
+                workerList.get(i).setOptimizedBoard((OptimizedBoard) board.clone());
+                workerList.get(i).setDepth(depth);
+                workerList.get(i).start();
+            }
         }
-        allDone = new Semaphore(0);
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            workerList.get(i).setOptimizedBoard((OptimizedBoard) board.clone());
-            workerList.get(i).setDepth(depth);
-            workerList.get(i).run();
+        else
+        {
+            for (int i = 0; i < THREAD_COUNT; i++) {
+                workerList.get(i).setOptimizedBoard((OptimizedBoard) board.clone());
+                workerList.get(i).setDepth(depth);
+                workerList.get(i).run();
+            }
         }
+
+
         // Wait to finish (this strategy is an alternative to join())
         try {
             System.out.println("Waiting for threads to finish");
@@ -42,13 +54,14 @@ public class AllPossibleMovesMultiThreaded
         } catch (InterruptedException ignored) {
         }
         int sum = 0;
-       return workerList.stream().map(worker -> worker.bestMove).max(Comparator.comparing(Move::moveScore))
+        return workerList.stream().map(worker -> worker.bestMove).max(Comparator.comparing(Move::moveScore))
                 .orElseThrow(NoSuchElementException::new);
 
     }
 
     private void setup(OptimizedBoard board, int depth) throws CloneNotSupportedException
     {
+        workerList = new ArrayList<>();
         int workersNumber       = THREAD_COUNT;
         int possibleMovesLength = board.getPossibleMoves().size();
 
@@ -76,7 +89,7 @@ public class AllPossibleMovesMultiThreaded
         OptimizedBoard optimizedBoard;
 
         Move bestMove;
-        int possibleMoves = 0;
+        int  possibleMoves = 0;
 
         public int getDepth()
         {
@@ -107,8 +120,10 @@ public class AllPossibleMovesMultiThreaded
             this.possibleMoves = possibleMoves;
         }
 
+        @Override
         public void run()
         {
+            super.run();
             System.out.println("Thread_number_" + threadNumber + ": has started");
             bestMove = calculateAllMoveBestResponse(optimizedBoard, depth, start, end)
                     .stream()
@@ -150,8 +165,9 @@ public class AllPossibleMovesMultiThreaded
                 Move move = moveList.get(i);
                 System.out.println("Thread " + threadNumber + " has move " + move);
                 makeMove(optimizedBoard, move);
-                Move bestResponse = calculate2(optimizedBoard, depth - 1);
+                Move bestResponse = CleanMoveCalculator.calculate2(optimizedBoard, depth - 1);
 
+                move.setBestResponse(bestResponse);
                 undoMove(optimizedBoard, move, isWhiteToMove);
 
                 resultList.add(move);
@@ -235,7 +251,6 @@ public class AllPossibleMovesMultiThreaded
             return moveList.size() == 1;
         }
     }
-
 
 
 }

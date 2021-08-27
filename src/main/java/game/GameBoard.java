@@ -20,11 +20,10 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH      = 6;
+    public static final int DEFAULT_DEPTH      = 5;
     public static       int depth              = DEFAULT_DEPTH;
-    public static final int MAX_DEPTH          = 8;
-    public static final int MAX_DEPTH_MID_GAME = 7;
-    public static boolean fastPacedMoves = true;
+    public static final int MAX_DEPTH          = 5;
+    public static final int MAX_DEPTH_MID_GAME = 5;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
@@ -44,7 +43,9 @@ public class GameBoard
         if (LocalTime.now().isAfter(localTime.plusSeconds(10))) {
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             localTime = LocalTime.now();
-            return !getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
+            boolean isMyTurn = getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
+            System.out.println("Is my turn:" + isMyTurn);
+            return !isMyTurn;
         }
         return true;
     }
@@ -116,7 +117,8 @@ public class GameBoard
             }
             makeMyOwnMove(gameId, bestResponse);
         }
-        opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
+       // opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
+
     }
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
