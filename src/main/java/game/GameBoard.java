@@ -38,19 +38,19 @@ public class GameBoard
 
     private static LocalTime localTime = LocalTime.now();
 
-    public static boolean waitingForOpponentMove()
+    public static boolean isMyTurn()
     {
         if (LocalTime.now().isAfter(localTime.plusSeconds(10))) {
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             localTime = LocalTime.now();
             boolean isMyTurn = getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
             System.out.println("Is my turn:" + isMyTurn);
-            return !isMyTurn;
+            return isMyTurn;
         }
-        return true;
+        return false;
     }
 
-    public void startPlayerGame()
+    public void startPlayerGame() throws InterruptedException
     {
         ListYourChallenges listYourChallenges = new ListYourChallenges();
 
@@ -70,6 +70,7 @@ public class GameBoard
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
                 getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
+            sleep(2000);
             }
 
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);

@@ -9,7 +9,7 @@ public class AcceptChallenge implements RequestAPI
     private static final String CHALLENGE_ID= "{challengeId}";
     private static final String API = "https://lichess.org/api/challenge/{challengeId}/accept";
 
-    private String challengeID;
+    private final String challengeID;
 
     public AcceptChallenge(String challengeID)
     {

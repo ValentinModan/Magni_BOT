@@ -12,8 +12,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static game.GameBoard.getMyOwnGoingGames;
-
 @Slf4j
 public class CleanMoveCalculator
 {
@@ -38,7 +36,7 @@ public class CleanMoveCalculator
             move.moveScore();
 
 
-            if (!GameBoard.waitingForOpponentMove()) {
+            if (GameBoard.isMyTurn()) {
                 log.info("Precomputing stopped by actual move");
                 return resultList;
             }
@@ -96,7 +94,7 @@ public class CleanMoveCalculator
         int length = moveList.size();
 
         return moveList.stream().peek(move -> {
-            if (precalculate && !GameBoard.waitingForOpponentMove()) {
+            if (precalculate && GameBoard.isMyTurn()) {
                 return;
             }
             optimizedBoard.setTurn(isWhiteToMove);

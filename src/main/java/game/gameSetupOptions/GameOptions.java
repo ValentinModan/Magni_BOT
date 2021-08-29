@@ -48,6 +48,7 @@ public class GameOptions
 
     private static int movesFromDepth(int depth)
     {
+        //TODO:replace with pairs
         if(depth<=2)
         {
             return 100;

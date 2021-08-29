@@ -4,29 +4,16 @@ import java.util.Arrays;
 
 public class Opening
 {
-    private String moveName;
-    private String move;
+    private final String moveName;
+    private final String move;
 
     public static String movesUntilNow = "";
 
-    public Opening(String openingString) throws Exception
+    public Opening(String openingString)
     {
         String[] array = openingString.split(",");
         moveName = array[0];
         move = array[1];
-    }
-
-    private String extractNextMove(String firstMoves)
-    {
-        try {
-            if (movesUntilNow.equals("")) {
-                return move.split(" ")[0];
-            }
-            String nextMove = move.substring(movesUntilNow.length() + 1).split(" ")[0];
-            return nextMove;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public static void addMove(String move)

@@ -63,12 +63,12 @@ public class MateIn1
         Position fistBlackRookPosition   = new Position('a', 3);
         Position secondBlackRookPosition = new Position('b', 2);
         Position whiteKingPosition       = new Position('h', 1);
-        Position blacKingPosition        = new Position('a', 8);
+        Position blackKingPosition        = new Position('a', 8);
         optimizedBoard.setWhiteToMove(false);
         optimizedBoard.addPiece(fistBlackRookPosition, firstBlackRook);
         optimizedBoard.addPiece(secondBlackRookPosition, secondBlackRook);
         optimizedBoard.addPiece(whiteKingPosition, whiteKing);
-        optimizedBoard.addPiece(blacKingPosition, blackKing);
+        optimizedBoard.addPiece(blackKingPosition, blackKing);
 
         Move bestMove = CleanMoveCalculator.calculate2(optimizedBoard, 6);
 

@@ -77,9 +77,10 @@ public class AllPossibleMovesMultiThreaded
 
     private class Worker extends Thread
     {
-        int threadNumber;
+        final int threadNumber;
 
-        int start, end;
+        final int start;
+        final int end;
         int            depth;
         OptimizedBoard optimizedBoard;
 

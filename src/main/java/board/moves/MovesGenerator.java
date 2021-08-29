@@ -6,7 +6,6 @@ import static board.moves.MoveConvertor.stringToMove;
 
 public class MovesGenerator
 {
-
     //todo move generator to testing package
     public static void makeMoves(OptimizedBoard optimizedBoard, String moves)
     {

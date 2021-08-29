@@ -4,7 +4,6 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import game.gameSetupOptions.GameOptions;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +19,7 @@ public class MultiThreadBoard
     private Semaphore allDone;
 
 
-    public Move compute(OptimizedBoard board) throws CloneNotSupportedException
+    public void compute(OptimizedBoard board) throws CloneNotSupportedException
     {
         board.computePossibleMoves();
         if (firstTime) {
@@ -49,7 +48,6 @@ public class MultiThreadBoard
         }
 
 
-        return null;
     }
 
     private void setup(OptimizedBoard board) throws CloneNotSupportedException

@@ -11,7 +11,6 @@ public class OpeningReader
     {
         List<String> resultList = new ArrayList<>();
         try {
-            String expected_value = "Hello, world!";
             String file           = "src/main/resources/openings.txt";
 
             BufferedReader reader      = new BufferedReader(new FileReader(file));
