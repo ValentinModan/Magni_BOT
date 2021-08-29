@@ -5,17 +5,14 @@ import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import game.gameSetupOptions.GameOptions;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public class AllPossibleMovesMultiThreaded
 {
-    private static final int    FINAL_THREAD_COUNT = 8;
-    private static  int          THREAD_COUNT = 8;
-    private static List<Worker> workerList;
+    private static final int          FINAL_THREAD_COUNT = 8;
+    private static       int          THREAD_COUNT       = 8;
+    private static       List<Worker> workerList;
     boolean firstTime = true;
     private Semaphore allDone;
 
@@ -24,7 +21,7 @@ public class AllPossibleMovesMultiThreaded
     {
         board.computePossibleMoves();
         if (true) {
-            THREAD_COUNT = Math.min(board.getPossibleMoves().size(),FINAL_THREAD_COUNT);
+            THREAD_COUNT = Math.min(board.getPossibleMoves().size(), FINAL_THREAD_COUNT);
             setup(board, depth);
             allDone = new Semaphore(0);
             for (int i = 0; i < THREAD_COUNT; i++) {
@@ -33,8 +30,7 @@ public class AllPossibleMovesMultiThreaded
                 workerList.get(i).start();
             }
         }
-        else
-        {
+        else {
             for (int i = 0; i < THREAD_COUNT; i++) {
                 workerList.get(i).setOptimizedBoard((OptimizedBoard) board.clone());
                 workerList.get(i).setDepth(depth);
@@ -53,8 +49,7 @@ public class AllPossibleMovesMultiThreaded
             // regular acquire() here
         } catch (InterruptedException ignored) {
         }
-        int sum = 0;
-        return workerList.stream().map(worker -> worker.bestMove).max(Comparator.comparing(Move::moveScore))
+        return workerList.stream().map(worker -> worker.bestMove).filter(Objects::nonNull).max(Comparator.comparing(Move::moveScore))
                 .orElseThrow(NoSuchElementException::new);
 
     }
@@ -125,10 +120,15 @@ public class AllPossibleMovesMultiThreaded
         {
             super.run();
             System.out.println("Thread_number_" + threadNumber + ": has started");
-            bestMove = calculateAllMoveBestResponse(optimizedBoard, depth, start, end)
-                    .stream()
-                    .max(Comparator.comparing(Move::getScore))
-                    .orElseThrow(NoSuchElementException::new);
+            try {
+                bestMove = calculateAllMoveBestResponse(optimizedBoard, depth, start, end)
+                        .stream()
+                        .max(Comparator.comparing(Move::getScore))
+                        .orElseThrow(NoSuchElementException::new);
+            } catch (Exception e) {
+                System.out.println("Thread " + threadNumber + " raised an exception");
+                e.printStackTrace();
+            }
             allDone.release();
         }
 
