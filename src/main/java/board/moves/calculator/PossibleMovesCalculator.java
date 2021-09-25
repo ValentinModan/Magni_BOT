@@ -19,7 +19,6 @@ public class PossibleMovesCalculator
     public static List<Move> getPossibleMoves(OptimizedBoard board)
     {
         List<Move>     moveList      = new ArrayList<>();
-        Set<Position>  positionList  = board.getMovingPiecesMap().keySet();
         List<Position> positionList1 = new ArrayList<>(board.getMovingPiecesMap().keySet());
 
         Collections.shuffle(positionList1);
