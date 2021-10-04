@@ -9,6 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/board-api" />
+            <option value="$PROJECT_DIR$/game-board" />
           </set>
         </option>
       </GradleProjectSettings>

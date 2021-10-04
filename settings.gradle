@@ -1,2 +1,4 @@
 rootProject.name = 'Magni'
+include 'board-api'
+include 'game-board'
 
