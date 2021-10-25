@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class PossibleMovesCalculator
@@ -21,6 +20,7 @@ public class PossibleMovesCalculator
         List<Move>     moveList      = new ArrayList<>();
         List<Position> positionList1 = new ArrayList<>(board.getMovingPiecesMap().keySet());
 
+        //TODO: check if this is actual used because it takes a lot of time
         Collections.shuffle(positionList1);
 
         positionList1.forEach(position -> {
@@ -46,7 +46,7 @@ public class PossibleMovesCalculator
             return Collections.emptyList();
             //todo remove this
         }
-        PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.getCalculator(currentPiece);
+        PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.generatePieceCalculatorStrategy(currentPiece.getPieceType());
 
         //TODO: current piece can also be passed as a parameter
         return pieceMoveCalculator.computeMoves(board, position);

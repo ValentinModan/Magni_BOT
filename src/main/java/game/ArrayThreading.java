@@ -92,11 +92,11 @@ class ArrayThreading {
      $ java -Xmx500m ArrayThreading 100000000 ## specify 500M memory -- fine
      len:100000000 sum:450000000 workers:10
      ***/
-    public static void main(String[] args) {
-        // command line argument: array_length
-        int len = Integer.parseInt("10000000");
-
-        ArrayThreading at = new ArrayThreading(len);
-        at.runParallel();
-    }
+//    public static void main(String[] args) {
+//        // command line argument: array_length
+//        int len = Integer.parseInt("10000000");
+//
+//        ArrayThreading at = new ArrayThreading(len);
+//        at.runParallel();
+//    }
 }

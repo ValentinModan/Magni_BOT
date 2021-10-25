@@ -10,6 +10,7 @@ import board.pieces.PieceType;
 
 import java.util.List;
 
+//Makes sure not to make illegal move
 public class KingAttackedStrategy implements AttackedStrategy
 {
     private static final List<Movement> kingAttackedStrategy = MovementCalculator.getPossibleMoves(EmptyPiece.KING);

@@ -42,6 +42,7 @@ public class MoveController
     {
         MoveUpdateHelper.moveUpdate(board, move);
 
+        //TODO: make strategy for move type
         if (move.isCastleMove()) {
             castleMove(board, move);
         }
@@ -78,6 +79,7 @@ public class MoveController
         board.getTakenPiecesMap().remove(move.getFinalPosition());
     }
 
+
     private void anPassant(OptimizedBoard optimizedBoard, Move move)
     {
         //add pawn to new position
@@ -90,6 +92,7 @@ public class MoveController
         optimizedBoard.getMovingPiecesMap().remove(move.getInitialPosition());
     }
 
+    //TODO: add actual method to move piece (put and remove)
 
     private void castleMove(OptimizedBoard board, Move move)
     {

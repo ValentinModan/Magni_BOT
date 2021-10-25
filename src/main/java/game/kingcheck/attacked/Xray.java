@@ -14,6 +14,7 @@ public class Xray
 {
 
     //up, down, left, right and diagonal
+    //TODO: remove unused parameter
     public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing, PieceType pieceType)
     {
         do {
@@ -62,6 +63,7 @@ public class Xray
         }
     }
 
+    //todo: move this to Piece class instead
     private static boolean isOppositePiece(Piece piece, boolean isWhitePiece)
     {
         if (piece != null && isWhitePiece != piece.isWhite()) {

@@ -44,6 +44,7 @@ public class MoveUpdateHelper
         Piece takenPiece = move.getTakenPiece();
         if (takenPiece != null && takenPiece.getPieceType() == PieceType.KING) {
             move.setCheckMate(true);
+            //TODO: what?
             move.setScore(666);
         }
     }

@@ -34,6 +34,7 @@ public class OptimizedBoard implements Cloneable
 
     Position blackKingPosition;
 
+    //TODO: put singleton here
     public King getKing()
     {
         Piece piece = getPiece(getKingPosition(isWhiteToMove));
@@ -104,6 +105,7 @@ public class OptimizedBoard implements Cloneable
     }
 
 
+    //TODO: this can be done with a strategy instead
     public void updateKingPosition(Position position)
     {
         if (isWhiteToMove) {
@@ -141,17 +143,17 @@ public class OptimizedBoard implements Cloneable
 
     public void addPiece(Position position, Piece piece)
     {
-        if (piece.isWhite()) {
-            if (piece.getPieceType() == PieceType.KING) {
+        Map<Position, Piece> pieceMap = piece.isWhite() ? whitePiecesMap : blackPiecesMap;
+
+        pieceMap.put(position, piece);
+
+        if (piece.getPieceType() == PieceType.KING) {
+            if (piece.isWhite()) {
                 whiteKingPosition = position;
             }
-            whitePiecesMap.put(position, piece);
-        }
-        else {
-            if (piece.getPieceType() == PieceType.KING) {
+            else {
                 blackKingPosition = position;
             }
-            blackPiecesMap.put(position, piece);
         }
     }
 
@@ -163,12 +165,12 @@ public class OptimizedBoard implements Cloneable
         return blackPiecesMap.get(position);
     }
 
-    public static double result = 0;
-
+    //one of these must be removed
     public List<Move> calculatePossibleMoves()
     {
         return PossibleMovesCalculator.getPossibleMoves(this)
-                .stream().filter(move -> {
+                .stream()
+                .filter(move -> {     //filter moves after which the king is attacked
                     move(move);
                     int attackers = KingSafety.getNumberOfAttackers(this);
                     undoMove(move);
@@ -194,15 +196,10 @@ public class OptimizedBoard implements Cloneable
         return getMovingPiecesMap().get(position);
     }
 
-    //TODO: rename method name
+    //TODO: rename methods name
     public Map<Position, Piece> getMovingPiecesMap()
     {
         return isWhiteToMove ? whitePiecesMap : blackPiecesMap;
-    }
-
-    public Piece getTakenPiece(Position position)
-    {
-        return getTakenPiecesMap().get(position);
     }
 
     public Map<Position, Piece> getTakenPiecesMap()
@@ -210,6 +207,7 @@ public class OptimizedBoard implements Cloneable
         return isWhiteToMove ? blackPiecesMap : whitePiecesMap;
     }
 
+    //replace with enum?
     public boolean isWhiteToMove()
     {
         return isWhiteToMove;
@@ -264,21 +262,6 @@ public class OptimizedBoard implements Cloneable
         return whitePiecesMap;
     }
 
-    public Map<Position, Piece> getBlackPiecesMap()
-    {
-        return blackPiecesMap;
-    }
-
-    public MoveController getMoveController()
-    {
-        return moveController;
-    }
-
-    public static String getEmptyPosition()
-    {
-        return EMPTY_POSITION;
-    }
-
     public List<Move> getAllMoves()
     {
         return allMoves;
@@ -294,10 +277,6 @@ public class OptimizedBoard implements Cloneable
         return actualMoves;
     }
 
-    public static void setActualMoves(List<Move> actualMoves)
-    {
-        OptimizedBoard.actualMoves = actualMoves;
-    }
 
     public Position getWhiteKingPosition()
     {

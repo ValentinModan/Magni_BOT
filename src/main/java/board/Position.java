@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class Position
 {
-
     private final char column;
     private final int  row;
 

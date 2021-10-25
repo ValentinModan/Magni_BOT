@@ -19,6 +19,7 @@ api/TestingClass.java
  api.TestingClass
 board/moves/calculator/PieceMoveStrategy.java
  board.moves.calculator.PieceMoveStrategy
+ board.moves.calculator.PieceMoveStrategy$1
 game/kingcheck/attacked/KingSafety.java
  game.kingcheck.attacked.KingSafety
 board/moves/pieces/KnightMovement.java
@@ -52,6 +53,8 @@ board/pieces/Pawn.java
  board.pieces.Pawn
 api/challenges/Challenge.java
  api.challenges.Challenge
+mapmovement/MovementMap.java
+ mapmovement.MovementMap
 api/bot/MakeABotMove.java
  api.bot.MakeABotMove
 game/kingcheck/attacked/Xray.java

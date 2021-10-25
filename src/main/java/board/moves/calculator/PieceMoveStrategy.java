@@ -4,39 +4,26 @@ import board.moves.calculator.pieces.*;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
-public class PieceMoveStrategy {
-
-
-    public static PieceMoveCalculator getCalculator(Piece piece)
+public class PieceMoveStrategy
+{
+    public static PieceMoveCalculator generatePieceCalculatorStrategy(PieceType pieceType)
     {
-        if(piece ==null)
+        switch (pieceType)
         {
-            return null;
+            case KING:
+                return new KingMoveCalculator();
+            case QUEEN:
+                return new QueenMoveCalculator();
+            case ROOK:
+                return new RookMoveCalculator();
+            case BISHOP:
+                return new BishopMoveCalculator();
+            case KNIGHT:
+                return new KnightMoveCalculator();
+            case PAWN:
+                return new PawnMoveCalculator();
+            default:
+                return null;
         }
-        if(piece.getPieceType() == PieceType.KING)
-        {
-            return new KingMoveCalculator();
-        }
-        if(piece.getPieceType() == PieceType.QUEEN)
-        {
-            return new QueenMoveCalculator();
-        }
-        if(piece.getPieceType() == PieceType.ROOK)
-        {
-            return new RookMoveCalculator();
-        }
-        if(piece.getPieceType() == PieceType.BISHOP)
-        {
-            return new BishopMoveCalculator();
-        }
-        if(piece.getPieceType() == PieceType.KNIGHT)
-        {
-            return new KnightMoveCalculator();
-        }
-        if(piece.getPieceType() == PieceType.PAWN)
-        {
-            return new PawnMoveCalculator();
-        }
-        return null;
     }
 }

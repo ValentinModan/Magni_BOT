@@ -1,5 +1,6 @@
 package board.moves;
 
+//TODO: maybe separate  the knights movements
 public enum Movement
 {
     UP(0, 1),
@@ -44,7 +45,7 @@ public enum Movement
 
     public static Movement upTwo(boolean isWhite)
     {
-        return isWhite? UP_TWO : DOWN_TWO;
+        return isWhite ? UP_TWO : DOWN_TWO;
     }
 
     //used for en passant

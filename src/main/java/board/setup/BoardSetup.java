@@ -4,6 +4,7 @@ import board.OptimizedBoard;
 import board.Position;
 import board.pieces.*;
 
+//TODO: replace positions with enums (not worth the time)
 public class BoardSetup {
 
     private static final boolean WHITE = true;

@@ -28,14 +28,12 @@ public class OpeningController
     public String generateMove()
     {
         int length = openingList.size();
-
         if (length == 0) {
             return null;
         }
+        int randomMovePosition = random.nextInt(length);
 
-        int position = random.nextInt(length);
-
-        return openingList.get(position).getNextMove();
+        return openingList.get(randomMovePosition).getNextMove();
     }
 
     public String nextMove()
@@ -49,27 +47,10 @@ public class OpeningController
 
     public void filterWithMove(String move)
     {
-        openingList = openingList.stream().filter(opening -> {
-            return opening.isThisOpening(move) &&
-                    opening.hasContinuation();
-        }).collect(Collectors.toList());
+        openingList = openingList.stream().filter(opening ->
+             opening.isThisOpening(move) &&
+                    opening.hasContinuation()
+        ).collect(Collectors.toList());
         Opening.addMove(move);
-    }
-
-    public static List<Opening> getOpeningList()
-    {
-        return openingList;
-    }
-
-    public void addMove(String move)
-    {
-        Opening.addMove(move);
-    }
-
-    public static void displayOpenings()
-    {
-        for (Opening opening : openingList) {
-            System.out.println(opening);
-        }
     }
 }

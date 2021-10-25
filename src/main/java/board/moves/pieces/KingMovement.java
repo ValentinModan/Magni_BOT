@@ -19,7 +19,6 @@ public class KingMovement implements PieceMovement {
             Movement.UP_RIGHT,
             Movement.UP));
 
-
     @Override
     public List<Movement> getMovements(Piece piece) {
         return kingPieceMovement;

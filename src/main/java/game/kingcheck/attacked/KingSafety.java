@@ -26,6 +26,7 @@ public class KingSafety
                 numberOfAttackers++;
             }
             // You can not be attacked by more than two pieces
+            //todo: verify if it matters the number of attackers
             if (numberOfAttackers > 1) {
                 return numberOfAttackers;
             }

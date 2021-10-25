@@ -49,7 +49,6 @@ public class Opening
     private boolean isThisOpeningFromMoves(String moves)
     {
         return secondIsThisOpeningFromMoves(moves);
-        // return move.startsWith(moves);
     }
 
     private boolean secondIsThisOpeningFromMoves(String moves)
