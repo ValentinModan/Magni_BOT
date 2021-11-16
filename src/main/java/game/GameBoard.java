@@ -30,6 +30,8 @@ public class GameBoard
     OptimizedBoard    actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
 
+    public static OptimizedBoard currentBoard;
+
     public GameBoard()
     {
         actualBoard = new OptimizedBoard();

@@ -115,6 +115,7 @@ public class Move implements Comparable<Move>
 
     private int moveScore = 0;
 
+    //score  including the best response and so on
     public int moveScore()
     {
         if (bestResponse != null) {
@@ -160,7 +161,7 @@ public class Move implements Comparable<Move>
         return bestResponse;
     }
 
-    public void setBestResponse(Move bestResponse)
+    public synchronized void setBestResponse(Move bestResponse)
     {
         this.bestResponse = bestResponse;
     }
