@@ -47,6 +47,9 @@ board/setup/BoardSetup.java
  board.setup.BoardSetup
 board/pieces/Bishop.java
  board.pieces.Bishop
+game/multithreadedmap/MultiThreadedCalculator.java
+ game.multithreadedmap.MultiThreadedCalculator
+ game.multithreadedmap.MultiThreadedCalculator$Worker
 api/json/challenge/AcceptChallenge.java
  api.json.challenge.AcceptChallenge
 board/pieces/Pawn.java

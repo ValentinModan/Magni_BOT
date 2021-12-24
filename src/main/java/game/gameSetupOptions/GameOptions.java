@@ -11,6 +11,7 @@ import java.util.List;
 public class GameOptions
 {
     public static final int CHECK_MATE_SCORE = -1000;
+    //TODO: RETHINK STALEMATE SCORE SYSTEM
     public static final int STALE_MATE_SCORE = 0;
 
     public static final int MINIMUM_MOVES = 10;

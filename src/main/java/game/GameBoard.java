@@ -10,6 +10,7 @@ import board.OptimizedBoard;
 import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
+import game.multithreadedmap.MultiThreadedCalculator;
 import openings.OpeningController;
 import openings.OpeningReader;
 
@@ -20,17 +21,16 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH      = 6;
+    public static final int DEFAULT_DEPTH      = 4;
     public static       int depth              = DEFAULT_DEPTH;
     public static final int MAX_DEPTH          = 6;
     public static final int MAX_DEPTH_MID_GAME = 6;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
-    OptimizedBoard    actualBoard;
+    public static OptimizedBoard    actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
 
-    public static OptimizedBoard currentBoard;
 
     public GameBoard()
     {
@@ -124,18 +124,19 @@ public class GameBoard
     }
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
+    MultiThreadedCalculator multiThreadedCalculator = new MultiThreadedCalculator();
     private void makeMyOwnMove(String gameId, String move)
     {
         newDepth();
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            //actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
-            try {
-                actualMove = allPossibleMovesMultiThreaded.possibleMoves(actualBoard,depth);
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
+//            try {
+//                actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
         }
 

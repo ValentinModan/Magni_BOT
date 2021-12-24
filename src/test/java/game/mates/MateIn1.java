@@ -93,7 +93,7 @@ public class MateIn1
 
         Move bestMove = CleanMoveCalculator.calculate2(optimizedBoard,2);
 
-        Assertions.assertTrue(bestMove.moveScore()>3000);
+        Assertions.assertTrue(bestMove.moveScore()>900);
     }
 
     @Test

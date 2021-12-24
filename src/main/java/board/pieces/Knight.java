@@ -2,7 +2,7 @@ package board.pieces;
 
 public class Knight extends Piece
 {
-
+    private final int KNIGHT_SCORE = 3;
 
     public Knight(boolean isWhite)
     {
@@ -19,7 +19,7 @@ public class Knight extends Piece
     @Override
     public int getScore()
     {
-        return 3;
+        return KNIGHT_SCORE;
     }
 
     @Override

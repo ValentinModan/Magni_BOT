@@ -5,10 +5,10 @@ import board.moves.Move;
 import game.GameBoard;
 
 import java.util.Map;
-import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,9 +18,9 @@ public class MovementMap
     private final Map<Move, MovementMap> movementMap;
 
     //a queue from which the threads should take the moves
-    private static Queue<MovementMap> movementMapQueue = new SynchronousQueue<>();
+    public static BlockingQueue<MovementMap> movementMapQueue = new LinkedBlockingQueue<>(1000000);
 
-    private static MovementMap currentMoveFromTheGame;
+    public static MovementMap currentMoveFromTheGame;
 
     //the move before
     private MovementMap parent = null;
@@ -33,44 +33,56 @@ public class MovementMap
 
     private AtomicBoolean isMovePossibleForCurrentGame = new AtomicBoolean(true);
 
-    private Move currentBestResponse = null;
-
+    //TODO: Verify if the constructor could be made private
     public MovementMap(MovementMap parent, Move currentMove)
     {
-        this(parent,currentMove,new ConcurrentHashMap<>());
+        this(parent, currentMove, new ConcurrentHashMap<>());
     }
 
-    public MovementMap(MovementMap parent, Move currentMove, Map<Move,MovementMap> movementMap)
+    public MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
     {
         this.parent = parent;
         this.currentMove = currentMove;
         this.movementMap = movementMap;
+        score = new AtomicInteger(currentMove.moveScore());
+
+        if (currentMoveFromTheGame == null) {
+            currentMoveFromTheGame = this;
+
+        }
     }
 
     //to reduce memory compute the moves since it will only take a few moves
     public synchronized OptimizedBoard getBoardForCurrentPosition() throws CloneNotSupportedException
     {
-        Stack<Move> moveStack = new Stack<>();
+        Stack<Move> moveStack   = new Stack<>();
         MovementMap movementMap = this;
-        while(movementMap!=null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove))
-        {
+        while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
             moveStack.add(currentMove);
-            movementMap = parent;
+            System.out.println("Stack size is " + moveStack.size() + " " + currentMove);
+            movementMap = movementMap.getParent();
 
         }
-        OptimizedBoard optimizedBoard = (OptimizedBoard) GameBoard.currentBoard.clone();
-        while(!moveStack.isEmpty())
-        {
+        OptimizedBoard optimizedBoard = (OptimizedBoard) GameBoard.actualBoard.clone();
+        while (!moveStack.isEmpty()) {
             optimizedBoard.move(moveStack.pop());
         }
         return optimizedBoard;
+    }
+
+    public synchronized void addResponse(Move move) throws InterruptedException
+    {
+        MovementMap newMovementMap = new MovementMap(this, move);
+        movementMap.put(move, newMovementMap);
+        movementMapQueue.put(newMovementMap);
+        updateScore(move);
     }
 
     //update sent from the child to the parent that we found a new best response
     protected synchronized void updateScore(Move move)
     {
         //TODO: check if it should be maximum or minimum
-        if (score.get() < currentMove.getScore() - move.moveScore()) {
+        if (score.get() <= currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
 
             currentMove.setBestResponse(move);
             score.set(currentMove.getScore() - move.moveScore());
@@ -89,7 +101,7 @@ public class MovementMap
             isCurrentMovePossible.set(false);
         }
         else if (parent == null) {
-            isCurrentMovePossible.set(false);
+            isCurrentMovePossible.set(true);
         }
         else {
             isCurrentMovePossible.set(parent.isCurrentMovePossible());
@@ -100,9 +112,9 @@ public class MovementMap
     }
 
     //make a current move in the game which updates the whole map
-    protected synchronized static void makeMovement(Move chosenMove)
+    public synchronized static void makeMovement(Move chosenMove)
     {
-        Map<Move,MovementMap> movementMap = currentMoveFromTheGame.getMovementMap();
+        Map<Move, MovementMap> movementMap = currentMoveFromTheGame.getMovementMap();
         for (Move move : movementMap.keySet()) {
             //all other moves except the one that is made become impossible to reach
             if (!chosenMove.equals(move)) {
@@ -113,8 +125,47 @@ public class MovementMap
         currentMoveFromTheGame = movementMap.get(chosenMove);
     }
 
+    public synchronized int getCurrentDepth()
+    {
+        MovementMap movementMap = this;
+        int         depthCount  = 0;
+
+        while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+            depthCount++;
+            movementMap = parent;
+
+        }
+        return depthCount;
+    }
+
+    public Move getCurrentMove()
+    {
+        return currentMove;
+    }
+
+    public void setCurrentMove(Move currentMove)
+    {
+        this.currentMove = currentMove;
+    }
+
+    public MovementMap getParent()
+    {
+        return parent;
+    }
+
     public Map<Move, MovementMap> getMovementMap()
     {
         return movementMap;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MovementMap{" +
+                "currentMove=" + currentMove +
+                ", score=" + score +
+                ", isMovePossibleForCurrentGame=" + isMovePossibleForCurrentGame +
+                ", parent=" + parent +
+                '}';
     }
 }

@@ -160,7 +160,7 @@ class OptimizedBoardTest
     }
 
 
-    @Test
+   // @Test
     void sixMovesTest()
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();

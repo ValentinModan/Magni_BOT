@@ -16,6 +16,10 @@ import static board.moves.Movement.UP_TWO;
 
 public class PawnMoveCalculator extends PieceMoveCalculator
 {
+    private final int SECOND_ROW_WHITE = 2;
+    private final int SECOND_ROW_BLACK = 7;
+    private final int FINAL_ROW_WHITE = 8;
+    private final int FINAL_ROW_BLACK = 1;
 
     @Override
     public List<Move> computeMoves(OptimizedBoard board, Position position)
@@ -115,19 +119,19 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 
     private boolean canDoubleJump(Pawn pawn, Position position)
     {
-        if (pawn.isWhite() && position.getRow() == 2) {
+        if (pawn.isWhite() && position.getRow() == SECOND_ROW_WHITE) {
             return true;
         }
-        return !pawn.isWhite() && position.getRow() == 7;
+        return !pawn.isWhite() && position.getRow() == SECOND_ROW_BLACK;
     }
 
     private boolean isPawnPromotion(Pawn Pawn, Position position)
     {
-        if (Pawn.isWhite() && position.getRow() == 8) {
+        if (Pawn.isWhite() && position.getRow() == FINAL_ROW_WHITE) {
             return true;
         }
 
-        return !Pawn.isWhite() && position.getRow() == 1;
+        return !Pawn.isWhite() && position.getRow() == FINAL_ROW_BLACK;
     }
 
     private List<Move> allPromotions(Position initialPosition, Position destinationPosition, boolean isWhite)

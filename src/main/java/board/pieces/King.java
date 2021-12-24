@@ -2,6 +2,8 @@ package board.pieces;
 
 public class King extends Piece {
 
+    private final int KING_SCORE = 100;
+
     public King(boolean isWhite) {
         super(isWhite);
     }
@@ -26,7 +28,7 @@ public class King extends Piece {
     @Override
     public int getScore()
     {
-        return 100;
+        return KING_SCORE;
     }
 
     @Override

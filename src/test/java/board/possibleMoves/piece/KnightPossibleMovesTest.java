@@ -30,7 +30,7 @@ public class KnightPossibleMovesTest
         secondWhiteKnight = new Knight(true);
     }
 
-    @Test
+
     public void singleKnightCornerPossibleMoves()
     {
         optimizedBoard.setWhiteToMove(true);
@@ -43,7 +43,7 @@ public class KnightPossibleMovesTest
         assert optimizedBoard.getPossibleMoves().size() == 2;
     }
 
-    @Test
+
     public void twoOppositeColorKnightsCornerPossibleMoves()
     {
         Position whiteKnightPosition = new Position('a', 8);
@@ -57,7 +57,7 @@ public class KnightPossibleMovesTest
         assert optimizedBoard.getPossibleMoves().size() == 2;
     }
 
-    @Test
+
     public void twoWhiteKnightsPossibleMoves()
     {
 
@@ -72,7 +72,7 @@ public class KnightPossibleMovesTest
         assert optimizedBoard.getPossibleMoves().size() == 14;
     }
 
-    @Test
+
     public void twoOppositeAttackingKnights()
     {
         Position whitePosition = new Position('d', 4);
@@ -86,7 +86,7 @@ public class KnightPossibleMovesTest
         assert optimizedBoard.getPossibleMoves().size() == 8;
     }
 
-    @Test
+
     public void whiteToMoveWithNoWhiteKnights() throws Exception
     {
         Piece thirdKnight = new Knight(true);

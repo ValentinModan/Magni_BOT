@@ -1,11 +1,13 @@
 package board.pieces;
 
 public class Rook extends Piece {
+    private boolean hasMoved = false;
+
+    private final int ROOK_SCORE = 5;
+
     public Rook(boolean isWhite) {
         super(isWhite);
     }
-
-    private boolean hasMoved = false;
 
 
     public boolean isHasMoved()
@@ -21,7 +23,7 @@ public class Rook extends Piece {
     @Override
     public int getScore()
     {
-        return 5;
+        return ROOK_SCORE;
     }
 
     @Override

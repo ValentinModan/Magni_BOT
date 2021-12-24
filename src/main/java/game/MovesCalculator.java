@@ -23,7 +23,7 @@ public class MovesCalculator
         }
         Collections.sort(moveList);
         if (depth == 1) {
-            if (moveList.size() == 0) {
+            if (moveList.isEmpty()) {
                 return new Move(true);
             }
             Move bestMove = moveList.get(0);

@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MultiThreadBoardTest
 {
 
-    @Test
     void compute() throws CloneNotSupportedException
     {
         OptimizedBoard optimizedBoard = new OptimizedBoard();

@@ -2,6 +2,8 @@ package board.pieces;
 
 public class Pawn extends Piece {
 
+    private final int PAWN_SCORE = 1;
+
     private boolean hasMoved = false;
 
     public Pawn()
@@ -26,7 +28,7 @@ public class Pawn extends Piece {
     @Override
     public int getScore()
     {
-        return 1;
+        return PAWN_SCORE;
     }
 
     @Override
