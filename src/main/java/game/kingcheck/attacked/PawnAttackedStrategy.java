@@ -4,26 +4,26 @@ import board.OptimizedBoard;
 import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.PawnMovement;
+import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
 import java.util.List;
 
-public class PawnAttackedStrategy implements AttackedStrategy {
-
+public class PawnAttackedStrategy implements AttackedStrategy
+{
     @Override
-    public boolean isAttackingTheKing(OptimizedBoard board) {
-        boolean isWhiteKing = board.isWhiteToMove();
-
-        Position kingPosition = board.getKingPosition();
-
-        List<Movement> movementList = PawnMovement.attackMovements(isWhiteKing);
+    public boolean isAttackingTheKing(OptimizedBoard board)
+    {
+        Position       kingPosition = board.getKingPosition();
+        King           king         = (King) board.getPiece(kingPosition);
+        List<Movement> movementList = PawnMovement.attackMovements(board.isWhiteToMove());
 
         for (Movement movement : movementList) {
             Piece possibleAttackingPiece = board.getTakenPiecesMap().get(kingPosition.move(movement));
             if (possibleAttackingPiece != null &&
                     possibleAttackingPiece.getPieceType() == PieceType.PAWN &&
-                    possibleAttackingPiece.isWhite() != isWhiteKing) {
+                    possibleAttackingPiece.isOpponentOf(king)) {
                 return true;
             }
         }

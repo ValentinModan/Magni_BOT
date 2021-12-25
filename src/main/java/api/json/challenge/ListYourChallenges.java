@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 
 import java.util.List;
 
+//todo: rename this class
 public class ListYourChallenges implements RequestAPI
 {
     public static final String API = "https://lichess.org/api/challenge";

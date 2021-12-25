@@ -19,8 +19,9 @@ public class GameOptions
 
     public static Move checkMate(int depth)
     {
-        return new Move(CHECK_MATE_SCORE*depth);
+        return new Move(CHECK_MATE_SCORE * depth);
     }
+
     public static Move checkMate()
     {
         return new Move(CHECK_MATE_SCORE);
@@ -50,8 +51,7 @@ public class GameOptions
     private static int movesFromDepth(int depth)
     {
         //TODO:replace with pairs
-        if(depth<=2)
-        {
+        if (depth <= 2) {
             return 100;
         }
         if (depth <= 4) {
@@ -84,9 +84,8 @@ public class GameOptions
     {
 
         Piece movingPiece = move.getMovingPiece();
-        if(movingPiece==null)
-        {
-            return  move.getScore();
+        if (movingPiece == null) {
+            return move.getScore();
         }
 
         int score = move.getScore() * 10;

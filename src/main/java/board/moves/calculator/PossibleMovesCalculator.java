@@ -20,7 +20,7 @@ public class PossibleMovesCalculator
         List<Move>     moveList      = new ArrayList<>();
         List<Position> positionList1 = new ArrayList<>(board.getMovingPiecesMap().keySet());
 
-        //TODO: check if this is actual used because it takes a lot of time
+        //TODO: check if this is actually used because it takes a lot of time
         Collections.shuffle(positionList1);
 
         positionList1.forEach(position -> {

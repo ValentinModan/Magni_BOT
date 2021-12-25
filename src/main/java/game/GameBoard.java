@@ -21,16 +21,14 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH      = 4;
-    public static       int depth              = DEFAULT_DEPTH;
-    public static final int MAX_DEPTH          = 6;
-    public static final int MAX_DEPTH_MID_GAME = 6;
+    public static final int DEFAULT_DEPTH = 4;
+    public static       int depth         = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
-    public static OptimizedBoard    actualBoard;
+    public static OptimizedBoard actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
-
+    private List<Move> opponentResponse = null;
 
     public GameBoard()
     {
@@ -38,27 +36,20 @@ public class GameBoard
         BoardSetup.setupBoard(actualBoard);
     }
 
-    private static LocalTime localTime = LocalTime.now();
-
     public static boolean isMyTurn()
     {
-        if (LocalTime.now().isAfter(localTime.plusSeconds(10))) {
+        if (GameBoardHelper.hasRequestTimeoutPassed()) {
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
-            localTime = LocalTime.now();
-            boolean isMyTurn = getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
-            System.out.println("Is my turn:" + isMyTurn);
-            return isMyTurn;
+            return getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
         }
         return false;
     }
 
     public void startPlayerGame() throws InterruptedException
     {
-        ListYourChallenges listYourChallenges = new ListYourChallenges();
+        ListYourChallenges listYourChallenges = (ListYourChallenges) RequestController.sendRequest(new ListYourChallenges());
 
-        listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
-
-        while (listYourChallenges.getIn().size() == 0) {
+        while (listYourChallenges.getIn().isEmpty()) {
             listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
         }
         AcceptChallenge acceptChallenge = new AcceptChallenge(listYourChallenges.getIn().get(0).getId());
@@ -71,7 +62,7 @@ public class GameBoard
             getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
             while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
                 getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
-            sleep(2000);
+                sleep(2000);
             }
 
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
@@ -90,8 +81,6 @@ public class GameBoard
             }
         }
     }
-
-    private List<Move> opponentResponse = null;
 
     public void ownMoveCalculator(String gameId)
     {
@@ -119,15 +108,15 @@ public class GameBoard
             }
             makeMyOwnMove(gameId, bestResponse);
         }
-       // opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
-
+        // opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
     }
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
-    MultiThreadedCalculator multiThreadedCalculator = new MultiThreadedCalculator();
+    MultiThreadedCalculator       multiThreadedCalculator       = new MultiThreadedCalculator();
+
     private void makeMyOwnMove(String gameId, String move)
     {
-        newDepth();
+        GameBoardHelper.computeNewDepth();
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
@@ -155,7 +144,7 @@ public class GameBoard
         actualBoard.actualMove(MoveConvertor.stringToMove(lastMove));
         actualBoard.nextTurn();
         openingController.filterWithMove(lastMove);
-        System.out.println("Enemy made move ");
+        System.out.println("Enemy made a move:");
         System.out.println(actualBoard);
     }
 
@@ -168,26 +157,7 @@ public class GameBoard
         actualBoard.nextTurn();
 
         //send the actual move
-        MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
-        RequestController.sendRequest(makeABotMove1);
-    }
-
-    public void newDepth()
-    {
-//        int opponentPiecesLeft = actualBoard.opponentPiecesLeft();
-//        if (opponentPiecesLeft >= 10) {
-//            depth = GameBoard.DEFAULT_DEPTH;
-//        }
-//        else {
-//            depth = GameBoard.DEFAULT_DEPTH + (16 - opponentPiecesLeft) / 4;
-//            if (depth > MAX_DEPTH) {
-//                depth = MAX_DEPTH;
-//            }
-//            if (actualBoard.myPiecesLeft() + opponentPiecesLeft >= 8) {
-//                depth = MAX_DEPTH_MID_GAME;
-//            }
-//        }
-//      depth += OptimizedBoard.actualMoves.size() / 60;
-        System.out.println("Computing for new depth: " + depth);
+        MakeABotMove makeABotMove = new MakeABotMove(gameId, actualMove.move());
+        RequestController.sendRequest(makeABotMove);
     }
 }

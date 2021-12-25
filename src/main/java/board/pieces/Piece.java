@@ -40,6 +40,11 @@ public abstract class Piece
         return score;
     }
 
+    public boolean isOpponentOf(Piece piece)
+    {
+        return this.isWhite != piece.isWhite;
+    }
+
     @Override
     public boolean equals(Object o)
     {
