@@ -1,5 +1,6 @@
 package board.pieces;
 
+//TODO: find better name for this class or/and use enum instead
 public class EmptyPiece {
 
     public static final Pawn WHITE_PAWN= new Pawn(true);

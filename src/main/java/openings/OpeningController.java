@@ -27,11 +27,10 @@ public class OpeningController
 
     public String generateMove()
     {
-        int length = openingList.size();
-        if (length == 0) {
+        if (openingList.isEmpty()) {
             return null;
         }
-        int randomMovePosition = random.nextInt(length);
+        int randomMovePosition = random.nextInt(openingList.size());
 
         return openingList.get(randomMovePosition).getNextMove();
     }
@@ -39,6 +38,7 @@ public class OpeningController
     public String nextMove()
     {
         String nextMove = generateMove();
+        //TODO: check this code
         if (nextMove != null) {
             filterWithMove(nextMove);
         }

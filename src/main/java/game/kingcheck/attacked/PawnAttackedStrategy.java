@@ -15,7 +15,7 @@ public class PawnAttackedStrategy implements AttackedStrategy {
     public boolean isAttackingTheKing(OptimizedBoard board) {
         boolean isWhiteKing = board.isWhiteToMove();
 
-        Position kingPosition = board.getKingPosition(isWhiteKing);
+        Position kingPosition = board.getKingPosition();
 
         List<Movement> movementList = PawnMovement.attackMovements(isWhiteKing);
 

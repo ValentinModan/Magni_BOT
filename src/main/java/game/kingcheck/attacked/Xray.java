@@ -14,9 +14,10 @@ public class Xray
 {
 
     //up, down, left, right and diagonal
-    //TODO: remove unused parameter
-    public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, boolean isWhiteKing, PieceType pieceType)
+    //TODO:King position can be obtained from the board
+    public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, PieceType pieceType)
     {
+        //TODO: simplyfiy and change to while instead
         do {
             currentPosition = currentPosition.move(movement);
             if (!currentPosition.isValid()) {
@@ -31,7 +32,7 @@ public class Xray
                 return false;
             }
         } while (!currentPosition.isValid());
-        return isXRayAttacked(board, currentPosition, movement, isWhiteKing, pieceType);
+        return isXRayAttacked(board, currentPosition, movement, pieceType);
     }
 
     public static List<Move> xRayMoveList(OptimizedBoard optimizedBoard, Position initialPosition, List<Movement> movementList)
@@ -66,9 +67,6 @@ public class Xray
     //todo: move this to Piece class instead
     private static boolean isOppositePiece(Piece piece, boolean isWhitePiece)
     {
-        if (piece != null && isWhitePiece != piece.isWhite()) {
-            return true;
-        }
-        return false;
+        return piece != null && isWhitePiece != piece.isWhite();
     }
 }

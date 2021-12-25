@@ -8,7 +8,6 @@ import java.util.List;
 
 public class KingSafety
 {
-
     private static final List<AttackedStrategy> attackedStrategyList = new ArrayList<>(Arrays.asList(
             new PawnAttackedStrategy(),
             new RookAttackedStrategy(),
@@ -19,19 +18,12 @@ public class KingSafety
 
     public static int getNumberOfAttackers(OptimizedBoard board)
     {
-        int numberOfAttackers = 0;
-
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {
             if (attackedStrategy.isAttackingTheKing(board)) {
-                numberOfAttackers++;
-            }
-            // You can not be attacked by more than two pieces
-            //todo: verify if it matters the number of attackers
-            if (numberOfAttackers > 1) {
-                return numberOfAttackers;
+                return 1;
             }
         }
-        return numberOfAttackers;
+        return 0;
     }
 
 }

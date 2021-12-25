@@ -37,14 +37,21 @@ public class OptimizedBoard implements Cloneable
     //TODO: put singleton here
     public King getKing()
     {
-        Piece piece = getPiece(getKingPosition(isWhiteToMove));
+        Piece piece = getPiece(getKingPosition());
         return piece != null ? (King) piece : null;
     }
 
+    //TODO: remove this method since isWhite is already from the same board
     public Position getKingPosition(boolean isWhite)
     {
         return isWhite ? whiteKingPosition : blackKingPosition;
     }
+
+    public Position getKingPosition()
+    {
+        return isWhiteToMove ? whiteKingPosition : blackKingPosition;
+    }
+
 
     public void actualMove(Move move)
     {
@@ -93,17 +100,6 @@ public class OptimizedBoard implements Cloneable
 
         return whitePiece;
     }
-
-    public int myPiecesLeft()
-    {
-        return getTakenPiecesMap().size();
-    }
-
-    public int opponentPiecesLeft()
-    {
-        return getTakenPiecesMap().size();
-    }
-
 
     //TODO: this can be done with a strategy instead
     public void updateKingPosition(Position position)
@@ -257,40 +253,14 @@ public class OptimizedBoard implements Cloneable
         this.possibleMoves = possibleMoves;
     }
 
-    public Map<Position, Piece> getWhitePiecesMap()
-    {
-        return whitePiecesMap;
-    }
-
-    public List<Move> getAllMoves()
-    {
-        return allMoves;
-    }
-
     public void setAllMoves(List<Move> allMoves)
     {
         this.allMoves = allMoves;
     }
 
-    public static List<Move> getActualMoves()
-    {
-        return actualMoves;
-    }
-
-
-    public Position getWhiteKingPosition()
-    {
-        return whiteKingPosition;
-    }
-
     public void setWhiteKingPosition(Position whiteKingPosition)
     {
         this.whiteKingPosition = whiteKingPosition;
-    }
-
-    public Position getBlackKingPosition()
-    {
-        return blackKingPosition;
     }
 
     public void setBlackKingPosition(Position blackKingPosition)

@@ -20,7 +20,7 @@ public class RookAttackedStrategy implements AttackedStrategy {
         Position kingPosition = board.getKingPosition(isWhiteKing);
 
         for (Movement movement : rookMovementList) {
-            if (Xray.isXRayAttacked(board, kingPosition, movement, isWhiteKing, PieceType.ROOK)) {
+            if (Xray.isXRayAttacked(board, kingPosition, movement, PieceType.ROOK)) {
                 return true;
             }
         }

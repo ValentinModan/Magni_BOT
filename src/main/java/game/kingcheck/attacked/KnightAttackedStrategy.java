@@ -18,7 +18,6 @@ public class KnightAttackedStrategy implements AttackedStrategy {
     public boolean isAttackingTheKing(OptimizedBoard board) {
         Position kingPosition = board.getKingPosition(board.isWhiteToMove());
 
-
         for (Movement movement : knightsPossibleMovements) {
             Piece piece = board.getTakenPiecesMap().get(kingPosition.move(movement));
             if (piece != null && piece.getPieceType() == PieceType.KNIGHT && piece.isWhite() != board.isWhiteToMove()) {

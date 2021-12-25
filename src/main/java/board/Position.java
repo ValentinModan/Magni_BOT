@@ -9,6 +9,7 @@ public class Position
     private final char column;
     private final int  row;
 
+
     public Position(int column, int row)
     {
         this((char) ('a' - 1 + column), row);
@@ -69,8 +70,8 @@ public class Position
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Position position1 = (Position) o;
-        return column == position1.column && row == position1.row;
+        Position position = (Position) o;
+        return column == position.column && row == position.row;
     }
 
     @Override
@@ -84,5 +85,4 @@ public class Position
     {
         return "" + column + row;
     }
-
 }

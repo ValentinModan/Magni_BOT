@@ -9,19 +9,17 @@ import board.pieces.PieceType;
 
 import java.util.List;
 
-public class BishopAttackedStrategy implements AttackedStrategy {
+public class BishopAttackedStrategy implements AttackedStrategy
+{
 
     final static List<Movement> bishopMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.BISHOP);
 
     @Override
-    public boolean isAttackingTheKing(OptimizedBoard board) {
-
-        boolean isWhiteKing = board.isWhiteToMove();
-
-        Position kingPosition = board.getKingPosition(isWhiteKing);
+    public boolean isAttackingTheKing(OptimizedBoard board)
+    {
+        Position kingPosition = board.getKingPosition();
         for (Movement movement : bishopMovementList) {
-            if(Xray.isXRayAttacked(board, kingPosition, movement, isWhiteKing,PieceType.BISHOP))
-            {
+            if (Xray.isXRayAttacked(board, kingPosition, movement, PieceType.BISHOP)) {
                 return true;
             }
         }
