@@ -1,6 +1,6 @@
 package game.multithreadedmap;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import game.GameBoard;
 import mapmovement.MovementMap;
@@ -18,7 +18,7 @@ public class MultiThreadedCalculator
 
     boolean setupHasBeenMade = false;
 
-    public Move possibleMoves(OptimizedBoard board) throws CloneNotSupportedException, InterruptedException
+    public Move possibleMoves(Board board) throws CloneNotSupportedException, InterruptedException
     {
         if (!setupHasBeenMade) {
             setupHasBeenMade = true;
@@ -41,7 +41,7 @@ public class MultiThreadedCalculator
         return bestResponse;
     }
 
-    private void setup(OptimizedBoard board, int depth) throws InterruptedException
+    private void setup(Board board, int depth) throws InterruptedException
     {
         board.computePossibleMoves();
         MovementMap movementMap = new MovementMap(null, board.lastMove());
@@ -101,7 +101,7 @@ public class MultiThreadedCalculator
                         //the move must be possible for the current game
                         System.out.println("Processing move " + movementMap.getCurrentMove());
 
-                        OptimizedBoard board = movementMap.getBoardForCurrentPosition();
+                        Board board = movementMap.getBoardForCurrentPosition();
                         board.computePossibleMoves();
 
                         List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();

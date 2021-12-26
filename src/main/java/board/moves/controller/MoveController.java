@@ -1,6 +1,6 @@
 package board.moves.controller;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
@@ -12,7 +12,7 @@ import board.pieces.Queen;
 
 public class MoveController
 {
-    public void undoMove(OptimizedBoard board, Move move)
+    public void undoMove(Board board, Move move)
     {
         board.allMoves.remove(board.allMoves.size() - 1);
         if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
@@ -38,7 +38,7 @@ public class MoveController
         }
     }
 
-    public void move(OptimizedBoard board, Move move)
+    public void move(Board board, Move move)
     {
         MoveUpdateHelper.moveUpdate(board, move);
 
@@ -68,7 +68,7 @@ public class MoveController
         board.allMoves.add(move);
     }
 
-    private void pawnPromotion(OptimizedBoard board, Move move)
+    private void pawnPromotion(Board board, Move move)
     {
         //move moving piece
         board.getMovingPiecesMap().put(move.getFinalPosition(), new Queen(move.getMovingPiece().isWhite()));
@@ -80,21 +80,21 @@ public class MoveController
     }
 
 
-    private void anPassant(OptimizedBoard optimizedBoard, Move move)
+    private void anPassant(Board board, Move move)
     {
         //add pawn to new position
-        optimizedBoard.getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
+        board.getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
 
         //remove taken pawn
-        optimizedBoard.getTakenPiecesMap().remove(move.getTakenAnPassant());
+        board.getTakenPiecesMap().remove(move.getTakenAnPassant());
 
         //remove initial position
-        optimizedBoard.getMovingPiecesMap().remove(move.getInitialPosition());
+        board.getMovingPiecesMap().remove(move.getInitialPosition());
     }
 
     //TODO: add actual method to move piece (put and remove)
 
-    private void castleMove(OptimizedBoard board, Move move)
+    private void castleMove(Board board, Move move)
     {
         Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
 

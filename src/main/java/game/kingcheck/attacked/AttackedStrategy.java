@@ -1,9 +1,9 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 
 //todo: Is this interface really necessary?
 public interface AttackedStrategy {
 
-    boolean isAttackingTheKing(OptimizedBoard board);
+    boolean isAttackingTheKing(Board board);
 }

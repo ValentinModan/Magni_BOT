@@ -1,6 +1,6 @@
 package board.possibleMoves.piece;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.moves.calculator.pieces.QueenMoveCalculator;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class QueenPossibleMovesTest
 {
-    OptimizedBoard      optimizedBoard;
-    Piece               whiteQueen;
+    Board board;
+    Piece whiteQueen;
     Piece               blackQueen;
     Piece               secondWhiteQueen;
     QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
@@ -21,7 +21,7 @@ public class QueenPossibleMovesTest
     @BeforeEach
     private void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
         whiteQueen = new Queen(true);
         blackQueen = new Queen(false);
         secondWhiteQueen = new Queen(true);
@@ -32,8 +32,8 @@ public class QueenPossibleMovesTest
     {
         Position queenPosition = new Position('d', 4);
 
-        optimizedBoard.addPiece(queenPosition, whiteQueen);
-        int result = queenMoveCalculator.computeMoves(optimizedBoard, queenPosition).size();
+        board.addPiece(queenPosition, whiteQueen);
+        int result = queenMoveCalculator.computeMoves(board, queenPosition).size();
 
         Assertions.assertEquals(27, result);
 
@@ -44,13 +44,13 @@ public class QueenPossibleMovesTest
     {
         Position whiteQueenPosition = new Position('d', 4);
         Position blackQueenPosition = new Position('e', 5);
-        optimizedBoard.addPiece(whiteQueenPosition, whiteQueen);
-        optimizedBoard.addPiece(blackQueenPosition, blackQueen);
+        board.addPiece(whiteQueenPosition, whiteQueen);
+        board.addPiece(blackQueenPosition, blackQueen);
 
-        int result = queenMoveCalculator.computeMoves(optimizedBoard,whiteQueenPosition).size();
+        int result = queenMoveCalculator.computeMoves(board, whiteQueenPosition).size();
         Assertions.assertEquals(24,result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard,whiteQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, whiteQueenPosition).size();
         Assertions.assertEquals(24,result);
 
     }
@@ -60,18 +60,18 @@ public class QueenPossibleMovesTest
     {
 
         //maybe use queen direction movements instead
-        optimizedBoard.addPiece(new Position('d', 4), whiteQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.UP), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.UP_LEFT), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.LEFT), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.LEFT_DOWN), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.DOWN), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.DOWN_RIGHT), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.RIGHT), blackQueen);
-        optimizedBoard.addPiece(new Position('d', 4).move(Movement.UP_RIGHT), blackQueen);
+        board.addPiece(new Position('d', 4), whiteQueen);
+        board.addPiece(new Position('d', 4).move(Movement.UP), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.UP_LEFT), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.LEFT), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.LEFT_DOWN), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.DOWN), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.DOWN_RIGHT), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.RIGHT), blackQueen);
+        board.addPiece(new Position('d', 4).move(Movement.UP_RIGHT), blackQueen);
 
 
-       int result =  queenMoveCalculator.computeMoves(optimizedBoard,new Position('d',4)).size();
+       int result =  queenMoveCalculator.computeMoves(board, new Position('d', 4)).size();
 
 
         Assertions.assertEquals(8,result);

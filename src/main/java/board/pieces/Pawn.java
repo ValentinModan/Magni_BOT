@@ -4,8 +4,6 @@ public class Pawn extends Piece {
 
     private final int PAWN_SCORE = 1;
 
-    private boolean hasMoved = false;
-
     public Pawn()
     {
         super(true);
@@ -13,16 +11,6 @@ public class Pawn extends Piece {
 
     public Pawn(boolean isWhite) {
         super(isWhite);
-    }
-
-    public boolean hasMoved()
-    {
-        return hasMoved;
-    }
-
-    public void moved()
-    {
-        hasMoved = true;
     }
 
     @Override

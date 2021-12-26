@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.King;
 import board.pieces.Queen;
@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QueenAttackedStrategyTest
 {
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     @BeforeEach
     public void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
     }
 
     @Test
@@ -28,12 +28,12 @@ class QueenAttackedStrategyTest
         King whiteKing = new King(true);
         Position whiteKingPosition = new Position('a',1);
 
-        optimizedBoard.addPiece(blackQueenPosition,blackQueen);
-        optimizedBoard.addPiece(whiteKingPosition,whiteKing);
+        board.addPiece(blackQueenPosition, blackQueen);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         QueenAttackedStrategy queenAttackedStrategy = new QueenAttackedStrategy();
 
-        assertTrue(queenAttackedStrategy.isAttackingTheKing(optimizedBoard));
+        assertTrue(queenAttackedStrategy.isAttackingTheKing(board));
     }
 
 
@@ -46,11 +46,11 @@ class QueenAttackedStrategyTest
         King whiteKing = new King(true);
         Position whiteKingPosition = new Position('a',1);
 
-        optimizedBoard.addPiece(blackQueenPosition,blackQueen);
-        optimizedBoard.addPiece(whiteKingPosition,whiteKing);
+        board.addPiece(blackQueenPosition, blackQueen);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         QueenAttackedStrategy queenAttackedStrategy = new QueenAttackedStrategy();
 
-        assertTrue(queenAttackedStrategy.isAttackingTheKing(optimizedBoard));
+        assertTrue(queenAttackedStrategy.isAttackingTheKing(board));
     }
 }

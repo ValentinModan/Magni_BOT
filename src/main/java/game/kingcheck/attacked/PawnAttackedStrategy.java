@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.PawnMovement;
@@ -13,7 +13,7 @@ import java.util.List;
 public class PawnAttackedStrategy implements AttackedStrategy
 {
     @Override
-    public boolean isAttackingTheKing(OptimizedBoard board)
+    public boolean isAttackingTheKing(Board board)
     {
         Position       kingPosition = board.getKingPosition();
         King           king         = (King) board.getPiece(kingPosition);

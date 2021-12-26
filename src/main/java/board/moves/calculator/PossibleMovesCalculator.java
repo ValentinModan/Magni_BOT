@@ -1,6 +1,6 @@
 package board.moves.calculator;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.calculator.pieces.PieceMoveCalculator;
@@ -15,7 +15,7 @@ import java.util.List;
 public class PossibleMovesCalculator
 {
 
-    public static List<Move> getPossibleMoves(OptimizedBoard board)
+    public static List<Move> getPossibleMoves(Board board)
     {
         List<Move>     moveList      = new ArrayList<>();
         List<Position> positionList1 = new ArrayList<>(board.getMovingPiecesMap().keySet());
@@ -37,15 +37,11 @@ public class PossibleMovesCalculator
         return moveList;
     }
 
-    public static List<Move> computeAllPossibleMovesFromPosition(OptimizedBoard board, Position position) throws Exception
+    public static List<Move> computeAllPossibleMovesFromPosition(Board board, Position position) throws Exception
     {
         Piece currentPiece = board.getMovingPiece(position);
         //  log.info("Computing possible moves for: " + currentPiece + position);
 
-        if (currentPiece == null) {
-            return Collections.emptyList();
-            //todo remove this
-        }
         PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.generatePieceCalculatorStrategy(currentPiece.getPieceType());
 
         //TODO: current piece can also be passed as a parameter

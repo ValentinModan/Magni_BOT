@@ -1,6 +1,6 @@
 package board.moves;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.PieceType;
 import board.setup.BoardSetup;
@@ -12,23 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class MovesGeneratorTest
 {
 
-    OptimizedBoard optimizedBoard;
+    Board board;
 
 
     @BeforeEach
     public void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
-        BoardSetup.setupBoard(optimizedBoard);
+        board = new Board();
+        BoardSetup.setupBoard(board);
     }
 
     @Test
     void makeMoves()
     {
-        MovesGenerator.makeMoves(optimizedBoard, "b2b4 b7b5");
+        MovesGenerator.makeMoves(board, "b2b4 b7b5");
 
-        assertSame(optimizedBoard.getMovingPiece(new Position('b', 4)).getPieceType(), PieceType.PAWN);
-        assertSame(optimizedBoard.getTakenPiecesMap().get(new Position('b', 5)).getPieceType(), PieceType.PAWN);
+        assertSame(board.getMovingPiece(new Position('b', 4)).getPieceType(), PieceType.PAWN);
+        assertSame(board.getTakenPiecesMap().get(new Position('b', 5)).getPieceType(), PieceType.PAWN);
 
 
     }

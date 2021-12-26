@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
@@ -15,7 +15,7 @@ public class BishopAttackedStrategy implements AttackedStrategy
     final static List<Movement> bishopMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.BISHOP);
 
     @Override
-    public boolean isAttackingTheKing(OptimizedBoard board)
+    public boolean isAttackingTheKing(Board board)
     {
         Position kingPosition = board.getKingPosition();
         for (Movement movement : bishopMovementList) {

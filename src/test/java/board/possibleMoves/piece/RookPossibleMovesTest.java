@@ -1,6 +1,6 @@
 package board.possibleMoves.piece;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.moves.MovesGenerator;
@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 
 public class RookPossibleMovesTest
 {
-    OptimizedBoard     optimizedBoard;
-    Piece              whiteRook;
+    Board board;
+    Piece whiteRook;
     Piece              blackRook;
     Piece              secondWhiteRook;
     RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
@@ -23,7 +23,7 @@ public class RookPossibleMovesTest
     @BeforeEach
     public void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
         whiteRook = new Rook(true);
         blackRook = new Rook(false);
         secondWhiteRook = new Rook(true);
@@ -34,9 +34,9 @@ public class RookPossibleMovesTest
     {
         Position cornerPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(cornerPosition, whiteRook);
+        board.addPiece(cornerPosition, whiteRook);
 
-        assert rookMoveCalculator.computeMoves(optimizedBoard,cornerPosition).size() == 14;
+        assert rookMoveCalculator.computeMoves(board, cornerPosition).size() == 14;
     }
 
     @Test
@@ -46,12 +46,12 @@ public class RookPossibleMovesTest
 
         RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
 
-        optimizedBoard.addPiece(cornerPosition, whiteRook);
+        board.addPiece(cornerPosition, whiteRook);
 
-        optimizedBoard.addPiece(cornerPosition.move(Movement.UP), blackRook);
-        optimizedBoard.addPiece(cornerPosition.move(Movement.RIGHT), blackRook);
+        board.addPiece(cornerPosition.move(Movement.UP), blackRook);
+        board.addPiece(cornerPosition.move(Movement.RIGHT), blackRook);
 
-        int result = rookMoveCalculator.computeMoves(optimizedBoard, cornerPosition).size();
+        int result = rookMoveCalculator.computeMoves(board, cornerPosition).size();
 
         Assertions.assertEquals(2, result);
     }
@@ -63,14 +63,14 @@ public class RookPossibleMovesTest
         Position firstWhiteRookPosition  = new Position('b', 2);
         Position secondWhiteRookPosition = new Position('f', 2);
 
-        optimizedBoard.addPiece(firstWhiteRookPosition, whiteRook);
-        optimizedBoard.addPiece(secondWhiteRookPosition, secondWhiteRook);
+        board.addPiece(firstWhiteRookPosition, whiteRook);
+        board.addPiece(secondWhiteRookPosition, secondWhiteRook);
 
-        int result = rookMoveCalculator.computeMoves(optimizedBoard, firstWhiteRookPosition).size();
+        int result = rookMoveCalculator.computeMoves(board, firstWhiteRookPosition).size();
 
         Assertions.assertEquals(11, result);
 
-        result = rookMoveCalculator.computeMoves(optimizedBoard, secondWhiteRookPosition).size();
+        result = rookMoveCalculator.computeMoves(board, secondWhiteRookPosition).size();
 
         Assertions.assertEquals(12, result);
     }
@@ -79,13 +79,13 @@ public class RookPossibleMovesTest
     public void complexRookPosition()
     {
         String firstMoves = "f2f3 e7e6 g2g4 d8h4 h2h3 h4h3";
-        BoardSetup.setupBoard(optimizedBoard);
+        BoardSetup.setupBoard(board);
 
-        MovesGenerator.makeMoves(optimizedBoard, firstMoves);
+        MovesGenerator.makeMoves(board, firstMoves);
 
         RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
 
-        int rookMoves = rookMoveCalculator.computeMoves(optimizedBoard, new Position('h', 1)).size();
+        int rookMoves = rookMoveCalculator.computeMoves(board, new Position('h', 1)).size();
 
         Assertions.assertEquals(2, rookMoves);
 

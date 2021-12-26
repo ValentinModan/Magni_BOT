@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
@@ -15,7 +15,7 @@ public class Xray
 
     //up, down, left, right and diagonal
     //TODO:King position can be obtained from the board
-    public static boolean isXRayAttacked(OptimizedBoard board, Position currentPosition, Movement movement, PieceType pieceType)
+    public static boolean isXRayAttacked(Board board, Position currentPosition, Movement movement, PieceType pieceType)
     {
         //TODO: simplyfiy and change to while instead
         do {
@@ -35,16 +35,16 @@ public class Xray
         return isXRayAttacked(board, currentPosition, movement, pieceType);
     }
 
-    public static List<Move> xRayMoveList(OptimizedBoard optimizedBoard, Position initialPosition, List<Movement> movementList)
+    public static List<Move> xRayMoveList(Board board, Position initialPosition, List<Movement> movementList)
     {
         List<Move> moveList = new ArrayList<>();
         for (Movement movement : movementList) {
-            xRayMoves(optimizedBoard, moveList, initialPosition, initialPosition, movement);
+            xRayMoves(board, moveList, initialPosition, initialPosition, movement);
         }
         return moveList;
     }
 
-    public static void xRayMoves(OptimizedBoard board, List<Move> moveList, Position initialPosition, Position currentPosition, Movement movement)
+    public static void xRayMoves(Board board, List<Move> moveList, Position initialPosition, Position currentPosition, Movement movement)
     {
         currentPosition = currentPosition.move(movement);
 

@@ -1,6 +1,6 @@
 package game;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import game.gameSetupOptions.GameOptions;
@@ -18,21 +18,21 @@ public class CleanMoveCalculator
 
     public static boolean precalculate = false;
 
-    public static List<Move> calculateAllMoveBestResponse(OptimizedBoard optimizedBoard, int depth)
+    public static List<Move> calculateAllMoveBestResponse(Board board, int depth)
     {
         precalculate = true;
-        boolean isWhiteToMove = optimizedBoard.isWhiteToMove();
-        optimizedBoard.computePossibleMoves();
-        List<Move> moveList   = new ArrayList<>(optimizedBoard.getPossibleMoves());
+        boolean isWhiteToMove = board.isWhiteToMove();
+        board.computePossibleMoves();
+        List<Move> moveList   = new ArrayList<>(board.getPossibleMoves());
         List<Move> resultList = new ArrayList<>();
 
 
         for (Move move : moveList) {
-            makeMove(optimizedBoard, move);
-            Move bestResponse = calculate2(optimizedBoard, depth);
+            makeMove(board, move);
+            Move bestResponse = calculate2(board, depth);
             move.setBestResponse(bestResponse);
             log.info("Precomputed moves for " + move + " score is " + move.moveScore());
-            undoMove(optimizedBoard, move, isWhiteToMove);
+            undoMove(board, move, isWhiteToMove);
             move.moveScore();
 
 
@@ -52,31 +52,31 @@ public class CleanMoveCalculator
     }
 
 
-    public static Move calculate2(OptimizedBoard optimizedBoard, int depth)
+    public static Move calculate2(Board board, int depth)
     {
         final int currentDepth;
-        if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().getTakenPiece() != null) {
+        if (board.lastMove() != null && board.lastMove().getTakenPiece() != null) {
             currentDepth = depth;
         }
         else {
             currentDepth = depth;
         }
         List<Move> moveList;
-        if (optimizedBoard.getPossibleMoves() == null) {
-            optimizedBoard.computePossibleMoves();
-            moveList = optimizedBoard.getPossibleMoves();
+        if (board.getPossibleMoves() == null) {
+            board.computePossibleMoves();
+            moveList = board.getPossibleMoves();
         }
         else {
-            moveList = optimizedBoard.calculatePossibleMoves();
+            moveList = board.calculatePossibleMoves();
         }
         //extract a portion of moves
         moveList = GameOptions.extractMoves(moveList, currentDepth);
 
-        boolean isWhiteToMove = optimizedBoard.isWhiteToMove();
+        boolean isWhiteToMove = board.isWhiteToMove();
 
         //stalemate or checkmate
         if (moveList.size() == 0) {
-            if (KingSafety.getNumberOfAttackers(optimizedBoard) > 0) {
+            if (KingSafety.getNumberOfAttackers(board) > 0) {
                 return GameOptions.checkMate(depth);
             }
             return GameOptions.staleMate();
@@ -86,7 +86,7 @@ public class CleanMoveCalculator
             return moveList.get(0);
         }
         if (currentDepth == 1) {
-            return moveList.stream().peek(move -> MoveUpdateHelper.moveUpdate(optimizedBoard, move))
+            return moveList.stream().peek(move -> MoveUpdateHelper.moveUpdate(board, move))
                     .max(Comparator.comparing(Move::getScore))
                     .orElseThrow(NoSuchElementException::new);
         }
@@ -97,10 +97,10 @@ public class CleanMoveCalculator
             if (precalculate && GameBoard.isMyTurn()) {
                 return;
             }
-            optimizedBoard.setTurn(isWhiteToMove);
-            makeMove(optimizedBoard, move);
-            Move bestResponse = calculate2(optimizedBoard, currentDepth - 1);
-            undoMove(optimizedBoard, move, isWhiteToMove);
+            board.setTurn(isWhiteToMove);
+            makeMove(board, move);
+            Move bestResponse = calculate2(board, currentDepth - 1);
+            undoMove(board, move, isWhiteToMove);
             move.setBestResponse(bestResponse);
             move.moveScore();
             if (GameBoard.depth == currentDepth) {
@@ -110,17 +110,17 @@ public class CleanMoveCalculator
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    private static void makeMove(OptimizedBoard optimizedBoard, Move move)
+    private static void makeMove(Board board, Move move)
     {
-        MoveUpdateHelper.moveUpdate(optimizedBoard, move);
-        optimizedBoard.move(move);
-        optimizedBoard.nextTurn();
+        MoveUpdateHelper.moveUpdate(board, move);
+        board.move(move);
+        board.nextTurn();
     }
 
-    private static void undoMove(OptimizedBoard optimizedBoard, Move move, boolean isWhiteToMove)
+    private static void undoMove(Board board, Move move, boolean isWhiteToMove)
     {
-        optimizedBoard.setTurn(isWhiteToMove);
-        optimizedBoard.undoMove(move);
+        board.setTurn(isWhiteToMove);
+        board.undoMove(move);
     }
 
     private static boolean isForcedMove(List<Move> moveList)

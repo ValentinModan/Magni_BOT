@@ -1,6 +1,6 @@
 package board.possibleMoves.multiplepieces;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.calculator.pieces.QueenMoveCalculator;
 import board.pieces.Queen;
@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Test;
 public class ComplexPositionsTest
 {
 
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
 
     @BeforeEach
     public void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
     }
 
     @Test
@@ -40,37 +40,37 @@ public class ComplexPositionsTest
         Position secondBlackQueenPosition = new Position('d', 5);
         Position thirdBlackQueenPosition  = new Position('g', 2);
 
-        optimizedBoard.addPiece(firstWhiteQueenPosition, firstWhiteQueen);
-        optimizedBoard.addPiece(secondWhiteQueenPosition, secondWhiteQueen);
-        optimizedBoard.addPiece(thirdWhiteQueenPosition, thirdWhiteQueen);
+        board.addPiece(firstWhiteQueenPosition, firstWhiteQueen);
+        board.addPiece(secondWhiteQueenPosition, secondWhiteQueen);
+        board.addPiece(thirdWhiteQueenPosition, thirdWhiteQueen);
 
-        optimizedBoard.addPiece(firstBlackQueenPosition, firstBlackQueen);
-        optimizedBoard.addPiece(secondBlackQueenPosition, secondBlackQueen);
-        optimizedBoard.addPiece(thirdBlackQueenPosition, thirdBlackQueen);
+        board.addPiece(firstBlackQueenPosition, firstBlackQueen);
+        board.addPiece(secondBlackQueenPosition, secondBlackQueen);
+        board.addPiece(thirdBlackQueenPosition, thirdBlackQueen);
 
         int result;
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, firstWhiteQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, firstWhiteQueenPosition).size();
 
         Assertions.assertEquals(19, result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, secondWhiteQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, secondWhiteQueenPosition).size();
 
         Assertions.assertEquals(21, result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, thirdWhiteQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, thirdWhiteQueenPosition).size();
 
         Assertions.assertEquals(21, result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, firstBlackQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, firstBlackQueenPosition).size();
 
         Assertions.assertEquals(14, result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, secondBlackQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, secondBlackQueenPosition).size();
 
         Assertions.assertEquals(20, result);
 
-        result = queenMoveCalculator.computeMoves(optimizedBoard, thirdBlackQueenPosition).size();
+        result = queenMoveCalculator.computeMoves(board, thirdBlackQueenPosition).size();
 
         Assertions.assertEquals(18, result);
 

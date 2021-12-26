@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class KingSafety
             new QueenAttackedStrategy(),
             new KingAttackedStrategy()));
 
-    public static int getNumberOfAttackers(OptimizedBoard board)
+    public static int getNumberOfAttackers(Board board)
     {
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {
             if (attackedStrategy.isAttackingTheKing(board)) {

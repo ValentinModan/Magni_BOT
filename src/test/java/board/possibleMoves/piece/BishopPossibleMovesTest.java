@@ -1,6 +1,6 @@
 package board.possibleMoves.piece;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.calculator.pieces.BishopMoveCalculator;
 import board.pieces.Bishop;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BishopPossibleMovesTest
 {
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     Piece whiteBishop;
 
@@ -25,7 +25,7 @@ public class BishopPossibleMovesTest
     @BeforeEach
     private void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
         whiteBishop = new Bishop(true);
         blackBishop = new Bishop(false);
         secondWhiteBishop = new Bishop(true);
@@ -36,10 +36,10 @@ public class BishopPossibleMovesTest
     {
         Position whiteBishopPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(whiteBishopPosition, whiteBishop);
+        board.addPiece(whiteBishopPosition, whiteBishop);
 
 
-        int bishopMoves = bishopMoveCalculator.computeMoves(optimizedBoard,whiteBishopPosition).size();
+        int bishopMoves = bishopMoveCalculator.computeMoves(board, whiteBishopPosition).size();
 
 
         assertEquals(7,bishopMoves);
@@ -51,11 +51,11 @@ public class BishopPossibleMovesTest
         Position firstWhitePosition  = new Position('d', 4);
         Position secondWhitePosition = new Position('e', 5);
 
-        optimizedBoard.addPiece(firstWhitePosition, whiteBishop);
-        optimizedBoard.addPiece(secondWhitePosition, secondWhiteBishop);
+        board.addPiece(firstWhitePosition, whiteBishop);
+        board.addPiece(secondWhitePosition, secondWhiteBishop);
 
-        int firstBishopMoves  = bishopMoveCalculator.computeMoves(optimizedBoard, firstWhitePosition).size();
-        int secondBishopMoves = bishopMoveCalculator.computeMoves(optimizedBoard, secondWhitePosition).size();
+        int firstBishopMoves  = bishopMoveCalculator.computeMoves(board, firstWhitePosition).size();
+        int secondBishopMoves = bishopMoveCalculator.computeMoves(board, secondWhitePosition).size();
 
         assertEquals(firstBishopMoves, 9);
         assertEquals(secondBishopMoves, 9);
@@ -67,12 +67,12 @@ public class BishopPossibleMovesTest
         Position whitePosition = new Position('d', 4);
         Position blackPosition = new Position('e', 5);
 
-        optimizedBoard.addPiece(whitePosition, whiteBishop);
-        optimizedBoard.addPiece(blackPosition, blackBishop);
+        board.addPiece(whitePosition, whiteBishop);
+        board.addPiece(blackPosition, blackBishop);
 
-        int whiteMoves = bishopMoveCalculator.computeMoves(optimizedBoard, whitePosition).size();
-        optimizedBoard.setWhiteToMove(false);
-        int blackMoves = bishopMoveCalculator.computeMoves(optimizedBoard, blackPosition).size();
+        int whiteMoves = bishopMoveCalculator.computeMoves(board, whitePosition).size();
+        board.setWhiteToMove(false);
+        int blackMoves = bishopMoveCalculator.computeMoves(board, blackPosition).size();
 
         assertEquals(10, whiteMoves);
         assertEquals(10, blackMoves);

@@ -1,6 +1,6 @@
 package board.moves;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.Pawn;
 import board.pieces.Piece;
@@ -8,15 +8,15 @@ import board.pieces.PieceType;
 
 public class MoveUpdateHelper
 {
-    public static void moveUpdate(OptimizedBoard optimizedBoard, Move move)
+    public static void moveUpdate(Board board, Move move)
     {
-        updateMovingPiece(optimizedBoard, move);
-        updateTakenPiece(optimizedBoard, move);
+        updateMovingPiece(board, move);
+        updateTakenPiece(board, move);
 
         updateCheckMate(move);
         updatePawnPromotion(move);
-        updateCastleMove(optimizedBoard, move);
-        updateAnPassantMove(optimizedBoard, move);
+        updateCastleMove(board, move);
+        updateAnPassantMove(board, move);
     }
 
     public static void updatePawnPromotion(Move move)
@@ -33,7 +33,7 @@ public class MoveUpdateHelper
         }
     }
 
-    private static void updateMovingPiece(OptimizedBoard board, Move move)
+    private static void updateMovingPiece(Board board, Move move)
     {
         Piece movingPiece = board.getMovingPiece(move.getInitialPosition());
         move.setMovingPiece(movingPiece);
@@ -49,7 +49,7 @@ public class MoveUpdateHelper
         }
     }
 
-    private static void updateTakenPiece(OptimizedBoard board, Move move)
+    private static void updateTakenPiece(Board board, Move move)
     {
         Piece takenPiece = board.getTakenPiecesMap().get(move.getFinalPosition());
         move.setTakenPiece(takenPiece);
@@ -58,7 +58,7 @@ public class MoveUpdateHelper
         }
     }
 
-    public static void updateAnPassantMove(OptimizedBoard board, Move move)
+    public static void updateAnPassantMove(Board board, Move move)
     {
         Position initialPosition = move.getInitialPosition();
         Piece    takenPiece      = move.getTakenPiece();
@@ -81,13 +81,10 @@ public class MoveUpdateHelper
         if (linePiece == null || linePiece.getPieceType() != PieceType.PAWN) {
             return;
         }
-
-
         Move lastMove = board.lastMove();
         if (lastMove == null) {
             return;
         }
-
         //last pawn move was here
         if (lastMove.getFinalPosition().equals(linePosition)) {
             if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
@@ -98,16 +95,16 @@ public class MoveUpdateHelper
         }
     }
 
-    private static void updateCastleMove(OptimizedBoard optimizedBoard, Move move)
+    private static void updateCastleMove(Board board, Move move)
     {
         Piece movingPiece = move.getMovingPiece();
-        Piece rookPiece   = optimizedBoard.getMovingPiece(move.getFinalPosition());
+        Piece rookPiece   = board.getMovingPiece(move.getFinalPosition());
 
         if(movingPiece ==null)
         {
             System.err.println("Invalid move"+ move);
-            System.err.println(optimizedBoard);
-            System.err.println(optimizedBoard.allMoves);
+            System.err.println(board);
+            System.err.println(board.allMoves);
         }
         if (rookPiece == null) {
             return;

@@ -1,20 +1,18 @@
 package board.moves.calculator.pieces;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
-import board.pieces.Piece;
 import game.kingcheck.attacked.Xray;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RookMoveCalculator extends PieceMoveCalculator
 {
     @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position)
+    public List<Move> computeMoves(Board board, Position position)
     {
         List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getMovingPiece(position));
         return Xray.xRayMoveList(board, position, movementList);

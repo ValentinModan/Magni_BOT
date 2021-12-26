@@ -9,7 +9,6 @@ public class Position
     private final char column;
     private final int  row;
 
-
     public Position(int column, int row)
     {
         this((char) ('a' - 1 + column), row);

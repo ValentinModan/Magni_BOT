@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.King;
 import board.pieces.Knight;
@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KnightAttackedStrategyTest
 {
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     @BeforeEach
     void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
     }
 
     @Test
@@ -28,12 +28,12 @@ class KnightAttackedStrategyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(blackKnightPosition, blackKnight);
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(blackKnightPosition, blackKnight);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
 
-        assertTrue(knightAttackedStrategy.isAttackingTheKing(optimizedBoard));
+        assertTrue(knightAttackedStrategy.isAttackingTheKing(board));
     }
 
     @Test
@@ -45,12 +45,12 @@ class KnightAttackedStrategyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(blackKnightPosition, blackKnight);
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(blackKnightPosition, blackKnight);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
 
-        assertFalse(knightAttackedStrategy.isAttackingTheKing(optimizedBoard));
+        assertFalse(knightAttackedStrategy.isAttackingTheKing(board));
     }
 
     @Test
@@ -62,11 +62,11 @@ class KnightAttackedStrategyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(blackKnightPosition, blackKnight);
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(blackKnightPosition, blackKnight);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
 
-        assertFalse(knightAttackedStrategy.isAttackingTheKing(optimizedBoard));
+        assertFalse(knightAttackedStrategy.isAttackingTheKing(board));
     }
 }

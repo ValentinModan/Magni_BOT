@@ -1,6 +1,6 @@
 package mapmovement;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import game.GameBoard;
 
@@ -53,7 +53,7 @@ public class MovementMap
     }
 
     //to reduce memory compute the moves since it will only take a few moves
-    public synchronized OptimizedBoard getBoardForCurrentPosition() throws CloneNotSupportedException
+    public synchronized Board getBoardForCurrentPosition() throws CloneNotSupportedException
     {
         Stack<Move> moveStack   = new Stack<>();
         MovementMap movementMap = this;
@@ -63,11 +63,11 @@ public class MovementMap
             movementMap = movementMap.getParent();
 
         }
-        OptimizedBoard optimizedBoard = (OptimizedBoard) GameBoard.actualBoard.clone();
+        Board board = (Board) GameBoard.actualBoard.clone();
         while (!moveStack.isEmpty()) {
-            optimizedBoard.move(moveStack.pop());
+            board.move(moveStack.pop());
         }
-        return optimizedBoard;
+        return board;
     }
 
     public synchronized void addResponse(Move move) throws InterruptedException

@@ -11,15 +11,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OptimizedBoardTest
+class BoardTest
 {
 
 
     @Test
     void moveThenUndoMove()
     {
-        OptimizedBoard board         = new OptimizedBoard();
-        OptimizedBoard originalBoard = new OptimizedBoard();
+        Board board         = new Board();
+        Board originalBoard = new Board();
 
         BoardSetup.setupBoard(originalBoard);
         BoardSetup.setupBoard(board);
@@ -38,8 +38,8 @@ class OptimizedBoardTest
     @Test
     void singlePieceTest()
     {
-        OptimizedBoard board         = new OptimizedBoard();
-        OptimizedBoard originalBoard = new OptimizedBoard();
+        Board board         = new Board();
+        Board originalBoard = new Board();
 
         Piece    piece      = new Pawn(true);
         Piece    secondPawn = new Pawn(true);
@@ -56,7 +56,7 @@ class OptimizedBoardTest
     @Test
     void blackPieceMove()
     {
-        OptimizedBoard board = new OptimizedBoard();
+        Board board = new Board();
         BoardSetup.setupBoard(board);
         board.setWhiteToMove(false);
 
@@ -73,8 +73,8 @@ class OptimizedBoardTest
     @Test
     void firstMove()
     {
-        OptimizedBoard board        = new OptimizedBoard();
-        Position       pawnPosition = new Position(2, 2);
+        Board    board        = new Board();
+        Position pawnPosition = new Position(2, 2);
 
         board.addPiece(pawnPosition, new Pawn(true));
 
@@ -88,7 +88,7 @@ class OptimizedBoardTest
     @Test
     void singleMoveTest()
     {
-        OptimizedBoard board = new OptimizedBoard();
+        Board board = new Board();
 
         BoardSetup.setupBoard(board);
 
@@ -98,7 +98,7 @@ class OptimizedBoardTest
     @Test
     void twoMovesTest()
     {
-        OptimizedBoard board = new OptimizedBoard();
+        Board board = new Board();
 
         BoardSetup.setupBoard(board);
 
@@ -109,7 +109,7 @@ class OptimizedBoardTest
     @Test
     void threeMovesTest()
     {
-        OptimizedBoard board = new OptimizedBoard();
+        Board board = new Board();
 
         BoardSetup.setupBoard(board);
 
@@ -120,10 +120,10 @@ class OptimizedBoardTest
     @Test
     void fourMovesTest()
     {
-        OptimizedBoard optimizedBoard = new OptimizedBoard();
+        Board board = new Board();
 
-        BoardSetup.setupBoard(optimizedBoard);
-        int result = DepthCalculator.possibleMoves(optimizedBoard, 4);
+        BoardSetup.setupBoard(board);
+        int result = DepthCalculator.possibleMoves(board, 4);
 
         assertEquals(197281, result);
     }
@@ -131,13 +131,13 @@ class OptimizedBoardTest
 
     void fiveMovesTest()
     {
-        OptimizedBoard optimizedBoard = new OptimizedBoard();
+        Board board = new Board();
 
-        BoardSetup.setupBoard(optimizedBoard);
+        BoardSetup.setupBoard(board);
         int  n         = 5;
         long startTime = System.nanoTime();
         for (int i = 1; i <= n; i++) {
-            int result = DepthCalculator.possibleMoves(optimizedBoard, 5);
+            int result = DepthCalculator.possibleMoves(board, 5);
         }
         double elapsedTime = (double) (System.nanoTime() - startTime) / 1_000_000_000.0;
         System.out.println(elapsedTime / n);
@@ -150,11 +150,11 @@ class OptimizedBoardTest
     // @Test
     void fiveeMovesTest()
     {
-        OptimizedBoard optimizedBoard = new OptimizedBoard();
+        Board board = new Board();
 
 
-        BoardSetup.setupBoard(optimizedBoard);
-        int result = DepthCalculator.possibleMoves(optimizedBoard, 5);
+        BoardSetup.setupBoard(board);
+        int result = DepthCalculator.possibleMoves(board, 5);
         //  assert result == 197742;
         assertEquals(4865609, result);
     }
@@ -163,11 +163,11 @@ class OptimizedBoardTest
    // @Test
     void sixMovesTest()
     {
-        OptimizedBoard optimizedBoard = new OptimizedBoard();
+        Board board = new Board();
 
 
-        BoardSetup.setupBoard(optimizedBoard);
-        int result = DepthCalculator.possibleMoves(optimizedBoard, 6);
+        BoardSetup.setupBoard(board);
+        int result = DepthCalculator.possibleMoves(board, 6);
         //  assert result == 197742;
         assertEquals(119060324, result);
     }

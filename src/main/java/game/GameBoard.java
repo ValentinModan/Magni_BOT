@@ -6,7 +6,7 @@ import api.games.GetMyOwnGoingGames;
 import api.games.owngame.NowPlaying;
 import api.json.challenge.AcceptChallenge;
 import api.json.challenge.ListYourChallenges;
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
@@ -14,25 +14,24 @@ import game.multithreadedmap.MultiThreadedCalculator;
 import openings.OpeningController;
 import openings.OpeningReader;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH = 4;
+    public static final int DEFAULT_DEPTH = 6;
     public static       int depth         = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
-    public static OptimizedBoard actualBoard;
+    public static Board actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
     private List<Move> opponentResponse = null;
 
     public GameBoard()
     {
-        actualBoard = new OptimizedBoard();
+        actualBoard = new Board();
         BoardSetup.setupBoard(actualBoard);
     }
 
@@ -72,7 +71,7 @@ public class GameBoard
                 firstMove(nowPlaying.getGameId());
             }
             else {
-                OptimizedBoard.displayAllMoves();
+                Board.displayAllMoves();
 
                 makeEnemyMove(nowPlaying.getLastMove());
 

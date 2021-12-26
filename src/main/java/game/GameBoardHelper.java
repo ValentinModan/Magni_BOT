@@ -1,7 +1,5 @@
 package game;
 
-import api.RequestController;
-import api.games.GetMyOwnGoingGames;
 import api.games.owngame.NowPlaying;
 
 import java.time.LocalTime;

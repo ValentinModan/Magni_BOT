@@ -1,6 +1,6 @@
 package board.moves.calculator.pieces;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
@@ -18,11 +18,11 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 {
     private final int SECOND_ROW_WHITE = 2;
     private final int SECOND_ROW_BLACK = 7;
-    private final int FINAL_ROW_WHITE = 8;
-    private final int FINAL_ROW_BLACK = 1;
+    private final int FINAL_ROW_WHITE  = 8;
+    private final int FINAL_ROW_BLACK  = 1;
 
     @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position)
+    public List<Move> computeMoves(Board board, Position position)
     {
         List<Move>     moveList     = new ArrayList<>();
         Pawn           piece        = (Pawn) board.getMovingPiece(position);
@@ -36,7 +36,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         return moveList;
     }
 
-    private List<Move> moveCalculator(OptimizedBoard board, Movement movement, Position position, Pawn pawn)
+    private List<Move> moveCalculator(Board board, Movement movement, Position position, Pawn pawn)
     {
         List<Move> moveList            = new ArrayList<>();
         Position   destinationPosition = position.move(movement);
@@ -53,7 +53,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                 }
                 if (isPawnPromotion(pawn, destinationPosition)) {
                     moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
-                } else {
+                }
+                else {
                     moveList.add(new Move(position, destinationPosition));
                 }
                 break;
@@ -103,11 +104,13 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     }
                     return Collections.emptyList();
                 }
-                if (oppositeColorPieces(pawn, takenPiece)) {
+                if (pawn.isOpponentOf(takenPiece)) {
                     if (isPawnPromotion(pawn, destinationPosition)) {
                         moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
-                    } else
+                    }
+                    else {
                         moveList.add(new Move(position, destinationPosition));
+                    }
                 }
 
             default:
@@ -130,7 +133,6 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         if (Pawn.isWhite() && position.getRow() == FINAL_ROW_WHITE) {
             return true;
         }
-
         return !Pawn.isWhite() && position.getRow() == FINAL_ROW_BLACK;
     }
 
@@ -141,10 +143,10 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         }
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(new Move(initialPosition, destinationPosition, new Rook(isWhite), isWhite));
-        moveList.add(new Move(initialPosition, destinationPosition, new Bishop(isWhite), isWhite));
-        moveList.add(new Move(initialPosition, destinationPosition, new Knight(isWhite), isWhite));
-        moveList.add(new Move(initialPosition, destinationPosition, new Queen(isWhite), isWhite));
+        moveList.add(new Move(initialPosition, destinationPosition, new Rook(isWhite), true));
+        moveList.add(new Move(initialPosition, destinationPosition, new Bishop(isWhite), true));
+        moveList.add(new Move(initialPosition, destinationPosition, new Knight(isWhite), true));
+        moveList.add(new Move(initialPosition, destinationPosition, new Queen(isWhite), true));
         return moveList;
     }
 }

@@ -1,6 +1,6 @@
 package board.moves.calculator.pieces;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.MoveConvertor;
 import board.pieces.Pawn;
@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PawnMoveCalculatorTest
 {
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     PawnMoveCalculator pawnMoveCalculator;
 
     @BeforeEach
     public void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
         pawnMoveCalculator = new PawnMoveCalculator();
     }
 
@@ -31,19 +31,19 @@ class PawnMoveCalculatorTest
         Position blackPawnPosition = new Position('c', 7);
         Pawn     blackPawn         = new Pawn(false);
 
-        optimizedBoard.addPiece(whitePawnPosition, whitePawn);
-        optimizedBoard.addPiece(blackPawnPosition, blackPawn);
+        board.addPiece(whitePawnPosition, whitePawn);
+        board.addPiece(blackPawnPosition, blackPawn);
 
-        optimizedBoard.setWhiteToMove(false);
-        optimizedBoard.move(MoveConvertor.stringToMove("c7c5"));
-        optimizedBoard.setWhiteToMove(true);
-        int result = pawnMoveCalculator.computeMoves(optimizedBoard, whitePawnPosition).size();
+        board.setWhiteToMove(false);
+        board.move(MoveConvertor.stringToMove("c7c5"));
+        board.setWhiteToMove(true);
+        int result = pawnMoveCalculator.computeMoves(board, whitePawnPosition).size();
 
         assertEquals(2, result);
 
-        optimizedBoard.move(MoveConvertor.stringToMove("d5c6"));
+        board.move(MoveConvertor.stringToMove("d5c6"));
 
-        assertEquals(0, optimizedBoard.getTakenPiecesMap().size());
-        assertEquals(1, optimizedBoard.getMovingPiecesMap().size());
+        assertEquals(0, board.getTakenPiecesMap().size());
+        assertEquals(1, board.getMovingPiecesMap().size());
     }
 }

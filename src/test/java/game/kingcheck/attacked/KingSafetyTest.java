@@ -1,6 +1,6 @@
 package game.kingcheck.attacked;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.King;
 import board.pieces.Pawn;
@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class KingSafetyTest
 {
 
-    OptimizedBoard optimizedBoard;
+    Board board;
 
     @BeforeEach
     void setUp()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
     }
 
     @Test
@@ -27,14 +27,14 @@ class KingSafetyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         Rook     blackRook         = new Rook(false);
         Position blackRookPosition = new Position('d', 1);
 
-        optimizedBoard.addPiece(blackRookPosition, blackRook);
+        board.addPiece(blackRookPosition, blackRook);
 
-        assertEquals(1, KingSafety.getNumberOfAttackers(optimizedBoard));
+        assertEquals(1, KingSafety.getNumberOfAttackers(board));
     }
 
 
@@ -44,14 +44,14 @@ class KingSafetyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         Pawn     blackPawn         = new Pawn(false);
         Position blackPawnPosition = new Position('b', 2);
 
-        optimizedBoard.addPiece(blackPawnPosition, blackPawn);
+        board.addPiece(blackPawnPosition, blackPawn);
 
-        assertEquals(1, KingSafety.getNumberOfAttackers(optimizedBoard));
+        assertEquals(1, KingSafety.getNumberOfAttackers(board));
     }
 
     @Test
@@ -60,20 +60,20 @@ class KingSafetyTest
         King     whiteKing         = new King(true);
         Position whiteKingPosition = new Position('a', 1);
 
-        optimizedBoard.addPiece(whiteKingPosition, whiteKing);
+        board.addPiece(whiteKingPosition, whiteKing);
 
         Pawn     blackPawn         = new Pawn(false);
         Position blackPawnPosition = new Position('b', 2);
 
-        optimizedBoard.addPiece(blackPawnPosition, blackPawn);
+        board.addPiece(blackPawnPosition, blackPawn);
 
 
         Rook     blackRook         = new Rook(false);
         Position blackRookPosition = new Position('d', 1);
 
-        optimizedBoard.addPiece(blackRookPosition, blackRook);
+        board.addPiece(blackRookPosition, blackRook);
 
-        assertEquals(2, KingSafety.getNumberOfAttackers(optimizedBoard));
+        assertEquals(2, KingSafety.getNumberOfAttackers(board));
     }
 
 

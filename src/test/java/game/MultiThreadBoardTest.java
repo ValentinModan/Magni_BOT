@@ -1,26 +1,23 @@
 package game;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.MovesGenerator;
 import board.setup.BoardSetup;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MultiThreadBoardTest
 {
 
     void compute() throws CloneNotSupportedException
     {
-        OptimizedBoard optimizedBoard = new OptimizedBoard();
-        BoardSetup.setupBoard(optimizedBoard);
+        Board board = new Board();
+        BoardSetup.setupBoard(board);
 
         MultiThreadBoard multiThreadBoard = new MultiThreadBoard();
 
-        multiThreadBoard.compute(optimizedBoard);
+        multiThreadBoard.compute(board);
 
-        MovesGenerator.makeMoves(optimizedBoard,"d2d4");
+        MovesGenerator.makeMoves(board, "d2d4");
 
-        multiThreadBoard.compute(optimizedBoard);
+        multiThreadBoard.compute(board);
     }
 }

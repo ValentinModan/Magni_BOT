@@ -1,6 +1,6 @@
 package board.possibleMoves.piece;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.calculator.pieces.KnightMoveCalculator;
@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 public class KnightPossibleMovesTest
 {
 
-    private OptimizedBoard optimizedBoard;
-    private Piece          whiteKnight;
+    private Board board;
+    private Piece whiteKnight;
     private Piece          blackKnight;
     private Piece          secondWhiteKnight;
     private KnightMoveCalculator knightMoveCalculator = new KnightMoveCalculator();
@@ -24,7 +24,7 @@ public class KnightPossibleMovesTest
     @BeforeEach
     private void setUP()
     {
-        optimizedBoard = new OptimizedBoard();
+        board = new Board();
         whiteKnight = new Knight(true);
         blackKnight = new Knight(false);
         secondWhiteKnight = new Knight(true);
@@ -33,14 +33,14 @@ public class KnightPossibleMovesTest
 
     public void singleKnightCornerPossibleMoves()
     {
-        optimizedBoard.setWhiteToMove(true);
+        board.setWhiteToMove(true);
         Piece knight = new Knight(true);
 
-        optimizedBoard.addPiece(new Position('a', 1), knight);
+        board.addPiece(new Position('a', 1), knight);
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 2;
+        assert board.getPossibleMoves().size() == 2;
     }
 
 
@@ -49,12 +49,12 @@ public class KnightPossibleMovesTest
         Position whiteKnightPosition = new Position('a', 8);
         Position blackKnightPosition = new Position('h', 1);
 
-        optimizedBoard.addPiece(whiteKnightPosition, whiteKnight);
-        optimizedBoard.addPiece(blackKnightPosition, blackKnight);
+        board.addPiece(whiteKnightPosition, whiteKnight);
+        board.addPiece(blackKnightPosition, blackKnight);
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 2;
+        assert board.getPossibleMoves().size() == 2;
     }
 
 
@@ -64,12 +64,12 @@ public class KnightPossibleMovesTest
         Position firstWhitePosition  = new Position('d', 4);
         Position secondWhitePosition = new Position('f', 5);
 
-        optimizedBoard.addPiece(firstWhitePosition, whiteKnight);
-        optimizedBoard.addPiece(secondWhitePosition, secondWhiteKnight);
+        board.addPiece(firstWhitePosition, whiteKnight);
+        board.addPiece(secondWhitePosition, secondWhiteKnight);
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 14;
+        assert board.getPossibleMoves().size() == 14;
     }
 
 
@@ -78,12 +78,12 @@ public class KnightPossibleMovesTest
         Position whitePosition = new Position('d', 4);
         Position blackPosition = new Position('f', 5);
 
-        optimizedBoard.addPiece(whitePosition, whiteKnight);
-        optimizedBoard.addPiece(blackPosition, blackKnight);
+        board.addPiece(whitePosition, whiteKnight);
+        board.addPiece(blackPosition, blackKnight);
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 8;
+        assert board.getPossibleMoves().size() == 8;
     }
 
 
@@ -96,41 +96,41 @@ public class KnightPossibleMovesTest
         Position thirdWhitePosition  = new Position('f', 3);
 
 
-        optimizedBoard.addPiece(firstWhitePosition, whiteKnight);
-        optimizedBoard.addPiece(secondWhitePosition, secondWhiteKnight);
-        optimizedBoard.addPiece(thirdWhitePosition, thirdKnight);
+        board.addPiece(firstWhitePosition, whiteKnight);
+        board.addPiece(secondWhitePosition, secondWhiteKnight);
+        board.addPiece(thirdWhitePosition, thirdKnight);
 
-        Assertions.assertEquals(6,knightMoveCalculator.computeMoves(optimizedBoard,firstWhitePosition).size());
-        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(optimizedBoard,secondWhitePosition).size());
-        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(optimizedBoard,thirdWhitePosition).size());
+        Assertions.assertEquals(6,knightMoveCalculator.computeMoves(board, firstWhitePosition).size());
+        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(board, secondWhitePosition).size());
+        Assertions.assertEquals(7,knightMoveCalculator.computeMoves(board, thirdWhitePosition).size());
     }
 
 
     @Test
     public void whiteSecondMove()
     {
-        BoardSetup.setupBoard(optimizedBoard);
+        BoardSetup.setupBoard(board);
         Move move = new Move(new Position('b', 1), new Position('c', 3));
-        optimizedBoard.move(move);
+        board.move(move);
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 22;
+        assert board.getPossibleMoves().size() == 22;
     }
 
 
     @Test
     public void blackSecondMove()
     {
-        BoardSetup.setupBoard(optimizedBoard);
-        optimizedBoard.setWhiteToMove(false);
+        BoardSetup.setupBoard(board);
+        board.setWhiteToMove(false);
         Move move = new Move(new Position('b', 8), new Position('c', 6));
-        optimizedBoard.move(move);
+        board.move(move);
 
 
-        optimizedBoard.computePossibleMoves();
+        board.computePossibleMoves();
 
-        assert optimizedBoard.getPossibleMoves().size() == 22;
+        assert board.getPossibleMoves().size() == 22;
     }
 
 }

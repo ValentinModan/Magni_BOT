@@ -1,6 +1,6 @@
 package board.moves.calculator.pieces;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.pieces.King;
@@ -17,7 +17,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
     private static final Position BLACK_RIGHT_ROOK_POSITION = new Position('h', 8);
 
     @Override
-    public List<Move> computeMoves(OptimizedBoard board, Position position) throws Exception
+    public List<Move> computeMoves(Board board, Position position) throws Exception
     {
         List<Move> moveList = super.computeMoves(board, position);
 

@@ -1,6 +1,6 @@
 package board.setup;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.Position;
 import board.pieces.*;
 
@@ -10,11 +10,11 @@ public class BoardSetup {
     private static final boolean WHITE = true;
     private static final boolean BLACK = false;
 
-    public static void setupBoard(OptimizedBoard board) {
+    public static void setupBoard(Board board) {
         setPieces(board);
     }
 
-    private static void setPieces(OptimizedBoard board) {
+    private static void setPieces(Board board) {
         addPawns(board);
         addKnights(board);
         addBishops(board);
@@ -23,7 +23,7 @@ public class BoardSetup {
         addKings(board);
     }
 
-    private static void addPawns(OptimizedBoard board)
+    private static void addPawns(Board board)
     {
         for(char letter = 'a';letter<='h';letter++)
         {
@@ -32,7 +32,7 @@ public class BoardSetup {
         }
     }
 
-    private static void addKnights(OptimizedBoard board)
+    private static void addKnights(Board board)
     {
         board.addPiece(new Position('b',1),new Knight(WHITE));
         board.addPiece(new Position('g',1),new Knight(WHITE));
@@ -40,7 +40,7 @@ public class BoardSetup {
         board.addPiece(new Position('g',8),new Knight(BLACK));
     }
 
-    private static void addBishops(OptimizedBoard board)
+    private static void addBishops(Board board)
     {
         board.addPiece(new Position('c',1),new Bishop(WHITE));
         board.addPiece(new Position('f',1),new Bishop(WHITE));
@@ -48,7 +48,7 @@ public class BoardSetup {
         board.addPiece(new Position('f',8),new Bishop(BLACK));
     }
 
-    private static void addRooks(OptimizedBoard board)
+    private static void addRooks(Board board)
     {
         board.addPiece(new Position('a',1),new Rook(WHITE));
         board.addPiece(new Position('h',1),new Rook(WHITE));
@@ -56,13 +56,13 @@ public class BoardSetup {
         board.addPiece(new Position('h',8),new Rook(BLACK));
     }
 
-    private static void addQueens(OptimizedBoard board)
+    private static void addQueens(Board board)
     {
         board.addPiece(new Position('d',1), new Queen(WHITE));
         board.addPiece(new Position('d',8), new Queen(BLACK));
     }
 
-    private static void addKings(OptimizedBoard board)
+    private static void addKings(Board board)
     {
         board.addPiece(new Position('e',1),new King(WHITE));
         board.addPiece(new Position('e',8),new King(BLACK));

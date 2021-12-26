@@ -1,19 +1,19 @@
 package board.moves;
 
-import board.OptimizedBoard;
+import board.Board;
 
 import static board.moves.MoveConvertor.stringToMove;
 
 public class MovesGenerator
 {
     //todo move generator to testing package
-    public static void makeMoves(OptimizedBoard optimizedBoard, String moves)
+    public static void makeMoves(Board board, String moves)
     {
         String[] movesArray = moves.split(" ");
         for (String move : movesArray) {
-            optimizedBoard.move(stringToMove(move));
-            optimizedBoard.computePossibleMoves();
-            optimizedBoard.nextTurn();
+            board.move(stringToMove(move));
+            board.computePossibleMoves();
+            board.nextTurn();
         }
     }
 }

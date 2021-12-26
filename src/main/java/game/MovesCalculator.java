@@ -1,6 +1,6 @@
 package game;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.pieces.Piece;
@@ -11,15 +11,15 @@ import java.util.*;
 public class MovesCalculator
 {
 
-    public static Move calculate(OptimizedBoard optimizedBoard, int moves, int depth)
+    public static Move calculate(Board board, int moves, int depth)
     {
-        if (optimizedBoard.lastMove() != null && optimizedBoard.lastMove().isCheckMate()) {
+        if (board.lastMove() != null && board.lastMove().isCheckMate()) {
             return GameOptions.checkMate();
         }
-        optimizedBoard.computePossibleMoves();
-        List<Move> moveList = new ArrayList<>(optimizedBoard.getPossibleMoves());
+        board.computePossibleMoves();
+        List<Move> moveList = new ArrayList<>(board.getPossibleMoves());
         for (Move move : moveList) {
-            move.setScore(scoreCalculator(optimizedBoard, move));
+            move.setScore(scoreCalculator(board, move));
         }
         Collections.sort(moveList);
         if (depth == 1) {
@@ -28,11 +28,11 @@ public class MovesCalculator
             }
             Move bestMove = moveList.get(0);
             for (Move move : moveList) {
-                if (scoreCalculator(optimizedBoard, move) > scoreCalculator(optimizedBoard, bestMove)) {
+                if (scoreCalculator(board, move) > scoreCalculator(board, bestMove)) {
                     bestMove = move;
                 }
             }
-            bestMove.setScore(scoreCalculator(optimizedBoard, bestMove));
+            bestMove.setScore(scoreCalculator(board, bestMove));
             return bestMove;
         }
 
@@ -43,31 +43,31 @@ public class MovesCalculator
         moveList = moveList.subList(0, maxIndex);
         for (Move move : moveList) {
             //make the supposed move
-            move.setScore(scoreCalculator(optimizedBoard, move));
-            optimizedBoard.move(move);
-            optimizedBoard.nextTurn();
+            move.setScore(scoreCalculator(board, move));
+            board.move(move);
+            board.nextTurn();
 
             //compute the best response
-            Move bestMoveForCurrent = calculate(optimizedBoard, moves, depth - 1);
+            Move bestMoveForCurrent = calculate(board, moves, depth - 1);
             move.setScore(move.getScore() - bestMoveForCurrent.getScore());
 
             if (move.getScore() > bestMove.getScore()) {
                 bestMove = move;
             }
-            optimizedBoard.previousTurn();
-            optimizedBoard.undoMove(move);
+            board.previousTurn();
+            board.undoMove(move);
         }
         return bestMove;
     }
 
-    private static int scoreCalculator(OptimizedBoard optimizedBoard, Move move)
+    private static int scoreCalculator(Board board, Move move)
     {
         if (move == null) {
             return 0;
         }
-        MoveUpdateHelper.moveUpdate(optimizedBoard, move);
+        MoveUpdateHelper.moveUpdate(board, move);
 
-        Piece takenPiece = optimizedBoard.getTakenPiecesMap().get(move.getFinalPosition());
+        Piece takenPiece = board.getTakenPiecesMap().get(move.getFinalPosition());
         if (takenPiece == null) {
             return 0;
         }
@@ -76,14 +76,14 @@ public class MovesCalculator
     }
 
 
-    public static Move calculate2(OptimizedBoard optimizedBoard, int moves, int depth)
+    public static Move calculate2(Board board, int moves, int depth)
     {
-        optimizedBoard.computePossibleMoves();
-        List<Move> moveList      = new ArrayList<>(sortedListMove(optimizedBoard));
-        boolean    isWhiteToMove = optimizedBoard.isWhiteToMove();
+        board.computePossibleMoves();
+        List<Move> moveList      = new ArrayList<>(sortedListMove(board));
+        boolean    isWhiteToMove = board.isWhiteToMove();
 
         if (moveList.size() == 0) {
-            if (optimizedBoard.lastMove().isCheckMate()) {
+            if (board.lastMove().isCheckMate()) {
                 return GameOptions.checkMate();
             }
             return GameOptions.staleMate();
@@ -96,23 +96,23 @@ public class MovesCalculator
         }
         Move bestMove = moveList.get(0);
 
-        optimizedBoard.move(bestMove);
-        optimizedBoard.nextTurn();
-        Move bestResponse = calculate2(optimizedBoard, moves, depth - 1);
+        board.move(bestMove);
+        board.nextTurn();
+        Move bestResponse = calculate2(board, moves, depth - 1);
 
         bestMove.setScore(bestMove.getScore() - bestResponse.getScore());
-        optimizedBoard.previousTurn();
-        optimizedBoard.undoMove(bestMove);
+        board.previousTurn();
+        board.undoMove(bestMove);
         int remainingSize = Math.min(moves, moveList.size());
 
         moveList = moveList.subList(1, remainingSize);
 
         for (Move move : moveList) {
-            optimizedBoard.move(move);
-            optimizedBoard.setTurn(!isWhiteToMove);
-            bestResponse = calculate2(optimizedBoard, moves, depth - 1);
-            optimizedBoard.setTurn(isWhiteToMove);
-            optimizedBoard.undoMove(move);
+            board.move(move);
+            board.setTurn(!isWhiteToMove);
+            bestResponse = calculate2(board, moves, depth - 1);
+            board.setTurn(isWhiteToMove);
+            board.undoMove(move);
 
             move.setScore(move.getScore() - bestResponse.getScore());
 
@@ -123,11 +123,11 @@ public class MovesCalculator
         return bestMove;
     }
 
-    private static List<Move> sortedListMove(OptimizedBoard optimizedBoard)
+    private static List<Move> sortedListMove(Board board)
     {
-        List<Move> moveList = optimizedBoard.getPossibleMoves();
+        List<Move> moveList = board.getPossibleMoves();
         for (Move move : moveList) {
-            MoveUpdateHelper.moveUpdate(optimizedBoard, move);
+            MoveUpdateHelper.moveUpdate(board, move);
         }
         Collections.sort(moveList);
 

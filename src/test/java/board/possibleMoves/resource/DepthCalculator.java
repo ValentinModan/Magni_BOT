@@ -1,6 +1,6 @@
 package board.possibleMoves.resource;
 
-import board.OptimizedBoard;
+import board.Board;
 import board.moves.Move;
 import game.kingcheck.attacked.KingSafety;
 
@@ -10,7 +10,7 @@ public class DepthCalculator
 {
     public static double seconds = 0;
     public static double check_verification_seconds = 0;
-    public static int possibleMoves(OptimizedBoard board, int depth)
+    public static int possibleMoves(Board board, int depth)
     {
         if (depth == 0) {
             return 1;

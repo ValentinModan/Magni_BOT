@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class OptimizedBoard implements Cloneable
+public class Board implements Cloneable
 {
     private List<Move>           possibleMoves  = new ArrayList<>();
     private Map<Position, Piece> whitePiecesMap = new HashMap<>();
@@ -203,7 +203,7 @@ public class OptimizedBoard implements Cloneable
         return isWhiteToMove ? blackPiecesMap : whitePiecesMap;
     }
 
-    //replace with enum?
+    //TODO: replace with enum?
     public boolean isWhiteToMove()
     {
         return isWhiteToMove;
@@ -216,7 +216,7 @@ public class OptimizedBoard implements Cloneable
 
     public Move lastMove()
     {
-        if (allMoves.size() == 0) {
+        if (allMoves.isEmpty()) {
             return null;
         }
         return allMoves.get(allMoves.size() - 1);
@@ -231,7 +231,7 @@ public class OptimizedBoard implements Cloneable
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        OptimizedBoard that = (OptimizedBoard) o;
+        Board that = (Board) o;
         return whitePiecesMap.equals(that.whitePiecesMap) && blackPiecesMap.equals(that.blackPiecesMap);
     }
 
@@ -281,7 +281,7 @@ public class OptimizedBoard implements Cloneable
     @Override
     public Object clone() throws CloneNotSupportedException
     {
-        OptimizedBoard newBoard = (OptimizedBoard) super.clone();
+        Board newBoard = (Board) super.clone();
 
         newBoard.setWhiteToMove(Boolean.valueOf(isWhiteToMove));
         newBoard.setWhitePiecesMap(new HashMap<>(whitePiecesMap));

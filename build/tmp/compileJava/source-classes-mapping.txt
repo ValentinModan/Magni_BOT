@@ -17,6 +17,8 @@ api/account/AccountUpgrade.java
  api.account.AccountUpgrade
 api/TestingClass.java
  api.TestingClass
+board/Board.java
+ board.Board
 board/moves/calculator/PieceMoveStrategy.java
  board.moves.calculator.PieceMoveStrategy
  board.moves.calculator.PieceMoveStrategy$1
@@ -91,8 +93,6 @@ Main.java
  Main
 board/moves/pieces/BishopMovement.java
  board.moves.pieces.BishopMovement
-board/OptimizedBoard.java
- board.OptimizedBoard
 board/moves/calculator/pieces/KnightMoveCalculator.java
  board.moves.calculator.pieces.KnightMoveCalculator
 game/MovesCalculator.java
