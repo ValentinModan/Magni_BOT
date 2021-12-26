@@ -19,7 +19,7 @@ public class KnightAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        Position kingPosition = board.getKingPosition(board.isWhiteToMove());
+        Position kingPosition = board.getKingPosition();
         King     king         = (King) board.getPiece(kingPosition);
 
         for (Movement movement : knightsPossibleMovements) {

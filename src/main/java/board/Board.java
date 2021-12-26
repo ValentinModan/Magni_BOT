@@ -41,17 +41,10 @@ public class Board implements Cloneable
         return piece != null ? (King) piece : null;
     }
 
-    //TODO: remove this method since isWhite is already from the same board
-    public Position getKingPosition(boolean isWhite)
-    {
-        return isWhite ? whiteKingPosition : blackKingPosition;
-    }
-
     public Position getKingPosition()
     {
         return isWhiteToMove ? whiteKingPosition : blackKingPosition;
     }
-
 
     public void actualMove(Move move)
     {
@@ -77,6 +70,7 @@ public class Board implements Cloneable
         moveController.move(this, move);
     }
 
+    //todo: use this at xray moves class?
     public boolean pieceExistsAt(Position position)
     {
         Piece piece = whitePiecesMap.get(position);
@@ -97,7 +91,6 @@ public class Board implements Cloneable
         if (whitePiece == null) {
             return blackPiece;
         }
-
         return whitePiece;
     }
 
@@ -168,9 +161,9 @@ public class Board implements Cloneable
                 .stream()
                 .filter(move -> {     //filter moves after which the king is attacked
                     move(move);
-                    int attackers = KingSafety.getNumberOfAttackers(this);
+                    boolean kingAttacked = KingSafety.isTheKingAttacked(this);
                     undoMove(move);
-                    return attackers == 0;
+                    return kingAttacked;
                 }).collect(Collectors.toList());
     }
 
@@ -181,9 +174,9 @@ public class Board implements Cloneable
 
         possibleMoves = possibleMoves.stream().filter(move -> {
             move(move);
-            int attackers = KingSafety.getNumberOfAttackers(this);
+            boolean kingAttacked = KingSafety.isTheKingAttacked(this);
             undoMove(move);
-            return attackers == 0;
+            return kingAttacked;
         }).collect(Collectors.toList());
     }
 

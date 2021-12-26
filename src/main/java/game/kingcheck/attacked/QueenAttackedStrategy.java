@@ -16,10 +16,8 @@ public class QueenAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        Position kingPosition = board.getKingPosition();
-
         for (Movement movement : queenMovementList) {
-            if (Xray.isXRayAttacked(board, kingPosition, movement, PieceType.QUEEN)) {
+            if (Xray.isXRayAttacked(board, movement, PieceType.QUEEN)) {
                 return true;
             }
         }

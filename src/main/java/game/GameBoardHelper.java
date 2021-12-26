@@ -1,13 +1,16 @@
 package game;
 
+import api.RequestController;
+import api.games.GetMyOwnGoingGames;
 import api.games.owngame.NowPlaying;
 
 import java.time.LocalTime;
 
+import static game.GameBoard.getMyOwnGoingGames;
+
 //TODO: move methods to helper
 public class GameBoardHelper
 {
-
     private static      LocalTime previousRequestTime     = LocalTime.now();
     private static final int       MY_TURN_REQUEST_TIMEOUT = 10;
 
@@ -18,6 +21,15 @@ public class GameBoardHelper
             previousRequestTime = LocalTime.now();
         }
         return hasRequestTimeoutPassed;
+    }
+
+    public static boolean isMyTurn()
+    {
+        if (GameBoardHelper.hasRequestTimeoutPassed()) {
+            getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
+            return getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
+        }
+        return false;
     }
 
     public static boolean isFirstMoveOfTheGame(NowPlaying nowPlaying)

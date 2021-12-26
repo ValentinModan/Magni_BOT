@@ -30,7 +30,7 @@ public class DepthCalculator
 
             board.move(move);
 
-            if (KingSafety.getNumberOfAttackers(board) == 0) {
+            if (!KingSafety.isTheKingAttacked(board)) {
                 board.nextTurn();
                 moves += possibleMoves(board, depth - 1);
                 board.nextTurn();

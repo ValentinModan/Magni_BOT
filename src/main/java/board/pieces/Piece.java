@@ -42,6 +42,9 @@ public abstract class Piece
 
     public boolean isOpponentOf(Piece piece)
     {
+        if (piece == null) {
+            return false;
+        }
         return this.isWhite != piece.isWhite;
     }
 

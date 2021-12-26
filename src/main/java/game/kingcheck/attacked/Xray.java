@@ -12,27 +12,23 @@ import java.util.List;
 
 public class Xray
 {
-
     //up, down, left, right and diagonal
-    //TODO:King position can be obtained from the board
-    public static boolean isXRayAttacked(Board board, Position currentPosition, Movement movement, PieceType pieceType)
+    public static boolean isXRayAttacked(Board board, Movement movement, PieceType pieceType)
     {
-        //TODO: simplyfiy and change to while instead
-        do {
+        Position currentPosition = board.getKingPosition();
+        currentPosition = currentPosition.move(movement);
+
+        while (currentPosition.isValid()) {
+            Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
+            if (takenPiece != null) {
+                return takenPiece.getPieceType() == pieceType;
+            }
+            if (board.getMovingPiece(currentPosition) != null) {
+                return false;
+            }
             currentPosition = currentPosition.move(movement);
-            if (!currentPosition.isValid()) {
-                return false;
-            }
-            Piece piece = board.getTakenPiecesMap().get(currentPosition);
-            if (piece != null) {
-                return piece.getPieceType() == pieceType;
-            }
-            piece = board.getMovingPiece(currentPosition);
-            if (piece != null) {
-                return false;
-            }
-        } while (!currentPosition.isValid());
-        return isXRayAttacked(board, currentPosition, movement, pieceType);
+        }
+        return false;
     }
 
     public static List<Move> xRayMoveList(Board board, Position initialPosition, List<Movement> movementList)
@@ -59,14 +55,9 @@ public class Xray
             xRayMoves(board, moveList, initialPosition, currentPosition, movement);
             return;
         }
-        if (isOppositePiece(takenPiece, board.isWhiteToMove())) {
+        if (board.getKing().isOpponentOf(takenPiece)) {
             moveList.add(currentMove);
         }
     }
 
-    //todo: move this to Piece class instead
-    private static boolean isOppositePiece(Piece piece, boolean isWhitePiece)
-    {
-        return piece != null && isWhitePiece != piece.isWhite();
-    }
 }

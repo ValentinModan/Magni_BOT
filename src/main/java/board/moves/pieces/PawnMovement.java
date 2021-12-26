@@ -27,6 +27,7 @@ public class PawnMovement implements PieceMovement
         return movementList;
     }
 
+    //TODO!: check  if this is correct or needs to be inverted
     public static List<Movement> attackMovements(Boolean isWhite)
     {
         return isWhite ? whiteAttackList : blackAttackList;

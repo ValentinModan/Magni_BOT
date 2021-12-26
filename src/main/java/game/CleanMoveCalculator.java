@@ -36,7 +36,7 @@ public class CleanMoveCalculator
             move.moveScore();
 
 
-            if (GameBoard.isMyTurn()) {
+            if (GameBoardHelper.isMyTurn()) {
                 log.info("Precomputing stopped by actual move");
                 return resultList;
             }
@@ -75,13 +75,14 @@ public class CleanMoveCalculator
         boolean isWhiteToMove = board.isWhiteToMove();
 
         //stalemate or checkmate
-        if (moveList.size() == 0) {
-            if (KingSafety.getNumberOfAttackers(board) > 0) {
+        if (moveList.isEmpty()) {
+            if (KingSafety.isTheKingAttacked(board)) {
                 return GameOptions.checkMate(depth);
             }
             return GameOptions.staleMate();
         }
         //forcedMove
+        //todo: check if this is needed
         if (isForcedMove(moveList)) {
             return moveList.get(0);
         }
@@ -94,7 +95,7 @@ public class CleanMoveCalculator
         int length = moveList.size();
 
         return moveList.stream().peek(move -> {
-            if (precalculate && GameBoard.isMyTurn()) {
+            if (precalculate && GameBoardHelper.isMyTurn()) {
                 return;
             }
             board.setTurn(isWhiteToMove);

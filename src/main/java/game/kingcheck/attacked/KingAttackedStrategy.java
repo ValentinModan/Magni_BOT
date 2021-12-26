@@ -18,7 +18,7 @@ public class KingAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        Position kingPosition = board.getKingPosition(board.isWhiteToMove());
+        Position kingPosition = board.getKingPosition();
 
         for (Movement movement : kingAttackedStrategy) {
             Piece piece = board.getTakenPiecesMap().get(kingPosition.move(movement));

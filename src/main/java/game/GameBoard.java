@@ -35,15 +35,6 @@ public class GameBoard
         BoardSetup.setupBoard(actualBoard);
     }
 
-    public static boolean isMyTurn()
-    {
-        if (GameBoardHelper.hasRequestTimeoutPassed()) {
-            getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
-            return getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true");
-        }
-        return false;
-    }
-
     public void startPlayerGame() throws InterruptedException
     {
         ListYourChallenges listYourChallenges = (ListYourChallenges) RequestController.sendRequest(new ListYourChallenges());
@@ -58,12 +49,10 @@ public class GameBoard
         getMyOwnGoingGames = new GetMyOwnGoingGames();
 
         while (true) {
-            getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
-            while (!getMyOwnGoingGames.getNowPlaying().get(0).getIsMyTurn().equals("true")) {
-                getMyOwnGoingGames = (GetMyOwnGoingGames) RequestController.sendRequest(getMyOwnGoingGames);
+
+            while (!GameBoardHelper.isMyTurn()) {
                 sleep(2000);
             }
-
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
 
             if (GameBoardHelper.isFirstMoveOfTheGame(nowPlaying)) {
@@ -74,8 +63,6 @@ public class GameBoard
                 Board.displayAllMoves();
 
                 makeEnemyMove(nowPlaying.getLastMove());
-
-                // makeMyOwnMove(nowPlaying.getGameId(), null);
                 ownMoveCalculator(nowPlaying.getGameId());
             }
         }

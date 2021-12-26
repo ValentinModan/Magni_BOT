@@ -17,9 +17,8 @@ public class BishopAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        Position kingPosition = board.getKingPosition();
         for (Movement movement : bishopMovementList) {
-            if (Xray.isXRayAttacked(board, kingPosition, movement, PieceType.BISHOP)) {
+            if (Xray.isXRayAttacked(board, movement, PieceType.BISHOP)) {
                 return true;
             }
         }

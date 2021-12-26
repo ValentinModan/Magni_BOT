@@ -1,7 +1,6 @@
 package game.kingcheck.attacked;
 
 import board.Board;
-import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.EmptyPiece;
@@ -17,10 +16,8 @@ public class RookAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        Position kingPosition = board.getKingPosition();
-
         for (Movement movement : rookMovementList) {
-            if (Xray.isXRayAttacked(board, kingPosition, movement, PieceType.ROOK)) {
+            if (Xray.isXRayAttacked(board, movement, PieceType.ROOK)) {
                 return true;
             }
         }
