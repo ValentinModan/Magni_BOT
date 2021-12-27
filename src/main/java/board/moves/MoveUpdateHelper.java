@@ -30,6 +30,7 @@ public class MoveUpdateHelper
         }
         if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
             move.setPawnPromotion(true);
+            move.setScore(move.getMovingPiece().getScore());
         }
     }
 

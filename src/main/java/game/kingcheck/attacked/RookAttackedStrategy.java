@@ -10,7 +10,6 @@ import java.util.List;
 
 public class RookAttackedStrategy implements AttackedStrategy
 {
-
     private static final List<Movement> rookMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.ROOK);
 
     @Override

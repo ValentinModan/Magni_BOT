@@ -286,7 +286,6 @@ public class Board implements Cloneable
         return newBoard;
     }
 
-
     @SneakyThrows
     @Override
     public String toString()

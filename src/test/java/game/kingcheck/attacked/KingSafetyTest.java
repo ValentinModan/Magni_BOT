@@ -34,7 +34,7 @@ class KingSafetyTest
 
         board.addPiece(blackRookPosition, blackRook);
 
-        assertEquals(1, KingSafety.getNumberOfAttackers(board));
+        assertTrue(KingSafety.isTheKingAttacked(board));
     }
 
 
@@ -51,7 +51,7 @@ class KingSafetyTest
 
         board.addPiece(blackPawnPosition, blackPawn);
 
-        assertEquals(1, KingSafety.getNumberOfAttackers(board));
+        assertTrue(KingSafety.isTheKingAttacked(board));
     }
 
     @Test
@@ -73,7 +73,7 @@ class KingSafetyTest
 
         board.addPiece(blackRookPosition, blackRook);
 
-        assertEquals(2, KingSafety.getNumberOfAttackers(board));
+        assertTrue(KingSafety.isTheKingAttacked(board));
     }
 
 

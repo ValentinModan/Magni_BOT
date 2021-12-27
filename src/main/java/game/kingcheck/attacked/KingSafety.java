@@ -16,16 +16,6 @@ public class KingSafety
             new QueenAttackedStrategy(),
             new KingAttackedStrategy()));
 
-    public static int getNumberOfAttackers(Board board)
-    {
-        for (AttackedStrategy attackedStrategy : attackedStrategyList) {
-            if (attackedStrategy.isAttackingTheKing(board)) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
     public static boolean isTheKingAttacked(Board board)
     {
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {
