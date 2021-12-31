@@ -3,6 +3,7 @@ package game.multithreadedmap;
 import board.Board;
 import board.moves.Move;
 import game.GameBoard;
+import lombok.SneakyThrows;
 import mapmovement.MovementMap;
 
 import java.util.ArrayList;
@@ -11,10 +12,8 @@ import java.util.NoSuchElementException;
 
 public class MultiThreadedCalculator
 {
-    private static final int          FINAL_THREAD_COUNT = 8;
-    private static       int          THREAD_COUNT       = 8;
-    private static       int          SLEEP_TIME         = 5000;
-    private static       List<Worker> workerList         = new ArrayList<>();
+    private static int          THREAD_COUNT = 8;
+    private static List<Worker> workerList   = new ArrayList<>();
 
     boolean setupHasBeenMade = false;
 
@@ -25,15 +24,9 @@ public class MultiThreadedCalculator
             setup(board, GameBoard.depth);
         }
         else {
+            //making enemy move
             MovementMap.makeMovement(board.lastMove());
         }
-
-        try {
-            Thread.sleep(SLEEP_TIME);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
         //update current move from the game
         Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
@@ -45,12 +38,13 @@ public class MultiThreadedCalculator
     {
         board.computePossibleMoves();
         MovementMap movementMap = new MovementMap(null, board.lastMove());
-        System.out.println("Adding movement to queue" + movementMap);
+        MovementMap.currentMoveFromTheGame = movementMap;
+
         generateWorkers(depth);
+
         startWorkers();
-        System.out.println("Adding element to queue");
-        MovementMap.movementMapQueue.put(movementMap);
-        System.out.println("Element added");
+
+        MovementMap.movementMapQueue.add(movementMap);
     }
 
     private void generateWorkers(int depth)
@@ -76,48 +70,28 @@ public class MultiThreadedCalculator
             this.depth = depth;
         }
 
+        @SneakyThrows
         @Override
         public void run()
         {
             super.run();
             while (true) {
+                MovementMap movementMap;
 
-                System.out.println("Worker taking move from queue with size:" + MovementMap.movementMapQueue.size());
-                MovementMap movementMap = null;
-                try {
-                    movementMap = MovementMap.movementMapQueue.take();
-                    System.out.println("Worker taken movementMap: " + movementMap);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
+                movementMap = MovementMap.movementMapQueue.remove();
+//                    if (movementMap.getCurrentDepth() > depth) {
+//                        //move to the back of the queue
+//                        MovementMap.movementMapQueue.add(movementMap);
+//                    }
+                if (movementMap.isCurrentMovePossible() || movementMap.getParent() == null) {
+                    //the move must be possible for the current game
+                    Board board = movementMap.getBoardForCurrentPosition();
+                    board.computePossibleMoves();
 
-                    //  if (movementMap.getCurrentDepth() > depth) {
-                    //move to the back of the queue
-
-                    //     MovementMap.movementMapQueue.add(movementMap);
-                    //  }
-                    if (movementMap.isCurrentMovePossible() || movementMap.getParent() == null) {
-                        //the move must be possible for the current game
-                        System.out.println("Processing move " + movementMap.getCurrentMove());
-
-                        Board board = movementMap.getBoardForCurrentPosition();
-                        board.computePossibleMoves();
-
-                        List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
-                        for (Move move : possibleMovesCalculatorsList) {
-                            movementMap.addResponse(move);
-
-                        }
-                        System.out.println("Processing done");
+                    List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
+                    for (Move move : possibleMovesCalculatorsList) {
+                        movementMap.addResponse(move);
                     }
-                    else {
-                        System.out.println("Move not taken becuase is not possible");
-                    }
-                } catch (NoSuchElementException e) {
-                    System.out.println("ERROR: trying to get empty element from movementMapQueue");
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }

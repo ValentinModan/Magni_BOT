@@ -73,7 +73,7 @@ public class Controller {
             System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
             http.disconnect();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

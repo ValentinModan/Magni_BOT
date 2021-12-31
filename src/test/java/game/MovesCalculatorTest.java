@@ -106,7 +106,7 @@ class MovesCalculatorTest
         }
         catch (Exception e)
         {
-            System.err.println(e);
+            e.printStackTrace();
             System.out.println(board.allMoves);
         }
 

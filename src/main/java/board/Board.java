@@ -163,7 +163,7 @@ public class Board implements Cloneable
                     move(move);
                     boolean kingAttacked = KingSafety.isTheKingAttacked(this);
                     undoMove(move);
-                    return kingAttacked;
+                    return !kingAttacked;
                 }).collect(Collectors.toList());
     }
 
@@ -176,7 +176,7 @@ public class Board implements Cloneable
             move(move);
             boolean kingAttacked = KingSafety.isTheKingAttacked(this);
             undoMove(move);
-            return kingAttacked;
+            return !kingAttacked;
         }).collect(Collectors.toList());
     }
 

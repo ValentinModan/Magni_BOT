@@ -99,6 +99,7 @@ public class GameBoard
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
     MultiThreadedCalculator       multiThreadedCalculator       = new MultiThreadedCalculator();
+    SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
     private void makeMyOwnMove(String gameId, String move)
     {
@@ -106,12 +107,13 @@ public class GameBoard
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
-//            try {
-//                actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+        //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
+            try {
+                actualMove = singleThreadCalculator.bestResponse(actualBoard);
+               // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 

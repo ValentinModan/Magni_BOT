@@ -3,9 +3,10 @@ package mapmovement;
 import board.Board;
 import board.moves.Move;
 import game.GameBoard;
+import game.SingleThreadCalculator;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,7 +19,7 @@ public class MovementMap
     private final Map<Move, MovementMap> movementMap;
 
     //a queue from which the threads should take the moves
-    public static BlockingQueue<MovementMap> movementMapQueue = new LinkedBlockingQueue<>(1000000);
+    public static Queue<MovementMap> movementMapQueue = new LinkedList<MovementMap>();
 
     public static MovementMap currentMoveFromTheGame;
 
@@ -46,10 +47,6 @@ public class MovementMap
         this.movementMap = movementMap;
         score = new AtomicInteger(currentMove.moveScore());
 
-        if (currentMoveFromTheGame == null) {
-            currentMoveFromTheGame = this;
-
-        }
     }
 
     //to reduce memory compute the moves since it will only take a few moves
@@ -58,23 +55,29 @@ public class MovementMap
         Stack<Move> moveStack   = new Stack<>();
         MovementMap movementMap = this;
         while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
-            moveStack.add(currentMove);
-            System.out.println("Stack size is " + moveStack.size() + " " + currentMove);
+            moveStack.add(movementMap.currentMove);
             movementMap = movementMap.getParent();
 
         }
+       // System.out.println(moveStack);
+      //  System.out.println(SingleThreadCalculator.movesLowerThanDepth);
+      //  System.out.println(MovementMap.movementMapQueue.size());
         Board board = (Board) GameBoard.actualBoard.clone();
         while (!moveStack.isEmpty()) {
             board.move(moveStack.pop());
+            board.nextTurn();
         }
         return board;
     }
 
     public synchronized void addResponse(Move move) throws InterruptedException
     {
+        //remove this row if something goes bad
+        move.moveScore();
         MovementMap newMovementMap = new MovementMap(this, move);
         movementMap.put(move, newMovementMap);
-        movementMapQueue.put(newMovementMap);
+        movementMapQueue.add(newMovementMap);
+
         updateScore(move);
     }
 
@@ -82,7 +85,7 @@ public class MovementMap
     protected synchronized void updateScore(Move move)
     {
         //TODO: check if it should be maximum or minimum
-        if (score.get() <= currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
+        if (score.get() >= currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
 
             currentMove.setBestResponse(move);
             score.set(currentMove.getScore() - move.moveScore());
@@ -132,7 +135,7 @@ public class MovementMap
 
         while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
             depthCount++;
-            movementMap = parent;
+            movementMap = movementMap.getParent();
 
         }
         return depthCount;
