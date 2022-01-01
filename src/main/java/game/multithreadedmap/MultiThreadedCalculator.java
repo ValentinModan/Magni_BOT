@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static java.lang.Thread.sleep;
+
 public class MultiThreadedCalculator
 {
-    private static int          THREAD_COUNT = 8;
+    private static int          THREAD_COUNT = 1;
     private static List<Worker> workerList   = new ArrayList<>();
 
     boolean setupHasBeenMade = false;
@@ -28,6 +30,7 @@ public class MultiThreadedCalculator
             MovementMap.makeMovement(board.lastMove());
         }
 
+        sleep(8000);
         //update current move from the game
         Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
         MovementMap.makeMovement(bestResponse);

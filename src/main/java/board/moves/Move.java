@@ -213,7 +213,7 @@ public class Move implements Comparable<Move>
     @Override
     public String toString()
     {
-        return "" + initialPosition + finalPosition;
+        return "" + initialPosition + finalPosition +" " + score;
     }
 
     @Override

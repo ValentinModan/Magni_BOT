@@ -3,13 +3,12 @@ package mapmovement;
 import board.Board;
 import board.moves.Move;
 import game.GameBoard;
-import game.SingleThreadCalculator;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -85,10 +84,16 @@ public class MovementMap
     protected synchronized void updateScore(Move move)
     {
         //TODO: check if it should be maximum or minimum
-        if (score.get() >= currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
+        if (score.get() > currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
 
+            if(move.moveScore()>0 )
+            {
+                score = score;
+            }
             currentMove.setBestResponse(move);
+
             score.set(currentMove.getScore() - move.moveScore());
+
             if (parent != null) {
                 parent.updateScore(currentMove);
             }

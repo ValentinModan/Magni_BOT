@@ -84,17 +84,14 @@ public class GameOptions
     {
 
         Piece movingPiece = move.getMovingPiece();
-        if (movingPiece == null) {
-            return move.getScore();
-        }
 
-        int score = move.getScore() * 10;
+        int score = move.getScore();
         if (movingPiece.getPieceType() == PieceType.KING) {
             score -= 2;
         }
 
         if (movingPiece.getPieceType() == PieceType.PAWN) {
-            score += 1;
+        //    score += 1;
         }
 
         return score;

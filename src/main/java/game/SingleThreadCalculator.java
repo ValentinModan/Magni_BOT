@@ -21,14 +21,21 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 100000;
+        movesLowerThanDepth = 200000;
         computeAllDepth();
 
         Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
+        System.out.println("Best Move chosen");
+        Move display = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
+        while(display!=null) {
+
+            System.out.println(display);
+            display = display.getBestResponse();
+        }
+
         MovementMap.makeMovement(bestResponse);
 
-        if(board.allMoves.size()%5 ==0 )
-        {
+        if (board.allMoves.size() % 5 == 0) {
             System.gc();
             System.out.println("GC done");
         }
@@ -37,25 +44,23 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws InterruptedException, CloneNotSupportedException
     {
-        while(movesLowerThanDepth>0) {
+        while (movesLowerThanDepth > 0) {
             MovementMap movementMap = MovementMap.movementMapQueue.remove();
 
-//            if(movementMap.getCurrentDepth() > GameBoard.depth)
-//            {
-//                MovementMap.movementMapQueue.add(movementMap);
-//            }
-       //     else
-                if(movementMap.isCurrentMovePossible()|| movementMap.getParent()==null)
-                {
+            if (movementMap.isCurrentMovePossible() || movementMap.getParent() == null) {
+                if (movementMap.getCurrentDepth() > GameBoard.depth) {
+                    MovementMap.movementMapQueue.add(movementMap);
+                }
+                else {
                     Board board = movementMap.getBoardForCurrentPosition();
                     board.computePossibleMoves();
                     List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
                     for (Move move : possibleMovesCalculatorsList) {
                         movementMap.addResponse(move);
-                        movesLowerThanDepth--;
                     }
+                    movesLowerThanDepth--;
                 }
-
+            }
 
         }
     }

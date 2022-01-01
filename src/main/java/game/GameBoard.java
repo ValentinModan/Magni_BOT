@@ -20,7 +20,7 @@ import static java.lang.Thread.sleep;
 
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH = 6;
+    public static final int DEFAULT_DEPTH = 4;
     public static       int depth         = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
@@ -110,7 +110,7 @@ public class GameBoard
         //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
             try {
                 actualMove = singleThreadCalculator.bestResponse(actualBoard);
-               // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
+              // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
             } catch (Exception e) {
                 e.printStackTrace();
             }
