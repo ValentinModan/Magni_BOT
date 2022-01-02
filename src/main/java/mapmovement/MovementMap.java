@@ -110,7 +110,7 @@ public class MovementMap
         else {
             boolean isCurrentMovePossible1 = parent.isCurrentMovePossible();
             isCurrentMovePossible.set(isCurrentMovePossible1);
-            if (isCurrentMovePossible1) {
+            if (!isCurrentMovePossible1) {
                 movementMap = null;
             }
         }

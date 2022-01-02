@@ -70,9 +70,8 @@ public class SingleThreadCalculator
                     board.computePossibleMoves();
                     List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
                     for (Move move : possibleMovesCalculatorsList) {
-                        if (movementMap.getMovementMap() != null) {
                             movementMap.addResponse(move);
-                        }
+
                     }
                     movesLowerThanDepth--;
                 }

@@ -1,7 +1,5 @@
-import api.Dog;
 import board.Board;
 import game.GameBoard;
-import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,10 +9,8 @@ public class Main
 {
     public static void main(String[] args) throws FileNotFoundException
     {
-
         configureOutputFileForLogging();
-        Dog dog = new Dog();
-        dog.hello();
+
 //       // while(true) {
         GameBoard gameBoard = new GameBoard();
 
