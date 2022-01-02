@@ -1,29 +1,39 @@
+import api.Dog;
 import board.Board;
-import board.moves.Move;
-import board.moves.MoveConvertor;
-import board.setup.BoardSetup;
 import game.GameBoard;
-import game.multithreadedmap.MultiThreadedCalculator;
+import org.slf4j.Logger;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class Main
 {
-
-    public static void main(String[] args) throws CloneNotSupportedException, InterruptedException
+    public static void main(String[] args) throws FileNotFoundException
     {
 
-
+        configureOutputFileForLogging();
+        Dog dog = new Dog();
+        dog.hello();
 //       // while(true) {
-            GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = new GameBoard();
 
-            try {
-                gameBoard.startPlayerGame();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Board.displayAllMoves();
-            }
+        try {
+            gameBoard.startPlayerGame();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Board.displayAllMoves();
+        }
 
-      //  }
+        //  }
     }
 
+
+    private static void configureOutputFileForLogging() throws FileNotFoundException
+    {
+        PrintStream out = new PrintStream(new FileOutputStream("logs.log"));
+        System.setOut(out);
+
+    }
 
 }

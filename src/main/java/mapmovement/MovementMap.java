@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MovementMap
 {
     // map of all possible replies for the current move(object)
-    private final Map<Move, MovementMap> movementMap;
+    private Map<Move, MovementMap> movementMap;
 
     //a queue from which the threads should take the moves
     public static Queue<MovementMap> movementMapQueue = new LinkedList<MovementMap>();
@@ -23,15 +23,15 @@ public class MovementMap
     public static MovementMap currentMoveFromTheGame;
 
     //the move before
-    private MovementMap parent = null;
+    private MovementMap parent;
 
     //the current move
-    private Move currentMove = null;
+    private Move currentMove;
 
     //score including the best response
-    private AtomicInteger score;
+    private final AtomicInteger score;
 
-    private AtomicBoolean isMovePossibleForCurrentGame = new AtomicBoolean(true);
+    private final AtomicBoolean isMovePossibleForCurrentGame = new AtomicBoolean(true);
 
     //TODO: Verify if the constructor could be made private
     public MovementMap(MovementMap parent, Move currentMove)
@@ -58,9 +58,9 @@ public class MovementMap
             movementMap = movementMap.getParent();
 
         }
-       // System.out.println(moveStack);
-      //  System.out.println(SingleThreadCalculator.movesLowerThanDepth);
-      //  System.out.println(MovementMap.movementMapQueue.size());
+        // System.out.println(moveStack);
+        //  System.out.println(SingleThreadCalculator.movesLowerThanDepth);
+        //  System.out.println(MovementMap.movementMapQueue.size());
         Board board = (Board) GameBoard.actualBoard.clone();
         while (!moveStack.isEmpty()) {
             board.move(moveStack.pop());
@@ -69,7 +69,7 @@ public class MovementMap
         return board;
     }
 
-    public synchronized void addResponse(Move move) throws InterruptedException
+    public synchronized void addResponse(Move move)
     {
         //remove this row if something goes bad
         move.moveScore();
@@ -86,10 +86,6 @@ public class MovementMap
         //TODO: check if it should be maximum or minimum
         if (score.get() > currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
 
-            if(move.moveScore()>0 )
-            {
-                score = score;
-            }
             currentMove.setBestResponse(move);
 
             score.set(currentMove.getScore() - move.moveScore());
@@ -112,7 +108,11 @@ public class MovementMap
             isCurrentMovePossible.set(true);
         }
         else {
-            isCurrentMovePossible.set(parent.isCurrentMovePossible());
+            boolean isCurrentMovePossible1 = parent.isCurrentMovePossible();
+            isCurrentMovePossible.set(isCurrentMovePossible1);
+            if (isCurrentMovePossible1) {
+                movementMap = null;
+            }
         }
         this.isMovePossibleForCurrentGame.set(isCurrentMovePossible.get());
 

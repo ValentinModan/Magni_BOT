@@ -21,13 +21,13 @@ import static java.lang.Thread.sleep;
 public class GameBoard
 {
     public static final int DEFAULT_DEPTH = 4;
-    public static       int depth         = DEFAULT_DEPTH;
+    public static int depth = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
     public static Board actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
-    private List<Move> opponentResponse = null;
+    private final List<Move> opponentResponse = null;
 
     public GameBoard()
     {
@@ -78,27 +78,11 @@ public class GameBoard
             makeMyOwnMove(gameId, openingMove);
             return;
         }
-
-        //is firstNonOpeningMove
-        if (opponentResponse == null) {
-            makeMyOwnMove(gameId, null);
-        }
-        else {
-            Move moveResult = opponentResponse.stream()
-                    .filter(move -> move.toString().equals(actualBoard.lastMove().toString()))
-                    .findFirst().orElse(null);
-
-            String bestResponse = null;
-            if (moveResult != null && moveResult.getBestResponse() != null) {
-                bestResponse = moveResult.getBestResponse().toString();
-            }
-            makeMyOwnMove(gameId, bestResponse);
-        }
-        // opponentResponse = CleanMoveCalculator.calculateAllMoveBestResponse(actualBoard, depth);
+        makeMyOwnMove(gameId, null);
     }
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
-    MultiThreadedCalculator       multiThreadedCalculator       = new MultiThreadedCalculator();
+    MultiThreadedCalculator multiThreadedCalculator = new MultiThreadedCalculator();
     SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
     private void makeMyOwnMove(String gameId, String move)
@@ -107,10 +91,10 @@ public class GameBoard
         System.out.println("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-        //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
+            //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
             try {
                 actualMove = singleThreadCalculator.bestResponse(actualBoard);
-              // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
+                // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
             } catch (Exception e) {
                 e.printStackTrace();
             }

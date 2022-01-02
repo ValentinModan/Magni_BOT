@@ -6,7 +6,7 @@ class Testing {
         println "hello"
     }
 
-    public static void test(Piece piece)
+    static void test(Piece piece)
     { piece?.isOpponentOf(piece)
 
     }

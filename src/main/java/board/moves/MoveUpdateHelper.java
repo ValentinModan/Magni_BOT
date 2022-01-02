@@ -5,7 +5,9 @@ import board.Position;
 import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MoveUpdateHelper
 {
     public static void moveUpdate(Board board, Move move)

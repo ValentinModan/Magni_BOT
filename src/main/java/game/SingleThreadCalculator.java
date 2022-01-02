@@ -21,13 +21,13 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 200000;
+        movesLowerThanDepth = 50000;
         computeAllDepth();
 
         Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
         System.out.println("Best Move chosen");
         Move display = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
-        while(display!=null) {
+        while (display != null) {
 
             System.out.println(display);
             display = display.getBestResponse();
@@ -39,10 +39,24 @@ public class SingleThreadCalculator
             System.gc();
             System.out.println("GC done");
         }
+        clearImpossibleMovesFromQueue();
         return bestResponse;
     }
 
-    public void computeAllDepth() throws InterruptedException, CloneNotSupportedException
+    private void clearImpossibleMovesFromQueue()
+    {
+        int n = MovementMap.movementMapQueue.size();
+
+        for (int i = 1; i < n; i++) {
+            MovementMap movementMap = MovementMap.movementMapQueue.remove();
+            if ((movementMap.isCurrentMovePossible() || movementMap.getParent() == null)) {
+                MovementMap.movementMapQueue.add(movementMap);
+            }
+        }
+    }
+
+
+    public void computeAllDepth() throws CloneNotSupportedException
     {
         while (movesLowerThanDepth > 0) {
             MovementMap movementMap = MovementMap.movementMapQueue.remove();
@@ -56,7 +70,9 @@ public class SingleThreadCalculator
                     board.computePossibleMoves();
                     List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
                     for (Move move : possibleMovesCalculatorsList) {
-                        movementMap.addResponse(move);
+                        if (movementMap.getMovementMap() != null) {
+                            movementMap.addResponse(move);
+                        }
                     }
                     movesLowerThanDepth--;
                 }

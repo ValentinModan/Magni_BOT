@@ -14,7 +14,7 @@ import java.util.concurrent.Semaphore;
 public class MultiThreadBoard
 {
     private static final int          THREAD_COUNT = 8;
-    private static       List<Worker> workerList   = new ArrayList<>();
+    private static final List<Worker> workerList   = new ArrayList<>();
     boolean firstTime = true;
     private Semaphore allDone;
 

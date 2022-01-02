@@ -37,6 +37,8 @@ game/kingcheck/attacked/QueenAttackedStrategy.java
  game.kingcheck.attacked.QueenAttackedStrategy
 board/pieces/Piece.java
  board.pieces.Piece
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
 reader/ConsoleReader.java
  reader.ConsoleReader
 board/moves/MoveUpdateHelper.java
@@ -76,14 +78,14 @@ api/Controller.java
  api.Controller
 board/pieces/King.java
  board.pieces.King
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+Main.java
+ Main
 PostRequests.java
  PostRequests
 board/pieces/Queen.java
  board.pieces.Queen
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
+api/Dog.java
+ api.Dog
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
 game/AllPossibleMovesMultiThreaded.java
@@ -91,8 +93,8 @@ game/AllPossibleMovesMultiThreaded.java
  game.AllPossibleMovesMultiThreaded$Worker
 board/moves/pieces/QueenMovement.java
  board.moves.pieces.QueenMovement
-Main.java
- Main
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
 board/moves/pieces/BishopMovement.java
  board.moves.pieces.BishopMovement
 board/moves/calculator/pieces/KnightMoveCalculator.java
@@ -143,6 +145,10 @@ board/moves/calculator/pieces/KingMoveCalculator.java
  board.moves.calculator.pieces.KingMoveCalculator
 board/moves/MoveConvertor.java
  board.moves.MoveConvertor
+log/MyOwnLogger.java
+ log.MyOwnLogger
+log/Log.java
+ log.Log
 board/moves/MovesGenerator.java
  board.moves.MovesGenerator
 game/CleanMoveCalculator.java

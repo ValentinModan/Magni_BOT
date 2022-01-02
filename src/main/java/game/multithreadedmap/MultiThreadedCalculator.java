@@ -14,8 +14,8 @@ import static java.lang.Thread.sleep;
 
 public class MultiThreadedCalculator
 {
-    private static int          THREAD_COUNT = 1;
-    private static List<Worker> workerList   = new ArrayList<>();
+    private static final int          THREAD_COUNT = 1;
+    private static final List<Worker> workerList   = new ArrayList<>();
 
     boolean setupHasBeenMade = false;
 

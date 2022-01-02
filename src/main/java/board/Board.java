@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Board implements Cloneable
 {
-    private List<Move>           possibleMoves  = new ArrayList<>();
+    private List<Move> possibleMoves = new ArrayList<>();
     private Map<Position, Piece> whitePiecesMap = new HashMap<>();
     private Map<Position, Piece> blackPiecesMap = new HashMap<>();
 
@@ -55,14 +55,14 @@ public class Board implements Cloneable
 
     void displayFullMoveLogic(Move move)
     {
-        StringBuilder sb          = new StringBuilder();
-        Move          currentMove = move;
+        StringBuilder sb = new StringBuilder();
+        Move currentMove = move;
         while (currentMove != null) {
             sb.append(move).append(" with score ").append(move.getScore()).append(" |");
             currentMove = currentMove.getBestResponse();
         }
 
-        log.info(sb.toString());
+      //  log.info(sb.toString());
     }
 
     public void move(Move move)
@@ -286,7 +286,7 @@ public class Board implements Cloneable
         return newBoard;
     }
 
-    @SneakyThrows
+//    @SneakyThrows
     @Override
     public String toString()
     {
@@ -294,8 +294,13 @@ public class Board implements Cloneable
         for (int i = 8; i >= 1; i--) {
             for (char letter = 'a'; letter <= 'h'; letter++) {
                 //TODO: refactor this
-                Piece  piece = getPieceAt(new Position(letter, i));
-                String l     = piece != null ? piece.toString() + "  " : EMPTY_POSITION;
+                Piece piece = null;
+                try {
+                    piece = getPieceAt(new Position(letter, i));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String l = piece != null ? piece.toString() + "  " : EMPTY_POSITION;
                 stringBuilder.append(l);
                 //  stringBuilder.append(' ');
             }

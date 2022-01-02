@@ -31,13 +31,13 @@ public class CleanMoveCalculator
             makeMove(board, move);
             Move bestResponse = calculate2(board, depth);
             move.setBestResponse(bestResponse);
-            log.info("Precomputed moves for " + move + " score is " + move.moveScore());
+           // log.info("Precomputed moves for " + move + " score is " + move.moveScore());
             undoMove(board, move, isWhiteToMove);
             move.moveScore();
 
 
             if (GameBoardHelper.isMyTurn()) {
-                log.info("Precomputing stopped by actual move");
+            //    log.info("Precomputing stopped by actual move");
                 return resultList;
             }
             resultList.add(move);
@@ -105,7 +105,7 @@ public class CleanMoveCalculator
             move.setBestResponse(bestResponse);
             move.moveScore();
             if (GameBoard.depth == currentDepth) {
-                log.info("Computed score for move:" + move + " " + "score is " + move.moveScore() + "(" + index + "/" + length + ")");
+            //    log.info("Computed score for move:" + move + " " + "score is " + move.moveScore() + "(" + index + "/" + length + ")");
             }
         }).max(Comparator.comparing(Move::moveScore))
                 .orElseThrow(NoSuchElementException::new);

@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  * Uses worker threads and a semaphore.
  */
 class ArrayThreading {
-    private int[] array;
+    private final int[] array;
     private Semaphore allDone;
 
     // The array contains the values
