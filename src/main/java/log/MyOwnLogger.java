@@ -1,7 +1,6 @@
 package log;
 
 import java.io.IOException;
-import java.util.MissingResourceException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -34,10 +33,5 @@ public class MyOwnLogger
         }
 
         return new MyOwnLogger();
-    }
-
-    public void warning(String msg)
-    {
-
     }
 }

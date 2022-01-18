@@ -2,7 +2,6 @@ package board.moves;
 
 import board.Position;
 import board.pieces.Piece;
-import board.pieces.PieceType;
 import game.gameSetupOptions.GameOptions;
 import org.jetbrains.annotations.NotNull;
 
@@ -110,20 +109,23 @@ public class Move implements Comparable<Move>
 
     public int getScore()
     {
-        return score;
+        return GameOptions.getSingleMoveScore(this);
     }
 
     private int moveScore = 0;
+
 
     //score  including the best response and so on
     public int moveScore()
     {
         if (bestResponse != null) {
-            moveScore = GameOptions.updateMoveScore(this) - bestResponse.moveScore();
+            moveScore = GameOptions.getSingleMoveScore(this) - bestResponse.moveScore();
             return moveScore;
         }
 
-        return GameOptions.updateMoveScore(this);
+        moveScore = GameOptions.getSingleMoveScore(this);
+
+        return moveScore;
     }
 
     public void setMoveScore(Integer moveScore)
@@ -213,7 +215,7 @@ public class Move implements Comparable<Move>
     @Override
     public String toString()
     {
-        return "" + initialPosition + finalPosition +" " + score;
+        return "" + initialPosition + finalPosition +" " + score + " with moveScore "+ moveScore();
     }
 
     @Override

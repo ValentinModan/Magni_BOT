@@ -3,6 +3,7 @@ package mapmovement;
 import board.Board;
 import board.moves.Move;
 import game.GameBoard;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 public class MovementMap
 {
     // map of all possible replies for the current move(object)
@@ -23,7 +25,7 @@ public class MovementMap
     public static MovementMap currentMoveFromTheGame;
 
     //the move before
-    private MovementMap parent;
+    private final MovementMap parent;
 
     //the current move
     private Move currentMove;
@@ -51,16 +53,15 @@ public class MovementMap
     //to reduce memory compute the moves since it will only take a few moves
     public synchronized Board getBoardForCurrentPosition() throws CloneNotSupportedException
     {
-        Stack<Move> moveStack   = new Stack<>();
+        Stack<Move> moveStack = new Stack<>();
         MovementMap movementMap = this;
         while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
             moveStack.add(movementMap.currentMove);
             movementMap = movementMap.getParent();
 
         }
-        // System.out.println(moveStack);
-        //  System.out.println(SingleThreadCalculator.movesLowerThanDepth);
-        //  System.out.println(MovementMap.movementMapQueue.size());
+
+        //TODO do not use the actual board from the game
         Board board = (Board) GameBoard.actualBoard.clone();
         while (!moveStack.isEmpty()) {
             board.move(moveStack.pop());
@@ -71,8 +72,6 @@ public class MovementMap
 
     public synchronized void addResponse(Move move)
     {
-        //remove this row if something goes bad
-        move.moveScore();
         MovementMap newMovementMap = new MovementMap(this, move);
         movementMap.put(move, newMovementMap);
         movementMapQueue.add(newMovementMap);
@@ -80,21 +79,23 @@ public class MovementMap
         updateScore(move);
     }
 
-    //update sent from the child to the parent that we found a new best response
-    protected synchronized void updateScore(Move move)
+    //update sent from the child to the parent that we might have found a new best response
+    public synchronized void updateScore(Move move)
     {
-        //TODO: check if it should be maximum or minimum
-        if (score.get() > currentMove.getScore() - move.moveScore() || currentMove.getBestResponse() == null) {
-
+        if(move.isCheckMate())
+        {
             currentMove.setBestResponse(move);
-
-            score.set(currentMove.getScore() - move.moveScore());
-
             if (parent != null) {
                 parent.updateScore(currentMove);
             }
+            return;
         }
-        //update all parents until root
+        int moveScore = move.moveScore();
+
+        if (currentMove.moveScore() > currentMove.getScore() - moveScore || currentMove.getBestResponse() == null) {
+            currentMove.setBestResponse(move);
+
+        }
     }
 
     //each thread should call this method before analyzing a move
@@ -136,9 +137,14 @@ public class MovementMap
     public synchronized int getCurrentDepth()
     {
         MovementMap movementMap = this;
-        int         depthCount  = 0;
+        int depthCount = 0;
 
-        while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+
+        if (currentMove == null) {
+            log.error("Something is really wrong here" + this.toString());
+            return 100;
+        }
+        while (movementMap.currentMove != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
             depthCount++;
             movementMap = movementMap.getParent();
 

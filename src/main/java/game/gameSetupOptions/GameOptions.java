@@ -35,7 +35,7 @@ public class GameOptions
     public static List<Move> extractMoves(List<Move> moveList, int currentDepth)
     {
         int movesPercentage = percentageFromDepth(currentDepth);
-        int moves           = movesFromDepth(currentDepth);
+        int moves = movesFromDepth(currentDepth);
         if (movesPercentage < 80) {
             Collections.shuffle(moveList);
         }
@@ -80,18 +80,24 @@ public class GameOptions
         return 5;
     }
 
-    public static int updateMoveScore(Move move)
+    public static int getSingleMoveScore(Move move)
     {
-
+        if(move.isCheckMate())
+        {
+            return GameOptions.CHECK_MATE_SCORE;
+        }
         Piece movingPiece = move.getMovingPiece();
 
-        int score = move.getScore();
-        if (movingPiece.getPieceType() == PieceType.KING) {
+        int score = 0;
+        if (movingPiece !=null && movingPiece.getPieceType() == PieceType.KING) {
             score -= 2;
         }
 
-        if (movingPiece.getPieceType() == PieceType.PAWN) {
-        //    score += 1;
+        if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
+            //score += 1;
+        }
+        if (move.getTakenPiece() != null) {
+            score += move.getTakenPiece().getScore();
         }
 
         return score;

@@ -22,14 +22,13 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH = 4;
+    public static final int DEFAULT_DEPTH = 6;
     public static int depth = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
     public static Board actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
-    private final List<Move> opponentResponse = null;
 
     public GameBoard()
     {

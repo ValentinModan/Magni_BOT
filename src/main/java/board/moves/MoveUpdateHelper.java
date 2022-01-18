@@ -39,6 +39,12 @@ public class MoveUpdateHelper
     private static void updateMovingPiece(Board board, Move move)
     {
         Piece movingPiece = board.getMovingPiece(move.getInitialPosition());
+
+        if(movingPiece == null)
+        {
+            throw new NullPointerException(board +"\n" + move);
+
+        }
         move.setMovingPiece(movingPiece);
     }
 

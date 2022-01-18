@@ -10,7 +10,9 @@ import board.pieces.Queen;
 import board.pieces.Rook;
 import board.setup.BoardSetup;
 import game.CleanMoveCalculator;
+import game.GameBoard;
 import game.MovesCalculator;
+import game.SingleThreadCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,21 +20,24 @@ import org.junit.jupiter.api.Test;
 public class MateIn1
 {
     Board board;
+    SingleThreadCalculator singleThreadCalculator;
 
     @BeforeEach
-    public void setUP()
+    public void setUp()
     {
         board = new Board();
         BoardSetup.setupBoard(board);
+        GameBoard.actualBoard = board;
+        singleThreadCalculator = new SingleThreadCalculator();
     }
 
     @Test
-    public void scholarsMate_depth_search_1()
+    public void scholarsMate_depth_search_1() throws CloneNotSupportedException, InterruptedException
     {
         String firstMoves = "f2f3 e7e6 g2g4 d8h4 a2a3";
         MovesGenerator.makeMoves(board, firstMoves);
 
-        Move bestCalculateMove = MovesCalculator.calculate2(board, 10, 2);
+        Move bestCalculateMove = singleThreadCalculator.bestResponse(board);
 
         Move expectedMove = MoveConvertor.stringToMove("h4e1");
         Assertions.assertEquals(expectedMove, bestCalculateMove);
@@ -40,50 +45,56 @@ public class MateIn1
 
 
     @Test
-    public void scholarsMate_depth_search_2()
+    public void scholarsMate_depth_search_2() throws CloneNotSupportedException, InterruptedException
     {
         String firstMoves = "f2f3 e7e6 g2g4";
         MovesGenerator.makeMoves(board, firstMoves);
 
-        Move bestCalculateMove = CleanMoveCalculator.calculate2(board, 5);
+        Move bestCalculateMove = singleThreadCalculator.bestResponse(board);
 
         Move expectedMove = MoveConvertor.stringToMove("d8h4");
         Assertions.assertEquals(expectedMove, bestCalculateMove);
     }
 
     @Test
-    public void twoRooksMate()
+    public void twoRooksMate() throws CloneNotSupportedException, InterruptedException
     {
-        Board board          = new Board();
-        Rook  firstBlackRook = new Rook(false);
-        Rook           secondBlackRook = new Rook(false);
-        King           whiteKing       = new King(true);
-        King           blackKing       = new King(false);
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        Rook firstBlackRook = new Rook(false);
+        Rook secondBlackRook = new Rook(false);
+        King whiteKing = new King(true);
+        King blackKing = new King(false);
 
-        Position fistBlackRookPosition   = new Position('a', 3);
+        Position fistBlackRookPosition = new Position('a', 3);
         Position secondBlackRookPosition = new Position('b', 2);
-        Position whiteKingPosition       = new Position('h', 1);
-        Position blackKingPosition        = new Position('a', 8);
-        board.setWhiteToMove(false);
+        Position whiteKingPosition = new Position('h', 1);
+        Position blackKingPosition = new Position('a', 8);
+        board.setWhiteToMove(true);
         board.addPiece(fistBlackRookPosition, firstBlackRook);
         board.addPiece(secondBlackRookPosition, secondBlackRook);
         board.addPiece(whiteKingPosition, whiteKing);
         board.addPiece(blackKingPosition, blackKing);
 
-        Move bestMove = CleanMoveCalculator.calculate2(board, 6);
+        board.move(MoveConvertor.stringToMove("h1g1"));
+        board.nextTurn();
 
-        Assertions.assertEquals(new Move(new Position('a', 3), new Position('a', 1)), bestMove);
+        Move bestMove = singleThreadCalculator.bestResponse(board);
+
+        Assertions.assertEquals(MoveConvertor.stringToMove("a3a1"), bestMove);
     }
 
+
     @Test
-    public void mateIn1TwoQueens()
+    public void mateIn1TwoQueens() throws CloneNotSupportedException, InterruptedException
     {
-        Board    board              = new Board();
-        Position firstQueenPosition = new Position('b',7);
-        Position secondQueenPosition = new Position('a',7);
-        Position rook = new Position('h',5);
-        Position whiteKingPosition = new Position('c',2);
-        Position blackKingPosition = new Position('f',6);
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        Position firstQueenPosition = new Position('b', 7);
+        Position secondQueenPosition = new Position('a', 7);
+        Position rook = new Position('h', 5);
+        Position whiteKingPosition = new Position('c', 2);
+        Position blackKingPosition = new Position('f', 6);
 
         board.addPiece(firstQueenPosition, new Queen(true));
         board.addPiece(secondQueenPosition, new Queen(true));
@@ -91,33 +102,33 @@ public class MateIn1
         board.addPiece(whiteKingPosition, new King(true));
         board.addPiece(blackKingPosition, new King(false));
 
-        Move bestMove = CleanMoveCalculator.calculate2(board, 2);
+        Move bestMove = singleThreadCalculator.bestResponse(board);
 
-        Assertions.assertTrue(bestMove.moveScore()>900);
+        Assertions.assertTrue(bestMove.moveScore() > 900);
     }
 
     @Test
-    public void notStaleMate()
+    public void notStaleMate() throws CloneNotSupportedException, InterruptedException
     {
         MovesGenerator.makeMoves(board, "e2e4 e7e5 f2f4 f7f5 e4f5 g8f6 f4e5 b8c6 e5f6 b7b6 f6g7 c8b7 g7f8 e8f8 a2a3 d8h4 g2g3 h8g8 g3h4 g8g1 h1g1 c6d4 h4h5 b7f3 d1f3 d7d6 f3a8 f8f7 a8a7 f7f6 a7b6 f6e5 b6d4 e5d4 c2c3 d4e5 c3c4 e5d4 a3a4 d4e5 a4a5 e5f4 f5f6 f4e5 a5a6 e5f4 f6f7 f4e5 f7f8 e5e4 f8d6 c7c5 d6c5 h7h6 a6a7 e4f4");
 
-        Move bestMove = CleanMoveCalculator.calculate2(board, 4);
+        Move bestMove = singleThreadCalculator.bestResponse(board);
 
         System.out.println(board);
-        assert bestMove!= MoveConvertor.stringToMove("a7a8");
+        assert bestMove != MoveConvertor.stringToMove("a7a8");
     }
 
     @Test
-    public void matein1()
+    public void matein1() throws CloneNotSupportedException, InterruptedException
     {
         String moves = "d2d4 g8f6 c2c4 e7e6 b1c3 f8b4 g1f3 d7d5 c4c5 e6e5 a2a3 b4c3 b2c3 e5d4 c3d4 a7a6 e2e3 c7c6 f1d3 b7b6 e1h1 b6c5 d4c5 h7h6 d1b3 a6a5 c1b2 h6h5 a1b1 h5h4 b2c3 a5a4 c3f6 a4b3 b1b3 g7f6 d3f5 c8f5 f1b1 f5b1 b3b1 a8a3 f3d4 a3e3 b1b8";
 
         MovesGenerator.makeMoves(board, moves);
 
-        Move bestMove = CleanMoveCalculator.calculate2(board, 3);
+        Move bestMove = singleThreadCalculator.bestResponse(board);
 
         System.out.println(board);
-        assert bestMove!= MoveConvertor.stringToMove("e3e1");
+        assert bestMove != MoveConvertor.stringToMove("e3e1");
     }
 
     @Test
@@ -128,8 +139,9 @@ public class MateIn1
 
         Move bestMove = CleanMoveCalculator.calculate2(board, 5);
 
-        assert bestMove.moveScore()>=4000;
+        assert bestMove.moveScore() >= 4000;
     }
+
     @Test
     public void mate_in_1()
     {

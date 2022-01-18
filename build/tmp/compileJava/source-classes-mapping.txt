@@ -49,17 +49,17 @@ board/setup/BoardSetup.java
  board.setup.BoardSetup
 board/pieces/Bishop.java
  board.pieces.Bishop
-board/moves/calculator/pieces/PawnMoveCalculator.java
- board.moves.calculator.pieces.PawnMoveCalculator
- board.moves.calculator.pieces.PawnMoveCalculator$1
+game/multithreadedmap/MultiThreadedCalculator.java
+ game.multithreadedmap.MultiThreadedCalculator
+ game.multithreadedmap.MultiThreadedCalculator$Worker
 api/json/challenge/AcceptChallenge.java
  api.json.challenge.AcceptChallenge
 board/pieces/Pawn.java
  board.pieces.Pawn
 api/challenges/Challenge.java
  api.challenges.Challenge
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+mapmovement/MovementMap.java
+ mapmovement.MovementMap
 api/bot/MakeABotMove.java
  api.bot.MakeABotMove
 game/kingcheck/attacked/Xray.java
@@ -76,8 +76,8 @@ api/Controller.java
  api.Controller
 board/pieces/King.java
  board.pieces.King
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
+game/SingleThreadCalculator.java
+ game.SingleThreadCalculator
 PostRequests.java
  PostRequests
 board/pieces/Queen.java
@@ -153,10 +153,10 @@ game/CleanMoveCalculator.java
  game.CleanMoveCalculator
 board/pieces/PieceType.java
  board.pieces.PieceType
-mapmovement/MovementMap.java
- mapmovement.MovementMap
-game/SingleThreadCalculator.java
- game.SingleThreadCalculator
-game/multithreadedmap/MultiThreadedCalculator.java
- game.multithreadedmap.MultiThreadedCalculator
- game.multithreadedmap.MultiThreadedCalculator$Worker
+board/moves/calculator/pieces/PawnMoveCalculator.java
+ board.moves.calculator.pieces.PawnMoveCalculator
+ board.moves.calculator.pieces.PawnMoveCalculator$1
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
