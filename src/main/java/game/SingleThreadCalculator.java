@@ -31,7 +31,7 @@ public class SingleThreadCalculator
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
         Move bestResponse = getBestResponse(MovementMap.currentMoveFromTheGame);
-        System.out.println("Best Move chosen");
+        log.info("Best move chosen is " + bestResponse);
         Move display = bestResponse;
 
         MovementMap displayMap = MovementMap.currentMoveFromTheGame;
