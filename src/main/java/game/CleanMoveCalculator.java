@@ -103,11 +103,11 @@ public class CleanMoveCalculator
             Move bestResponse = calculate2(board, currentDepth - 1);
             undoMove(board, move, isWhiteToMove);
             move.setBestResponse(bestResponse);
-            move.moveScore();
+            move.setScore(move.getScore()- bestResponse.getActualScore());
             if (GameBoard.depth == currentDepth) {
             //    log.info("Computed score for move:" + move + " " + "score is " + move.moveScore() + "(" + index + "/" + length + ")");
             }
-        }).max(Comparator.comparing(Move::moveScore))
+        }).max(Comparator.comparing(Move::getActualScore))
                 .orElseThrow(NoSuchElementException::new);
     }
 

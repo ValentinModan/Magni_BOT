@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GameOptions
 {
-    public static final int CHECK_MATE_SCORE = -1000;
+    public static final int CHECK_MATE_SCORE = 1000;
     //TODO: RETHINK STALEMATE SCORE SYSTEM
     public static final int STALE_MATE_SCORE = 0;
 
@@ -19,7 +19,7 @@ public class GameOptions
 
     public static Move checkMate(int depth)
     {
-        return new Move(CHECK_MATE_SCORE * depth);
+        return new Move(CHECK_MATE_SCORE * (10 - depth));
     }
 
     public static Move checkMate()
@@ -82,22 +82,21 @@ public class GameOptions
 
     public static int getSingleMoveScore(Move move)
     {
-        if(move.isCheckMate())
-        {
+        if (move.isCheckMate()) {
             return GameOptions.CHECK_MATE_SCORE;
         }
         Piece movingPiece = move.getMovingPiece();
 
         int score = 0;
-        if (movingPiece !=null && movingPiece.getPieceType() == PieceType.KING) {
-            score -= 2;
+        if (movingPiece != null && movingPiece.getPieceType() == PieceType.KING) {
+            score -= 1;
         }
 
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
             //score += 1;
         }
         if (move.getTakenPiece() != null) {
-            score += move.getTakenPiece().getScore();
+            score += move.getTakenPiece().getScore() * 10;
         }
 
         return score;

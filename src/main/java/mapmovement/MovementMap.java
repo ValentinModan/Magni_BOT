@@ -41,6 +41,12 @@ public class MovementMap
         this(parent, currentMove, new ConcurrentHashMap<>());
     }
 
+    public void clearObjects()
+    {
+        movementMapQueue = new LinkedList<>();
+
+    }
+
     public MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
     {
         this.parent = parent;
@@ -64,8 +70,11 @@ public class MovementMap
         //TODO do not use the actual board from the game
         Board board = (Board) GameBoard.actualBoard.clone();
         while (!moveStack.isEmpty()) {
-            board.move(moveStack.pop());
-            board.nextTurn();
+            Move move = moveStack.pop();
+            if(!move.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+                board.move(move);
+                board.nextTurn();
+            }
         }
         return board;
     }
@@ -144,11 +153,11 @@ public class MovementMap
             log.error("Something is really wrong here" + this.toString());
             return 100;
         }
-        while (movementMap.currentMove != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
-            depthCount++;
-            movementMap = movementMap.getParent();
-
-        }
+//        while (movementMap.currentMove != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+//            depthCount++;
+//            movementMap = movementMap.getParent();
+//
+//        }
         return depthCount;
     }
 

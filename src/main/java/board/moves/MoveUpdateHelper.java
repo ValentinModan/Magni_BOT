@@ -42,6 +42,7 @@ public class MoveUpdateHelper
 
         if(movingPiece == null)
         {
+
             throw new NullPointerException(board +"\n" + move);
 
         }

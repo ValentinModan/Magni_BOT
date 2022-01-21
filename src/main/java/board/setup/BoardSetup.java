@@ -5,8 +5,7 @@ import board.Position;
 import board.PositionEnum;
 import board.pieces.*;
 
-import static board.PositionEnum.B1;
-import static board.PositionEnum.G1;
+import static board.PositionEnum.*;
 
 //TODO: replace positions with enums (not worth the time)
 public class BoardSetup
@@ -120,8 +119,8 @@ public class BoardSetup
     {
         board.addPiece(B1.getPosition(), new Knight(WHITE));
         board.addPiece(G1.getPosition(), new Knight(WHITE));
-        board.addPiece(new Position('b', 8), new Knight(BLACK));
-        board.addPiece(new Position('g', 8), new Knight(BLACK));
+        board.addPiece(B8.getPosition(), new Knight(BLACK));
+        board.addPiece(G8.getPosition(), new Knight(BLACK));
     }
 
     private static void addBishops(Board board)

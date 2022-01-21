@@ -25,7 +25,7 @@ public class Move implements Comparable<Move>
     public Move(boolean isCheckMate)
     {
         this.isCheckMate = isCheckMate;
-        score = -10000;
+        score = 10000;
     }
 
     public Move(int score)
@@ -45,6 +45,10 @@ public class Move implements Comparable<Move>
     {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
+        if(initialPosition.equals(finalPosition))
+        {
+            int x = 0;
+        }
     }
 
     public boolean isCheckMate()
@@ -128,6 +132,8 @@ public class Move implements Comparable<Move>
         return moveScore;
     }
 
+
+
     public void setMoveScore(Integer moveScore)
     {
         this.moveScore = moveScore;
@@ -136,6 +142,11 @@ public class Move implements Comparable<Move>
     public void setScore(int score)
     {
         this.score = score;
+    }
+
+    public int getActualScore()
+    {
+        return score;
     }
 
     public boolean isAnPassant()

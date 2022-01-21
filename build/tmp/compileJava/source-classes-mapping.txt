@@ -45,8 +45,8 @@ openings/OpeningController.java
  openings.OpeningController
 api/json/challenge/property/Challenger.java
  api.json.challenge.property.Challenger
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+board/setup/BoardSetup.java
+ board.setup.BoardSetup
 board/pieces/Bishop.java
  board.pieces.Bishop
 game/multithreadedmap/MultiThreadedCalculator.java
@@ -76,8 +76,8 @@ api/Controller.java
  api.Controller
 board/pieces/King.java
  board.pieces.King
-game/SingleThreadCalculator.java
- game.SingleThreadCalculator
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece
 PostRequests.java
  PostRequests
 board/pieces/Queen.java
@@ -137,18 +137,20 @@ board/moves/calculator/pieces/RookMoveCalculator.java
  board.moves.calculator.pieces.RookMoveCalculator
 openings/OpeningReader.java
  openings.OpeningReader
+board/PositionEnum.java
+ board.PositionEnum
 board/moves/calculator/pieces/PieceMoveCalculator.java
  board.moves.calculator.pieces.PieceMoveCalculator
 board/moves/calculator/pieces/KingMoveCalculator.java
  board.moves.calculator.pieces.KingMoveCalculator
-board/PositionEnum.java
- board.PositionEnum
+board/moves/MoveConvertor.java
+ board.moves.MoveConvertor
 log/MyOwnLogger.java
  log.MyOwnLogger
 log/Log.java
  log.Log
-board/setup/BoardSetup.java
- board.setup.BoardSetup
+board/moves/MovesGenerator.java
+ board.moves.MovesGenerator
 game/CleanMoveCalculator.java
  game.CleanMoveCalculator
 board/pieces/PieceType.java
@@ -156,9 +158,7 @@ board/pieces/PieceType.java
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
  board.moves.calculator.pieces.PawnMoveCalculator$1
-board/moves/MoveConvertor.java
- board.moves.MoveConvertor
-board/moves/MovesGenerator.java
- board.moves.MovesGenerator
+game/SingleThreadCalculator.java
+ game.SingleThreadCalculator
 game/GameBoard.java
  game.GameBoard
