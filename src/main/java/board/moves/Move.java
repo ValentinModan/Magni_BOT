@@ -12,15 +12,15 @@ public class Move implements Comparable<Move>
     private Position initialPosition;
     private Position finalPosition;
     private Position takenAnPassant;
-    private Piece    movingPiece;
-    private Piece    takenPiece;
-    private Piece    promotionPiece;
-    private int      score           = 0;
-    private boolean  isPawnPromotion = false;
-    private boolean  isCastleMove    = false;
-    private boolean  isAnPassant     = false;
-    private boolean  isCheckMate;
-    private Move     bestResponse;
+    private Piece movingPiece;
+    private Piece takenPiece;
+    private Piece promotionPiece;
+    private int score = 0;
+    private boolean isPawnPromotion = false;
+    private boolean isCastleMove = false;
+    private boolean isAnPassant = false;
+    private boolean isCheckMate;
+    private Move bestResponse;
 
     public Move(boolean isCheckMate)
     {
@@ -45,8 +45,7 @@ public class Move implements Comparable<Move>
     {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
-        if(initialPosition.equals(finalPosition))
-        {
+        if (initialPosition.equals(finalPosition)) {
             int x = 0;
         }
     }
@@ -132,8 +131,6 @@ public class Move implements Comparable<Move>
         return moveScore;
     }
 
-
-
     public void setMoveScore(Integer moveScore)
     {
         this.moveScore = moveScore;
@@ -213,20 +210,10 @@ public class Move implements Comparable<Move>
         return Objects.hash(initialPosition, finalPosition);
     }
 
-    public String moveWithBestResponse()
-    {
-        if (bestResponse != null) {
-            return toString() + "[" + moveScore() + "] with best response:" + bestResponse.moveWithBestResponse();
-        }
-        else {
-            return toString() + "[" + moveScore() + "]";
-        }
-    }
-
     @Override
     public String toString()
     {
-        return "" + initialPosition + finalPosition +" " + score + " with moveScore "+ moveScore();
+        return "" + initialPosition + finalPosition;
     }
 
     @Override

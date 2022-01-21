@@ -8,7 +8,6 @@ import mapmovement.MovementMap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static java.lang.Thread.sleep;
 
@@ -88,7 +87,7 @@ public class MultiThreadedCalculator
 //                    }
                 if (movementMap.isCurrentMovePossible() || movementMap.getParent() == null) {
                     //the move must be possible for the current game
-                    Board board = movementMap.getBoardForCurrentPosition();
+                    Board board = movementMap.generateBoardForCurrentPosition();
                     board.computePossibleMoves();
 
                     List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();

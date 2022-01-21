@@ -97,6 +97,12 @@ public class GameBoard
                 actualMove = singleThreadCalculator.bestResponse(actualBoard);
                 // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
             } catch (Exception e) {
+                singleThreadCalculator = new SingleThreadCalculator();
+                try {
+                    actualMove = singleThreadCalculator.bestResponse(actualBoard);
+                } catch (InterruptedException | CloneNotSupportedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
                 e.printStackTrace();
             }
 

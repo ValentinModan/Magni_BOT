@@ -2,7 +2,6 @@ package game;
 
 import board.Board;
 import board.moves.Move;
-import board.moves.MoveConvertor;
 import board.pieces.PieceType;
 import game.gameSetupOptions.GameOptions;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,7 @@ public class SingleThreadCalculator
 {
     boolean setupHasBeenMade = false;
 
-    public static int movesLowerThanDepth = 10000;
+    public int movesLowerThanDepth = 10000;
 
 
     public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
@@ -23,18 +22,15 @@ public class SingleThreadCalculator
         if (!setupHasBeenMade) {
             setupHasBeenMade = true;
             setup(board, GameBoard.depth);
-
         }
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 20000;
+        movesLowerThanDepth = 40000;
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame);
-        log.info("Best move chosen is " + bestResponse);
-        Move display = bestResponse;
 
         MovementMap.makeMovement(bestResponse);
 
@@ -58,21 +54,6 @@ public class SingleThreadCalculator
         }
     }
 
-    private Move getBestResponse(MovementMap movementMap)
-    {
-        if (movementMap == null || movementMap.getCurrentMove() == null) {
-            return null;
-        }
-        Move bestMove = movementMap.getCurrentMove().getBestResponse();
-
-        for (Move move : movementMap.getMovementMap().keySet()) {
-            if (bestMove.moveScore() > movementMap.getMovementMap().get(move).getCurrentMove().moveScore()) {
-                bestMove = move;
-            }
-        }
-        return bestMove;
-    }
-
     private Move getBestResponseCalculated(MovementMap movementMap)
     {
         //verify if it is a checkmate
@@ -82,8 +63,8 @@ public class SingleThreadCalculator
             }
         }
 
-        Move bestResponse = movementMap.getCurrentMove().getBestResponse();
-        int best_value = GameOptions.getSingleMoveScore(bestResponse);
+        Move bestResponse = null;
+        int best_value = -999999;
 
         for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             int new_value = getMovementMapScore(movementMap1, 20);
@@ -93,9 +74,7 @@ public class SingleThreadCalculator
                 bestResponse = movementMap1.getCurrentMove();
             }
         }
-
         return bestResponse;
-
     }
 
     public static int getMovementMapScore(MovementMap movementMap, int depth)
@@ -124,49 +103,30 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
-        while (movesLowerThanDepth > 0 && MovementMap.movementMapQueue.size() > 0) {
+        while (movesLowerThanDepth > 0 && !MovementMap.movementMapQueue.isEmpty()) {
             MovementMap movementMap = MovementMap.movementMapQueue.remove();
 
-            if (breakCondition(movementMap)) {
-                movesLowerThanDepth++;
+            if (!movementMap.isCurrentMovePossible()) {
+                continue;
             }
+            if (movementMap.getCurrentDepth() > GameBoard.depth) {
+                MovementMap.movementMapQueue.add(movementMap);
+                continue;
+            }
+            movesLowerThanDepth--;
 
-            if (movementMap.isCurrentMovePossible() || movementMap.getParent() == null) {
-                if (movementMap.getCurrentDepth() > GameBoard.depth) {
-                    MovementMap.movementMapQueue.add(movementMap);
-                }
-                else {
-                    Board board = movementMap.getBoardForCurrentPosition();
-                    //to remove this
-                    board.computePossibleMoves();
-                    List<Move> possibleMovesCalculatorsList = board.getPossibleMoves();
-
-                    //is a checkmate move
-                    if (possibleMovesCalculatorsList.isEmpty()) {
-                        movementMap.getCurrentMove().setCheckMate(true);
-                        movementMap.getParent().updateScore(movementMap.getCurrentMove());
-                    }
-                    for (Move move : possibleMovesCalculatorsList) {
-                        if (movementMap.getCurrentMove().getTakenPiece() == null || (movementMap.getCurrentMove().getTakenPiece() != null &&
-                                movementMap.getCurrentMove().getTakenPiece().getPieceType() != PieceType.KING)) {
-                            movementMap.addResponse(move);
-                        }
-
-                    }
-                    movesLowerThanDepth--;
-                }
+            List<Move> possibleMovesCalculatorsList = movementMap.generateBoardForCurrentPosition().calculatePossibleMoves();
+            //is a checkmate move
+            if (possibleMovesCalculatorsList.isEmpty()) {
+                movementMap.getCurrentMove().setCheckMate(true);
+                continue;
+            }
+            for (Move move : possibleMovesCalculatorsList) {
+                movementMap.addResponse(move);
             }
 
         }
-    }
 
-    boolean breakCondition(MovementMap movementMap)
-    {
-        if (movementMap.getParent() != null &&
-                movementMap.getParent().getCurrentMove().equals(MoveConvertor.stringToMove("h8e8"))) {
-            return true;
-        }
-        return false;
     }
 
     public void setup(Board board, int depth) throws InterruptedException

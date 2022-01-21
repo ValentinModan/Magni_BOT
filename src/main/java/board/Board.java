@@ -62,7 +62,7 @@ public class Board implements Cloneable
             currentMove = currentMove.getBestResponse();
         }
 
-      //  log.info(sb.toString());
+        //  log.info(sb.toString());
     }
 
     public void move(Move move)
@@ -125,6 +125,7 @@ public class Board implements Cloneable
         return possibleMoves;
     }
 
+
     public void undoMove(Move move)
     {
         moveController.undoMove(this, move);
@@ -157,27 +158,22 @@ public class Board implements Cloneable
     //one of these must be removed
     public List<Move> calculatePossibleMoves()
     {
-        return PossibleMovesCalculator.getPossibleMoves(this)
-                .stream()
-                .filter(move -> {     //filter moves after which the king is attacked
-                    move(move);
-                    boolean kingAttacked = KingSafety.isTheKingAttacked(this);
-                    undoMove(move);
-                    return !kingAttacked;
-                }).collect(Collectors.toList());
+        computePossibleMoves();
+        return getPossibleMoves();
     }
 
     public void computePossibleMoves()
     {
-        //log.info("Compiling possible moves");
-        possibleMoves = PossibleMovesCalculator.getPossibleMoves(this);
-
-        possibleMoves = possibleMoves.stream().filter(move -> {
-            move(move);
-            boolean kingAttacked = KingSafety.isTheKingAttacked(this);
-            undoMove(move);
-            return !kingAttacked;
-        }).collect(Collectors.toList());
+        possibleMoves = PossibleMovesCalculator
+                .getPossibleMoves(this)
+                .stream()
+                .filter(move ->
+                        {
+                            move(move);
+                            boolean kingAttacked = KingSafety.isTheKingAttacked(this);
+                            undoMove(move);
+                            return !kingAttacked;
+                        }).collect(Collectors.toList());
     }
 
     public Piece getMovingPiece(Position position)
@@ -286,7 +282,7 @@ public class Board implements Cloneable
         return newBoard;
     }
 
-//    @SneakyThrows
+    //    @SneakyThrows
     @Override
     public String toString()
     {

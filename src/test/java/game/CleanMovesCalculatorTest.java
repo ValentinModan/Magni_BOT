@@ -30,7 +30,6 @@ public class CleanMovesCalculatorTest
         for(Move move: board.getPossibleMoves())
         {
             System.out.printf("%5d:    ",move.moveScore());
-            System.out.println(move.moveWithBestResponse());
         }
 
 
