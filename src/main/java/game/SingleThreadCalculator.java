@@ -10,6 +10,8 @@ import mapmovement.MovementMap;
 
 import java.util.List;
 
+import static mapmovement.MovementMap.movementMapQueue;
+
 @Slf4j
 public class SingleThreadCalculator
 {
@@ -41,12 +43,12 @@ public class SingleThreadCalculator
 
     private void clearImpossibleMovesFromQueue()
     {
-        int n = MovementMap.movementMapQueue.size();
+        int n = movementMapQueue.size();
 
         for (int i = 1; i < n; i++) {
-            MovementMap movementMap = MovementMap.movementMapQueue.remove();
+            MovementMap movementMap = movementMapQueue.remove();
             if ((movementMap.isCurrentMovePossible() || movementMap.getParent() == null)) {
-                MovementMap.movementMapQueue.add(movementMap);
+                movementMapQueue.add(movementMap);
             }
         }
     }
@@ -108,14 +110,14 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
-        while (movesLowerThanDepth > 0 && !MovementMap.movementMapQueue.isEmpty()) {
-            MovementMap movementMap = MovementMap.movementMapQueue.remove();
+        while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
+            MovementMap movementMap = movementMapQueue.remove();
 
             if (!movementMap.isCurrentMovePossible()) {
                 continue;
             }
             if (movementMap.getCurrentDepth() > GameBoard.depth) {
-                MovementMap.movementMapQueue.add(movementMap);
+                movementMapQueue.add(movementMap);
                 continue;
             }
             movesLowerThanDepth--;
@@ -149,7 +151,7 @@ public class SingleThreadCalculator
             for (Move move : possibleMovesCalculatorsList) {
 
                 MovementMap newMovementMap = new MovementMap(movementMap, move);
-                movementMap.put(move, newMovementMap);
+                movementMap.getMovementMap().put(move, newMovementMap);
                 if (move.getTakenPiece() != null) {
                     computeMove(newMovementMap);
                 }
@@ -167,7 +169,7 @@ public class SingleThreadCalculator
         MovementMap.currentMoveFromTheGame = movementMap;
         movementMap.clearObjects();
 
-        MovementMap.movementMapQueue.add(movementMap);
+        movementMapQueue.add(movementMap);
         //toremove
         movesLowerThanDepth++;
 
