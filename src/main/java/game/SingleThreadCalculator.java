@@ -28,7 +28,7 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 500000;
+        movesLowerThanDepth = 50000;
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
@@ -121,6 +121,10 @@ public class SingleThreadCalculator
                 continue;
             }
             movesLowerThanDepth--;
+            if(movesLowerThanDepth%1000==0)
+            {
+                System.out.println(movesLowerThanDepth);
+            }
 
             computeMove(movementMap);
 
