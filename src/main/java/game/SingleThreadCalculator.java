@@ -26,7 +26,7 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 240000;
+        movesLowerThanDepth = 330000;
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
@@ -34,11 +34,8 @@ public class SingleThreadCalculator
 
         MovementMap.makeMovement(bestResponse);
 
-        if (board.allMoves.size() % 5 == 0) {
-            System.gc();
-            System.out.println("GC done");
-        }
         clearImpossibleMovesFromQueue();
+
         return bestResponse;
     }
 
@@ -82,6 +79,8 @@ public class SingleThreadCalculator
             return GameOptions.CHECK_MATE_SCORE * depth;
         }
 
+        //also add the mobility of the move in the formula
+        //maybe the difference between the possible moves
         int score = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
 
         //highest response score
@@ -96,6 +95,14 @@ public class SingleThreadCalculator
 
         for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             int value = getMovementMapScore(movementMap1, depth - 1);
+            try {
+                value += movementMap.generateBoardForCurrentPosition().calculatePossibleMoves().size() - movementMap1.generateBoardForCurrentPosition().calculatePossibleMoves().size();
+            }
+            catch (Exception e)
+            {
+                //log.error("something went wrogn");
+            }
+
             if (value > responseScore) {
                 responseScore = value;
             }

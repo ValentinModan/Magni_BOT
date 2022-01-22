@@ -126,6 +126,8 @@ public class GameBoard
         log.info(actualBoard.toString());
         RequestController.sendRequest(makeABotMove1);
 
+        System.gc();
+
         actualBoard.actualMove(actualMove);
         actualBoard.nextTurn();
     }

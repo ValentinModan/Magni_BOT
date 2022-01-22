@@ -11,24 +11,17 @@ public class Main
     {
         configureOutputFileForLogging();
 
-        while (true) {
-            GameBoard gameBoard = new GameBoard();
-            for (int i = 1; i <= 10; i++) {
-                try {
-                    //  gameBoard.waitForChallengeAndAcceptIt();
-                    gameBoard.challengePlayer("maia1");
 
-                } catch(Exception e) {
-                    e.printStackTrace();
+        GameBoard gameBoard = new GameBoard();
+        try {
+            //  gameBoard.waitForChallengeAndAcceptIt();
+            gameBoard.challengePlayer("maia1");
 
-                }
-                Thread.sleep(60000);
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
-
-        //  }
+        Thread.sleep(60000);
     }
 
 

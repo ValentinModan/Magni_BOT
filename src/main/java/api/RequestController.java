@@ -18,6 +18,8 @@ import java.util.Map;
 public class RequestController
 {
 
+    private static final String bearedToken = "TgrJxTCQpKTt7gqm";
+
     public static RequestAPI sendRequest(RequestAPI requestAPI)
     {
         try {
@@ -26,15 +28,15 @@ public class RequestController
             e.printStackTrace();
         }
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders  httpHeaders  = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", "application/json");
-        httpHeaders.set("Authorization", "Bearer TgrJxTCQpKTt7gqm");
+        httpHeaders.set("Authorization", "Bearer " + bearedToken);
         //check if can remove
         httpHeaders.set("Content-Type", "");
         httpHeaders.set("Content-Length", "0");
-        HttpEntity<String> httpEntity = new HttpEntity<>("body",httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>("body", httpHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(),httpEntity,String.class);
+        ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(), httpEntity, String.class);
 
 
         JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
@@ -59,9 +61,9 @@ public class RequestController
             e.printStackTrace();
         }
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders  httpHeaders  = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", "application/json");
-        httpHeaders.set("Authorization", "Bearer TgrJxTCQpKTt7gqm");
+        httpHeaders.set("Authorization", "Bearer " + bearedToken);
         //check if can remove
         httpHeaders.set("Content-Type", "");
         httpHeaders.set("Content-Length", "0");
@@ -70,16 +72,16 @@ public class RequestController
 
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
-       // map.put("color", "black");
+        // map.put("color", "black");
         map.put("rated", true);
 
         Map<String, Object> timeMap = new HashMap<>();
-        timeMap.put("limit","600");
-        timeMap.put("increment","20");
-        map.put("clock",timeMap);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map,httpHeaders);
+        timeMap.put("limit", "600");
+        timeMap.put("increment", "20");
+        map.put("clock", timeMap);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, httpHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(),entity,String.class);
+        ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(), entity, String.class);
 
 
         JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
