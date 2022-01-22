@@ -4,6 +4,7 @@ import board.Board;
 import board.moves.Move;
 import board.pieces.PieceType;
 import game.gameSetupOptions.GameOptions;
+import game.kingcheck.attacked.KingSafety;
 import lombok.extern.slf4j.Slf4j;
 import mapmovement.MovementMap;
 
@@ -16,7 +17,6 @@ public class SingleThreadCalculator
 
     public int movesLowerThanDepth = 10000;
 
-
     public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
     {
         if (!setupHasBeenMade) {
@@ -26,7 +26,7 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 40000;
+        movesLowerThanDepth = 240000;
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
@@ -62,7 +62,6 @@ public class SingleThreadCalculator
                 return move;
             }
         }
-
         Move bestResponse = null;
         int best_value = -999999;
 
@@ -86,6 +85,10 @@ public class SingleThreadCalculator
         int score = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
 
         //highest response score
+        if(movementMap.getMovementMap()==null)
+        {
+            return score;
+        }
         int responseScore = 0;
         if (movementMap.getMovementMap().values().size() != 0) {
             responseScore = -999999;
@@ -115,10 +118,21 @@ public class SingleThreadCalculator
             }
             movesLowerThanDepth--;
 
-            List<Move> possibleMovesCalculatorsList = movementMap.generateBoardForCurrentPosition().calculatePossibleMoves();
+            Board board = movementMap.generateBoardForCurrentPosition();
+            List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
             //is a checkmate move
             if (possibleMovesCalculatorsList.isEmpty()) {
-                movementMap.getCurrentMove().setCheckMate(true);
+                if(KingSafety.isTheKingAttacked(board)) {
+                    movementMap.getCurrentMove().setCheckMate(true);
+                    if(movementMap.getParent()!=null)
+                    {
+                       // movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
+                    }
+                }
+                else
+                {
+                    movementMap.getCurrentMove().setStaleMate(true);
+                }
                 continue;
             }
             for (Move move : possibleMovesCalculatorsList) {

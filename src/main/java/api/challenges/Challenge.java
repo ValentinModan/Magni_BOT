@@ -15,6 +15,11 @@ import org.springframework.web.client.RestTemplate;
 public class Challenge
 {
 
+    public static void challengePlayer(String playerName)
+    {
+       String challenge =  "https://lichess.org/api/challenge/" + playerName;
+    }
+
     public static void getChallenges()
     {
         RestTemplate restTemplate = new RestTemplate();

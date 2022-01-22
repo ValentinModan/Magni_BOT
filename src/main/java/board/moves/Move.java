@@ -20,6 +20,7 @@ public class Move implements Comparable<Move>
     private boolean isCastleMove = false;
     private boolean isAnPassant = false;
     private boolean isCheckMate;
+    private boolean isStaleMate;
     private Move bestResponse;
 
     public Move(boolean isCheckMate)
@@ -48,6 +49,16 @@ public class Move implements Comparable<Move>
         if (initialPosition.equals(finalPosition)) {
             int x = 0;
         }
+    }
+
+    public boolean isStaleMate()
+    {
+        return isStaleMate;
+    }
+
+    public void setStaleMate(boolean staleMate)
+    {
+        isStaleMate = staleMate;
     }
 
     public boolean isCheckMate()

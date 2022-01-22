@@ -54,7 +54,11 @@ public class GameBoardHelper
 //                depth = MAX_DEPTH_MID_GAME;
 //            }
 //        }
-//      depth += OptimizedBoard.actualMoves.size() / 60;
+            if(GameBoard.actualBoard.getMovingPiecesMap().size() +
+                    GameBoard.actualBoard.getTakenPiecesMap().size() < 10)
+            {
+                depth+=4;
+            }
         //  System.out.println("Computing for new depth: " + depth);
 
         GameBoard.depth = depth;

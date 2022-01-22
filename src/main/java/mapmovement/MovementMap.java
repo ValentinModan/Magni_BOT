@@ -115,6 +115,19 @@ public class MovementMap
         currentMoveFromTheGame = movementMap.get(chosenMove);
     }
 
+    //make a current move in the game which updates the whole map
+    public synchronized void foundCheckMate(Move chosenMove)
+    {
+        Map<Move, MovementMap> movementMap = currentMoveFromTheGame.getMovementMap();
+        for (Move move : movementMap.keySet()) {
+            //all other moves except the one that is made become impossible to reach
+            if (!chosenMove.equals(move)) {
+                //make move impossible
+                movementMap.get(move).isMovePossibleForCurrentGame.set(false);
+            }
+        }
+    }
+
     public synchronized int getCurrentDepth()
     {
         MovementMap movementMap = this;

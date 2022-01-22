@@ -7,18 +7,25 @@ import java.io.PrintStream;
 
 public class Main
 {
-    public static void main(String[] args) throws FileNotFoundException
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException
     {
         configureOutputFileForLogging();
 
-//       // while(true) {
-        GameBoard gameBoard = new GameBoard();
+        while (true) {
+            GameBoard gameBoard = new GameBoard();
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    //  gameBoard.waitForChallengeAndAcceptIt();
+                    gameBoard.challengePlayer("maia1");
 
-        try {
-            gameBoard.startPlayerGame();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Board.displayAllMoves();
+                } catch(Exception e) {
+                    e.printStackTrace();
+
+                }
+                Thread.sleep(60000);
+            }
+
+
         }
 
         //  }

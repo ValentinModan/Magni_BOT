@@ -2,6 +2,7 @@ package game;
 
 import api.RequestController;
 import api.bot.MakeABotMove;
+import api.challenges.ChallengeAPlayer;
 import api.games.GetMyOwnGoingGames;
 import api.games.owngame.NowPlaying;
 import api.json.challenge.AcceptChallenge;
@@ -22,7 +23,7 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class GameBoard
 {
-    public static final int DEFAULT_DEPTH = 6;
+    public static int DEFAULT_DEPTH = 6;
     public static int depth = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
@@ -36,17 +37,29 @@ public class GameBoard
         BoardSetup.setupBoard(actualBoard);
     }
 
-    public void startPlayerGame() throws InterruptedException
+    public void waitForChallengeAndAcceptIt() throws InterruptedException
     {
         ListYourChallenges listYourChallenges = (ListYourChallenges) RequestController.sendRequest(new ListYourChallenges());
-
         while (listYourChallenges.getIn().isEmpty()) {
             listYourChallenges = (ListYourChallenges) RequestController.sendRequest(listYourChallenges);
         }
         AcceptChallenge acceptChallenge = new AcceptChallenge(listYourChallenges.getIn().get(0).getId());
 
         RequestController.sendRequest(acceptChallenge);
+        startPlayerGame();
 
+    }
+
+    public void challengePlayer(String playerName) throws InterruptedException
+    {
+        ChallengeAPlayer challengeAPlayer = new ChallengeAPlayer(playerName);
+        RequestController.sendRequestWithProperties(challengeAPlayer);
+        startPlayerGame();
+    }
+
+
+    public void startPlayerGame() throws InterruptedException
+    {
         getMyOwnGoingGames = new GetMyOwnGoingGames();
 
         while (true) {
@@ -125,6 +138,7 @@ public class GameBoard
         openingController.filterWithMove(lastMove);
         log.info("Enemy made a move:");
         log.info(actualBoard.toString());
+
     }
 
     private void firstMove(String gameId)

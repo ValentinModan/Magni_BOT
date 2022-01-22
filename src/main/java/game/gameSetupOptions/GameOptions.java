@@ -12,7 +12,7 @@ public class GameOptions
 {
     public static final int CHECK_MATE_SCORE = 1000;
     //TODO: RETHINK STALEMATE SCORE SYSTEM
-    public static final int STALE_MATE_SCORE = 0;
+    public static final int STALE_MATE_SCORE = 100;
 
     public static final int MINIMUM_MOVES = 10;
     public static final int MAXIMUM_MOVES = 40;
@@ -85,6 +85,10 @@ public class GameOptions
         if (move.isCheckMate()) {
             return GameOptions.CHECK_MATE_SCORE;
         }
+        if(move.isStaleMate())
+        {
+            return GameOptions.STALE_MATE_SCORE;
+        }
         Piece movingPiece = move.getMovingPiece();
 
         int score = 0;
@@ -92,8 +96,13 @@ public class GameOptions
             score -= 1;
         }
 
+        if(movingPiece != null && move.isPawnPromotion())
+        {
+            score += movingPiece.getScore()*10;
+        }
+
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
-            //score += 1;
+            score += 1;
         }
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;

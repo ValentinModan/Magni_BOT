@@ -11,6 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 public class RequestController
 {
@@ -32,6 +35,51 @@ public class RequestController
         HttpEntity<String> httpEntity = new HttpEntity<>("body",httpHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(),httpEntity,String.class);
+
+
+        JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        RequestAPI requestAPI1 = null;
+        try {
+            requestAPI1 = objectMapper.readValue(response.getBody(), requestAPI.getClass());
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return requestAPI1;
+    }
+
+    public static RequestAPI sendRequestWithProperties(RequestAPI requestAPI)
+    {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders  httpHeaders  = new HttpHeaders();
+        httpHeaders.set("Accept", "application/json");
+        httpHeaders.set("Authorization", "Bearer TgrJxTCQpKTt7gqm");
+        //check if can remove
+        httpHeaders.set("Content-Type", "");
+        httpHeaders.set("Content-Length", "0");
+
+        System.out.println(httpHeaders.toString());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("body", "A powerful tool for building web apps.");
+       // map.put("color", "black");
+        map.put("rated", true);
+
+        Map<String, Object> timeMap = new HashMap<>();
+        timeMap.put("limit","600");
+        timeMap.put("increment","20");
+        map.put("clock",timeMap);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map,httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(requestAPI.getAPI(), requestAPI.getRequestType(),entity,String.class);
 
 
         JsonObject jsonObject = new JsonParser().parse(response.getBody()).getAsJsonObject();
