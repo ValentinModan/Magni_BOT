@@ -77,7 +77,7 @@ public class RequestController
 
         Map<String, Object> timeMap = new HashMap<>();
         timeMap.put("limit", "600");
-        timeMap.put("increment", "20");
+        timeMap.put("increment", "50");
         map.put("clock", timeMap);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, httpHeaders);
 
