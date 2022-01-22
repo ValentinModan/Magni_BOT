@@ -26,7 +26,7 @@ public class SingleThreadCalculator
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 330000;
+        movesLowerThanDepth = 500000;
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
@@ -96,7 +96,7 @@ public class SingleThreadCalculator
             int value = getMovementMapScore(movementMap1, depth - 1);
 
             //to remove this if the game isn't better
-            value += movementMap.getPossibleMoves() - movementMap1.getPossibleMoves();
+            // value += movementMap.getPossibleMoves() - movementMap1.getPossibleMoves();
 
 
             if (value > responseScore) {
@@ -132,7 +132,7 @@ public class SingleThreadCalculator
                 if (KingSafety.isTheKingAttacked(board)) {
                     movementMap.getCurrentMove().setCheckMate(true);
                     if (movementMap.getParent() != null) {
-                        // movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
+                        movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
                     }
                 }
                 else {

@@ -1,8 +1,10 @@
 package game.gameSetupOptions;
 
+import board.Board;
 import board.moves.Move;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import game.GameBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,20 +87,23 @@ public class GameOptions
         if (move.isCheckMate()) {
             return GameOptions.CHECK_MATE_SCORE;
         }
-        if(move.isStaleMate())
-        {
+        if (move.isStaleMate()) {
             return GameOptions.STALE_MATE_SCORE;
         }
         Piece movingPiece = move.getMovingPiece();
 
         int score = 0;
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.KING) {
-            score -= 1;
+            if (Board.actualMoves.size() > 60) {
+                score += 1;
+            }
+            else {
+                score -= 1;
+            }
         }
 
-        if(movingPiece != null && move.isPawnPromotion())
-        {
-            score += movingPiece.getScore()*10;
+        if (movingPiece != null && move.isPawnPromotion()) {
+            score += movingPiece.getScore() * 10;
         }
 
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
