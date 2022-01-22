@@ -84,8 +84,7 @@ public class SingleThreadCalculator
         int score = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
 
         //highest response score
-        if(movementMap.getMovementMap()==null)
-        {
+        if (movementMap.getMovementMap() == null) {
             return score;
         }
         int responseScore = 0;
@@ -95,13 +94,10 @@ public class SingleThreadCalculator
 
         for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             int value = getMovementMapScore(movementMap1, depth - 1);
-            try {
-                value += movementMap.generateBoardForCurrentPosition().calculatePossibleMoves().size() - movementMap1.generateBoardForCurrentPosition().calculatePossibleMoves().size();
-            }
-            catch (Exception e)
-            {
-                //log.error("something went wrogn");
-            }
+
+            //to remove this if the game isn't better
+            value += movementMap.getPossibleMoves() - movementMap1.getPossibleMoves();
+
 
             if (value > responseScore) {
                 responseScore = value;
@@ -126,18 +122,20 @@ public class SingleThreadCalculator
             movesLowerThanDepth--;
 
             Board board = movementMap.generateBoardForCurrentPosition();
+
+
             List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
+
+            movementMap.setPossibleMoves(possibleMovesCalculatorsList.size());
             //is a checkmate move
             if (possibleMovesCalculatorsList.isEmpty()) {
-                if(KingSafety.isTheKingAttacked(board)) {
+                if (KingSafety.isTheKingAttacked(board)) {
                     movementMap.getCurrentMove().setCheckMate(true);
-                    if(movementMap.getParent()!=null)
-                    {
-                       // movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
+                    if (movementMap.getParent() != null) {
+                        // movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
                     }
                 }
-                else
-                {
+                else {
                     movementMap.getCurrentMove().setStaleMate(true);
                 }
                 continue;

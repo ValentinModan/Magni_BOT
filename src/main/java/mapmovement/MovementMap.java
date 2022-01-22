@@ -26,6 +26,8 @@ public class MovementMap
     //the move before
     private final MovementMap parent;
 
+    private int possibleMoves;
+
     //the current move
     private Move currentMove;
 
@@ -153,6 +155,16 @@ public class MovementMap
     public MovementMap getParent()
     {
         return parent;
+    }
+
+    public int getPossibleMoves()
+    {
+        return possibleMoves;
+    }
+
+    public void setPossibleMoves(int possibleMoves)
+    {
+        this.possibleMoves = possibleMoves;
     }
 
     public Map<Move, MovementMap> getMovementMap()
