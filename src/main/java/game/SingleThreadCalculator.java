@@ -98,7 +98,6 @@ public class SingleThreadCalculator
             //to remove this if the game isn't better
             // value += movementMap.getPossibleMoves() - movementMap1.getPossibleMoves();
 
-
             if (value > responseScore) {
                 responseScore = value;
             }
@@ -121,31 +120,44 @@ public class SingleThreadCalculator
             }
             movesLowerThanDepth--;
 
-            Board board = movementMap.generateBoardForCurrentPosition();
-
-
-            List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
-
-            movementMap.setPossibleMoves(possibleMovesCalculatorsList.size());
-            //is a checkmate move
-            if (possibleMovesCalculatorsList.isEmpty()) {
-                if (KingSafety.isTheKingAttacked(board)) {
-                    movementMap.getCurrentMove().setCheckMate(true);
-                    if (movementMap.getParent() != null) {
-                        movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
-                    }
-                }
-                else {
-                    movementMap.getCurrentMove().setStaleMate(true);
-                }
-                continue;
-            }
-            for (Move move : possibleMovesCalculatorsList) {
-                movementMap.addResponse(move);
-            }
+            computeMove(movementMap);
 
         }
+    }
 
+    public void computeMove(MovementMap movementMap) throws CloneNotSupportedException
+    {
+        Board board = movementMap.generateBoardForCurrentPosition();
+
+
+        List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
+
+        movementMap.setPossibleMoves(possibleMovesCalculatorsList.size());
+        //is a checkmate move
+        if (possibleMovesCalculatorsList.isEmpty()) {
+            if (KingSafety.isTheKingAttacked(board)) {
+                movementMap.getCurrentMove().setCheckMate(true);
+                if (movementMap.getParent() != null) {
+                    //movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
+                }
+            }
+            else {
+                movementMap.getCurrentMove().setStaleMate(true);
+            }
+        }
+        else {
+            for (Move move : possibleMovesCalculatorsList) {
+
+                MovementMap newMovementMap = new MovementMap(movementMap, move);
+                movementMap.put(move, newMovementMap);
+                if (move.getTakenPiece() != null) {
+                    computeMove(newMovementMap);
+                }
+                else {
+                    movementMapQueue.add(newMovementMap);
+                }
+            }
+        }
     }
 
     public void setup(Board board, int depth) throws InterruptedException
