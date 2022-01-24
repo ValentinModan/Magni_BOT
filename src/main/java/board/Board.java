@@ -38,6 +38,9 @@ public class Board implements Cloneable
     public King getKing()
     {
         Piece piece = getPiece(getKingPosition());
+        if (piece == null) {
+            throw new NullPointerException("No king found at " + getKingPosition() + "\n" + this);
+        }
         return piece != null ? (King) piece : null;
     }
 
@@ -247,13 +250,31 @@ public class Board implements Cloneable
         this.allMoves = allMoves;
     }
 
+    public void setMovingKingPosition(Position position)
+    {
+        if (isWhiteToMove) {
+            setWhiteKingPosition(position);
+        }
+        else {
+            setBlackKingPosition(position);
+        }
+    }
+
     public void setWhiteKingPosition(Position whiteKingPosition)
     {
+        if(whiteKingPosition==null)
+        {
+            throw new NullPointerException("Something is really wrong\n" + this);
+        }
         this.whiteKingPosition = whiteKingPosition;
     }
 
     public void setBlackKingPosition(Position blackKingPosition)
     {
+        if(whiteKingPosition==null)
+        {
+            throw new NullPointerException("Something is really wrong\n" + this);
+        }
         this.blackKingPosition = blackKingPosition;
     }
 
@@ -305,6 +326,8 @@ public class Board implements Cloneable
         stringBuilder.append(isWhiteToMove ? "White" : "Black").append(" to move.\n");
         stringBuilder.append("All moves are ").append(allMoves).append("\n");
         stringBuilder.append("Possible move are :").append(possibleMoves).append("\n");
+        stringBuilder.append("White king position is:").append(whiteKingPosition);
+        stringBuilder.append("Black king position is:").append(blackKingPosition);
         return stringBuilder.toString();
     }
 

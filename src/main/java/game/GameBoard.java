@@ -47,13 +47,17 @@ public class GameBoard
 
         RequestController.sendRequest(acceptChallenge);
         startPlayerGame();
-
     }
 
-    public void challengePlayer(String playerName) throws InterruptedException
+    public void challengePlayer(String player) throws InterruptedException
+    {
+        challengePlayer(player, 180, 30, false);
+    }
+
+    public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException
     {
         ChallengeAPlayer challengeAPlayer = new ChallengeAPlayer(playerName);
-        RequestController.sendRequestWithProperties(challengeAPlayer);
+        RequestController.sendRequestWithProperties(challengeAPlayer, timeInSeconds, increment, rated);
         startPlayerGame();
     }
 

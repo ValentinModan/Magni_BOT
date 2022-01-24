@@ -5,10 +5,7 @@ import board.Position;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
-import board.pieces.Pawn;
-import board.pieces.Piece;
-import board.pieces.PieceType;
-import board.pieces.Queen;
+import board.pieces.*;
 
 public class MoveController
 {
@@ -28,8 +25,14 @@ public class MoveController
             board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
         }
 
+
         //clear moved piece position
         board.getMovingPiecesMap().remove(move.getFinalPosition());
+
+        if (move.isCastleMove()) {
+            board.addPiece(move.getFinalPosition(), new Rook(move.getMovingPiece().isWhite()));
+        }
+
 
         Piece takenPiece = move.getTakenPiece();
 
@@ -98,10 +101,10 @@ public class MoveController
     {
         Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
 
-        Position kingInitial       = move.getInitialPosition();
+        Position kingInitial = move.getInitialPosition();
         Position finalPositionKing = kingInitial.move(direction).move(direction);
-        Position rookInitial       = move.getFinalPosition();
-        Position rookFinal         = finalPositionKing.move(direction.opposite());
+        Position rookInitial = move.getFinalPosition();
+        Position rookFinal = finalPositionKing.move(direction.opposite());
 
         //move the king
         board.getMovingPiecesMap().put(finalPositionKing, move.getMovingPiece());

@@ -5,10 +5,7 @@ import board.moves.Move;
 import game.GameBoard;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -33,7 +30,7 @@ public class MovementMap
     //TODO: Verify if the constructor could be made private
     public MovementMap(MovementMap parent, Move currentMove)
     {
-        this(parent, currentMove, new ConcurrentHashMap<>());
+        this(parent, currentMove, new HashMap<>());
     }
 
     public void clearObjects()
@@ -106,7 +103,7 @@ public class MovementMap
                 movementMap.markMovesAsImpossible();
             }
         }
-        movementMap = null;
+       // movementMap = null;
     }
 
     //make a current move in the game which updates the whole map

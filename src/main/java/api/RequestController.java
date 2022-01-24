@@ -53,7 +53,7 @@ public class RequestController
         return requestAPI1;
     }
 
-    public static RequestAPI sendRequestWithProperties(RequestAPI requestAPI)
+    public static RequestAPI sendRequestWithProperties(RequestAPI requestAPI, int timeInSeconds, int increment, boolean rated)
     {
         try {
             Thread.sleep(1000);
@@ -72,12 +72,12 @@ public class RequestController
 
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
-        // map.put("color", "black");
-        map.put("rated", false);
+        map.put("color", "white");
+        map.put("rated", rated);
 
         Map<String, Object> timeMap = new HashMap<>();
-        timeMap.put("limit", "180");
-        timeMap.put("increment", "10");
+        timeMap.put("limit", timeInSeconds);
+        timeMap.put("increment", increment);
         map.put("clock", timeMap);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, httpHeaders);
 

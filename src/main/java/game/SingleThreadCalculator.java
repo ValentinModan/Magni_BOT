@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import mapmovement.MovementMap;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static mapmovement.MovementMap.movementMapQueue;
 
@@ -17,6 +18,7 @@ import static mapmovement.MovementMap.movementMapQueue;
 public class SingleThreadCalculator
 {
     boolean setupHasBeenMade = false;
+    private static final int ZERO = 0;
 
     public int movesLowerThanDepth = 10000;
 
@@ -102,33 +104,19 @@ public class SingleThreadCalculator
         if (movementMap.getCurrentMove().isCheckMate()) {
             return GameOptions.CHECK_MATE_SCORE * depth;
         }
-
-        //also add the mobility of the move in the formula
-        //maybe the difference between the possible moves
-        int score = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
-
-        //highest response score
-        if (movementMap.getMovementMap() == null) {
-            return score;
-        }
-        int responseScore = 0;
-        if (movementMap.getMovementMap().values().size() != 0) {
-            responseScore = -999999;
+        if (movementMap.getCurrentMove().isStaleMate()) {
+            return GameOptions.STALE_MATE_SCORE * depth;
         }
 
-        for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
-            int value = getMovementMapScore(movementMap1, depth - 1);
+        int moveScore = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
 
-            //to remove this if the game isn't better
-            // value += movementMap.getPossibleMoves() - movementMap1.getPossibleMoves();
+        int maxResponseScore = movementMap.getMovementMap().values()
+                .stream().map(it -> getMovementMapScore(it, depth - 1))
+                .mapToInt(it -> it)
+                .max().orElse(ZERO);
 
-            if (value > responseScore) {
-                responseScore = value;
-            }
-        }
-        return score - responseScore;
+        return moveScore - maxResponseScore;
     }
-
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
@@ -146,9 +134,7 @@ public class SingleThreadCalculator
             if (movesLowerThanDepth % 1000 == 0) {
                 System.out.println(movesLowerThanDepth);
             }
-
             computeMove(movementMap);
-
         }
     }
 

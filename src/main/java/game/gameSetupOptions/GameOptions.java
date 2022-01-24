@@ -105,9 +105,15 @@ public class GameOptions
         if (movingPiece != null && move.isPawnPromotion()) {
             score += movingPiece.getScore() * 10;
         }
-
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
             score += 1;
+            if (Board.actualMoves.size() > 60) {
+                score += 1;
+            }
+        }
+        if(move.isCastleMove())
+        {
+            score+=20;
         }
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;
