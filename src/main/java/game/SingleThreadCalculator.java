@@ -32,7 +32,6 @@ public class SingleThreadCalculator
             MovementMap.makeMovement(board.lastMove());
         }
         clearImpossibleMovesFromQueue();
-        movesLowerThanDepth = 125000;
 
         computeAllDepth();
 
@@ -120,6 +119,7 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
+        movesLowerThanDepth = 300000;
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;

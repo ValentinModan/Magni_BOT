@@ -112,6 +112,7 @@ public class GameBoard
             //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
             try {
                 actualMove = singleThreadCalculator.bestResponse(actualBoard);
+                singleThreadCalculator.computeAllDepth();
                 // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
             } catch (Exception e) {
                 singleThreadCalculator = new SingleThreadCalculator();
