@@ -302,6 +302,9 @@ public class Board implements Cloneable
             }
             stringBuilder.append("\n");
         }
+        stringBuilder.append(isWhiteToMove ? "White" : "Black").append(" to move.\n");
+        stringBuilder.append("All moves are ").append(allMoves).append("\n");
+        stringBuilder.append("Possible move are :").append(possibleMoves).append("\n");
         return stringBuilder.toString();
     }
 

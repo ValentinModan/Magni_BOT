@@ -23,7 +23,7 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class GameBoard
 {
-    public static int DEFAULT_DEPTH = 4;
+    public static int DEFAULT_DEPTH = 3;
     public static int depth = DEFAULT_DEPTH;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;

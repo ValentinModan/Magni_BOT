@@ -73,11 +73,11 @@ public class RequestController
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
         // map.put("color", "black");
-        map.put("rated", true);
+        map.put("rated", false);
 
         Map<String, Object> timeMap = new HashMap<>();
-        timeMap.put("limit", "600");
-        timeMap.put("increment", "50");
+        timeMap.put("limit", "180");
+        timeMap.put("increment", "10");
         map.put("clock", timeMap);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, httpHeaders);
 

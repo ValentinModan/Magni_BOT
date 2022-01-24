@@ -1,6 +1,7 @@
 package game;
 
 import board.Board;
+import board.Position;
 import board.moves.Move;
 import board.pieces.PieceType;
 import game.gameSetupOptions.GameOptions;
@@ -23,16 +24,18 @@ public class SingleThreadCalculator
     {
         if (!setupHasBeenMade) {
             setupHasBeenMade = true;
-            setup(board, GameBoard.depth);
+            setup(board);
         }
         else {
             MovementMap.makeMovement(board.lastMove());
         }
-        movesLowerThanDepth = 50000;
+        clearImpossibleMovesFromQueue();
+        movesLowerThanDepth = 125000;
+
         computeAllDepth();
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
-        Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame);
+        Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
 
         MovementMap.makeMovement(bestResponse);
 
@@ -45,7 +48,7 @@ public class SingleThreadCalculator
     {
         int n = movementMapQueue.size();
 
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             MovementMap movementMap = movementMapQueue.remove();
             if ((movementMap.isCurrentMovePossible() || movementMap.getParent() == null)) {
                 movementMapQueue.add(movementMap);
@@ -53,7 +56,7 @@ public class SingleThreadCalculator
         }
     }
 
-    private Move getBestResponseCalculated(MovementMap movementMap)
+    private Move getBestResponseCalculated(MovementMap movementMap, Board board)
     {
         //verify if it is a checkmate
         for (Move move : movementMap.getMovementMap().keySet()) {
@@ -66,10 +69,29 @@ public class SingleThreadCalculator
 
         for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             int new_value = getMovementMapScore(movementMap1, 20);
+
+            Move move = movementMap1.getCurrentMove();
+            try {
+                if (move.getMovingPiece().getPieceType() == PieceType.PAWN) {
+                    Position leftDiagonalPosition = move.getFinalPosition().leftDiagonal(move.getMovingPiece().isWhite());
+                    Position rightDiagonalPosition = move.getFinalPosition().rightDiagonal(move.getMovingPiece().isWhite());
+
+                    if (board.getMovingPiece(leftDiagonalPosition) != null) {
+                        new_value++;
+                    }
+
+                    if (board.getMovingPiece(rightDiagonalPosition) != null) {
+                        new_value++;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (new_value > best_value) {
                 System.out.println("new best value is " + new_value + " with new move " + bestResponse);
                 best_value = new_value;
                 bestResponse = movementMap1.getCurrentMove();
+
             }
         }
         return bestResponse;
@@ -112,7 +134,7 @@ public class SingleThreadCalculator
     {
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
             MovementMap movementMap = movementMapQueue.remove();
-
+            movesLowerThanDepth--;
             if (!movementMap.isCurrentMovePossible()) {
                 continue;
             }
@@ -120,9 +142,8 @@ public class SingleThreadCalculator
                 movementMapQueue.add(movementMap);
                 continue;
             }
-            movesLowerThanDepth--;
-            if(movesLowerThanDepth%1000==0)
-            {
+
+            if (movesLowerThanDepth % 1000 == 0) {
                 System.out.println(movesLowerThanDepth);
             }
 
@@ -135,17 +156,12 @@ public class SingleThreadCalculator
     {
         Board board = movementMap.generateBoardForCurrentPosition();
 
-
         List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
 
-        movementMap.setPossibleMoves(possibleMovesCalculatorsList.size());
         //is a checkmate move
         if (possibleMovesCalculatorsList.isEmpty()) {
             if (KingSafety.isTheKingAttacked(board)) {
                 movementMap.getCurrentMove().setCheckMate(true);
-                if (movementMap.getParent() != null) {
-                    //movementMap.getParent().foundCheckMate(movementMap.getCurrentMove());
-                }
             }
             else {
                 movementMap.getCurrentMove().setStaleMate(true);
@@ -156,17 +172,12 @@ public class SingleThreadCalculator
 
                 MovementMap newMovementMap = new MovementMap(movementMap, move);
                 movementMap.getMovementMap().put(move, newMovementMap);
-                if (move.getTakenPiece() != null) {
-                    computeMove(newMovementMap);
-                }
-                else {
-                    movementMapQueue.add(newMovementMap);
-                }
+                movementMapQueue.add(newMovementMap);
             }
         }
     }
 
-    public void setup(Board board, int depth) throws InterruptedException
+    public void setup(Board board) throws InterruptedException
     {
         board.computePossibleMoves();
         MovementMap movementMap = new MovementMap(null, new Move(board.getKingPosition(), board.getKingPosition()));

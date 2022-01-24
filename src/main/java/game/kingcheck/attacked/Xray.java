@@ -56,6 +56,9 @@ public class Xray
             return;
         }
         if (board.getKing() != null && board.getKing().isOpponentOf(takenPiece)) {
+
+           //todo check if this is a good thing
+            //currentMove.setTakenPiece(takenPiece);
             moveList.add(currentMove);
         }
     }

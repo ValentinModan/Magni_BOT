@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Position
 {
     private final char column;
-    private final int  row;
+    private final int row;
 
     public Position(int column, int row)
     {
@@ -41,6 +41,32 @@ public class Position
         return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
     }
 
+    public Position leftDiagonal(boolean whitePiece)
+    {
+        if (whitePiece) {
+            Position position = this.move(Movement.UP_LEFT);
+
+            return position.isValid() ? position : null;
+        }
+
+        Position position = this.move(Movement.DOWN_RIGHT);
+
+        return position.isValid() ? position : null;
+    }
+
+    public Position rightDiagonal(boolean whitePiece)
+    {
+        if (whitePiece) {
+            Position position = this.move(Movement.UP_RIGHT);
+
+            return position.isValid() ? position : null;
+        }
+
+        Position position = this.move(Movement.LEFT_DOWN);
+
+        return position.isValid() ? position : null;
+    }
+
     public Movement getDiagonalMovement(Position position)
     {
         if (row < position.row) {
@@ -67,8 +93,12 @@ public class Position
     @Override
     public boolean equals(Object o)
     {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Position position = (Position) o;
         return column == position.column && row == position.row;
     }

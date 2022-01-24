@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 public class MovementMap
@@ -26,12 +25,10 @@ public class MovementMap
     //the move before
     private final MovementMap parent;
 
-    private int possibleMoves;
-
     //the current move
     private Move currentMove;
 
-    private final AtomicBoolean isMovePossibleForCurrentGame = new AtomicBoolean(true);
+    private boolean isMovePossibleForCurrentGame = true;
 
     //TODO: Verify if the constructor could be made private
     public MovementMap(MovementMap parent, Move currentMove)
@@ -42,7 +39,6 @@ public class MovementMap
     public void clearObjects()
     {
         movementMapQueue = new LinkedList<>();
-
     }
 
     public MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
@@ -53,7 +49,7 @@ public class MovementMap
     }
 
     //to reduce memory compute the moves since it will only take a few moves
-    public synchronized Board generateBoardForCurrentPosition() throws CloneNotSupportedException
+    public Board generateBoardForCurrentPosition() throws CloneNotSupportedException
     {
         Stack<Move> moveStack = new Stack<>();
         MovementMap movementMap = this;
@@ -64,17 +60,21 @@ public class MovementMap
 
         //TODO do not use the actual board from the game
         Board board = (Board) GameBoard.actualBoard.clone();
-        while (!moveStack.isEmpty()) {
-            Move move = moveStack.pop();
-            if(!move.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
-                board.move(move);
-                board.nextTurn();
+        try {
+            while (!moveStack.isEmpty()) {
+                Move move = moveStack.pop();
+                if (!move.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+                    board.move(move);
+                    board.nextTurn();
+                }
             }
+        } catch (Exception e) {
+            System.out.println("something is wrong");
         }
         return board;
     }
 
-    public synchronized void addResponse(Move move)
+    public void addResponse(Move move)
     {
         MovementMap newMovementMap = new MovementMap(this, move);
         movementMap.put(move, newMovementMap);
@@ -84,34 +84,40 @@ public class MovementMap
     //each thread should call this method before analyzing a move
     public synchronized boolean isCurrentMovePossible()
     {
-        AtomicBoolean isCurrentMovePossible = new AtomicBoolean(true);
-        if (!isMovePossibleForCurrentGame.get()) {
-            isCurrentMovePossible.set(false);
+        if (!isMovePossibleForCurrentGame) {
+            return false;
         }
-        else if (parent == null) {
-            isCurrentMovePossible.set(true);
+        if (parent == null) {
+            return true;
         }
-        else {
-            boolean isCurrentMovePossible1 = parent.isCurrentMovePossible();
-            isCurrentMovePossible.set(isCurrentMovePossible1);
-            if (!isCurrentMovePossible1) {
-                movementMap = null;
+//
+//        //todo, this may be the cause of NPE
+//        if (!isMovePossibleForCurrentGame) {
+//            movementMap = null;
+//        }
+        return true;
+    }
+
+    public void markMovesAsImpossible()
+    {
+        isMovePossibleForCurrentGame = false;
+        for (MovementMap movementMap : movementMap.values()) {
+            if (movementMap.isMovePossibleForCurrentGame) {
+                movementMap.markMovesAsImpossible();
             }
         }
-        this.isMovePossibleForCurrentGame.set(isCurrentMovePossible.get());
-
-        return isMovePossibleForCurrentGame.get();
+        movementMap = null;
     }
 
     //make a current move in the game which updates the whole map
-    public synchronized static void makeMovement(Move chosenMove)
+    public static void makeMovement(Move chosenMove)
     {
         Map<Move, MovementMap> movementMap = currentMoveFromTheGame.getMovementMap();
         for (Move move : movementMap.keySet()) {
             //all other moves except the one that is made become impossible to reach
             if (!chosenMove.equals(move)) {
                 //make move impossible
-                movementMap.get(move).isMovePossibleForCurrentGame.set(false);
+                movementMap.get(move).markMovesAsImpossible();
             }
         }
         currentMoveFromTheGame = movementMap.get(chosenMove);
@@ -125,7 +131,7 @@ public class MovementMap
             //all other moves except the one that is made become impossible to reach
             if (!chosenMove.equals(move)) {
                 //make move impossible
-                movementMap.get(move).isMovePossibleForCurrentGame.set(false);
+                movementMap.get(move).isMovePossibleForCurrentGame = false;
             }
         }
     }
@@ -135,7 +141,8 @@ public class MovementMap
         MovementMap movementMap = this;
         int depthCount = 0;
 
-        while (movementMap.currentMove != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
+        while (movementMap != null && movementMap.currentMove != null &&
+                !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
             depthCount++;
             movementMap = movementMap.getParent();
         }
@@ -155,16 +162,6 @@ public class MovementMap
     public MovementMap getParent()
     {
         return parent;
-    }
-
-    public int getPossibleMoves()
-    {
-        return possibleMoves;
-    }
-
-    public void setPossibleMoves(int possibleMoves)
-    {
-        this.possibleMoves = possibleMoves;
     }
 
     public Map<Move, MovementMap> getMovementMap()

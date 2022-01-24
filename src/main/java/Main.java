@@ -14,8 +14,8 @@ public class Main
 
         GameBoard gameBoard = new GameBoard();
         try {
-            //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("maia1");
+          //  gameBoard.waitForChallengeAndAcceptIt();
+         gameBoard.challengePlayer("maia1");
 
         } catch (Exception e) {
             e.printStackTrace();
