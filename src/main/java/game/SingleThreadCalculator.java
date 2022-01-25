@@ -119,13 +119,30 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
-        movesLowerThanDepth = 80000;
+        movesLowerThanDepth = 100000;
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;
             if (!movementMap.isCurrentMovePossible()) {
                 continue;
             }
+            if (movementMap.getParent() != null) {
+
+                if (!movementMap.getParent().isCurrentMovePossible()) {
+                    continue;
+                }
+
+                if(movementMap.getParent().getParent()!=null)
+                {
+                    if(!movementMap.getParent().getParent().isCurrentMovePossible())
+                    {
+                        continue;
+                    }
+                }
+
+            }
+
+
             if (movementMap.getCurrentDepth() > GameBoard.depth) {
                 movementMapQueue.add(movementMap);
                 continue;
@@ -141,6 +158,7 @@ public class SingleThreadCalculator
     public void computeMove(MovementMap movementMap) throws CloneNotSupportedException
     {
         Board board = movementMap.generateBoardForCurrentPosition();
+
 
         List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
 

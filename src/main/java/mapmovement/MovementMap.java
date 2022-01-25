@@ -92,6 +92,8 @@ public class MovementMap
                 movementMap.markMovesAsImpossible();
             }
         }
+        //todo: this causes the error
+        movementMap = null;
     }
 
     //make a current move in the game which updates the whole map

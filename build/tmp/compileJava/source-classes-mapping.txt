@@ -154,13 +154,13 @@ game/CleanMoveCalculator.java
  game.CleanMoveCalculator
 mapmovement/MovementMap.java
  mapmovement.MovementMap
+game/multithreadedmap/MultiThreadedCalculator.java
+ game.multithreadedmap.MultiThreadedCalculator
+ game.multithreadedmap.MultiThreadedCalculator$Worker
+game/AllPossibleMovesMultiThreaded.java
+ game.AllPossibleMovesMultiThreaded
+ game.AllPossibleMovesMultiThreaded$Worker
 game/SingleThreadCalculator.java
  game.SingleThreadCalculator
 game/GameBoard.java
  game.GameBoard
-game/AllPossibleMovesMultiThreaded.java
- game.AllPossibleMovesMultiThreaded
- game.AllPossibleMovesMultiThreaded$Worker
-game/multithreadedmap/MultiThreadedCalculator.java
- game.multithreadedmap.MultiThreadedCalculator
- game.multithreadedmap.MultiThreadedCalculator$Worker

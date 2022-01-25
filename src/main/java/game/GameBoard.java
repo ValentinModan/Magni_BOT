@@ -37,7 +37,7 @@ public class GameBoard
         BoardSetup.setupBoard(actualBoard);
     }
 
-    public void waitForChallengeAndAcceptIt() throws InterruptedException
+    public void waitForChallengeAndAcceptIt() throws InterruptedException, CloneNotSupportedException
     {
         ListYourChallenges listYourChallenges = (ListYourChallenges) RequestController.sendRequest(new ListYourChallenges());
         while (listYourChallenges.getIn().isEmpty()) {
@@ -49,12 +49,12 @@ public class GameBoard
         startPlayerGame();
     }
 
-    public void challengePlayer(String player) throws InterruptedException
+    public void challengePlayer(String player) throws InterruptedException, CloneNotSupportedException
     {
         challengePlayer(player, 180, 30, false);
     }
 
-    public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException
+    public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException, CloneNotSupportedException
     {
         ChallengeAPlayer challengeAPlayer = new ChallengeAPlayer(playerName);
         RequestController.sendRequestWithProperties(challengeAPlayer, timeInSeconds, increment, rated);
@@ -62,7 +62,7 @@ public class GameBoard
     }
 
 
-    public void startPlayerGame() throws InterruptedException
+    public void startPlayerGame() throws InterruptedException, CloneNotSupportedException
     {
         getMyOwnGoingGames = new GetMyOwnGoingGames();
 
@@ -86,7 +86,7 @@ public class GameBoard
         }
     }
 
-    public void ownMoveCalculator(String gameId)
+    public void ownMoveCalculator(String gameId) throws InterruptedException, CloneNotSupportedException
     {
         //check opening moves
         String openingMove = openingController.generateMove();
@@ -103,26 +103,13 @@ public class GameBoard
     MultiThreadedCalculator multiThreadedCalculator = new MultiThreadedCalculator();
     SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
-    private void makeMyOwnMove(String gameId, String move)
+    private void makeMyOwnMove(String gameId, String move) throws CloneNotSupportedException, InterruptedException
     {
         GameBoardHelper.computeNewDepth();
         log.debug("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            //    actualMove = CleanMoveCalculator.calculate2(actualBoard, depth);
-            try {
-                actualMove = singleThreadCalculator.bestResponse(actualBoard);
-                // actualMove = multiThreadedCalculator.possibleMoves(actualBoard);
-            } catch (Exception e) {
-                singleThreadCalculator = new SingleThreadCalculator();
-                try {
-                    actualMove = singleThreadCalculator.bestResponse(actualBoard);
-                } catch (InterruptedException | CloneNotSupportedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-                e.printStackTrace();
-            }
-
+            actualMove = singleThreadCalculator.bestResponse(actualBoard);
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
