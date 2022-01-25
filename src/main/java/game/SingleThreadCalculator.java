@@ -119,7 +119,7 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
-        movesLowerThanDepth = 150000;
+        movesLowerThanDepth = 600000;
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;
