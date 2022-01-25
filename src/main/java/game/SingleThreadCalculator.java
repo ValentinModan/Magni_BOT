@@ -57,7 +57,7 @@ public class SingleThreadCalculator
         }
     }
 
-    private Move getBestResponseCalculated(MovementMap movementMap, Board board)
+    public Move getBestResponseCalculated(MovementMap movementMap, Board board)
     {
         //verify if it is a checkmate
         for (Move move : movementMap.getMovementMap().keySet()) {

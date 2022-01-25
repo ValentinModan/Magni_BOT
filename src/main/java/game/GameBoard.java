@@ -13,6 +13,7 @@ import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
 import game.multithreadedmap.MultiThreadedCalculator;
 import lombok.extern.slf4j.Slf4j;
+import mapmovement.MovementMap;
 import openings.OpeningController;
 import openings.OpeningReader;
 
@@ -109,7 +110,15 @@ public class GameBoard
         log.debug("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            actualMove = singleThreadCalculator.bestResponse(actualBoard);
+            try {
+                actualMove = singleThreadCalculator.bestResponse(actualBoard);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                singleThreadCalculator.getBestResponseCalculated(MovementMap.currentMoveFromTheGame, actualBoard);
+
+            }
         }
 
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
