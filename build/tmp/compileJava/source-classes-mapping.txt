@@ -143,13 +143,16 @@ board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator$1
 board/moves/calculator/pieces/RookMoveCalculator.java
  board.moves.calculator.pieces.RookMoveCalculator
-game/GameBoardHelper.java
- game.GameBoardHelper
+game/AllPossibleMovesMultiThreaded.java
+ game.AllPossibleMovesMultiThreaded
+ game.AllPossibleMovesMultiThreaded$Worker
 game/MultiThreadBoard.java
  game.MultiThreadBoard
  game.MultiThreadBoard$Worker
 Main.java
  Main
+game/GameBoardHelper.java
+ game.GameBoardHelper
 game/CleanMoveCalculator.java
  game.CleanMoveCalculator
 mapmovement/MovementMap.java
@@ -158,9 +161,6 @@ game/SingleThreadCalculator.java
  game.SingleThreadCalculator
 game/GameBoard.java
  game.GameBoard
-game/AllPossibleMovesMultiThreaded.java
- game.AllPossibleMovesMultiThreaded
- game.AllPossibleMovesMultiThreaded$Worker
 game/multithreadedmap/MultiThreadedCalculator.java
  game.multithreadedmap.MultiThreadedCalculator
  game.multithreadedmap.MultiThreadedCalculator$Worker

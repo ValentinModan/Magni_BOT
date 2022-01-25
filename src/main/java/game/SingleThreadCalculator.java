@@ -140,6 +140,14 @@ public class SingleThreadCalculator
                         movementMap.getParent().getParent().markMovesAsImpossible();
                         continue;
                     }
+                    if(movementMap.getParent().getParent().getParent()!=null)
+                    {
+                        if(!movementMap.getParent().getParent().getParent().isCurrentMovePossible())
+                        {
+                            movementMap.getParent().getParent().getParent().markMovesAsImpossible();
+                            continue;
+                        }
+                    }
                 }
 
             }

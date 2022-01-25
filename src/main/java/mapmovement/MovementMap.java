@@ -55,15 +55,10 @@ public class MovementMap
         Stack<Move> moveStack = getMovesStack();
 
         Board board = (Board) GameBoard.actualBoard.clone();
-        try {
-            while (!moveStack.isEmpty()) {
-                Move move = moveStack.pop();
-                    board.move(move);
-                    board.nextTurn();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("something is wrong with the stacktrace");
+        while (!moveStack.isEmpty()) {
+            Move move = moveStack.pop();
+            board.move(move);
+            board.nextTurn();
         }
         return board;
     }
@@ -96,8 +91,7 @@ public class MovementMap
     public void markMovesAsImpossible()
     {
         isMovePossibleForCurrentGame = false;
-        if(movementMap == null)
-        {
+        if (movementMap == null) {
             return;
         }
         for (MovementMap movementMap : movementMap.values()) {

@@ -57,7 +57,7 @@ public class GameBoardHelper
             if(GameBoard.actualBoard.getMovingPiecesMap().size() +
                     GameBoard.actualBoard.getTakenPiecesMap().size() < 10)
             {
-                depth+=4;
+                depth+=2;
             }
         //  System.out.println("Computing for new depth: " + depth);
 
