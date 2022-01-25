@@ -24,6 +24,10 @@ public class MovementMap
     //the current move
     private Move currentMove;
 
+    private static int objectCreated = 0;
+
+    private int uniqueId = 1;
+
     private boolean isMovePossibleForCurrentGame = true;
 
     //TODO: Verify if the constructor could be made private
@@ -42,33 +46,38 @@ public class MovementMap
         this.parent = parent;
         this.currentMove = currentMove;
         this.movementMap = movementMap;
+        uniqueId = ++objectCreated;
     }
 
     //to reduce memory compute the moves since it will only take a few moves
     public Board generateBoardForCurrentPosition() throws CloneNotSupportedException
     {
-        Stack<Move> moveStack = new Stack<>();
-        MovementMap movementMap = this;
-        while (movementMap != null && !movementMap.currentMove.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
-            moveStack.add(movementMap.currentMove);
-            movementMap = movementMap.getParent();
-        }
+        Stack<Move> moveStack = getMovesStack();
 
-        //TODO do not use the actual board from the game
         Board board = (Board) GameBoard.actualBoard.clone();
         try {
             while (!moveStack.isEmpty()) {
                 Move move = moveStack.pop();
-                if (!move.equals(MovementMap.currentMoveFromTheGame.currentMove)) {
                     board.move(move);
                     board.nextTurn();
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error("something is wrong with the stacktrace");
         }
         return board;
+    }
+
+    Stack<Move> getMovesStack()
+    {
+        Stack<Move> moveStack = new Stack<>();
+        MovementMap movementMap = this;
+        while (movementMap != null && movementMap != MovementMap.currentMoveFromTheGame) {
+            moveStack.add(movementMap.currentMove);
+            movementMap = movementMap.getParent();
+        }
+
+        return moveStack;
     }
 
     public void addResponse(Move move)
@@ -87,6 +96,10 @@ public class MovementMap
     public void markMovesAsImpossible()
     {
         isMovePossibleForCurrentGame = false;
+        if(movementMap == null)
+        {
+            return;
+        }
         for (MovementMap movementMap : movementMap.values()) {
             if (movementMap.isMovePossibleForCurrentGame) {
                 movementMap.markMovesAsImpossible();
@@ -148,6 +161,16 @@ public class MovementMap
     public MovementMap getParent()
     {
         return parent;
+    }
+
+    public int getUniqueId()
+    {
+        return uniqueId;
+    }
+
+    public void setUniqueId(int uniqueId)
+    {
+        this.uniqueId = uniqueId;
     }
 
     public Map<Move, MovementMap> getMovementMap()
