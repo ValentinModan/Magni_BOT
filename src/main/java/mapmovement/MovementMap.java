@@ -6,7 +6,6 @@ import game.GameBoard;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class MovementMap
@@ -66,7 +65,8 @@ public class MovementMap
                 }
             }
         } catch (Exception e) {
-            System.out.println("something is wrong");
+            e.printStackTrace();
+            log.error("something is wrong with the stacktrace");
         }
         return board;
     }
@@ -81,18 +81,7 @@ public class MovementMap
     //each thread should call this method before analyzing a move
     public synchronized boolean isCurrentMovePossible()
     {
-        if (!isMovePossibleForCurrentGame) {
-            return false;
-        }
-        if (parent == null) {
-            return true;
-        }
-//
-//        //todo, this may be the cause of NPE
-//        if (!isMovePossibleForCurrentGame) {
-//            movementMap = null;
-//        }
-        return true;
+        return isMovePossibleForCurrentGame;
     }
 
     public void markMovesAsImpossible()
@@ -103,7 +92,6 @@ public class MovementMap
                 movementMap.markMovesAsImpossible();
             }
         }
-       // movementMap = null;
     }
 
     //make a current move in the game which updates the whole map
@@ -120,7 +108,6 @@ public class MovementMap
         currentMoveFromTheGame = movementMap.get(chosenMove);
     }
 
-    //make a current move in the game which updates the whole map
     public synchronized void foundCheckMate(Move chosenMove)
     {
         Map<Move, MovementMap> movementMap = currentMoveFromTheGame.getMovementMap();

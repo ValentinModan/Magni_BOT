@@ -111,9 +111,12 @@ public class GameOptions
                 score += 1;
             }
         }
-        if(move.isCastleMove())
-        {
-            score+=20;
+
+        if (movingPiece != null && movingPiece.getPieceType() == PieceType.KNIGHT && move.getTakenPiece() != null) {
+            score += 1;
+        }
+        if (move.isCastleMove()) {
+            score += 20;
         }
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;

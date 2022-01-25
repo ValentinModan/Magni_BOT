@@ -29,9 +29,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
     {
         List<Move> moveList = super.computeMoves(board, position);
 
-        Position position1 = board.getKingPosition();
-
-        if (canSideCastle((Board)board.clone(), LEFT)) {
+        if (canSideCastle((Board) board.clone(), LEFT)) {
             Move move;
             if (board.isWhiteToMove()) {
                 move = new Move(PositionEnum.INITIAL_WHITE_KING_POSITION.getPosition(), PositionEnum.WHITE_ROOK_LEFT_INITIAL_POSITION.getPosition());
@@ -43,7 +41,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
             moveList.add(move);
         }
 
-        if (canSideCastle((Board)board.clone(), RIGHT)) {
+        if (canSideCastle((Board) board.clone(), RIGHT)) {
             Move move;
             if (board.isWhiteToMove()) {
                 move = new Move(PositionEnum.INITIAL_WHITE_KING_POSITION.getPosition(), PositionEnum.WHITE_ROOK_RIGHT_INITIAL_POSITION.getPosition());
@@ -81,7 +79,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
         Piece pieceAtLeftRookInitialPosition = board.getMovingPiece(INITIAL_ROOK_POSITION);
 
         //king is attacked or has moved
-        if ( !isInitialPosition(board.getKingPosition(), board.getKing())) {
+        if (!isInitialPosition(board.getKingPosition(), board.getKing())) {
             return false;
         }
         //no rook on side
@@ -103,32 +101,32 @@ public class KingMoveCalculator extends PieceMoveCalculator
         if (direction == LEFT && board.getPiece(board.getKingPosition().move(direction).move(direction).move(direction)) != null) {
             return false;
         }
-        if (rookHasMoved(board.allMoves, INITIAL_ROOK_POSITION)) {
+
+        if (pieceHasMoved(board.allMoves, initialKingPosition)) {
             return false;
         }
 
-        if (rookHasMoved(board.allMoves, INITIAL_ROOK_POSITION)) {
+        if (pieceHasMoved(board.allMoves, INITIAL_ROOK_POSITION)) {
             return false;
         }
 
-        if(KingSafety.isTheKingAttacked(board))
-        {
+        if (KingSafety.isTheKingAttacked(board)) {
             return false;
         }
 
         moveKingPosition(board, board.getKingPosition().move(direction));
 
         if (KingSafety.isTheKingAttacked(board)) {
-            moveKingPosition(board,initialKingPosition);
+            moveKingPosition(board, initialKingPosition);
             return false;
         }
 
         moveKingPosition(board, board.getKingPosition().move(direction));
         if (KingSafety.isTheKingAttacked(board)) {
-            moveKingPosition(board,initialKingPosition);
+            moveKingPosition(board, initialKingPosition);
             return false;
         }
-        moveKingPosition(board,initialKingPosition);
+        moveKingPosition(board, initialKingPosition);
         return true;
     }
 
@@ -139,7 +137,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
         board.updateKingPosition(newPosition);
     }
 
-    boolean rookHasMoved(List<Move> moveList, Position position)
+    boolean pieceHasMoved(List<Move> moveList, Position position)
     {
         for (Move move : moveList) {
             if (move.toString().contains(position.toString())) {
