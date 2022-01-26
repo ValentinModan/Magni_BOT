@@ -15,7 +15,7 @@ public class Main
         GameBoard gameBoard = new GameBoard();
         try {
             //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("sargon-2ply");
+            gameBoard.challengePlayer("sargon-3ply");
 
         } catch (Exception e) {
             e.printStackTrace();

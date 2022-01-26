@@ -20,7 +20,7 @@ public class SingleThreadCalculator
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
 
-    public static final int movesToCalculate = 800000;
+    public static final int movesToCalculate = 1000000;
     public int movesLowerThanDepth = 10000;
 
     public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
