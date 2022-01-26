@@ -7,7 +7,6 @@ import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -154,16 +153,15 @@ public class Board implements Cloneable
 
     public void computePossibleMoves()
     {
-        possibleMoves = PossibleMovesCalculator
-                .getPossibleMoves(this)
-                .stream()
+        possibleMoves = PossibleMovesCalculator.getPossibleMoves(this).stream()
                 .filter(move ->
                         {
                             move(move);
                             boolean kingAttacked = KingSafety.isTheKingAttacked(this);
                             undoMove(move);
                             return !kingAttacked;
-                        }).collect(Collectors.toList());
+                        })
+                .collect(Collectors.toList());
     }
 
     public Piece getMovingPiece(Position position)
@@ -249,8 +247,7 @@ public class Board implements Cloneable
 
     public void setWhiteKingPosition(Position whiteKingPosition)
     {
-        if(whiteKingPosition==null)
-        {
+        if (whiteKingPosition == null) {
             throw new NullPointerException("Something is really wrong\n" + this);
         }
         this.whiteKingPosition = whiteKingPosition;
@@ -258,8 +255,7 @@ public class Board implements Cloneable
 
     public void setBlackKingPosition(Position blackKingPosition)
     {
-        if(whiteKingPosition==null)
-        {
+        if (whiteKingPosition == null) {
             throw new NullPointerException("Something is really wrong\n" + this);
         }
         this.blackKingPosition = blackKingPosition;
@@ -313,8 +309,8 @@ public class Board implements Cloneable
         stringBuilder.append(isWhiteToMove ? "White" : "Black").append(" to move.\n");
         stringBuilder.append("All moves are ").append(allMoves).append("\n");
         stringBuilder.append("Possible move are :").append(possibleMoves).append("\n");
-        stringBuilder.append("White king position is:").append(whiteKingPosition);
-        stringBuilder.append("Black king position is:").append(blackKingPosition);
+        stringBuilder.append("White king position is:").append(whiteKingPosition).append("\n");
+        stringBuilder.append("Black king position is:").append(blackKingPosition).append("\n");
         return stringBuilder.toString();
     }
 

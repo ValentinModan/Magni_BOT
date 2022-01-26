@@ -28,7 +28,6 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         Pawn           piece        = (Pawn) board.getMovingPiece(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
-
         for (Movement movement : movementList) {
             moveList.addAll(moveCalculator(board, movement, position, piece));
 

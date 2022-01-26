@@ -12,25 +12,6 @@ import java.util.List;
 
 public class Xray
 {
-    //up, down, left, right and diagonal
-    public static boolean isXRayAttacked(Board board, Movement movement, PieceType pieceType)
-    {
-        Position currentPosition = board.getKingPosition();
-        currentPosition = currentPosition.move(movement);
-
-        while (currentPosition.isValid()) {
-            Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
-            if (takenPiece != null) {
-                return takenPiece.getPieceType() == pieceType;
-            }
-            if (board.getMovingPiece(currentPosition) != null) {
-                return false;
-            }
-            currentPosition = currentPosition.move(movement);
-        }
-        return false;
-    }
-
     public static List<Move> xRayMoveList(Board board, Position initialPosition, List<Movement> movementList)
     {
         List<Move> moveList = new ArrayList<>();
@@ -40,7 +21,7 @@ public class Xray
         return moveList;
     }
 
-    public static void xRayMoves(Board board, List<Move> moveList, Position initialPosition, Position currentPosition, Movement movement)
+    private static void xRayMoves(Board board, List<Move> moveList, Position initialPosition, Position currentPosition, Movement movement)
     {
         currentPosition = currentPosition.move(movement);
 
@@ -57,10 +38,29 @@ public class Xray
         }
         if (board.getKing() != null && board.getKing().isOpponentOf(takenPiece)) {
 
-           //todo check if this is a good thing
+            //todo check if this is a good thing
             //currentMove.setTakenPiece(takenPiece);
             moveList.add(currentMove);
         }
+    }
+
+    //up, down, left, right and diagonals
+    public static boolean isXRayAttacked(Board board, Movement movement, PieceType pieceType)
+    {
+        Position currentPosition = board.getKingPosition();
+        currentPosition = currentPosition.move(movement);
+
+        while (currentPosition.isValid()) {
+            Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
+            if (takenPiece != null) {
+                return takenPiece.getPieceType() == pieceType;
+            }
+            if (board.getMovingPiece(currentPosition) != null) {
+                return false;
+            }
+            currentPosition = currentPosition.move(movement);
+        }
+        return false;
     }
 
 }

@@ -7,7 +7,7 @@ public class Opening
     private final String moveName;
     private final String move;
 
-    public static String movesUntilNow = "";
+    private static String movesUntilNow = "";
 
     public Opening(String openingString)
     {
@@ -16,9 +16,9 @@ public class Opening
         move = array[1];
     }
 
-    public static void addMove(String move)
+    public static void updateMovesStringWithMove(String move)
     {
-        if (movesUntilNow.equals("")) {
+        if (movesUntilNow.isEmpty()) {
             movesUntilNow = move;
         }
         else {
@@ -28,7 +28,7 @@ public class Opening
 
     public String getNextMove()
     {
-        if (movesUntilNow.equals("")) {
+        if (movesUntilNow.isEmpty()) {
             return move.substring(0, 4);
         }
         if (move.startsWith(movesUntilNow) && move.length() > movesUntilNow.length()) {
@@ -40,7 +40,7 @@ public class Opening
 
     public boolean isThisOpening(String currentMove)
     {
-        if (movesUntilNow.equals("")) {
+        if (movesUntilNow.isEmpty()) {
             return isThisOpeningFromMoves(currentMove);
         }
         return isThisOpeningFromMoves(movesUntilNow + " " + currentMove);
@@ -62,7 +62,6 @@ public class Opening
         } catch (Exception e) {
             return false;
         }
-
     }
 
     private String extractExactMove(String firstMoves)

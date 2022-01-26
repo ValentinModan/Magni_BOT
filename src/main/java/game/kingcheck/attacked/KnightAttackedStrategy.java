@@ -20,7 +20,7 @@ public class KnightAttackedStrategy implements AttackedStrategy
     public boolean isAttackingTheKing(Board board)
     {
         Position kingPosition = board.getKingPosition();
-        King     king         = board.getKing();
+        King king = board.getKing();
 
         for (Movement movement : knightsPossibleMovements) {
             Piece piece = board.getTakenPiecesMap().get(kingPosition.move(movement));

@@ -107,8 +107,16 @@ public class GameOptions
         }
         if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
             score += 1;
-            if (Board.actualMoves.size() > 60) {
+            if (Board.actualMoves.size() > 80) {
                 score += 1;
+            }
+        }
+        if (Board.actualMoves.size() < 40) {
+            if (GameBoard.actualBoard.getMovingPiecesMap().size() +
+                    GameBoard.actualBoard.getTakenPiecesMap().size() < 26) {
+                if (movingPiece != null && (movingPiece.getPieceType() == PieceType.KNIGHT || movingPiece.getPieceType() == PieceType.BISHOP)) {
+                    score += 2;
+                }
             }
         }
 

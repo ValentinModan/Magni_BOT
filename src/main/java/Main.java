@@ -10,17 +10,16 @@ public class Main
     public static void main(String[] args) throws FileNotFoundException, InterruptedException
     {
         configureOutputFileForLogging();
+//        PossibleMovesCalculator1 possibleMovesCalculator1;
 
         GameBoard gameBoard = new GameBoard();
         try {
             //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("sargon-4ply");
+            gameBoard.challengePlayer("sargon-2ply");
 
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-        Thread.sleep(60000);
     }
 
 

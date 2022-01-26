@@ -14,7 +14,7 @@ public class MovementMap
     private Map<Move, MovementMap> movementMap;
 
     //a queue from which the threads should take the moves
-    public static Queue<MovementMap> movementMapQueue = new LinkedList<>();
+    public static Queue<MovementMap> movementMapQueue = new ArrayDeque<>();
 
     public static MovementMap currentMoveFromTheGame;
 
@@ -55,10 +55,16 @@ public class MovementMap
         Stack<Move> moveStack = getMovesStack();
 
         Board board = (Board) GameBoard.actualBoard.clone();
-        while (!moveStack.isEmpty()) {
-            Move move = moveStack.pop();
-            board.move(move);
-            board.nextTurn();
+        try {
+            while (!moveStack.isEmpty()) {
+                Move move = moveStack.pop();
+                board.move(move);
+                board.nextTurn();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         return board;
     }

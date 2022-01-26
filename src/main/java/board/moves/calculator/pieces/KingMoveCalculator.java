@@ -68,11 +68,10 @@ public class KingMoveCalculator extends PieceMoveCalculator
         if (direction == LEFT) {
             return isWhiteToMove ? WHITE_LEFT_ROOK_POSITION : BLACK_LEFT_ROOK_POSITION;
         }
-
         return isWhiteToMove ? WHITE_RIGHT_ROOK_POSITION : BLACK_RIGHT_ROOK_POSITION;
     }
 
-    boolean canSideCastle(Board board, Movement direction)
+    boolean canSideCastle(Board board, Movement direction) throws Exception
     {
         Position initialKingPosition = board.getKingPosition();
         Position INITIAL_ROOK_POSITION = initalRookPosition(direction, board.isWhiteToMove());
@@ -88,17 +87,17 @@ public class KingMoveCalculator extends PieceMoveCalculator
         }
 
         //no empty space on left side
-        if (board.getPiece(board.getKingPosition().move(direction)) != null) {
+        if (board.getPieceAt(board.getKingPosition().move(direction)) != null) {
             return false;
         }
 
         //no empty space on double left side
-        if (board.getPiece(board.getKingPosition().move(direction).move(direction)) != null) {
+        if (board.getPieceAt(board.getKingPosition().move(direction).move(direction)) != null) {
             return false;
         }
 
         //no empty space on triple left side
-        if (direction == LEFT && board.getPiece(board.getKingPosition().move(direction).move(direction).move(direction)) != null) {
+        if (direction == LEFT && board.getPieceAt(board.getKingPosition().move(direction).move(direction).move(direction)) != null) {
             return false;
         }
 

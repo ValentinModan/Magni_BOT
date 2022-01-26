@@ -21,7 +21,6 @@ public abstract class PieceMoveCalculator
     {
         List<Move> moveList = new ArrayList<>();
         Piece      piece    = board.getPiece(position);
-        // logger.log(INFO,"Calculating moves for " + piece + "at position " +position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
@@ -32,8 +31,6 @@ public abstract class PieceMoveCalculator
                 moveList.add(move);
             }
         }
-
-        //  logger.log(INFO, "Possible moves: " + moveList);
 
         return moveList;
     }

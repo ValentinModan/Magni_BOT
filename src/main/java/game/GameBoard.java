@@ -17,8 +17,6 @@ import mapmovement.MovementMap;
 import openings.OpeningController;
 import openings.OpeningReader;
 
-import java.util.List;
-
 import static java.lang.Thread.sleep;
 
 @Slf4j
@@ -52,7 +50,7 @@ public class GameBoard
 
     public void challengePlayer(String player) throws InterruptedException, CloneNotSupportedException
     {
-        challengePlayer(player, 180, 30, true);
+        challengePlayer(player, 180, 10, true);
     }
 
     public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException, CloneNotSupportedException
@@ -112,12 +110,9 @@ public class GameBoard
         if (actualMove == null) {
             try {
                 actualMove = singleThreadCalculator.bestResponse(actualBoard);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
                 singleThreadCalculator.getBestResponseCalculated(MovementMap.currentMoveFromTheGame, actualBoard);
-
             }
         }
 

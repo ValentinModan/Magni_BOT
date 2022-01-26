@@ -47,10 +47,9 @@ public class OpeningController
 
     public void filterWithMove(String move)
     {
-        openingList = openingList.stream().filter(opening ->
-             opening.isThisOpening(move) &&
-                    opening.hasContinuation()
-        ).collect(Collectors.toList());
-        Opening.addMove(move);
+        openingList = openingList.stream()
+                .filter(opening -> opening.isThisOpening(move) && opening.hasContinuation())
+                .collect(Collectors.toList());
+        Opening.updateMovesStringWithMove(move);
     }
 }
