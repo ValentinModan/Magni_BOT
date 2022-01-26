@@ -38,7 +38,7 @@ public class MovementMap
 
     public void clearObjects()
     {
-        movementMapQueue = new LinkedList<>();
+        movementMapQueue = new ArrayDeque<>();
     }
 
     public MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)

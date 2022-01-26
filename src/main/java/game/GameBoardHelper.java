@@ -3,16 +3,19 @@ package game;
 import api.RequestController;
 import api.games.GetMyOwnGoingGames;
 import api.games.owngame.NowPlaying;
+import board.Board;
+import mapmovement.MovementMap;
 
 import java.time.LocalTime;
 
+import static game.GameBoard.actualBoard;
 import static game.GameBoard.getMyOwnGoingGames;
 
 //TODO: move methods to helper
 public class GameBoardHelper
 {
-    private static      LocalTime previousRequestTime     = LocalTime.now();
-    private static final int       MY_TURN_REQUEST_TIMEOUT = 10;
+    private static LocalTime previousRequestTime = LocalTime.now();
+    private static final int MY_TURN_REQUEST_TIMEOUT = 10;
 
     public static boolean hasRequestTimeoutPassed()
     {
@@ -54,11 +57,18 @@ public class GameBoardHelper
 //                depth = MAX_DEPTH_MID_GAME;
 //            }
 //        }
-            if(GameBoard.actualBoard.getMovingPiecesMap().size() +
-                    GameBoard.actualBoard.getTakenPiecesMap().size() < 10)
-            {
-                depth+=2;
+        if (Board.actualMoves.size() > 60) {
+            if (MovementMap.movementMapQueue.size() < SingleThreadCalculator.movesToCalculate) {
+                depth++;
             }
+            else
+            {
+                if(depth>3)
+                {
+                    depth--;
+                }
+            }
+        }
         //  System.out.println("Computing for new depth: " + depth);
 
         GameBoard.depth = depth;

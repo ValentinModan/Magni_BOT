@@ -20,6 +20,7 @@ public class SingleThreadCalculator
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
 
+    public static final int movesToCalculate = 800000;
     public int movesLowerThanDepth = 10000;
 
     public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
@@ -119,7 +120,7 @@ public class SingleThreadCalculator
 
     public void computeAllDepth() throws CloneNotSupportedException
     {
-        movesLowerThanDepth = 800000;
+        movesLowerThanDepth = movesToCalculate;
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;
