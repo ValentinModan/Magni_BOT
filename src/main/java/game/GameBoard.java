@@ -50,7 +50,7 @@ public class GameBoard
 
     public void challengePlayer(String player) throws InterruptedException, CloneNotSupportedException
     {
-        challengePlayer(player, 180, 10, true);
+        challengePlayer(player, 600, 60, true);
     }
 
     public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException, CloneNotSupportedException
