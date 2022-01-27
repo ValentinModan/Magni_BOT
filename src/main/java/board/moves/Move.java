@@ -142,11 +142,6 @@ public class Move implements Comparable<Move>
         return moveScore;
     }
 
-    public void setMoveScore(Integer moveScore)
-    {
-        this.moveScore = moveScore;
-    }
-
     public void setScore(int score)
     {
         this.score = score;

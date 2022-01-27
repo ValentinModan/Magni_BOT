@@ -1,6 +1,5 @@
 package board.moves;
 
-//TODO: maybe separate  the knights movements
 public enum Movement
 {
     UP(0, 1),

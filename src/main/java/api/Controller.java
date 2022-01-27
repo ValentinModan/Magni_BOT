@@ -1,5 +1,6 @@
 package api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,14 +12,18 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class Controller {
 
-    public void sentRequest() {
-        URL url                = null;
+@Slf4j
+public class Controller
+{
+
+    public void sentRequest()
+    {
+        URL url = null;
         HttpURLConnection http = null;
         try {
             url = new URL("https://lichess.org");
-           http = (HttpURLConnection) url.openConnection();
+            http = (HttpURLConnection) url.openConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,25 +46,25 @@ public class Controller {
         }
     }
 
-    public void sendRestTemplateRequest(String gameId, String move) {
+    public void sendRestTemplateRequest(String gameId, String move)
+    {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
         httpHeaders.set("Accept", "application/json");
         httpHeaders.set("Authorization", "Bearer TgrJxTCQpKTt7gqm");
-       //check if can remove
+        //check if can remove
         httpHeaders.set("Content-Type", "");
         httpHeaders.set("Content-Length", "0");
-        HttpEntity<String> httpEntity = new HttpEntity<>("body",httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>("body", httpHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/" + gameId + "/move/" + move, HttpMethod.POST,httpEntity,String.class);
+        ResponseEntity<String> response = restTemplate.exchange("https://lichess.org/api/board/game/" + gameId + "/move/" + move, HttpMethod.POST, httpEntity, String.class);
 
-
-        System.out.println("Response is:");
-        System.out.println(response);
+        log.info("Sending the move " + move);
     }
 
-    public void sendMove() {
+    public void sendMove()
+    {
         try {
             URL url = new URL("https://lichess.org/api/board/game/S68FFz8F/move/a7a5");
             HttpURLConnection http = (HttpURLConnection) url.openConnection();

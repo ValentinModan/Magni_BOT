@@ -2,6 +2,7 @@ package board.moves.controller;
 
 import board.Board;
 import board.Position;
+import board.PositionEnum;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
@@ -30,9 +31,11 @@ public class MoveController
         board.getMovingPiecesMap().remove(move.getFinalPosition());
 
         if (move.isCastleMove()) {
+            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
+            //todo remove this if failure
+            board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction));
             board.addPiece(move.getFinalPosition(), new Rook(move.getMovingPiece().isWhite()));
         }
-
 
         Piece takenPiece = move.getTakenPiece();
 

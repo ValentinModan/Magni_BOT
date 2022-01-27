@@ -20,8 +20,8 @@ public class SingleThreadCalculator
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
 
-    public static final int movesToCalculate = 1000000;
-    public int movesLowerThanDepth = 10000;
+    public static final int movesToCalculate = 700000;
+    public int movesLowerThanDepth;
 
     public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
     {
@@ -122,6 +122,16 @@ public class SingleThreadCalculator
     {
         movesLowerThanDepth = movesToCalculate;
         while (movesLowerThanDepth > 0 && !movementMapQueue.isEmpty()) {
+
+
+            //to not use too much memory
+            if (movesLowerThanDepth > 100000 && movementMapQueue.size() > 1000000) {
+                movesLowerThanDepth = 100000;
+                if (GameBoard.depth > 3) {
+                    GameBoard.depth--;
+                }
+            }
+
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;
             if (!movementMap.isCurrentMovePossible()) {
@@ -134,17 +144,13 @@ public class SingleThreadCalculator
                     continue;
                 }
 
-                if(movementMap.getParent().getParent()!=null)
-                {
-                    if(!movementMap.getParent().getParent().isCurrentMovePossible())
-                    {
+                if (movementMap.getParent().getParent() != null) {
+                    if (!movementMap.getParent().getParent().isCurrentMovePossible()) {
                         movementMap.getParent().getParent().markMovesAsImpossible();
                         continue;
                     }
-                    if(movementMap.getParent().getParent().getParent()!=null)
-                    {
-                        if(!movementMap.getParent().getParent().getParent().isCurrentMovePossible())
-                        {
+                    if (movementMap.getParent().getParent().getParent() != null) {
+                        if (!movementMap.getParent().getParent().getParent().isCurrentMovePossible()) {
                             movementMap.getParent().getParent().getParent().markMovesAsImpossible();
                             continue;
                         }

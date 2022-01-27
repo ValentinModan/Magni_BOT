@@ -18,7 +18,6 @@ public class KingSafety
 
     public static boolean isTheKingAttacked(Board board)
     {
-
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {
             if (attackedStrategy.isAttackingTheKing(board)) {
                 return true;

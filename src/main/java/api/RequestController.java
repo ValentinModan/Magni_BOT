@@ -23,6 +23,7 @@ public class RequestController
     public static RequestAPI sendRequest(RequestAPI requestAPI)
     {
         try {
+
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -73,7 +74,7 @@ public class RequestController
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
         map.put("color", "white");
-        map.put("rated", true);
+        map.put("rated", false);
 
         Map<String, Object> timeMap = new HashMap<>();
         timeMap.put("limit", timeInSeconds);

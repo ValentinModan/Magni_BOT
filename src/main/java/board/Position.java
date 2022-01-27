@@ -20,16 +20,6 @@ public class Position
         this.row = row;
     }
 
-    public char getColumn()
-    {
-        return column;
-    }
-
-    public int getRow()
-    {
-        return row;
-    }
-
     public boolean isValid()
     {
         return ('a' <= column && column <= 'h') &&
@@ -52,6 +42,16 @@ public class Position
         Position position = this.move(Movement.DOWN_RIGHT);
 
         return position.isValid() ? position : null;
+    }
+
+    public char getColumn()
+    {
+        return column;
+    }
+
+    public int getRow()
+    {
+        return row;
     }
 
     public Position rightDiagonal(boolean whitePiece)

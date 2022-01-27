@@ -116,9 +116,8 @@ public class GameBoard
             }
         }
 
+
         MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
-        log.info("Best move chosen is " + actualMove + " with score of " + actualMove.getScore());
-        log.info(actualBoard.toString());
         RequestController.sendRequest(makeABotMove1);
 
         System.gc();
