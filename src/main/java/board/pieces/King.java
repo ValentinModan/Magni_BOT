@@ -32,6 +32,12 @@ public class King extends Piece {
     }
 
     @Override
+    public String toFen()
+    {
+        return isWhite() ? "K" : "k";
+    }
+
+    @Override
     public String toString() {
         return isWhite() ? "♔" : "♚";
     }

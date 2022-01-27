@@ -3,7 +3,6 @@ package api.json.challenge;
 
 import api.RequestAPI;
 import api.json.challenge.property.Input;
-import api.json.challenge.property.Output;
 import org.springframework.http.HttpMethod;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public class ListYourChallenges implements RequestAPI
 
     private List<Input> in;
 
-    private List<Output> out;
 
     public List<Input> getIn()
     {
@@ -27,15 +25,6 @@ public class ListYourChallenges implements RequestAPI
         this.in = in;
     }
 
-    public List<Output> getOut()
-    {
-        return out;
-    }
-
-    public void setOut(List<Output> out)
-    {
-        this.out = out;
-    }
 
     @Override
     public HttpMethod getRequestType()
@@ -54,7 +43,7 @@ public class ListYourChallenges implements RequestAPI
     {
         return "ListYourChallenges{" +
                 "in=" + in +
-                ", out=" + out +
+                ",+"+
                 '}';
     }
 }

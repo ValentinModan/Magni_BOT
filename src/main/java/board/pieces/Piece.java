@@ -67,6 +67,11 @@ public abstract class Piece
         return Objects.hash(isWhite);
     }
 
+    public String toFen()
+    {
+        return " ";
+    }
+
     @Override
     public String toString()
     {

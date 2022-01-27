@@ -20,6 +20,12 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public String toFen()
+    {
+        return isWhite() ? "B" : "b";
+    }
+
+    @Override
     public String toString() {
         return isWhite() ? "♗" : "♗";
     }

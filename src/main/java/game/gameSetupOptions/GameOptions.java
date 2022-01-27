@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static board.pieces.PieceType.KNIGHT;
+
 public class GameOptions
 {
     public static final int CHECK_MATE_SCORE = 1000;
     //TODO: RETHINK STALEMATE SCORE SYSTEM
-    public static final int STALE_MATE_SCORE = 100;
+    public static final int STALE_MATE_SCORE = -100;
 
     public static final int MINIMUM_MOVES = 10;
     public static final int MAXIMUM_MOVES = 40;
@@ -114,17 +116,20 @@ public class GameOptions
         if (Board.actualMoves.size() < 40) {
             if (GameBoard.actualBoard.getMovingPiecesMap().size() +
                     GameBoard.actualBoard.getTakenPiecesMap().size() < 26) {
-                if (movingPiece != null && (movingPiece.getPieceType() == PieceType.KNIGHT || movingPiece.getPieceType() == PieceType.BISHOP)) {
+                if (movingPiece != null && (movingPiece.getPieceType() == KNIGHT || movingPiece.getPieceType() == PieceType.BISHOP)) {
                     score += 2;
                 }
             }
         }
+        if (movingPiece != null && movingPiece.getPieceType() == KNIGHT && move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getColumn() == 8) {
+            score += 2;
+        }
 
-        if (movingPiece != null && movingPiece.getPieceType() == PieceType.KNIGHT && move.getTakenPiece() != null) {
+        if (movingPiece != null && movingPiece.getPieceType() == KNIGHT && move.getTakenPiece() != null) {
             score += 1;
         }
         if (move.isCastleMove()) {
-            score += 20;
+            score += 13;
         }
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;

@@ -14,13 +14,43 @@ public class BoardSetup
     private static final boolean WHITE = true;
     private static final boolean BLACK = false;
 
+    public static String boardToFenNotation(Board board) throws Exception
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 8; i >= 1; i--) {
+            for (char c = 'a'; c <= 'h'; c++) {
+                Piece piece = board.getPieceAt(new Position(c, i));
+
+                stringBuilder.append(piece != null ? piece.toFen() : " ");
+
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static int boardScoreDifference(Board board)
+    {
+        int score = 0;
+        for (Piece piece : board.getPieceMap(Board.myColorWhite).values()) {
+            if(piece.getPieceType()!=PieceType.PAWN)
+            score += piece.getScore();
+        }
+
+        for (Piece piece : board.getPieceMap(!Board.myColorWhite).values()) {
+            if(piece.getPieceType()!=PieceType.PAWN)
+            score -= piece.getScore();
+        }
+        return score;
+    }
+
     public static void fenNotationBoardSetup(Board board, String fenNotation)
     {
         String[] array = fenNotation.split("/");
         int index1;
         for (int i = 8; i >= 2; i--) {
             index1 = 1;
-            for (int j = 0; j <array[8 - i].length(); j++) {
+            for (int j = 0; j < array[8 - i].length(); j++) {
                 char c = array[8 - i].charAt(j);
                 //is digit
                 if ('0' <= c && c <= '9') {

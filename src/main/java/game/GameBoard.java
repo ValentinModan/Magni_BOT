@@ -11,7 +11,7 @@ import board.Board;
 import board.moves.Move;
 import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
-import game.multithreadedmap.MultiThreadedCalculator;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import mapmovement.MovementMap;
 import openings.OpeningController;
@@ -50,7 +50,7 @@ public class GameBoard
 
     public void challengePlayer(String player) throws InterruptedException, CloneNotSupportedException
     {
-        challengePlayer(player, 600, 60, true);
+        challengePlayer(player, 600, 15, true);
     }
 
     public void challengePlayer(String playerName, int timeInSeconds, int increment, boolean rated) throws InterruptedException, CloneNotSupportedException
@@ -61,6 +61,7 @@ public class GameBoard
     }
 
 
+    @SneakyThrows
     public void startPlayerGame() throws InterruptedException, CloneNotSupportedException
     {
         getMyOwnGoingGames = new GetMyOwnGoingGames();
@@ -85,7 +86,7 @@ public class GameBoard
         }
     }
 
-    public void ownMoveCalculator(String gameId) throws InterruptedException, CloneNotSupportedException
+    public void ownMoveCalculator(String gameId) throws Exception
     {
         //check opening moves
         String openingMove = openingController.generateMove();
@@ -99,10 +100,9 @@ public class GameBoard
     }
 
     AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
-    MultiThreadedCalculator multiThreadedCalculator = new MultiThreadedCalculator();
     SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
-    private void makeMyOwnMove(String gameId, String move) throws CloneNotSupportedException, InterruptedException
+    private void makeMyOwnMove(String gameId, String move) throws Exception
     {
         GameBoardHelper.computeNewDepth();
         log.debug("Generated opening move " + move);
@@ -124,6 +124,7 @@ public class GameBoard
 
         actualBoard.actualMove(actualMove);
         actualBoard.nextTurn();
+        singleThreadCalculator.updateFenMap(actualBoard);
     }
 
     private void makeEnemyMove(String lastMove)
@@ -142,6 +143,7 @@ public class GameBoard
         Move actualMove = MoveConvertor.stringToMove(openingController.nextMove());
 
         actualBoard.actualMove(actualMove);
+        Board.myColorWhite = true;
         //set black to move
         actualBoard.nextTurn();
 

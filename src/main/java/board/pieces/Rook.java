@@ -1,11 +1,13 @@
 package board.pieces;
 
-public class Rook extends Piece {
+public class Rook extends Piece
+{
     private boolean hasMoved = false;
 
     private final int ROOK_SCORE = 5;
 
-    public Rook(boolean isWhite) {
+    public Rook(boolean isWhite)
+    {
         super(isWhite);
     }
 
@@ -27,12 +29,20 @@ public class Rook extends Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
+    public PieceType getPieceType()
+    {
         return PieceType.ROOK;
     }
 
     @Override
-    public String toString() {
+    public String toFen()
+    {
+        return isWhite() ? "R" : "r";
+    }
+
+    @Override
+    public String toString()
+    {
         return isWhite() ? "♖" : "♜";
     }
 }

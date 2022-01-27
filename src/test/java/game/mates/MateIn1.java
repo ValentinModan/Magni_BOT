@@ -32,7 +32,7 @@ public class MateIn1
     }
 
     @Test
-    public void scholarsMate_depth_search_1() throws CloneNotSupportedException, InterruptedException
+    public void scholarsMate_depth_search_1() throws Exception
     {
         String firstMoves = "f2f3 e7e6 g2g4 d8h4 a2a3";
         MovesGenerator.makeMoves(board, firstMoves);
@@ -45,7 +45,7 @@ public class MateIn1
 
 
     @Test
-    public void scholarsMate_depth_search_2() throws CloneNotSupportedException, InterruptedException
+    public void scholarsMate_depth_search_2() throws Exception
     {
         String firstMoves = "f2f3 e7e6 g2g4";
         MovesGenerator.makeMoves(board, firstMoves);

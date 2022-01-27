@@ -23,6 +23,12 @@ public class Knight extends Piece
     }
 
     @Override
+    public String toFen()
+    {
+        return isWhite() ? "N" : "n";
+    }
+
+    @Override
     public String toString()
     {
         return isWhite() ? "♘" : "♞";

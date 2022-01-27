@@ -110,6 +110,16 @@ public class MoveUpdateHelper
         Piece movingPiece = move.getMovingPiece();
         Piece rookPiece   = board.getMovingPiece(move.getFinalPosition());
 
+        if(movingPiece.getPieceType()==PieceType.KING)
+        {
+            Movement direction =  move.getInitialPosition().castleDirection(move.getFinalPosition());
+            if(move.getInitialPosition().move(direction).move(direction).equals(move.getFinalPosition()))
+            {
+                move.setCastleMove(true);
+            }
+
+        }
+
         if (rookPiece == null) {
             return;
         }

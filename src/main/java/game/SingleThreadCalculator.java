@@ -4,13 +4,15 @@ import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.pieces.PieceType;
+import board.setup.BoardSetup;
 import game.gameSetupOptions.GameOptions;
 import game.kingcheck.attacked.KingSafety;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import mapmovement.MovementMap;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static mapmovement.MovementMap.movementMapQueue;
 
@@ -20,21 +22,44 @@ public class SingleThreadCalculator
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
 
-    public static final int movesToCalculate = 700000;
+    public static final int movesToCalculate = 3000000;
     public int movesLowerThanDepth;
 
-    public Move bestResponse(Board board) throws InterruptedException, CloneNotSupportedException
+    boolean hasDoubledDepth = false;
+
+    boolean hasTripledDepth = false;
+
+    Map<String, Integer> previousMovesMap = new HashMap<>();
+
+    public void updateFenMap(Board board) throws Exception
+    {
+        String key = BoardSetup.boardToFenNotation(board);
+        Integer value = previousMovesMap.get(key);
+        previousMovesMap.put(key, value != null ? value + 1 : 1);
+    }
+
+    @SneakyThrows
+    public Move bestResponse(Board board)
     {
         if (!setupHasBeenMade) {
             setupHasBeenMade = true;
             setup(board);
+            computeTree();
         }
         else {
             MovementMap.makeMovement(board.lastMove());
+            updateFenMap(board);
+
         }
         clearImpossibleMovesFromQueue();
 
-        computeAllDepth();
+        //computeAllDepth();
+        computeTree();
+        if (!hasDoubledDepth && board.getMovingPiecesMap().size() + board.getTakenPiecesMap().size() <= 7) {
+            hasDoubledDepth = true;
+            computeTree();
+        }
+
 
         //Move bestResponse = MovementMap.currentMoveFromTheGame.getCurrentMove().getBestResponse();
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
@@ -58,7 +83,7 @@ public class SingleThreadCalculator
         }
     }
 
-    public Move getBestResponseCalculated(MovementMap movementMap, Board board)
+    public Move getBestResponseCalculated(MovementMap movementMap, Board board) throws Exception
     {
         //verify if it is a checkmate
         for (Move move : movementMap.getMovementMap().keySet()) {
@@ -69,10 +94,14 @@ public class SingleThreadCalculator
         Move bestResponse = null;
         int best_value = -999999;
 
-        for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
+        for (MovementMap movementMap1 : movementMap.getMovementMap().values().stream().sorted(
+                Comparator.comparingInt(o -> o.getCurrentMove().getMovingPiece().getScore())).collect(Collectors.toList())) {
             int new_value = getMovementMapScore(movementMap1, 20);
 
             Move move = movementMap1.getCurrentMove();
+            if (move.isPawnPromotion()) {
+                new_value += 10;
+            }
             try {
                 if (move.getMovingPiece().getPieceType() == PieceType.PAWN) {
                     Position leftDiagonalPosition = move.getFinalPosition().leftDiagonal(move.getMovingPiece().isWhite());
@@ -89,8 +118,25 @@ public class SingleThreadCalculator
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            Board board1 = movementMap1.generateBoardForCurrentPosition();
+            String fenString = BoardSetup.boardToFenNotation(board1);
+            Integer positionOccurance = previousMovesMap.get(BoardSetup.boardToFenNotation(board1));
+            if (positionOccurance != null && positionOccurance >= 1) {
+                int scoreDiference = BoardSetup.boardScoreDifference(board1);
+                log.info("Position occured before\n" + fenString + "\n with score " + scoreDiference);
+                log.info("" + Board.myColorWhite);
+                if (scoreDiference >= 3) {
+                    new_value -= 30;
+                }
+                if (scoreDiference <= -2) {
+                    new_value += 30;
+                }
+            }
+
+
             if (new_value > best_value) {
-                System.out.println("new best value is " + new_value + " with new move " + bestResponse);
+                System.out.println("new best value is " + new_value + " with new move " + movementMap1.getCurrentMove());
                 best_value = new_value;
                 bestResponse = movementMap1.getCurrentMove();
 
@@ -118,6 +164,27 @@ public class SingleThreadCalculator
         return moveScore - maxResponseScore;
     }
 
+    public void computeTree() throws CloneNotSupportedException
+    {
+        //  movesLowerThanDepth = movesToCalculate;
+        // while (movesLowerThanDepth > 0) {
+        computeMap(MovementMap.currentMoveFromTheGame);
+        //  }
+    }
+
+    public void computeMap(MovementMap movementMap) throws CloneNotSupportedException
+    {
+        if (movementMap.getMovementMap().isEmpty()) {
+            computeMove(movementMap, 2);
+        }
+        else {
+            for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
+                computeMap(movementMap1);
+            }
+        }
+    }
+
+
     public void computeAllDepth() throws CloneNotSupportedException
     {
         movesLowerThanDepth = movesToCalculate;
@@ -134,29 +201,8 @@ public class SingleThreadCalculator
 
             MovementMap movementMap = movementMapQueue.remove();
             movesLowerThanDepth--;
-            if (!movementMap.isCurrentMovePossible()) {
+            if (isMovementMapValidForTheGame(movementMap)) {
                 continue;
-            }
-            if (movementMap.getParent() != null) {
-
-                if (!movementMap.getParent().isCurrentMovePossible()) {
-                    movementMap.getParent().markMovesAsImpossible();
-                    continue;
-                }
-
-                if (movementMap.getParent().getParent() != null) {
-                    if (!movementMap.getParent().getParent().isCurrentMovePossible()) {
-                        movementMap.getParent().getParent().markMovesAsImpossible();
-                        continue;
-                    }
-                    if (movementMap.getParent().getParent().getParent() != null) {
-                        if (!movementMap.getParent().getParent().getParent().isCurrentMovePossible()) {
-                            movementMap.getParent().getParent().getParent().markMovesAsImpossible();
-                            continue;
-                        }
-                    }
-                }
-
             }
 
 
@@ -168,12 +214,50 @@ public class SingleThreadCalculator
             if (movesLowerThanDepth % 1000 == 0) {
                 System.out.println(movesLowerThanDepth);
             }
-            computeMove(movementMap);
+            computeMove(movementMap, 1);
         }
     }
 
-    public void computeMove(MovementMap movementMap) throws CloneNotSupportedException
+    private boolean isMovementMapValidForTheGame(MovementMap movementMap)
     {
+        if (!movementMap.isCurrentMovePossible()) {
+            return false;
+        }
+        if (movementMap.getParent() != null) {
+
+            if (!movementMap.getParent().isCurrentMovePossible()) {
+                movementMap.getParent().markMovesAsImpossible();
+                return false;
+            }
+
+            if (movementMap.getParent().getParent() != null) {
+                if (!movementMap.getParent().getParent().isCurrentMovePossible()) {
+                    movementMap.getParent().getParent().markMovesAsImpossible();
+                    return false;
+                }
+                if (movementMap.getParent().getParent().getParent() != null) {
+                    if (!movementMap.getParent().getParent().getParent().isCurrentMovePossible()) {
+                        movementMap.getParent().getParent().getParent().markMovesAsImpossible();
+                        return false;
+                    }
+                    if (movementMap.getParent().getParent().getParent().getParent() != null) {
+                        if (!movementMap.getParent().getParent().getParent().getParent().isCurrentMovePossible()) {
+                            movementMap.getParent().getParent().getParent().getParent().markMovesAsImpossible();
+                            return false;
+                        }
+                    }
+                }
+            }
+
+        }
+        return true;
+    }
+
+    public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
+    {
+        if (n <= 0) {
+            return;
+        }
         Board board = movementMap.generateBoardForCurrentPosition();
 
 
@@ -193,7 +277,10 @@ public class SingleThreadCalculator
 
                 MovementMap newMovementMap = new MovementMap(movementMap, move);
                 movementMap.getMovementMap().put(move, newMovementMap);
-                movementMapQueue.add(newMovementMap);
+
+                computeMove(newMovementMap, n - 1);
+                movesLowerThanDepth--;
+                // movementMapQueue.add(newMovementMap);
             }
         }
     }

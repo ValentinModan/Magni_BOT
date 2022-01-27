@@ -21,6 +21,13 @@ public class Queen extends Piece {
     }
 
     @Override
+    public String toFen()
+    {
+        return isWhite() ? "Q" : "q";
+    }
+
+    //todo add queen codecharacter
+    @Override
     public String toString() {
         return "♕";
     }

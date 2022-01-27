@@ -26,7 +26,7 @@ class SingleThreadCalculatorTest
     }
 
     @Test
-    void bestResponse() throws CloneNotSupportedException, InterruptedException
+    void bestResponse() throws Exception
     {
         String firstMoves = "f2f3 e7e6 g2g4 d8h4 a2a3";
         MovesGenerator.makeMoves(board, firstMoves);

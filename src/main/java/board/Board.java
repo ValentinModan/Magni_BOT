@@ -9,12 +9,14 @@ import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.sql.ConnectionPoolDataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class Board implements Cloneable
 {
+    public static boolean myColorWhite = false;
     private List<Move> possibleMoves = new ArrayList<>();
     private Map<Position, Piece> whitePiecesMap = new HashMap<>();
     private Map<Position, Piece> blackPiecesMap = new HashMap<>();
@@ -167,6 +169,11 @@ public class Board implements Cloneable
     public Piece getMovingPiece(Position position)
     {
         return getMovingPiecesMap().get(position);
+    }
+
+    public Map<Position, Piece> getPieceMap(boolean isWhite)
+    {
+        return isWhite ? whitePiecesMap : blackPiecesMap;
     }
 
     //TODO: rename methods name
