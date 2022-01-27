@@ -1,8 +1,10 @@
-package game;
+package toDelete;
 
 import board.Board;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
+import game.GameBoard;
+import game.GameBoardHelper;
 import game.gameSetupOptions.GameOptions;
 import game.kingcheck.attacked.KingSafety;
 import lombok.extern.slf4j.Slf4j;

@@ -3,10 +3,11 @@ package game;
 import board.Board;
 import board.Position;
 import board.moves.Move;
-import board.moves.MovesGenerator;
+import MovesGenerator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import toDelete.MovesCalculator;
 
 import static org.junit.jupiter.api.Assertions.*;
 

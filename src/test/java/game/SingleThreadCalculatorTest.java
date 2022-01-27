@@ -3,9 +3,8 @@ package game;
 import board.Board;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import board.moves.MovesGenerator;
+import MovesGenerator;
 import board.setup.BoardSetup;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

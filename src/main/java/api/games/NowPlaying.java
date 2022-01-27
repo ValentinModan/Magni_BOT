@@ -1,4 +1,4 @@
-package api.games.owngame;
+package api.games;
 
 public class NowPlaying
 {

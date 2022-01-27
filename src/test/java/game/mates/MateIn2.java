@@ -7,7 +7,7 @@ import board.moves.MoveConvertor;
 import board.pieces.King;
 import board.pieces.Queen;
 import board.pieces.Rook;
-import game.CleanMoveCalculator;
+import toDelete.CleanMoveCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

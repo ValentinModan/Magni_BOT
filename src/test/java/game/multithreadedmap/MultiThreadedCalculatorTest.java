@@ -3,7 +3,7 @@ package game.multithreadedmap;
 import board.Board;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import board.moves.MovesGenerator;
+import MovesGenerator;
 import board.setup.BoardSetup;
 import game.GameBoard;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,9 @@
 package game;
 
 import board.Board;
-import board.moves.MovesGenerator;
+import MovesGenerator;
 import board.setup.BoardSetup;
+import toDelete.MultiThreadBoard;
 
 class MultiThreadBoardTest
 {

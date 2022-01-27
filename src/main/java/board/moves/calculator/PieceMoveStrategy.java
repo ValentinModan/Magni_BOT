@@ -7,7 +7,7 @@ import com.sun.jdi.InvalidTypeException;
 
 public class PieceMoveStrategy
 {
-    public static PieceMoveCalculator generatePieceCalculatorStrategy(PieceType pieceType) throws InvalidTypeException
+    public static PieceMoveCalculator generatePieceCalculatorStrategy(PieceType pieceType)
     {
         switch (pieceType)
         {

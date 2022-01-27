@@ -40,10 +40,9 @@ public class MoveUpdateHelper
     {
         Piece movingPiece = board.getMovingPiece(move.getInitialPosition());
 
-        if(movingPiece == null)
-        {
+        if (movingPiece == null) {
 
-            throw new NullPointerException(board +"\n" + move);
+            throw new NullPointerException(board + "\n" + move);
 
         }
         move.setMovingPiece(movingPiece);
@@ -71,15 +70,15 @@ public class MoveUpdateHelper
     public static void updateAnPassantMove(Board board, Move move)
     {
         Position initialPosition = move.getInitialPosition();
-        Piece    takenPiece      = move.getTakenPiece();
+        Piece takenPiece = move.getTakenPiece();
 
         if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
             return;
         }
 
-        Pawn     pawn     = (Pawn) move.getMovingPiece();
+        Pawn pawn = (Pawn) move.getMovingPiece();
         Movement movement = initialPosition.getDiagonalMovement(move.getFinalPosition());
-        Movement line     = movement.lineFromDiagonal();
+        Movement line = movement.lineFromDiagonal();
 
         if (takenPiece != null) {
             return;
@@ -108,25 +107,17 @@ public class MoveUpdateHelper
     private static void updateCastleMove(Board board, Move move)
     {
         Piece movingPiece = move.getMovingPiece();
-        Piece rookPiece   = board.getMovingPiece(move.getFinalPosition());
+        Piece rookPiece = board.getMovingPiece(move.getFinalPosition());
 
-        if(movingPiece.getPieceType()==PieceType.KING)
-        {
-            Movement direction =  move.getInitialPosition().castleDirection(move.getFinalPosition());
-            if(move.getInitialPosition().move(direction).move(direction).equals(move.getFinalPosition()))
-            {
+        if (movingPiece.getPieceType() == PieceType.KING) {
+            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
+            if (move.getInitialPosition().move(direction).move(direction).equals(move.getFinalPosition())) {
                 move.setCastleMove(true);
             }
-
         }
 
         if (rookPiece == null) {
             return;
-        }
-        if(movingPiece==null)
-        {
-            System.err.println(move);
-            System.err.println(board);
         }
         if (movingPiece.getPieceType() == PieceType.KING) {
             if (rookPiece.getPieceType() == PieceType.ROOK) {

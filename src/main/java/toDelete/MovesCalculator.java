@@ -1,4 +1,4 @@
-package game;
+package toDelete;
 
 import board.Board;
 import board.moves.Move;

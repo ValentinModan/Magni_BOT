@@ -2,13 +2,12 @@ package game;
 
 import api.RequestController;
 import api.games.GetMyOwnGoingGames;
-import api.games.owngame.NowPlaying;
+import api.games.NowPlaying;
 import board.Board;
-import mapmovement.MovementMap;
+import board.MovementMap;
 
 import java.time.LocalTime;
 
-import static game.GameBoard.actualBoard;
 import static game.GameBoard.getMyOwnGoingGames;
 
 //TODO: move methods to helper
@@ -38,39 +37,5 @@ public class GameBoardHelper
     public static boolean isFirstMoveOfTheGame(NowPlaying nowPlaying)
     {
         return nowPlaying.getLastMove().equals("");
-    }
-
-
-    public static void computeNewDepth()
-    {
-        int depth = GameBoard.depth;
-        //        int opponentPiecesLeft = actualBoard.opponentPiecesLeft();
-//        if (opponentPiecesLeft >= 10) {
-//            depth = GameBoard.DEFAULT_DEPTH;
-//        }
-//        else {
-//            depth = GameBoard.DEFAULT_DEPTH + (16 - opponentPiecesLeft) / 4;
-//            if (depth > MAX_DEPTH) {
-//                depth = MAX_DEPTH;
-//            }
-//            if (actualBoard.myPiecesLeft() + opponentPiecesLeft >= 8) {
-//                depth = MAX_DEPTH_MID_GAME;
-//            }
-//        }
-        if (Board.actualMoves.size() > 60) {
-            if (MovementMap.movementMapQueue.size() < SingleThreadCalculator.movesToCalculate) {
-                depth++;
-            }
-            else
-            {
-                if(depth>3)
-                {
-                    depth--;
-                }
-            }
-        }
-        //  System.out.println("Computing for new depth: " + depth);
-
-        GameBoard.depth = depth;
     }
 }

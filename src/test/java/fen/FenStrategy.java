@@ -2,7 +2,7 @@ package fen;
 
 import board.Board;
 import board.moves.Move;
-import game.CleanMoveCalculator;
+import toDelete.CleanMoveCalculator;
 import game.GameBoard;
 import game.SingleThreadCalculator;
 

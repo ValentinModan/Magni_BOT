@@ -1,5 +1,3 @@
-package board.moves;
-
 import board.Board;
 
 import static board.moves.MoveConvertor.stringToMove;

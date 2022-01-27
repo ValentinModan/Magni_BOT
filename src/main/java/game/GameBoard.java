@@ -4,7 +4,7 @@ import api.RequestController;
 import api.bot.MakeABotMove;
 import api.challenges.ChallengeAPlayer;
 import api.games.GetMyOwnGoingGames;
-import api.games.owngame.NowPlaying;
+import api.games.NowPlaying;
 import api.json.challenge.AcceptChallenge;
 import api.json.challenge.ListYourChallenges;
 import board.Board;
@@ -13,7 +13,6 @@ import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import mapmovement.MovementMap;
 import openings.OpeningController;
 import openings.OpeningReader;
 
@@ -22,13 +21,13 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class GameBoard
 {
-    public static int DEFAULT_DEPTH = 3;
-    public static int depth = DEFAULT_DEPTH;
+    public static int depth = 3;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;
 
     public static Board actualBoard;
     OpeningController openingController = new OpeningController(OpeningReader.readOpenings());
+    SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
     public GameBoard()
     {
@@ -60,16 +59,15 @@ public class GameBoard
         startPlayerGame();
     }
 
-
     @SneakyThrows
-    public void startPlayerGame() throws InterruptedException, CloneNotSupportedException
+    public void startPlayerGame()
     {
         getMyOwnGoingGames = new GetMyOwnGoingGames();
 
         while (true) {
 
             while (!GameBoardHelper.isMyTurn()) {
-                sleep(2000);
+                sleep(500);
             }
             NowPlaying nowPlaying = getMyOwnGoingGames.getNowPlaying().get(0);
 
@@ -99,26 +97,16 @@ public class GameBoard
         makeMyOwnMove(gameId, null);
     }
 
-    AllPossibleMovesMultiThreaded allPossibleMovesMultiThreaded = new AllPossibleMovesMultiThreaded();
-    SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
-
     private void makeMyOwnMove(String gameId, String move) throws Exception
     {
-        GameBoardHelper.computeNewDepth();
-        log.debug("Generated opening move " + move);
+        log.info("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
-            try {
-                actualMove = singleThreadCalculator.bestResponse(actualBoard);
-            } catch (Exception e) {
-                e.printStackTrace();
-                singleThreadCalculator.getBestResponseCalculated(MovementMap.currentMoveFromTheGame, actualBoard);
-            }
+            actualMove = singleThreadCalculator.bestResponse(actualBoard);
         }
 
-
-        MakeABotMove makeABotMove1 = new MakeABotMove(gameId, actualMove.move());
-        RequestController.sendRequest(makeABotMove1);
+        MakeABotMove makeABotMove = new MakeABotMove(gameId, actualMove.move());
+        RequestController.sendRequest(makeABotMove);
 
         System.gc();
 

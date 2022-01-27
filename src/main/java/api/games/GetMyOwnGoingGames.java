@@ -1,7 +1,6 @@
 package api.games;
 
 import api.RequestAPI;
-import api.games.owngame.NowPlaying;
 import org.springframework.http.HttpMethod;
 
 import java.util.List;
