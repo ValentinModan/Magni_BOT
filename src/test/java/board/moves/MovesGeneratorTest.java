@@ -1,6 +1,7 @@
 package board.moves;
 
 import board.Board;
+import helper.MovesGenerator;
 import board.Position;
 import board.pieces.PieceType;
 import board.setup.BoardSetup;

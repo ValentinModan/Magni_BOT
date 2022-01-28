@@ -51,27 +51,36 @@ public class MoveController
         //TODO: make strategy for move type
         if (move.isCastleMove()) {
             castleMove(board, move);
+            board.allMoves.add(move);
+            return;
         }
-        else if (move.isAnPassant()) {
+
+        if (move.isAnPassant()) {
             anPassant(board, move);
+            board.allMoves.add(move);
+            return;
         }
-        else if (move.isPawnPromotion()) {
+
+        if (move.isPawnPromotion()) {
             pawnPromotion(board, move);
+            board.allMoves.add(move);
+            return;
         }
-        else {
-            //move moving piece
-            board.getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
-            //clear original position
-            board.getMovingPiecesMap().remove(move.getInitialPosition());
 
-            //clear taken position
-            board.getTakenPiecesMap().remove(move.getFinalPosition());
+        //move moving piece
+        board.getMovingPiecesMap().put(move.getFinalPosition(), move.getMovingPiece());
+        //clear original position
+        board.getMovingPiecesMap().remove(move.getInitialPosition());
 
-            if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
-                board.updateKingPosition(move.getFinalPosition());
-            }
+        //clear taken position
+        board.getTakenPiecesMap().remove(move.getFinalPosition());
+
+        if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
+            board.updateKingPosition(move.getFinalPosition());
         }
         board.allMoves.add(move);
+
+
     }
 
     private void pawnPromotion(Board board, Move move)
@@ -99,7 +108,6 @@ public class MoveController
     }
 
     //TODO: add actual method to move piece (put and remove)
-
     private void castleMove(Board board, Move move)
     {
         Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());

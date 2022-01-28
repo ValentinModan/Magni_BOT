@@ -1,9 +1,9 @@
 package board.possibleMoves.piece;
 
 import board.Board;
+import helper.MovesGenerator;
 import board.Position;
 import board.moves.Movement;
-import MovesGenerator;
 import board.moves.calculator.pieces.RookMoveCalculator;
 import board.pieces.Piece;
 import board.pieces.Rook;

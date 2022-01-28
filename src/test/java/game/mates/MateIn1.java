@@ -4,7 +4,7 @@ import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import MovesGenerator;
+import helper.MovesGenerator;
 import board.pieces.King;
 import board.pieces.Queen;
 import board.pieces.Rook;

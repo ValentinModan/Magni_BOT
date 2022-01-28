@@ -1,7 +1,7 @@
 package game;
 
 import board.Board;
-import MovesGenerator;
+import helper.MovesGenerator;
 import board.setup.BoardSetup;
 import toDelete.MultiThreadBoard;
 

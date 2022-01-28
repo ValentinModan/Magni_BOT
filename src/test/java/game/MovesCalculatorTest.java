@@ -3,7 +3,7 @@ package game;
 import board.Board;
 import board.Position;
 import board.moves.Move;
-import MovesGenerator;
+import helper.MovesGenerator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

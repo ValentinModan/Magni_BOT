@@ -22,20 +22,19 @@ public class MovementMap
 
     private boolean isMovePossibleForCurrentGame = true;
 
-    //TODO: Verify if the constructor could be made private
     public MovementMap(MovementMap parent, Move currentMove)
     {
         this(parent, currentMove, new HashMap<>());
     }
 
-    public MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
+    private MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
     {
         this.parent = parent;
         this.currentMove = currentMove;
         this.movementMap = movementMap;
     }
 
-    //to reduce memory compute the moves since it will only take a few moves
+    //to reduce memory, compute the moves since it will only take a few moves
     public Board generateBoardForCurrentPosition() throws CloneNotSupportedException
     {
         Stack<Move> moveStack = getMovesStack();

@@ -23,9 +23,7 @@ public class SingleThreadCalculator
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
 
-    public static final int movesToCalculate = 3000000;
     boolean hasDoubledDepth = false;
-
 
     Map<String, Integer> previousMovesMap = new HashMap<>();
 
@@ -42,17 +40,17 @@ public class SingleThreadCalculator
         if (!setupHasBeenMade) {
             setupHasBeenMade = true;
             setup(board);
-            computeTree();
+            computeDoubleTree();
         }
         else {
             MovementMap.makeMovement(board.lastMove());
             updateFenMap(board);
 
         }
-        computeTree();
+        computeDoubleTree();
         if (!hasDoubledDepth && board.getMovingPiecesMap().size() + board.getTakenPiecesMap().size() <= 7) {
             hasDoubledDepth = true;
-            computeTree();
+            computeDoubleTree();
         }
 
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
@@ -143,23 +141,28 @@ public class SingleThreadCalculator
         return moveScore - maxResponseScore;
     }
 
-    public void computeTree() throws CloneNotSupportedException
+    public void computeDoubleTree() throws CloneNotSupportedException
     {
-        computeMap(MovementMap.currentMoveFromTheGame);
+        computeMap(MovementMap.currentMoveFromTheGame, 2);
     }
 
-    public void computeMap(MovementMap movementMap) throws CloneNotSupportedException
+    public void computeTree() throws CloneNotSupportedException
+    {
+        computeMap(MovementMap.currentMoveFromTheGame, 1);
+    }
+
+    public void computeMap(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
         if (!isMovementMapValidForTheGame(movementMap)) {
             movementMap.markMovesAsImpossible();
             return;
         }
         if (movementMap.getMovementMap().isEmpty()) {
-            computeMove(movementMap, 2);
+            computeMove(movementMap, n);
         }
         else {
             for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
-                computeMap(movementMap1);
+                computeMap(movementMap1, n);
             }
         }
     }

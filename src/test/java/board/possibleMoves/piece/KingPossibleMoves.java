@@ -1,9 +1,9 @@
 package board.possibleMoves.piece;
 
 import board.Board;
+import helper.MovesGenerator;
 import board.moves.Move;
 import board.moves.MoveConvertor;
-import MovesGenerator;
 import board.setup.BoardSetup;
 import toDelete.CleanMoveCalculator;
 import org.junit.jupiter.api.Assertions;

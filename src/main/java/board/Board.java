@@ -7,6 +7,7 @@ import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import game.kingcheck.attacked.KingSafety;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.ConnectionPoolDataSource;
@@ -36,13 +37,14 @@ public class Board implements Cloneable
     Position blackKingPosition;
 
     //TODO: put singleton here
+    @SneakyThrows
     public King getKing()
     {
-        Piece piece = getPiece(getKingPosition());
+        Piece piece = getPieceAt(getKingPosition());
         if (piece == null) {
             throw new NullPointerException("No king found at " + getKingPosition() + "\n" + this);
         }
-        return piece != null ? (King) piece : null;
+        return (King) piece;
     }
 
     public Position getKingPosition()
@@ -72,20 +74,8 @@ public class Board implements Cloneable
         return piece != null;
     }
 
-    public Piece getPieceAt(Position position) throws Exception
-    {
-        Piece whitePiece = whitePiecesMap.get(position);
-        Piece blackPiece = blackPiecesMap.get(position);
-        if (whitePiece != null && blackPiece != null) {
-            throw new Exception("Invalid board with two pieces at the same position: " + position + " " + allMoves);
-        }
-        if (whitePiece == null) {
-            return blackPiece;
-        }
-        return whitePiece;
-    }
-
     //TODO: this can be done with a strategy instead
+
     public void updateKingPosition(Position position)
     {
         if (isWhiteToMove) {
@@ -144,6 +134,19 @@ public class Board implements Cloneable
             return whitePiecesMap.get(position);
         }
         return blackPiecesMap.get(position);
+    }
+
+    public Piece getPieceAt(Position position) throws Exception
+    {
+        Piece whitePiece = whitePiecesMap.get(position);
+        Piece blackPiece = blackPiecesMap.get(position);
+        if (whitePiece != null && blackPiece != null) {
+            throw new Exception("Invalid board with two pieces at the same position: " + position + " " + allMoves);
+        }
+        if (whitePiece == null) {
+            return blackPiece;
+        }
+        return whitePiece;
     }
 
     //one of these must be removed

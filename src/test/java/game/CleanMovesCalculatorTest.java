@@ -1,8 +1,8 @@
 package game;
 
 import board.Board;
+import helper.MovesGenerator;
 import board.moves.Move;
-import MovesGenerator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
