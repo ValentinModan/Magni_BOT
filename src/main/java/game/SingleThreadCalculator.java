@@ -225,11 +225,32 @@ public class SingleThreadCalculator
             for (Move move : possibleMovesCalculatorsList) {
 
                 MovementMap newMovementMap = new MovementMap(movementMap, move);
+                //todelete if too slow
+              //  updateMoveIfCheckMateOrStaleMate(newMovementMap, board);
                 movementMap.getMovementMap().put(move, newMovementMap);
 
                 computeMove(newMovementMap, n - 1);
             }
         }
+    }
+
+    public void updateMoveIfCheckMateOrStaleMate(MovementMap movementMap, Board board) throws CloneNotSupportedException
+    {
+        board.move(movementMap.getCurrentMove());
+        board.nextTurn();
+        List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
+
+        //is a checkmate move
+        if (possibleMovesCalculatorsList.isEmpty()) {
+            if (KingSafety.isTheKingAttacked(board)) {
+                movementMap.getCurrentMove().setCheckMate(true);
+            }
+            else {
+                movementMap.getCurrentMove().setStaleMate(true);
+            }
+        }
+        board.previousTurn();
+        board.undoMove(movementMap.getCurrentMove());
     }
 
     public void setup(Board board) throws InterruptedException

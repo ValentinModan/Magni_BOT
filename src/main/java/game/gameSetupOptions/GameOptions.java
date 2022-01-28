@@ -104,6 +104,10 @@ public class GameOptions
             }
         }
 
+        if (move.isCastleMove()) {
+            score += 9;
+        }
+
         if (movingPiece != null && move.isPawnPromotion()) {
             score += movingPiece.getScore() * 10;
         }
@@ -112,24 +116,6 @@ public class GameOptions
             if (Board.actualMoves.size() > 80) {
                 score += 1;
             }
-        }
-        if (Board.actualMoves.size() < 40) {
-            if (GameBoard.actualBoard.getMovingPiecesMap().size() +
-                    GameBoard.actualBoard.getTakenPiecesMap().size() < 26) {
-                if (movingPiece != null && (movingPiece.getPieceType() == KNIGHT || movingPiece.getPieceType() == PieceType.BISHOP)) {
-                    score += 2;
-                }
-            }
-        }
-        if (movingPiece != null && movingPiece.getPieceType() == KNIGHT && move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getColumn() == 8) {
-            score += 2;
-        }
-
-        if (movingPiece != null && movingPiece.getPieceType() == KNIGHT && move.getTakenPiece() != null) {
-            score += 1;
-        }
-        if (move.isCastleMove()) {
-            score += 13;
         }
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;

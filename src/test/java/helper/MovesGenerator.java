@@ -12,7 +12,6 @@ public class MovesGenerator
         String[] movesArray = moves.split(" ");
         for (String move : movesArray) {
             board.move(stringToMove(move));
-            board.computePossibleMoves();
             board.nextTurn();
         }
     }

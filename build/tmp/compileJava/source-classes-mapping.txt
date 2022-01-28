@@ -69,14 +69,14 @@ toDelete/MultiThreadBoard.java
  toDelete.MultiThreadBoard$Worker
 board/pieces/King.java
  board.pieces.King
-board/pieces/EmptyPiece.java
- board.pieces.EmptyPiece
+game/SingleThreadCalculator.java
+ game.SingleThreadCalculator
 PostRequests.java
  PostRequests
 board/pieces/Queen.java
  board.pieces.Queen
-game/kingcheck/attacked/RookAttackedStrategy.java
- game.kingcheck.attacked.RookAttackedStrategy
+game/GameBoard.java
+ game.GameBoard
 board/moves/pieces/KingMovement.java
  board.moves.pieces.KingMovement
 board/moves/pieces/QueenMovement.java
@@ -142,7 +142,7 @@ api/games/NowPlaying.java
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
  board.moves.calculator.pieces.PawnMoveCalculator$1
-game/SingleThreadCalculator.java
- game.SingleThreadCalculator
-game/GameBoard.java
- game.GameBoard
+game/kingcheck/attacked/RookAttackedStrategy.java
+ game.kingcheck.attacked.RookAttackedStrategy
+board/pieces/EmptyPiece.java
+ board.pieces.EmptyPiece

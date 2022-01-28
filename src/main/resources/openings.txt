@@ -2660,4 +2660,4 @@ A04:Oberndorfer Gambit; Reti,g1f3 g7g5
 A04:Lessing Defense,g1f3 b8c6
 A05:King's Indian Attack; Reti; Zukertort; A05,g1f3 g8f6
 A00:Amar; Paris Opening,g1h3
-A00:Drunken Knight Opening:g1h3,
+A00:Drunken Knight Opening:g1h3

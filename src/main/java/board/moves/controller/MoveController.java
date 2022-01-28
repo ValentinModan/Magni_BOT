@@ -114,7 +114,11 @@ public class MoveController
 
         Position kingInitial = move.getInitialPosition();
         Position finalPositionKing = kingInitial.move(direction).move(direction);
+
         Position rookInitial = move.getFinalPosition();
+        if (board.getMovingPiecesMap().get(rookInitial) == null) {
+            rookInitial = rookInitial.move(direction);
+        }
         Position rookFinal = finalPositionKing.move(direction.opposite());
 
         //move the king
@@ -122,7 +126,7 @@ public class MoveController
         board.getMovingPiecesMap().remove(kingInitial);
 
         //move rook
-        board.getMovingPiecesMap().put(rookFinal, board.getMovingPiece(move.getFinalPosition()));
+        board.getMovingPiecesMap().put(rookFinal, board.getMovingPiece(rookInitial));
         board.getMovingPiecesMap().remove(rookInitial);
 
         //update king position
