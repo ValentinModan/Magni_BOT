@@ -50,12 +50,41 @@ public class SingleThreadCalculator
         computeDoubleTree();
         if (!hasDoubledDepth && board.getMovingPiecesMap().size() + board.getTakenPiecesMap().size() <= 7) {
             hasDoubledDepth = true;
-            computeDoubleTree();
+         //   computeDoubleTree();
         }
 
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
 
         MovementMap.makeMovement(bestResponse);
+
+
+        return bestResponse;
+    }
+
+    public Move getBestResponseCalculatedSimple(MovementMap movementMap, Board board)
+    {
+        //verify if it is a checkmate
+        for (Move move : movementMap.getMovementMap().keySet()) {
+            if (move.isCheckMate()) {
+                return move;
+            }
+        }
+        Move bestResponse = null;
+        int best_value = -999999;
+
+        for(MovementMap movementMap1: movementMap.getMovementMap().values())
+        {
+            int new_value = getMovementMapScore(movementMap1, 20);
+
+            movementMap1.final_score = new_value;
+            movementMap1.score = GameOptions.getSingleMoveScore(movementMap1.getCurrentMove());
+            if (new_value > best_value) {
+                System.out.println("new best value is " + new_value + " with new move " + movementMap1.getCurrentMove());
+                best_value = new_value;
+                bestResponse = movementMap1.getCurrentMove();
+
+            }
+        }
 
 
         return bestResponse;
@@ -97,6 +126,14 @@ public class SingleThreadCalculator
                 e.printStackTrace();
             }
 
+            //ok
+            if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.PAWN) {
+                new_value += 1;
+                if (Board.actualMoves.size() > 80) {
+                    new_value += 1;
+                }
+            }
+
             Board board1 = movementMap1.generateBoardForCurrentPosition();
             String fenString = BoardSetup.boardToFenNotation(board1);
             Integer positionOccurance = previousMovesMap.get(BoardSetup.boardToFenNotation(board1));
@@ -130,13 +167,15 @@ public class SingleThreadCalculator
         if (movementMap.getCurrentMove().isStaleMate()) {
             return GameOptions.STALE_MATE_SCORE * depth;
         }
+        movementMap.score = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
 
-        int moveScore = GameOptions.getSingleMoveScore(movementMap.getCurrentMove());
+        int moveScore = GameOptions.simpleScore(movementMap.getCurrentMove());
 
         int maxResponseScore = movementMap.getMovementMap().values()
                 .stream().map(it -> getMovementMapScore(it, depth - 1))
                 .mapToInt(it -> it)
                 .max().orElse(ZERO);
+        movementMap.final_score = moveScore-maxResponseScore;
 
         return moveScore - maxResponseScore;
     }

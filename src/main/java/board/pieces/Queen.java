@@ -2,7 +2,7 @@ package board.pieces;
 
 public class Queen extends Piece {
 
-    private final int QUEEN_SCORE = 9;
+    private static final int QUEEN_SCORE = 9;
 
     public Queen(boolean isWhite) {
         super(isWhite);

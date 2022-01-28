@@ -84,6 +84,29 @@ public class GameOptions
         return 5;
     }
 
+    public static int simpleScore(Move move)
+    {
+        if (move.isCheckMate()) {
+            return GameOptions.CHECK_MATE_SCORE;
+        }
+        if (move.isStaleMate()) {
+            return GameOptions.STALE_MATE_SCORE;
+        }
+        Piece movingPiece = move.getMovingPiece();
+
+        int score = 0;
+
+        if (movingPiece != null && move.isPawnPromotion()) {
+            score += movingPiece.getScore() * 10;
+        }
+
+        if (move.getTakenPiece() != null) {
+            score += move.getTakenPiece().getScore() * 10;
+        }
+
+        return score;
+    }
+
     public static int getSingleMoveScore(Move move)
     {
         if (move.isCheckMate()) {
@@ -105,18 +128,13 @@ public class GameOptions
         }
 
         if (move.isCastleMove()) {
-            score += 9;
+            score += 10;
         }
 
         if (movingPiece != null && move.isPawnPromotion()) {
             score += movingPiece.getScore() * 10;
         }
-        if (movingPiece != null && movingPiece.getPieceType() == PieceType.PAWN) {
-            score += 1;
-            if (Board.actualMoves.size() > 80) {
-                score += 1;
-            }
-        }
+
         if (move.getTakenPiece() != null) {
             score += move.getTakenPiece().getScore() * 10;
         }

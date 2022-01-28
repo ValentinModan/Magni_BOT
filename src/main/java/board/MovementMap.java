@@ -17,6 +17,9 @@ public class MovementMap
     //the move before
     private final MovementMap parent;
 
+    public int score;
+    public int final_score;
+
     //the current move
     private Move currentMove;
 
@@ -119,7 +122,7 @@ public class MovementMap
     @Override
     public String toString()
     {
-        return "MovementMap{" +
+        return ""+final_score + " " + score +  "MovementMap{" +
                 "currentMove=" + currentMove +
                 ", isMovePossibleForCurrentGame=" + isMovePossibleForCurrentGame +
                 ", parent=" + parent +

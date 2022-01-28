@@ -10,7 +10,6 @@ import game.kingcheck.attacked.KingSafety;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.sql.ConnectionPoolDataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
