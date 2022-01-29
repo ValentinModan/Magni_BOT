@@ -117,7 +117,10 @@ class SingleThreadCalculatorTest
 
         singleThreadCalculator.computeDoubleTree();
         singleThreadCalculator.computeDoubleTree();
+        System.out.println("first 4 levels done");
+        System.out.println(MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
         singleThreadCalculator.computeDoubleTree();
+        System.out.println("6 levels done");
 
         int value =MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame);
 
@@ -177,6 +180,7 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.setup(board);
 
         singleThreadCalculator.computeDoubleTree();
+        System.out.println("first part done");
         singleThreadCalculator.computeDoubleTree();
         singleThreadCalculator.computeTree();
 

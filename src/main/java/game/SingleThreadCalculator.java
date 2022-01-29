@@ -4,6 +4,7 @@ import board.Board;
 import board.MovementMap;
 import board.Position;
 import board.moves.Move;
+import board.pieces.Piece;
 import board.pieces.PieceType;
 import board.setup.BoardSetup;
 import game.gameSetupOptions.GameOptions;
@@ -240,10 +241,24 @@ public class SingleThreadCalculator
         return true;
     }
 
+    public int depthToCurrentMove(MovementMap movementMap)
+    {
+        int number = 0;
+        MovementMap movementMap1 = movementMap;
+        while (movementMap1 != null && movementMap1 != MovementMap.currentMoveFromTheGame) {
+            number++;
+            movementMap1 = movementMap1.getParent();
+        }
+        return number;
+    }
+
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
         if (n <= 0) {
-            return;
+            Piece takenPiece = movementMap.getCurrentMove().getTakenPiece();
+            if (takenPiece == null || takenPiece.getScore() < 3 || depthToCurrentMove(movementMap) > 5) {
+                return;
+            }
         }
         Board board = movementMap.generateBoardForCurrentPosition();
 
@@ -293,7 +308,7 @@ public class SingleThreadCalculator
 
     public void setup(Board board) throws InterruptedException
     {
-        MovementMap.currentMoveFromTheGame = new SuperMovementMap(null, new Move(board.getKingPosition(), board.getKingPosition()),board);
+        MovementMap.currentMoveFromTheGame = new SuperMovementMap(null, new Move(board.getKingPosition(), board.getKingPosition()), board);
         board.computePossibleMoves();
     }
 

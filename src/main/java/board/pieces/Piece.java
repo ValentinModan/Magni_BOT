@@ -36,8 +36,7 @@ public abstract class Piece
 
     public int getScore()
     {
-        int score = 0;
-        return score;
+        return 0;
     }
 
     public boolean isOpponentOf(Piece piece)

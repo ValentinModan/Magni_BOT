@@ -31,8 +31,7 @@ public class Xray
         Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
         if (board.getMovingPiece(currentPosition) == null) {
             moveList.add(new Move(initialPosition, currentPosition));
-            if(takenPiece==null)
-            {
+            if (takenPiece == null) {
                 xRayMoves(board, moveList, initialPosition, currentPosition, movement);
             }
         }
