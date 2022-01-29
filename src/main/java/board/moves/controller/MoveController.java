@@ -86,7 +86,7 @@ public class MoveController
     private void pawnPromotion(Board board, Move move)
     {
         //move moving piece
-        board.getMovingPiecesMap().put(move.getFinalPosition(), new Queen(move.getMovingPiece().isWhite()));
+        board.getMovingPiecesMap().put(move.getFinalPosition(), move.getPromotionPiece());
         //clear original position
         board.getMovingPiecesMap().remove(move.getInitialPosition());
 

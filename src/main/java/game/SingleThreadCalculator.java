@@ -50,7 +50,7 @@ public class SingleThreadCalculator
         computeDoubleTree();
         if (!hasDoubledDepth && board.getMovingPiecesMap().size() + board.getTakenPiecesMap().size() <= 7) {
             hasDoubledDepth = true;
-         //   computeDoubleTree();
+            //   computeDoubleTree();
         }
 
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
@@ -72,8 +72,7 @@ public class SingleThreadCalculator
         Move bestResponse = null;
         int best_value = -999999;
 
-        for(MovementMap movementMap1: movementMap.getMovementMap().values())
-        {
+        for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             int new_value = getMovementMapScore(movementMap1, 20);
 
             movementMap1.final_score = new_value;
@@ -107,7 +106,7 @@ public class SingleThreadCalculator
 
             Move move = movementMap1.getCurrentMove();
             if (move.isPawnPromotion()) {
-                new_value += 10;
+                new_value += 20;
             }
             try {
                 if (move.getMovingPiece().getPieceType() == PieceType.PAWN) {
@@ -175,7 +174,7 @@ public class SingleThreadCalculator
                 .stream().map(it -> getMovementMapScore(it, depth - 1))
                 .mapToInt(it -> it)
                 .max().orElse(ZERO);
-        movementMap.final_score = moveScore-maxResponseScore;
+        movementMap.final_score = moveScore - maxResponseScore;
 
         return moveScore - maxResponseScore;
     }
@@ -265,7 +264,7 @@ public class SingleThreadCalculator
 
                 MovementMap newMovementMap = new MovementMap(movementMap, move);
                 //todelete if too slow
-              //  updateMoveIfCheckMateOrStaleMate(newMovementMap, board);
+                //  updateMoveIfCheckMateOrStaleMate(newMovementMap, board);
                 movementMap.getMovementMap().put(move, newMovementMap);
 
                 computeMove(newMovementMap, n - 1);
@@ -294,7 +293,31 @@ public class SingleThreadCalculator
 
     public void setup(Board board) throws InterruptedException
     {
+        MovementMap.currentMoveFromTheGame = new SuperMovementMap(null, new Move(board.getKingPosition(), board.getKingPosition()),board);
         board.computePossibleMoves();
-        MovementMap.currentMoveFromTheGame = new MovementMap(null, new Move(board.getKingPosition(), board.getKingPosition()));
     }
+
+    class SuperMovementMap extends MovementMap
+    {
+
+        Board board;
+
+        @Override
+        public Board generateBoardForCurrentPosition() throws CloneNotSupportedException
+        {
+            return board;
+        }
+
+        public SuperMovementMap(MovementMap parent, Move currentMove, Board board)
+        {
+            super(parent, currentMove);
+            this.board = board;
+        }
+
+        public SuperMovementMap(MovementMap parent, Move currentMove)
+        {
+            super(parent, currentMove);
+        }
+    }
+
 }

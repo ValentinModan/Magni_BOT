@@ -4,11 +4,15 @@ import board.Board;
 import board.MovementMap;
 import board.moves.Move;
 import board.moves.MoveConvertor;
+import fen.FenStrategy;
 import helper.MovementMapCounter;
 import helper.MovesGenerator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.Assert;
+
+import java.lang.instrument.Instrumentation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,8 +50,12 @@ class SingleThreadCalculatorTest
         System.out.println(board);
 
         System.out.println(bestMove);
+
+       // InstrumentationImpl instrumentation = new InstrumentationImpl();
+
+       // System.out.println(Instrumentation.getObjectSize(new MovementMap(null, MoveConvertor.stringToMove("a1a2"))));
     }
-    
+
     @Test
     void blunderMove()
     {
@@ -58,6 +66,77 @@ class SingleThreadCalculatorTest
 
         System.out.println(bestMove);
     }
+
+
+    @Test
+    void impossiblePuzzle3()
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "8/2n5/7p/2p2K1k/Bb6/1n4P1/8/4n3 w - - 3 13");
+        SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
+        board.computePossibleMoves();
+        Move move = singleThreadCalculator.bestResponse(board);
+        assertEquals(move, MoveConvertor.stringToMove("a4b3"));
+    }
+
+    //https://lichess.org/study/5vLGSMCF
+    @Test
+    void impossiblePuzzle2()
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "8/2n5/7p/5K1k/1bp5/1B4P1/8/4n3 w - - 0 14");
+        SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
+        board.computePossibleMoves();
+        Move move = singleThreadCalculator.bestResponse(board);
+        assertEquals(move, MoveConvertor.stringToMove("b3d1"));
+    }
+
+    @Test
+    void impossiblePuzzle1()
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "8/2n5/7p/5K1k/1bp5/5nP1/8/3B4 w - - 2 15");
+        SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
+        board.computePossibleMoves();
+        Move move = singleThreadCalculator.bestResponse(board);
+        assertEquals(move, MoveConvertor.stringToMove("d1f3"));
+    }
+    @Test
+    void impossiblePuzzleBegin() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1");
+        SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
+        board.computePossibleMoves();
+        singleThreadCalculator.setup(board);
+
+
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+
+        int value =MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame);
+
+        System.out.println(value);
+    }
+
+    @Test
+    void impossiblePuzzleq()
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "3n4/8/n6p/2p2K1k/1b2B3/2p3P1/4p3/8 b - - 1 7");
+        SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
+        board.computePossibleMoves();
+        Move move = singleThreadCalculator.bestResponse(board);
+        System.out.println(board);
+        System.out.println(move);
+    }
+
 
     @Test
     void shannonNumberTestTwoMoves() throws InterruptedException, CloneNotSupportedException

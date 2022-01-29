@@ -40,6 +40,9 @@ public class Move implements Comparable<Move>
         this.finalPosition = finalPosition;
         this.movingPiece = movingPiece;
         this.isPawnPromotion = isPawnPromotion;
+        if (isPawnPromotion) {
+            promotionPiece = movingPiece;
+        }
     }
 
     public Move(Position initialPosition, Position finalPosition)
@@ -182,6 +185,16 @@ public class Move implements Comparable<Move>
         this.bestResponse = bestResponse;
     }
 
+    public Piece getPromotionPiece()
+    {
+        return promotionPiece;
+    }
+
+    public void setPromotionPiece(Piece promotionPiece)
+    {
+        this.promotionPiece = promotionPiece;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -191,7 +204,17 @@ public class Move implements Comparable<Move>
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
+
         Move move = (Move) o;
+        if (promotionPiece == null && move.promotionPiece != null) {
+            return false;
+        }
+
+        if (promotionPiece != null && !promotionPiece.equals(move.promotionPiece)) {
+            return false;
+        }
+
         return initialPosition.equals(move.initialPosition) && finalPosition.equals(move.finalPosition);
     }
 
@@ -219,6 +242,10 @@ public class Move implements Comparable<Move>
     @Override
     public String toString()
     {
+        if(isPawnPromotion)
+        {
+            return "" + initialPosition + finalPosition + promotionPiece.toFen();
+        }
         return "" + initialPosition + finalPosition;
     }
 

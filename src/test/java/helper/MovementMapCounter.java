@@ -7,6 +7,10 @@ public class MovementMapCounter
     public static int countChildrenMoves(MovementMap movementMap)
     {
         int sum = 0;
+        if(movementMap.getMovementMap()==null)
+        {
+            return 1;
+        }
         if (movementMap.getMovementMap().isEmpty()) {
             return 1;
         }
