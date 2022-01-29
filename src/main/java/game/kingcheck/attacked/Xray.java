@@ -29,18 +29,12 @@ public class Xray
             return;
         }
         Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
-        Move currentMove = new Move(initialPosition, currentPosition);
-
-        if (takenPiece == null && board.getMovingPiece(currentPosition) == null) {
-            moveList.add(currentMove);
-            xRayMoves(board, moveList, initialPosition, currentPosition, movement);
-            return;
-        }
-        if (board.getKing() != null && board.getKing().isOpponentOf(takenPiece)) {
-
-            //todo check if this is a good thing
-            //currentMove.setTakenPiece(takenPiece);
-            moveList.add(currentMove);
+        if (board.getMovingPiece(currentPosition) == null) {
+            moveList.add(new Move(initialPosition, currentPosition));
+            if(takenPiece==null)
+            {
+                xRayMoves(board, moveList, initialPosition, currentPosition, movement);
+            }
         }
     }
 

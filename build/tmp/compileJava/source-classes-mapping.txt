@@ -18,9 +18,8 @@ api/account/AccountUpgrade.java
  api.account.AccountUpgrade
 api/json/challenge/ListYourChallenges.java
  api.json.challenge.ListYourChallenges
-board/moves/calculator/PieceMoveStrategy.java
- board.moves.calculator.PieceMoveStrategy
- board.moves.calculator.PieceMoveStrategy$1
+board/moves/MoveConvertor.java
+ board.moves.MoveConvertor
 board/PositionEnum.java
  board.PositionEnum
 board/moves/pieces/KnightMovement.java
@@ -83,8 +82,8 @@ board/moves/pieces/QueenMovement.java
  board.moves.pieces.QueenMovement
 Main.java
  Main
-board/moves/calculator/pieces/BishopMoveCalculator.java
- board.moves.calculator.pieces.BishopMoveCalculator
+board/moves/calculator/pieces/PieceMoveCalculator.java
+ board.moves.calculator.pieces.PieceMoveCalculator
 toDelete/MultiThreadBoard.java
  toDelete.MultiThreadBoard
  toDelete.MultiThreadBoard$Worker
@@ -113,8 +112,8 @@ board/MovementMap.java
  board.MovementMap
 game/kingcheck/attacked/AttackedStrategy.java
  game.kingcheck.attacked.AttackedStrategy
-game/kingcheck/attacked/QueenAttackedStrategy.java
- game.kingcheck.attacked.QueenAttackedStrategy
+toDelete/MovesCalculator.java
+ toDelete.MovesCalculator
 toDelete/AllPossibleMovesMultiThreaded.java
  toDelete.AllPossibleMovesMultiThreaded
  toDelete.AllPossibleMovesMultiThreaded$Worker
@@ -122,28 +121,29 @@ board/moves/MoveUpdateHelper.java
  board.moves.MoveUpdateHelper
 board/setup/BoardSetup.java
  board.setup.BoardSetup
-board/moves/calculator/pieces/QueenMoveCalculator.java
- board.moves.calculator.pieces.QueenMoveCalculator
+board/moves/calculator/pieces/KingMoveCalculator.java
+ board.moves.calculator.pieces.KingMoveCalculator
 game/gameSetupOptions/GameOptions.java
  game.gameSetupOptions.GameOptions
 toDelete/CleanMoveCalculator.java
  toDelete.CleanMoveCalculator
-board/moves/calculator/pieces/RookMoveCalculator.java
- board.moves.calculator.pieces.RookMoveCalculator
-board/moves/calculator/pieces/PieceMoveCalculator.java
- board.moves.calculator.pieces.PieceMoveCalculator
-board/moves/calculator/pieces/KingMoveCalculator.java
- board.moves.calculator.pieces.KingMoveCalculator
-board/moves/MoveConvertor.java
- board.moves.MoveConvertor
-toDelete/MovesCalculator.java
- toDelete.MovesCalculator
 board/moves/calculator/pieces/PawnMoveCalculator.java
  board.moves.calculator.pieces.PawnMoveCalculator
  board.moves.calculator.pieces.PawnMoveCalculator$1
+board/moves/calculator/PieceMoveStrategy.java
+ board.moves.calculator.PieceMoveStrategy
+ board.moves.calculator.PieceMoveStrategy$1
+board/moves/calculator/pieces/BishopMoveCalculator.java
+ board.moves.calculator.pieces.BishopMoveCalculator
+game/kingcheck/attacked/QueenAttackedStrategy.java
+ game.kingcheck.attacked.QueenAttackedStrategy
 game/kingcheck/attacked/Xray.java
  game.kingcheck.attacked.Xray
 game/kingcheck/attacked/RookAttackedStrategy.java
  game.kingcheck.attacked.RookAttackedStrategy
+board/moves/calculator/pieces/QueenMoveCalculator.java
+ board.moves.calculator.pieces.QueenMoveCalculator
+board/moves/calculator/pieces/RookMoveCalculator.java
+ board.moves.calculator.pieces.RookMoveCalculator
 game/kingcheck/attacked/BishopAttackedStrategy.java
  game.kingcheck.attacked.BishopAttackedStrategy

@@ -144,9 +144,20 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.setup(board);
 
         singleThreadCalculator.computeDoubleTree();
-        singleThreadCalculator.computeDoubleTree();
+        // singleThreadCalculator.computeDoubleTree();
 
         assertEquals(400, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
+    }
+
+    @Test
+    void shannonNumberTestThreeMoves() throws InterruptedException, CloneNotSupportedException
+    {
+        singleThreadCalculator.setup(board);
+
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeTree();
+
+        assertEquals(8902, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
     }
 
     @Test

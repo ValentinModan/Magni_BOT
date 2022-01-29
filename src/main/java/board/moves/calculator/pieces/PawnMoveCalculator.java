@@ -18,14 +18,14 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 {
     private final int SECOND_ROW_WHITE = 2;
     private final int SECOND_ROW_BLACK = 7;
-    private final int FINAL_ROW_WHITE  = 8;
-    private final int FINAL_ROW_BLACK  = 1;
+    private final int FINAL_ROW_WHITE = 8;
+    private final int FINAL_ROW_BLACK = 1;
 
     @Override
     public List<Move> computeMoves(Board board, Position position)
     {
-        List<Move>     moveList     = new ArrayList<>();
-        Pawn           piece        = (Pawn) board.getMovingPiece(position);
+        List<Move> moveList = new ArrayList<>();
+        Pawn piece = (Pawn) board.getMovingPiece(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
 
         for (Movement movement : movementList) {
@@ -37,9 +37,9 @@ public class PawnMoveCalculator extends PieceMoveCalculator
 
     private List<Move> moveCalculator(Board board, Movement movement, Position position, Pawn pawn)
     {
-        List<Move> moveList            = new ArrayList<>();
-        Position   destinationPosition = position.move(movement);
-        Piece      takenPiece          = board.getTakenPiecesMap().get(destinationPosition);
+        List<Move> moveList = new ArrayList<>();
+        Position destinationPosition = position.move(movement);
+        Piece takenPiece = board.getTakenPiecesMap().get(destinationPosition);
 
         if (!destinationPosition.isValid()) {
             return Collections.emptyList();
@@ -82,8 +82,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                 if (takenPiece == null) {
 
                     //moving an passant
-                    Position linePosition        = position.move(movement.lineFromDiagonal());
-                    Piece    anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
+                    Position linePosition = position.move(movement.lineFromDiagonal());
+                    Piece anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
                     if (anPassantTakenPiece != null && anPassantTakenPiece.getPieceType() == PieceType.PAWN) {
                         Move lastMove = board.lastMove();
 
