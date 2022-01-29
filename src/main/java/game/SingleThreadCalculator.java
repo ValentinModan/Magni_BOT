@@ -255,7 +255,12 @@ public class SingleThreadCalculator
 
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
-        if (n <= 0 || depthToCurrentMove(movementMap) > 4) {
+        int depth = depthToCurrentMove(movementMap);
+        if(depth>6)
+        {
+            return;
+        }
+        if (n <= 0 || depth > 4) {
             Piece takenPiece = movementMap.getCurrentMove().getTakenPiece();
             if (takenPiece == null || takenPiece.getScore() < 3) {
                 return;
