@@ -53,6 +53,7 @@ public class SingleThreadCalculator
             hasDoubledDepth = true;
             //   computeDoubleTree();
         }
+        System.gc();
 
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
 
