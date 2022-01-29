@@ -254,9 +254,9 @@ public class SingleThreadCalculator
 
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
-        if (n <= 0) {
+        if (n <= 0 || depthToCurrentMove(movementMap) > 4) {
             Piece takenPiece = movementMap.getCurrentMove().getTakenPiece();
-            if (takenPiece == null || takenPiece.getScore() < 3 || depthToCurrentMove(movementMap) > 5) {
+            if (takenPiece == null || takenPiece.getScore() < 3) {
                 return;
             }
         }
