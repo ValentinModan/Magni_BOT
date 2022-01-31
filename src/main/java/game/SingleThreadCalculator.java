@@ -53,7 +53,6 @@ public class SingleThreadCalculator
             hasDoubledDepth = true;
             //   computeDoubleTree();
         }
-        System.gc();
 
         Move bestResponse = getBestResponseCalculated(MovementMap.currentMoveFromTheGame, board);
 
@@ -256,6 +255,10 @@ public class SingleThreadCalculator
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
         int depth = depthToCurrentMove(movementMap);
+        if(n<=0)
+        {
+            return;
+        }
         if(depth>6)
         {
             return;
@@ -291,25 +294,6 @@ public class SingleThreadCalculator
                 computeMove(newMovementMap, n - 1);
             }
         }
-    }
-
-    public void updateMoveIfCheckMateOrStaleMate(MovementMap movementMap, Board board) throws CloneNotSupportedException
-    {
-        board.move(movementMap.getCurrentMove());
-        board.nextTurn();
-        List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
-
-        //is a checkmate move
-        if (possibleMovesCalculatorsList.isEmpty()) {
-            if (KingSafety.isTheKingAttacked(board)) {
-                movementMap.getCurrentMove().setCheckMate(true);
-            }
-            else {
-                movementMap.getCurrentMove().setStaleMate(true);
-            }
-        }
-        board.previousTurn();
-        board.undoMove(movementMap.getCurrentMove());
     }
 
     public void setup(Board board) throws InterruptedException

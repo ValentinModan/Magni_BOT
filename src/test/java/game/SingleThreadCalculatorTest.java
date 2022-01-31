@@ -5,6 +5,7 @@ import board.MovementMap;
 import board.moves.Move;
 import board.moves.MoveConvertor;
 import fen.FenStrategy;
+import game.kingcheck.attacked.KingSafety;
 import helper.MovementMapCounter;
 import helper.MovesGenerator;
 import board.setup.BoardSetup;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
 import java.lang.instrument.Instrumentation;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -184,6 +186,7 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.computeDoubleTree();
         singleThreadCalculator.computeTree();
 
+        System.out.println(KingSafety.miliseconds);
         assertEquals(4865609, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
     }
 }

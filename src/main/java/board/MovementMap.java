@@ -27,7 +27,7 @@ public class MovementMap
 
     public MovementMap(MovementMap parent, Move currentMove)
     {
-        this(parent, currentMove, new HashMap<>());
+        this(parent, currentMove, new WeakHashMap<>());
     }
 
     private MovementMap(MovementMap parent, Move currentMove, Map<Move, MovementMap> movementMap)
@@ -94,6 +94,7 @@ public class MovementMap
             if (!chosenMove.equals(move)) {
                 //make move impossible
                 movementMap.get(move).markMovesAsImpossible();
+               // movementMap.remove(move);
             }
         }
         currentMoveFromTheGame = movementMap.get(chosenMove);
@@ -122,7 +123,7 @@ public class MovementMap
     @Override
     public String toString()
     {
-        return ""+final_score + " " + score +  "MovementMap{" +
+        return "" + final_score + " " + score + "MovementMap{" +
                 "currentMove=" + currentMove +
                 ", isMovePossibleForCurrentGame=" + isMovePossibleForCurrentGame +
                 ", parent=" + parent +

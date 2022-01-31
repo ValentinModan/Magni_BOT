@@ -15,7 +15,7 @@ public class Main
         GameBoard gameBoard = new GameBoard();
         try {
             //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("maia1", 600, 30, false);
+            gameBoard.challengePlayer("deltapawn", 600, 15, false);
 
         } catch (Exception e) {
             e.printStackTrace();

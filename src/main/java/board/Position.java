@@ -26,6 +26,21 @@ public class Position
                 (1 <= row && row <= 8);
     }
 
+    public boolean sameRow(Position position)
+    {
+        return this.row == position.getRow();
+    }
+
+    public boolean sameColumn(Position position)
+    {
+        return this.column == position.getColumn();
+    }
+
+    public boolean sameDiagonal(Position position)
+    {
+        return Math.abs(this.row - position.row) == Math.abs(this.column - position.column);
+    }
+
     public Position move(Movement movements)
     {
         return new Position(column - 'a' + 1 + movements.getColumn(), row + movements.getRow());
@@ -80,6 +95,28 @@ public class Position
         }
 
         return Movement.LEFT_DOWN;
+    }
+
+    public Movement lineDirection(Position position)
+    {
+        if (sameRow(position)) {
+            return this.column < position.column ? Movement.RIGHT : Movement.LEFT;
+        }
+        if (sameColumn(position)) {
+            return this.row < position.row ? Movement.UP : Movement.DOWN;
+        }
+        return null;
+    }
+
+    public Movement diagonalDirection(Position position)
+    {
+        if (sameDiagonal(position)) {
+            if (this.column < position.column) {
+                return this.row < position.row ? Movement.UP_RIGHT : Movement.DOWN_RIGHT;
+            }
+            return this.row < position.row ? Movement.UP_LEFT : Movement.LEFT_DOWN;
+        }
+        return null;
     }
 
     public Movement castleDirection(Position position)

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static board.moves.Movement.DOWN_TWO;
-import static board.moves.Movement.UP_TWO;
+import static board.moves.Movement.*;
+import static board.pieces.PieceType.PAWN;
 
 public class PawnMoveCalculator extends PieceMoveCalculator
 {
@@ -35,10 +35,10 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         return moveList;
     }
 
-    private List<Move> moveCalculator(Board board, Movement movement, Position position, Pawn pawn)
+    private List<Move> moveCalculator(Board board, Movement movement, Position initialPosition, Pawn pawn)
     {
         List<Move> moveList = new ArrayList<>();
-        Position destinationPosition = position.move(movement);
+        Position destinationPosition = initialPosition.move(movement);
         Piece takenPiece = board.getTakenPiecesMap().get(destinationPosition);
 
         if (!destinationPosition.isValid()) {
@@ -51,67 +51,58 @@ public class PawnMoveCalculator extends PieceMoveCalculator
                     return Collections.emptyList();
                 }
                 if (isPawnPromotion(pawn, destinationPosition)) {
-                    moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
+                    moveList.addAll(allPromotions(initialPosition, destinationPosition, pawn.isWhite()));
                 }
                 else {
-                    moveList.add(new Move(position, destinationPosition));
+                    moveList.add(new Move(initialPosition, destinationPosition));
                 }
                 break;
             case UP_TWO:
             case DOWN_TWO:
-                if (takenPiece != null) {
-                    return Collections.emptyList();
-                }
                 //can not double jump over pieces
-                if (movement == UP_TWO && (board.pieceExistsAt(position.move(Movement.UP))
-                        || board.pieceExistsAt(position.move(UP_TWO)))) {
+                if (movement == UP_TWO && (board.pieceExistsAt(initialPosition.move(UP))
+                        || board.pieceExistsAt(initialPosition.move(UP_TWO)))) {
                     return Collections.emptyList();
                 }
-                if (movement == DOWN_TWO && board.pieceExistsAt(position.move(Movement.DOWN)) ||
-                        board.pieceExistsAt(position.move(DOWN_TWO))) {
+                if (movement == DOWN_TWO && board.pieceExistsAt(initialPosition.move(DOWN)) ||
+                        board.pieceExistsAt(initialPosition.move(DOWN_TWO))) {
                     return Collections.emptyList();
                 }
-                if (canDoubleJump(pawn, position)) {
-                    moveList.add(new Move(position, destinationPosition));
+                if (canDoubleJump(pawn, initialPosition)) {
+                    moveList.add(new Move(initialPosition, destinationPosition));
                 }
                 break;
             case UP_LEFT:
             case UP_RIGHT:
             case DOWN_RIGHT:
             case LEFT_DOWN:
-                if (takenPiece == null) {
 
-                    //moving an passant
-                    Position linePosition = position.move(movement.lineFromDiagonal());
-                    Piece anPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
-                    if (anPassantTakenPiece != null && anPassantTakenPiece.getPieceType() == PieceType.PAWN) {
-                        Move lastMove = board.lastMove();
-
-                        if (lastMove == null) {
-                            return Collections.emptyList();
-                        }
-                        //last pawn move was here
-                        if (lastMove.getFinalPosition().equals(linePosition)) {
-                            if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
-                                Move move = new Move(position, destinationPosition);
-                                move.setAnPassant(true);
-                                move.setTakenAnPassant(linePosition);
-                                moveList.add(move);
-                                return moveList;
-                            }
-                        }
-                    }
-                    return Collections.emptyList();
-                }
                 if (pawn.isOpponentOf(takenPiece)) {
                     if (isPawnPromotion(pawn, destinationPosition)) {
-                        moveList.addAll(allPromotions(position, destinationPosition, pawn.isWhite()));
+                        moveList.addAll(allPromotions(initialPosition, destinationPosition, pawn.isWhite()));
                     }
                     else {
-                        moveList.add(new Move(position, destinationPosition));
+                        moveList.add(new Move(initialPosition, destinationPosition));
+                    }
+                    return moveList;
+                }
+                //moving en passant
+                if (!board.pieceExistsAt(destinationPosition)) {
+                    Position linePosition = initialPosition.move(movement.lineFromDiagonal());
+                    Piece enPassantTakenPiece = board.getTakenPiecesMap().get(linePosition);
+                    if (enPassantTakenPiece != null && enPassantTakenPiece.getPieceType() == PAWN) {
+                        Move lastMove = board.lastMove();
+
+                        //last move was the pawn pushed two squares
+                        if (lastMove != null && lastMove.getFinalPosition().equals(linePosition)
+                                && lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
+                            moveList.add(new Move(initialPosition, destinationPosition, true, linePosition));
+                            return moveList;
+                        }
+
                     }
                 }
-
+                break;
             default:
                 break;
         }

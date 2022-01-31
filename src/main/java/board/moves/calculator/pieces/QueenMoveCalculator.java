@@ -16,7 +16,6 @@ public class QueenMoveCalculator extends PieceMoveCalculator
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
         List<Movement> movementList = MovementCalculator.getPossibleMoves(board.getPieceAt(position));
-
         return Xray.xRayMoveList(board, position, movementList);
     }
 }

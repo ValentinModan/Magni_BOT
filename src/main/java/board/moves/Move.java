@@ -11,14 +11,14 @@ public class Move implements Comparable<Move>
 {
     private Position initialPosition;
     private Position finalPosition;
-    private Position takenAnPassant;
     private Piece movingPiece;
     private Piece takenPiece;
     private Piece promotionPiece;
     private int score = 0;
     private boolean isPawnPromotion = false;
     private boolean isCastleMove = false;
-    private boolean isAnPassant = false;
+    private boolean isEnPassant = false;
+    private Position takenAnPassant;
     private boolean isCheckMate;
     private boolean isStaleMate;
     private Move bestResponse;
@@ -43,6 +43,14 @@ public class Move implements Comparable<Move>
         if (isPawnPromotion) {
             promotionPiece = movingPiece;
         }
+    }
+
+    public Move(Position initialPosition, Position finalPosition, boolean isAnPassant, Position takenAnPassant)
+    {
+        this.initialPosition = initialPosition;
+        this.finalPosition = finalPosition;
+        this.isEnPassant = isAnPassant;
+        this.takenAnPassant = takenAnPassant;
     }
 
     public Move(Position initialPosition, Position finalPosition)
@@ -155,14 +163,14 @@ public class Move implements Comparable<Move>
         return score;
     }
 
-    public boolean isAnPassant()
+    public boolean isEnPassant()
     {
-        return isAnPassant;
+        return isEnPassant;
     }
 
-    public void setAnPassant(boolean anPassant)
+    public void setEnPassant(boolean enPassant)
     {
-        isAnPassant = anPassant;
+        isEnPassant = enPassant;
     }
 
     public Position getTakenAnPassant()

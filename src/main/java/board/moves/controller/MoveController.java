@@ -2,18 +2,18 @@ package board.moves.controller;
 
 import board.Board;
 import board.Position;
-import board.PositionEnum;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
 import board.pieces.*;
+import lombok.SneakyThrows;
 
 public class MoveController
 {
     public void undoMove(Board board, Move move)
     {
         board.allMoves.remove(board.allMoves.size() - 1);
-        if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
+        if (move.getMovingPiece().getPieceType() == PieceType.KING) {
             board.updateKingPosition(move.getInitialPosition());
         }
 
@@ -26,15 +26,18 @@ public class MoveController
             board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
         }
 
-
         //clear moved piece position
         board.getMovingPiecesMap().remove(move.getFinalPosition());
 
         if (move.isCastleMove()) {
-            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
-            //todo remove this if failure
+            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition()).opposite();
+            //maybe this will be wrong
             board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction));
             board.addPiece(move.getFinalPosition(), new Rook(move.getMovingPiece().isWhite()));
+        }
+
+        if (move.isEnPassant()) {
+            board.addPiece(move.getTakenAnPassant(), new Pawn(!move.getMovingPiece().isWhite()));
         }
 
         Piece takenPiece = move.getTakenPiece();
@@ -54,13 +57,11 @@ public class MoveController
             board.allMoves.add(move);
             return;
         }
-
-        if (move.isAnPassant()) {
+        if (move.isEnPassant()) {
             anPassant(board, move);
             board.allMoves.add(move);
             return;
         }
-
         if (move.isPawnPromotion()) {
             pawnPromotion(board, move);
             board.allMoves.add(move);
@@ -75,12 +76,10 @@ public class MoveController
         //clear taken position
         board.getTakenPiecesMap().remove(move.getFinalPosition());
 
-        if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.KING) {
+        if (move.getMovingPiece().getPieceType() == PieceType.KING) {
             board.updateKingPosition(move.getFinalPosition());
         }
         board.allMoves.add(move);
-
-
     }
 
     private void pawnPromotion(Board board, Move move)

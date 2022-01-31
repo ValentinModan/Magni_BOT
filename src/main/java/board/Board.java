@@ -10,6 +10,7 @@ import game.kingcheck.attacked.KingSafety;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.tree.ExpandVetoException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -217,8 +218,8 @@ public class Board implements Cloneable
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Board that = (Board) o;
-        return whitePiecesMap.equals(that.whitePiecesMap) && blackPiecesMap.equals(that.blackPiecesMap);
+            return whitePiecesMap.entrySet().stream().allMatch(e -> whitePiecesMap.get(e)==(((Board) o).whitePiecesMap.get(e)))
+            && blackPiecesMap.entrySet().stream().allMatch(e -> blackPiecesMap.get(e)==(((Board) o).blackPiecesMap.get(e)));
     }
 
     @Override
@@ -285,9 +286,11 @@ public class Board implements Cloneable
     {
         Board newBoard = (Board) super.clone();
 
-        newBoard.setWhiteToMove(Boolean.valueOf(isWhiteToMove));
-        newBoard.setWhitePiecesMap(new HashMap<>(whitePiecesMap));
-        newBoard.setBlackPiecesMap(new HashMap<>(blackPiecesMap));
+        newBoard.setWhiteToMove(isWhiteToMove);
+        newBoard.setWhitePiecesMap(whitePiecesMap.entrySet().stream()
+                                           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        newBoard.setBlackPiecesMap(blackPiecesMap.entrySet().stream()
+                                           .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
         newBoard.setBlackKingPosition(blackKingPosition);
         newBoard.setWhiteKingPosition(whiteKingPosition);
         newBoard.setAllMoves(new ArrayList<>(allMoves));

@@ -16,18 +16,15 @@ public abstract class PieceMoveCalculator
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
         List<Move> moveList = new ArrayList<>();
-        Piece piece = board.getPieceAt(position);
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
+        Piece movingPiece = board.getPieceAt(position);
 
-        for (Movement movement : movementList) {
+        for (Movement movement : MovementCalculator.getPossibleMoves(movingPiece)) {
             Position finalPosition = position.move(movement);
             Piece destinationPiece = board.getPieceAt(finalPosition);
-            if (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isOpponentOf(piece))) {
-                Move move = new Move(position, finalPosition);
-                moveList.add(move);
+            if (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isOpponentOf(movingPiece))) {
+                moveList.add(new Move(position, finalPosition));
             }
         }
-
         return moveList;
     }
 }

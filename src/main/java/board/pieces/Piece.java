@@ -6,17 +6,9 @@ public abstract class Piece
 {
     private final boolean isWhite;
 
-    private PieceType pieceType;
-
     public Piece(boolean isWhite)
     {
         this.isWhite = isWhite;
-    }
-
-    public Piece(boolean isWhite, PieceType pieceType)
-    {
-        this.isWhite = isWhite;
-        this.pieceType = pieceType;
     }
 
     public boolean isWhite()
@@ -24,15 +16,7 @@ public abstract class Piece
         return isWhite;
     }
 
-    public PieceType getPieceType()
-    {
-        return pieceType;
-    }
-
-    public void setPieceType(PieceType pieceType)
-    {
-        this.pieceType = pieceType;
-    }
+    abstract public PieceType getPieceType();
 
     public int getScore()
     {

@@ -9,7 +9,9 @@ import board.pieces.King;
 import board.pieces.Piece;
 import game.kingcheck.attacked.KingSafety;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Objects;
 
 import static board.moves.Movement.LEFT;
 import static board.moves.Movement.RIGHT;
@@ -86,17 +88,17 @@ public class KingMoveCalculator extends PieceMoveCalculator
             return false;
         }
 
-        //no empty space on left side
+        //empty space moving the king left/right one time
         if (board.getPieceAt(board.getKingPosition().move(direction)) != null) {
             return false;
         }
 
-        //no empty space on double left side
+        //empty space moving the king left/right two times
         if (board.getPieceAt(board.getKingPosition().move(direction).move(direction)) != null) {
             return false;
         }
 
-        //no empty space on triple left side
+        //empty space moving the king left/right three times, only for left side castle
         if (direction == LEFT && board.getPieceAt(board.getKingPosition().move(direction).move(direction).move(direction)) != null) {
             return false;
         }
@@ -125,6 +127,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
             moveKingPosition(board, initialKingPosition);
             return false;
         }
+        //to do check if I can remove this
         moveKingPosition(board, initialKingPosition);
         return true;
     }

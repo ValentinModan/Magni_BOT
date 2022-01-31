@@ -5,7 +5,11 @@ import board.Position;
 import board.pieces.Pawn;
 import board.pieces.Piece;
 import board.pieces.PieceType;
+import game.gameSetupOptions.GameOptions;
 import lombok.extern.slf4j.Slf4j;
+
+import static board.pieces.PieceType.KING;
+import static board.pieces.PieceType.ROOK;
 
 @Slf4j
 public class MoveUpdateHelper
@@ -18,21 +22,19 @@ public class MoveUpdateHelper
         updateCheckMate(move);
         updatePawnPromotion(move);
         updateCastleMove(board, move);
-        updateAnPassantMove(board, move);
+        updateEnPassantMove(board, move);
     }
 
     public static void updatePawnPromotion(Move move)
     {
-        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+        if (move.getMovingPiece().getPieceType() != PieceType.PAWN) {
             return;
         }
         if (move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 7) {
             move.setPawnPromotion(true);
-            move.setScore(move.getMovingPiece().getScore());
         }
         if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
             move.setPawnPromotion(true);
-            move.setScore(move.getMovingPiece().getScore());
         }
     }
 
@@ -41,9 +43,7 @@ public class MoveUpdateHelper
         Piece movingPiece = board.getMovingPiece(move.getInitialPosition());
 
         if (movingPiece == null) {
-
             throw new NullPointerException(board + "\n" + move);
-
         }
         move.setMovingPiece(movingPiece);
     }
@@ -51,10 +51,9 @@ public class MoveUpdateHelper
     public static void updateCheckMate(Move move)
     {
         Piece takenPiece = move.getTakenPiece();
-        if (takenPiece != null && takenPiece.getPieceType() == PieceType.KING) {
+        if (takenPiece != null && takenPiece.getPieceType() == KING) {
             move.setCheckMate(true);
-            //TODO: what?
-            move.setScore(666);
+            move.setScore(GameOptions.CHECK_MATE_SCORE);
         }
     }
 
@@ -62,25 +61,20 @@ public class MoveUpdateHelper
     {
         Piece takenPiece = board.getTakenPiecesMap().get(move.getFinalPosition());
         move.setTakenPiece(takenPiece);
-        if (takenPiece != null) {
-            move.setScore(takenPiece.getScore());
-        }
     }
 
-    public static void updateAnPassantMove(Board board, Move move)
+    public static void updateEnPassantMove(Board board, Move move)
     {
         Position initialPosition = move.getInitialPosition();
-        Piece takenPiece = move.getTakenPiece();
 
-        if (move.getMovingPiece() == null || move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+        if (move.getMovingPiece().getPieceType() != PieceType.PAWN) {
             return;
         }
-
         Pawn pawn = (Pawn) move.getMovingPiece();
         Movement movement = initialPosition.getDiagonalMovement(move.getFinalPosition());
         Movement line = movement.lineFromDiagonal();
 
-        if (takenPiece != null) {
+        if (move.getTakenPiece() != null) {
             return;
         }
         Position linePosition = initialPosition.move(line);
@@ -91,46 +85,35 @@ public class MoveUpdateHelper
             return;
         }
         Move lastMove = board.lastMove();
-        if (lastMove == null) {
-            return;
-        }
         //last pawn move was here
-        if (lastMove.getFinalPosition().equals(linePosition)) {
+        if (lastMove != null && lastMove.getFinalPosition().equals(linePosition)) {
             if (lastMove.getInitialPosition().equals(linePosition.move(Movement.upTwo(pawn.isWhite())))) {
-                move.setAnPassant(true);
+                move.setEnPassant(true);
                 move.setTakenAnPassant(linePosition);
             }
-
         }
     }
 
+    //todo improve here
     private static void updateCastleMove(Board board, Move move)
     {
-        Piece movingPiece = move.getMovingPiece();
-        Piece rookPiece = board.getMovingPiece(move.getFinalPosition());
+        Piece movingKing = move.getMovingPiece();
 
-        if (movingPiece.getPieceType() == PieceType.KING) {
-            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
-            if (move.getInitialPosition().move(direction).move(direction).equals(move.getFinalPosition())) {
-                move.setCastleMove(true);
-            }
-        }
-
-        if (rookPiece == null) {
+        if (movingKing.getPieceType() != KING) {
             return;
         }
-        if (movingPiece.getPieceType() == PieceType.KING) {
-            if (rookPiece.getPieceType() == PieceType.ROOK) {
-                if (movingPiece.isWhite() == movingPiece.isWhite()) {
-                    move.setCastleMove(true);
-                }
-            }
-
-            //todo improve checks here
-            int distance = move.getInitialPosition().getColumn() - move.getFinalPosition().getColumn();
-            if (distance == 2 || distance == 3) {
+        Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
+        //castling using the final position of the king
+        if (move.getInitialPosition().move(direction).move(direction).equals(move.getFinalPosition())) {
+            move.setCastleMove(true);
+            return;
+        }
+        Piece rookPiece = board.getMovingPiece(move.getFinalPosition());
+        if (rookPiece != null && rookPiece.getPieceType() == ROOK) {
+            if (!movingKing.isOpponentOf(rookPiece)) {
                 move.setCastleMove(true);
             }
         }
+
     }
 }

@@ -25,15 +25,15 @@ public class Xray
     {
         currentPosition = currentPosition.move(movement);
 
-        if (!currentPosition.isValid()) {
-            return;
-        }
-        Piece takenPiece = board.getTakenPiecesMap().get(currentPosition);
-        if (board.getMovingPiece(currentPosition) == null) {
-            moveList.add(new Move(initialPosition, currentPosition));
-            if (takenPiece == null) {
-                xRayMoves(board, moveList, initialPosition, currentPosition, movement);
+        while (currentPosition.isValid()) {
+            if (board.getMovingPiece(currentPosition) != null) {
+                return;
             }
+            moveList.add(new Move(initialPosition, currentPosition));
+            if (board.getTakenPiecesMap().get(currentPosition) != null) {
+                return;
+            }
+            currentPosition = currentPosition.move(movement);
         }
     }
 

@@ -108,8 +108,6 @@ public class GameBoard
         MakeABotMove makeABotMove = new MakeABotMove(gameId, actualMove.move());
         RequestController.sendRequest(makeABotMove);
 
-        System.gc();
-
         actualBoard.actualMove(actualMove);
         actualBoard.nextTurn();
         singleThreadCalculator.updateFenMap(actualBoard);
