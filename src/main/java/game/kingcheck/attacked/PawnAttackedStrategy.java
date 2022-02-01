@@ -4,14 +4,13 @@ import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.PawnMovement;
-import board.pieces.EmptyPiece;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 import lombok.SneakyThrows;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PawnAttackedStrategy implements AttackedStrategy
 {
@@ -19,9 +18,18 @@ public class PawnAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        if (!board.getTakenPiecesMap().values().stream()
-                .map(Piece::getPieceType)
-                .collect(Collectors.toList()).contains(PieceType.PAWN)) {
+        List<PieceType> list = new ArrayList<>();
+        for (Piece piece : board.getTakenPiecesMap().values()) {
+            if(piece==null)
+            {
+                continue;
+            }
+            PieceType pieceType = piece.getPieceType();
+            if (pieceType != null) {
+                list.add(pieceType);
+            }
+        }
+        if (!list.contains(PieceType.PAWN)) {
             return false;
         }
         Position       kingPosition = board.getKingPosition();

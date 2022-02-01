@@ -15,7 +15,7 @@ public class OptimizedBishopAttackedStrategy implements AttackedStrategy
     public boolean isAttackingTheKing(Board board)
     {
         List<Position> bishopPositionList = board.getTakenPiecesMap().keySet().stream()
-                .filter(position -> board.getTakenPiecesMap().get(position).getPieceType() == PieceType.BISHOP).collect(Collectors.toList());
+                .filter(position ->board.getTakenPiecesMap().get(position) != null &&  board.getTakenPiecesMap().get(position).getPieceType() == PieceType.BISHOP).collect(Collectors.toList());
         if (bishopPositionList.isEmpty()) {
             return false;
         }

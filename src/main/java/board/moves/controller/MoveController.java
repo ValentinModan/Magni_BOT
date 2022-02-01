@@ -10,9 +10,56 @@ import lombok.SneakyThrows;
 
 public class MoveController
 {
+    public void undoMove1(Board board, Move move)
+    {
+        board.allMoves.remove(board.allMoves.size() - 1);
+        if (move.isEnPassant()) {
+            //put the taken piece back
+            board.addPiece(move.getTakenAnPassant(), new Pawn(!move.getMovingPiece().isWhite()));
+            //remove initial pawn position
+            board.getMovingPiecesMap().remove(move.getFinalPosition());
+            //add pawn to the initial position
+            board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+            return;
+        }
+        if (move.isPawnPromotion()) {
+            //put piece back to initial position
+            board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+            //remove piece promoted
+            board.getMovingPiecesMap().remove(move.getFinalPosition());
+            //if taken piece put it back
+            if (move.getTakenPiece() != null) {
+                board.getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
+            }
+            return;
+        }
+        if (move.isCastleMove()) {
+            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
+            //remove the king and rook
+            board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction));
+            board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction).move(direction));
+
+            board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+            board.getMovingPiecesMap().put(move.getFinalPosition(), new Rook(move.getMovingPiece().isWhite()));
+            board.updateKingPosition(move.getInitialPosition());
+            return;
+        }
+        //normal move
+        if (move.getMovingPiece().getPieceType() == PieceType.KING) {
+            board.updateKingPosition(move.getInitialPosition());
+        }
+        board.getMovingPiecesMap().remove(move.getFinalPosition());
+        if (move.getTakenPiece() != null) {
+            board.getTakenPiecesMap().put(move.getFinalPosition(), move.getTakenPiece());
+        }
+        board.getMovingPiecesMap().put(move.getInitialPosition(), move.getMovingPiece());
+
+    }
+
     public void undoMove(Board board, Move move)
     {
         board.allMoves.remove(board.allMoves.size() - 1);
+
         if (move.getMovingPiece().getPieceType() == PieceType.KING) {
             board.updateKingPosition(move.getInitialPosition());
         }
@@ -30,9 +77,12 @@ public class MoveController
         board.getMovingPiecesMap().remove(move.getFinalPosition());
 
         if (move.isCastleMove()) {
-            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition()).opposite();
+            Movement direction = move.getInitialPosition().castleDirection(move.getFinalPosition());
             //maybe this will be wrong
             board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction));
+
+            //remove king position
+            board.getMovingPiecesMap().remove(move.getInitialPosition().move(direction).move(direction));
             board.addPiece(move.getFinalPosition(), new Rook(move.getMovingPiece().isWhite()));
         }
 

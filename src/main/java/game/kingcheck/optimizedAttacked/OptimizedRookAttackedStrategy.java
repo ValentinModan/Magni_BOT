@@ -15,7 +15,7 @@ public class OptimizedRookAttackedStrategy implements AttackedStrategy
     public boolean isAttackingTheKing(Board board)
     {
         List<Position> rookPositionList = board.getTakenPiecesMap().keySet().stream()
-                .filter(position -> board.getTakenPiecesMap().get(position).getPieceType() == PieceType.ROOK).collect(Collectors.toList());
+                .filter(position ->board.getTakenPiecesMap().get(position) != null &&  board.getTakenPiecesMap().get(position).getPieceType() == PieceType.ROOK).collect(Collectors.toList());
         if (rookPositionList.isEmpty()) {
             return false;
         }

@@ -93,8 +93,10 @@ public class Position
         if (column < position.column) {
             return Movement.DOWN_RIGHT;
         }
-
-        return Movement.LEFT_DOWN;
+        if (column > position.column) {
+            return Movement.LEFT_DOWN;
+        }
+        return null;
     }
 
     public Movement lineDirection(Position position)

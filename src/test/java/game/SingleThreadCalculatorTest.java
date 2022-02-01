@@ -4,6 +4,7 @@ import board.Board;
 import board.MovementMap;
 import board.moves.Move;
 import board.moves.MoveConvertor;
+import board.moves.Movement;
 import fen.FenStrategy;
 import game.kingcheck.attacked.KingSafety;
 import helper.MovementMapCounter;
@@ -13,9 +14,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.lang.instrument.Instrumentation;
 import java.util.concurrent.TimeUnit;
 
+import static helper.MovementMapCounter.countChildrenMovesWithDepth;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SingleThreadCalculatorTest
@@ -52,10 +57,6 @@ class SingleThreadCalculatorTest
         System.out.println(board);
 
         System.out.println(bestMove);
-
-       // InstrumentationImpl instrumentation = new InstrumentationImpl();
-
-       // System.out.println(Instrumentation.getObjectSize(new MovementMap(null, MoveConvertor.stringToMove("a1a2"))));
     }
 
     @Test
@@ -106,6 +107,7 @@ class SingleThreadCalculatorTest
         Move move = singleThreadCalculator.bestResponse(board);
         assertEquals(move, MoveConvertor.stringToMove("d1f3"));
     }
+
     @Test
     void impossiblePuzzleBegin() throws InterruptedException, CloneNotSupportedException
     {
@@ -124,7 +126,7 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.computeDoubleTree();
         System.out.println("6 levels done");
 
-        int value =MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame);
+        int value = MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame);
 
         System.out.println(value);
     }
@@ -163,6 +165,7 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.computeTree();
 
         assertEquals(8902, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
+        MovementMapCounter.displayresults();
     }
 
     @Test
@@ -174,11 +177,15 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.computeDoubleTree();
 
         assertEquals(197281, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
+        MovementMapCounter.displayresults();
     }
 
     @Test
-    void shannonNumberTestFiveMoves() throws InterruptedException, CloneNotSupportedException
+    void shannonNumberTestFiveMoves() throws InterruptedException, CloneNotSupportedException, FileNotFoundException
     {
+        PrintStream out = new PrintStream(new FileOutputStream("logs.log"));
+        System.setOut(out);
+
         singleThreadCalculator.setup(board);
 
         singleThreadCalculator.computeDoubleTree();
@@ -186,7 +193,101 @@ class SingleThreadCalculatorTest
         singleThreadCalculator.computeDoubleTree();
         singleThreadCalculator.computeTree();
 
-        System.out.println(KingSafety.miliseconds);
-        assertEquals(4865609, MovementMapCounter.countChildrenMoves(MovementMap.currentMoveFromTheGame));
+        assertEquals(197281, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 4));
+        assertEquals(4865609, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 5));
+    }
+
+    @Test
+    void position2_PerftResults() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ");
+        board.computePossibleMoves();
+
+        singleThreadCalculator.setup(board);
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+
+        assertEquals(48, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 1));
+        assertEquals(2039, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 2));
+        assertEquals(97862, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 3));
+        assertEquals(4085603, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 4));
+    }
+
+    @Test
+    void position3_PerftResults3() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - ");
+        board.computePossibleMoves();
+
+        singleThreadCalculator.setup(board);
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeTree();
+
+        assertEquals(14, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 1));
+        assertEquals(191, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 2));
+        assertEquals(2812, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 3));
+        assertEquals(43238, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 4));
+        assertEquals(674624, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 5));
+    }
+
+
+    @Test
+    void position4_PerftResults() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
+        board.computePossibleMoves();
+
+        singleThreadCalculator.setup(board);
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+
+        assertEquals(6, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 1));
+        assertEquals(264, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 2));
+      //9159
+        assertEquals(9467, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 3));
+        assertEquals(422333, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 4));
+    }
+
+    @Test
+    void position5_PerftResults() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
+        board.computePossibleMoves();
+
+        singleThreadCalculator.setup(board);
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeDoubleTree();
+
+        assertEquals(44, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 1));
+        assertEquals(1486, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 2));
+        //61481
+        assertEquals(62379, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 3));
+        assertEquals(2103487, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 4));
+    }
+
+    @Test
+    void position6_PerftResults() throws InterruptedException, CloneNotSupportedException
+    {
+        Board board = new Board();
+        GameBoard.actualBoard = board;
+        BoardSetup.fenNotationBoardSetup(board, "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10");
+        board.computePossibleMoves();
+
+        singleThreadCalculator.setup(board);
+        singleThreadCalculator.computeDoubleTree();
+        singleThreadCalculator.computeTree();
+
+        assertEquals(46, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 1));
+        assertEquals(2079, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 2));
+        assertEquals(89890, countChildrenMovesWithDepth(MovementMap.currentMoveFromTheGame, 3));
     }
 }

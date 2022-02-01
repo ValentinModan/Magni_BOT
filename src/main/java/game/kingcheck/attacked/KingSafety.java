@@ -27,14 +27,11 @@ public class KingSafety
 
     public static boolean isTheKingAttacked(Board board)
     {
-       Instant startTime = Instant.now();
         for (AttackedStrategy attackedStrategy : attackedStrategyList) {
             if (attackedStrategy.isAttackingTheKing(board)) {
-              //  miliseconds += LocalDateTime.now().getNano()
                 return true;
             }
         }
-      //  miliseconds += Instant.now().minus(startTime).toEpochMilli();
         return false;
     }
 

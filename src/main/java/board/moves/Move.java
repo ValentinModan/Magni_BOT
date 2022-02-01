@@ -12,9 +12,10 @@ public class Move implements Comparable<Move>
     private Position initialPosition;
     private Position finalPosition;
     private Piece movingPiece;
-    private Piece takenPiece;
+    private Piece takenPiece = null;
     private Piece promotionPiece;
     private int score = 0;
+    private char promotionSmithNotation;
     private boolean isPawnPromotion = false;
     private boolean isCastleMove = false;
     private boolean isEnPassant = false;
@@ -139,6 +140,15 @@ public class Move implements Comparable<Move>
 
     private int moveScore = 0;
 
+    public char getPromotionSmithNotation()
+    {
+        return promotionSmithNotation;
+    }
+
+    public void setPromotionSmithNotation(char promotionSmithNotation)
+    {
+        this.promotionSmithNotation = promotionSmithNotation;
+    }
 
     //score  including the best response and so on
     public int moveScore()

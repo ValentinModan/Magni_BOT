@@ -37,6 +37,20 @@ public class MovementMap
         this.movementMap = movementMap;
     }
 
+    public int numberOfChildren()
+    {
+        if(movementMap!=null && !movementMap.isEmpty())
+        {
+            int sum = 0;
+            for(MovementMap movementMap1: movementMap.values())
+            {
+                sum+=movementMap1.numberOfChildren();
+            }
+            return sum;
+        }
+        return 1;
+    }
+
     //to reduce memory, compute the moves since it will only take a few moves
     public Board generateBoardForCurrentPosition() throws CloneNotSupportedException
     {

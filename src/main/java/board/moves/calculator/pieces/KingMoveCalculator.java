@@ -135,7 +135,7 @@ public class KingMoveCalculator extends PieceMoveCalculator
     void moveKingPosition(Board board, Position newPosition)
     {
         board.getMovingPiecesMap().put(newPosition, board.getKing());
-        board.getMovingPiecesMap().put(board.getKingPosition(), null);
+        board.getMovingPiecesMap().remove(board.getKingPosition());
         board.updateKingPosition(newPosition);
     }
 

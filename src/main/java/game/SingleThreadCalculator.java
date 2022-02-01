@@ -201,7 +201,9 @@ public class SingleThreadCalculator
         }
         else {
             for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
-                computeMap(movementMap1, n);
+                if (!movementMap1.getCurrentMove().isCheckMate()) {
+                    computeMap(movementMap1, n);
+                }
             }
         }
     }
@@ -255,12 +257,10 @@ public class SingleThreadCalculator
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
         int depth = depthToCurrentMove(movementMap);
-        if(n<=0)
-        {
+        if (n <= 0) {
             return;
         }
-        if(depth>6)
-        {
+        if (depth > 6) {
             return;
         }
         if (n <= 0 || depth > 4) {
@@ -272,27 +272,35 @@ public class SingleThreadCalculator
         Board board = movementMap.generateBoardForCurrentPosition();
 
 
-        List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
+        try {
+            List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
 
-        //is a checkmate move
-        if (possibleMovesCalculatorsList.isEmpty()) {
-            if (KingSafety.isTheKingAttacked(board)) {
-                movementMap.getCurrentMove().setCheckMate(true);
+
+            //is a checkmate move
+            if (possibleMovesCalculatorsList.isEmpty()) {
+                if (KingSafety.isTheKingAttacked(board)) {
+                    movementMap.getCurrentMove().setCheckMate(true);
+                }
+                else {
+                    movementMap.getCurrentMove().setStaleMate(true);
+                }
             }
             else {
-                movementMap.getCurrentMove().setStaleMate(true);
-            }
-        }
-        else {
-            for (Move move : possibleMovesCalculatorsList) {
+                for (Move move : possibleMovesCalculatorsList) {
 
-                MovementMap newMovementMap = new MovementMap(movementMap, move);
-                //todelete if too slow
-                //  updateMoveIfCheckMateOrStaleMate(newMovementMap, board);
-                movementMap.getMovementMap().put(move, newMovementMap);
+                    MovementMap newMovementMap = new MovementMap(movementMap, move);
+                    //todelete if too slow
+                    //  updateMoveIfCheckMateOrStaleMate(newMovementMap, board);
+                    movementMap.getMovementMap().put(move, newMovementMap);
 
-                computeMove(newMovementMap, n - 1);
+                    computeMove(newMovementMap, n - 1);
+                    if (newMovementMap.getCurrentMove().isCheckMate()) {
+                        return;
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

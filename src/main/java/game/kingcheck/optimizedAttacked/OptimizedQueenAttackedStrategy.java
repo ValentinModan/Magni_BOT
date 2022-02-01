@@ -15,7 +15,7 @@ public class OptimizedQueenAttackedStrategy implements AttackedStrategy
     public boolean isAttackingTheKing(Board board)
     {
         List<Position> queenPositionList = board.getTakenPiecesMap().keySet().stream()
-                .filter(position -> board.getTakenPiecesMap().get(position).getPieceType() == PieceType.QUEEN).collect(Collectors.toList());
+                .filter(position -> board.getTakenPiecesMap().get(position) != null && board.getTakenPiecesMap().get(position).getPieceType() == PieceType.QUEEN).collect(Collectors.toList());
         if (queenPositionList.isEmpty()) {
             return false;
         }

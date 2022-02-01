@@ -2,9 +2,7 @@ package board.moves;
 
 import board.Board;
 import board.Position;
-import board.pieces.Pawn;
-import board.pieces.Piece;
-import board.pieces.PieceType;
+import board.pieces.*;
 import game.gameSetupOptions.GameOptions;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +33,26 @@ public class MoveUpdateHelper
         }
         if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
             move.setPawnPromotion(true);
+        }
+        if(move.isPawnPromotion()&&move.getPromotionPiece()==null)
+        {
+            char c = move.getPromotionSmithNotation();
+            switch (c)
+            {
+                case 'N':
+                    move.setPromotionPiece(new Knight(move.getMovingPiece().isWhite()));
+                    break;
+                case 'R':
+                    move.setPromotionPiece(new Rook(move.getMovingPiece().isWhite()));
+                    break;
+                case 'B':
+                    move.setPromotionPiece(new Bishop(move.getMovingPiece().isWhite()));
+                    break;
+                case 'Q':
+                default:
+                    move.setPromotionPiece(new Queen(move.getMovingPiece().isWhite()));
+            }
+            move.setPromotionPiece(new Queen(move.getMovingPiece().isWhite()));
         }
     }
 
@@ -72,6 +90,10 @@ public class MoveUpdateHelper
         }
         Pawn pawn = (Pawn) move.getMovingPiece();
         Movement movement = initialPosition.getDiagonalMovement(move.getFinalPosition());
+        if(movement==null)
+        {
+            return;
+        }
         Movement line = movement.lineFromDiagonal();
 
         if (move.getTakenPiece() != null) {

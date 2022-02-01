@@ -10,6 +10,7 @@ import board.pieces.Piece;
 import board.pieces.PieceType;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class KnightAttackedStrategy implements AttackedStrategy
@@ -20,7 +21,7 @@ public class KnightAttackedStrategy implements AttackedStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        if (!board.getTakenPiecesMap().values().stream()
+        if (!board.getTakenPiecesMap().values().stream().filter(Objects::nonNull)
                 .map(Piece::getPieceType)
                 .collect(Collectors.toList()).contains(PieceType.KNIGHT)) {
             return false;
