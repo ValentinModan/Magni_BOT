@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class KnightAttackedStrategy implements AttackedStrategy
+public class KnightAttackStrategy implements AttackStrategy
 {
 
     private static final List<Movement> knightsPossibleMovements = MovementCalculator.getPossibleMoves(EmptyPiece.KNIGHT);

@@ -99,9 +99,11 @@ public class GameBoard
 
     private void makeMyOwnMove(String gameId, String move) throws Exception
     {
+        boolean computationStarted = false;
         log.info("Generated opening move " + move);
         Move actualMove = MoveConvertor.stringToMove(move);
         if (actualMove == null) {
+            computationStarted = true;
             actualMove = singleThreadCalculator.bestResponse(actualBoard);
         }
 
@@ -111,6 +113,11 @@ public class GameBoard
         actualBoard.actualMove(actualMove);
         actualBoard.nextTurn();
         singleThreadCalculator.updateFenMap(actualBoard);
+        if (computationStarted) {
+            System.gc();
+            singleThreadCalculator.computeTree();
+            singleThreadCalculator.computeMoves();
+        }
     }
 
     private void makeEnemyMove(String lastMove)

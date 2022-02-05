@@ -1,7 +1,6 @@
 package game.kingcheck.attacked;
 
 import board.Board;
-import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.EmptyPiece;
@@ -11,7 +10,7 @@ import board.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class QueenAttackedStrategy implements AttackedStrategy
+public class QueenAttackStrategy implements AttackStrategy
 {
     private static final List<Movement> queenMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.QUEEN);
 

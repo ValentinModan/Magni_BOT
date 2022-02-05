@@ -10,7 +10,7 @@ import board.pieces.PieceType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RookAttackedStrategy implements AttackedStrategy
+public class RookAttackStrategy implements AttackStrategy
 {
     private static final List<Movement> rookMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.ROOK);
 

@@ -4,13 +4,10 @@ import board.Board;
 import board.moves.Move;
 import board.pieces.Piece;
 import board.pieces.PieceType;
-import game.GameBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static board.pieces.PieceType.KNIGHT;
 
 public class GameOptions
 {

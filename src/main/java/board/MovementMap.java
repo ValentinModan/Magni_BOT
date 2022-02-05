@@ -15,7 +15,7 @@ public class MovementMap
     public static MovementMap currentMoveFromTheGame;
 
     //the move before
-    private final MovementMap parent;
+    private MovementMap parent;
 
     public int score;
     public int final_score;
@@ -95,6 +95,7 @@ public class MovementMap
                 movementMap.markMovesAsImpossible();
             }
         }
+        parent = null;
         //todo: this causes the error
         movementMap = null;
     }
@@ -111,6 +112,7 @@ public class MovementMap
                // movementMap.remove(move);
             }
         }
+        movementMap.entrySet().removeIf(map -> !map.getValue().isCurrentMovePossible());
         currentMoveFromTheGame = movementMap.get(chosenMove);
     }
 

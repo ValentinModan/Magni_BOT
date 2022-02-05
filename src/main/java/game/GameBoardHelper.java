@@ -3,8 +3,6 @@ package game;
 import api.RequestController;
 import api.games.GetMyOwnGoingGames;
 import api.games.NowPlaying;
-import board.Board;
-import board.MovementMap;
 
 import java.time.LocalTime;
 

@@ -1,18 +1,16 @@
 package game.kingcheck.attacked;
 
 import board.Board;
-import board.Position;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.EmptyPiece;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BishopAttackedStrategy implements AttackedStrategy
+public class BishopAttackStrategy implements AttackStrategy
 {
 
     final static List<Movement> bishopMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.BISHOP);

@@ -2294,7 +2294,6 @@ C47:"Leonhardt Defense: Four Knights",e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 d2d4 f8b4 f3
 C47:"Belgrade Gambit: 4 Knights",e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 d2d4 e5d4 c3d5
 C47:"Schmid Gambit: Four Knights",e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 d2d4 e5d4 f3d4 f6e4
 C46:"Halloween Gambit: Four Knights",e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 f3e5
-C44:Chicago; Irish; Schulze-Muller Gambit,e2e4 e7e5 g1f3 b8c6 f3e5 c6e5 d2d4
 C42:Petroff Defense; Russian Defense; C42,e2e4 e7e5 g1f3 g8f6
 C42:"Urosov Gambit: Petroff",e2e4 e7e5 g1f3 g8f6 f1c4
 C42:"Boden-Kieseritzky Gambit: Petroff",e2e4 e7e5 g1f3 g8f6 f1c4 f6e4 b1c3

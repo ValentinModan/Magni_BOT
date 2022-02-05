@@ -4,12 +4,12 @@ import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.PieceType;
-import game.kingcheck.attacked.AttackedStrategy;
+import game.kingcheck.attacked.AttackStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OptimizedRookAttackedStrategy implements AttackedStrategy
+public class OptimizedRookAttackStrategy implements AttackStrategy
 {
     @Override
     public boolean isAttackingTheKing(Board board)

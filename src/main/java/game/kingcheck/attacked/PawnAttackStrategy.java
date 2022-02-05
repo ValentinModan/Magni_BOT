@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PawnAttackedStrategy implements AttackedStrategy
+public class PawnAttackStrategy implements AttackStrategy
 {
     @SneakyThrows
     @Override

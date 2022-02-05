@@ -4,18 +4,19 @@ import board.Board;
 import board.Position;
 import board.moves.Movement;
 import board.pieces.PieceType;
-import game.kingcheck.attacked.AttackedStrategy;
+import game.kingcheck.attacked.AttackStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OptimizedQueenAttackedStrategy implements AttackedStrategy
+public class QueenAttackStrategy implements AttackStrategy
 {
     @Override
     public boolean isAttackingTheKing(Board board)
     {
         List<Position> queenPositionList = board.getTakenPiecesMap().keySet().stream()
-                .filter(position -> board.getTakenPiecesMap().get(position) != null && board.getTakenPiecesMap().get(position).getPieceType() == PieceType.QUEEN).collect(Collectors.toList());
+                .filter(position -> board.getTakenPiecesMap().get(position) != null && board.getTakenPiecesMap().get(position).getPieceType() == PieceType.QUEEN)
+                .collect(Collectors.toList());
         if (queenPositionList.isEmpty()) {
             return false;
         }

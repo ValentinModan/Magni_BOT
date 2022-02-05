@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KnightAttackedStrategyTest
+class KnightAttackStrategyTest
 {
     Board board;
 
@@ -31,7 +31,7 @@ class KnightAttackedStrategyTest
         board.addPiece(blackKnightPosition, blackKnight);
         board.addPiece(whiteKingPosition, whiteKing);
 
-        KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
+        KnightAttackStrategy knightAttackedStrategy = new KnightAttackStrategy();
 
         assertTrue(knightAttackedStrategy.isAttackingTheKing(board));
     }
@@ -48,7 +48,7 @@ class KnightAttackedStrategyTest
         board.addPiece(blackKnightPosition, blackKnight);
         board.addPiece(whiteKingPosition, whiteKing);
 
-        KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
+        KnightAttackStrategy knightAttackedStrategy = new KnightAttackStrategy();
 
         assertFalse(knightAttackedStrategy.isAttackingTheKing(board));
     }
@@ -65,7 +65,7 @@ class KnightAttackedStrategyTest
         board.addPiece(blackKnightPosition, blackKnight);
         board.addPiece(whiteKingPosition, whiteKing);
 
-        KnightAttackedStrategy knightAttackedStrategy = new KnightAttackedStrategy();
+        KnightAttackStrategy knightAttackedStrategy = new KnightAttackStrategy();
 
         assertFalse(knightAttackedStrategy.isAttackingTheKing(board));
     }

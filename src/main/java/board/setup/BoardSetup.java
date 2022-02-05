@@ -124,11 +124,6 @@ public class BoardSetup
 
     public static void setupBoard(Board board)
     {
-        setPieces(board);
-    }
-
-    private static void setPieces(Board board)
-    {
         addPawns(board);
         addKnights(board);
         addBishops(board);
