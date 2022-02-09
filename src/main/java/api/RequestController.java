@@ -26,7 +26,6 @@ public class RequestController
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", "application/json");
         httpHeaders.set("Authorization", "Bearer " + bearedToken);
-        //check if can remove
         httpHeaders.set("Content-Type", "");
         httpHeaders.set("Content-Length", "0");
         HttpEntity<String> httpEntity = new HttpEntity<>("body", httpHeaders);
@@ -63,7 +62,7 @@ public class RequestController
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
         map.put("color", "random");
-        map.put("rated", false);
+        map.put("rated", rated);
 
         Map<String, Object> timeMap = new HashMap<>();
         timeMap.put("limit", timeInSeconds);

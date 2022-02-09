@@ -23,7 +23,7 @@ class PawnMoveCalculatorTest
     }
 
     @Test
-    void anPassant()
+    void enPassant()
     {
         Position whitePawnPosition = new Position('d', 5);
         Pawn     whitePawn         = new Pawn();

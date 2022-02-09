@@ -15,7 +15,7 @@ public class Main
         GameBoard gameBoard = new GameBoard();
         try {
             //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("sargon-2ply", 1200, 20, false);
+            gameBoard.challengePlayer("turochamp-1ply", 600, 30, true);
 
         } catch (Exception e) {
             e.printStackTrace();

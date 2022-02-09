@@ -133,6 +133,10 @@ public class MovementMap
 
     public Map<Move, MovementMap> getMovementMap()
     {
+        if(movementMap==null)
+        {
+            movementMap = new WeakHashMap<>();
+        }
         return movementMap;
     }
 

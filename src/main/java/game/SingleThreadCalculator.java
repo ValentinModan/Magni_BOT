@@ -23,7 +23,7 @@ public class SingleThreadCalculator
 {
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
-    private static final int NUMBER_OF_MOVES = 3000000;
+    private static final int NUMBER_OF_MOVES = 6000000;
     public static int number_of_computes = 400000;
     public static boolean numberStrategy = false;
 
@@ -72,10 +72,6 @@ public class SingleThreadCalculator
 
     public void allDepth(MovementMap movementMap, int x) throws CloneNotSupportedException
     {
-        if (!isMovementMapValidForTheGame(movementMap)) {
-            movementMap.markMovesAsImpossible();
-            return;
-        }
         if (movementMap.getMovementMap().isEmpty()) {
             if (x > 0) {
                 computeMove(movementMap, 1);
@@ -120,6 +116,11 @@ public class SingleThreadCalculator
         int new_value = 0;
 
         Move move = movementMap.getCurrentMove();
+
+        if(move.isCastleMove())
+        {
+            new_value+=5;
+        }
         if (move.getMovingPiece().getPieceType() == PieceType.KNIGHT && (move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getRow() == 8)) {
             new_value += 10;
         }
@@ -193,13 +194,8 @@ public class SingleThreadCalculator
         }
     }
 
-
     public void computeMapExtra(MovementMap movementMap) throws CloneNotSupportedException
     {
-        if (!isMovementMapValidForTheGame(movementMap)) {
-            movementMap.markMovesAsImpossible();
-            return;
-        }
         if (movementMap.getMovementMap().isEmpty() && number_of_computes > 0) {
             number_of_computes--;
             computeMove(movementMap, 2);
@@ -216,10 +212,6 @@ public class SingleThreadCalculator
 
     public void computeMap(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
-        if (!isMovementMapValidForTheGame(movementMap)) {
-            movementMap.markMovesAsImpossible();
-            return;
-        }
         if (movementMap.getMovementMap().isEmpty()) {
             computeMove(movementMap, n);
         }
@@ -232,39 +224,6 @@ public class SingleThreadCalculator
         }
     }
 
-    private boolean isMovementMapValidForTheGame(MovementMap movementMap)
-    {
-        if (!movementMap.isCurrentMovePossible()) {
-            return false;
-        }
-        if (movementMap.getParent() != null) {
-
-            if (!movementMap.getParent().isCurrentMovePossible()) {
-                movementMap.getParent().markMovesAsImpossible();
-                return false;
-            }
-
-            if (movementMap.getParent().getParent() != null) {
-                if (!movementMap.getParent().getParent().isCurrentMovePossible()) {
-                    movementMap.getParent().getParent().markMovesAsImpossible();
-                    return false;
-                }
-                if (movementMap.getParent().getParent().getParent() != null) {
-                    if (!movementMap.getParent().getParent().getParent().isCurrentMovePossible()) {
-                        movementMap.getParent().getParent().getParent().markMovesAsImpossible();
-                        return false;
-                    }
-                    if (movementMap.getParent().getParent().getParent().getParent() != null) {
-                        if (!movementMap.getParent().getParent().getParent().getParent().isCurrentMovePossible()) {
-                            movementMap.getParent().getParent().getParent().getParent().markMovesAsImpossible();
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
     public void computeMove(MovementMap movementMap, int n) throws CloneNotSupportedException
     {
         if (n <= 0) {
@@ -272,10 +231,8 @@ public class SingleThreadCalculator
         }
         Board board = movementMap.generateBoardForCurrentPosition();
 
-
         try {
             List<Move> possibleMovesCalculatorsList = board.calculatePossibleMoves();
-
 
             //is a checkmate move
             if (possibleMovesCalculatorsList.isEmpty()) {
