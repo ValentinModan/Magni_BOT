@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 
 public class AllPossibleMovesMultiThreaded
 {
+    //test
     private static final int          FINAL_THREAD_COUNT = 8;
     private static       int          THREAD_COUNT       = 8;
     private static       List<Worker> workerList;
