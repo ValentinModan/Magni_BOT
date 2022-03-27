@@ -15,9 +15,7 @@ public class BishopMoveCalculator extends PieceMoveCalculator
 {
     private static final BishopMoveCalculator bishopMoveCalculator = new BishopMoveCalculator();
 
-    private BishopMoveCalculator()
-    {
-    }
+    private BishopMoveCalculator() {}
 
     public static BishopMoveCalculator getInstance()
     {
@@ -27,7 +25,7 @@ public class BishopMoveCalculator extends PieceMoveCalculator
     @Override
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
-        Bishop         bishop       = (Bishop) board.getPieceAt(position);
+        Bishop bishop = (Bishop) board.getPieceAt(position);
         List<Movement> movementList = MovementCalculator.getPossibleMoves(bishop);
 
         return Xray.xRayMoveList(board, position, movementList);

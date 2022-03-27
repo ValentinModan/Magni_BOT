@@ -2,15 +2,9 @@ package game.mates;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
-import board.moves.MoveConvertor;
 import board.pieces.King;
-import board.pieces.Queen;
 import board.pieces.Rook;
-import toDelete.CleanMoveCalculator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class MateIn2
 {
@@ -32,24 +26,7 @@ public class MateIn2
     }
 
 
-    @Test
-    public void twoRooks()
-    {
-       Move bestMove = CleanMoveCalculator.calculate2(board, 4);
 
-        Assertions.assertEquals(bestMove, MoveConvertor.stringToMove("b5b7"));
-
-    }
-
-    @Test
-    public void twoRooksAndAQueen()
-    {
-        board.addPiece(new Position('f', 1), new Queen(true));
-        Move bestMove = CleanMoveCalculator.calculate2(board, 6);
-
-        Assertions.assertEquals(bestMove, MoveConvertor.stringToMove("b5b7"));
-
-    }
 
 
 

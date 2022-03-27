@@ -5,11 +5,17 @@ import board.Position;
 import board.moves.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
-import board.pieces.*;
-import lombok.SneakyThrows;
+import board.pieces.Pawn;
+import board.pieces.Piece;
+import board.pieces.PieceType;
+import board.pieces.Rook;
 
 public class MoveController
 {
+    public MoveController()
+    {
+    }
+
     public void undoMove1(Board board, Move move)
     {
         board.allMoves.remove(board.allMoves.size() - 1);

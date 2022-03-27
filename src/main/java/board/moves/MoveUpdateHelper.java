@@ -70,7 +70,7 @@ public class MoveUpdateHelper
     {
         Piece takenPiece = move.getTakenPiece();
         if (takenPiece != null && takenPiece.getPieceType() == KING) {
-            move.setCheckMate(true);
+            move.setCheckMate();
             move.setScore(GameOptions.CHECK_MATE_SCORE);
         }
     }

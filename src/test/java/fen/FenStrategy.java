@@ -2,7 +2,6 @@ package fen;
 
 import board.Board;
 import board.moves.Move;
-import toDelete.CleanMoveCalculator;
 import game.GameBoard;
 import game.SingleThreadCalculator;
 
@@ -22,8 +21,6 @@ public class FenStrategy
                     SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
                     GameBoard.actualBoard = board;
                     return singleThreadCalculator.bestResponse(board);
-                case "other":
-                    return CleanMoveCalculator.calculate2(board,2);
                 default:
                     return null;
             }

@@ -19,7 +19,6 @@ import static board.pieces.PieceType.ROOK;
 
 public class KingMoveCalculator extends PieceMoveCalculator
 {
-
     //maybe will be used for castling
     private static final Position WHITE_LEFT_ROOK_POSITION = new Position('a', 1);
     private static final Position WHITE_RIGHT_ROOK_POSITION = new Position('h', 1);

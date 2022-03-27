@@ -12,7 +12,7 @@ import static board.moves.Movement.*;
 public class KingMovement implements PieceMovement
 {
 
-    private static KingMovement kingMovement = new KingMovement();
+    private static final KingMovement kingMovement = new KingMovement();
 
     private KingMovement()
     {

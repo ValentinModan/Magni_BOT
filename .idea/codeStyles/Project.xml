@@ -8,6 +8,7 @@
       <option name="METHOD_BRACE_STYLE" value="2" />
       <option name="ELSE_ON_NEW_LINE" value="true" />
       <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+      <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
       <option name="IF_BRACE_FORCE" value="3" />
       <option name="DOWHILE_BRACE_FORCE" value="3" />
       <option name="WHILE_BRACE_FORCE" value="3" />

@@ -8,13 +8,14 @@ import board.pieces.Piece;
 import board.pieces.PieceType;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Xray
 {
     public static List<Move> xRayMoveList(Board board, Position initialPosition, List<Movement> movementList)
     {
-        List<Move> moveList = new ArrayList<>();
+        List<Move> moveList = new LinkedList<>();
         for (Movement movement : movementList) {
             xRayMoves(board, moveList, initialPosition, initialPosition, movement);
         }
@@ -26,10 +27,12 @@ public class Xray
         currentPosition = currentPosition.move(movement);
 
         while (currentPosition.isValid()) {
+            //found a piece of the same color
             if (board.getMovingPiece(currentPosition) != null) {
                 return;
             }
             moveList.add(new Move(initialPosition, currentPosition));
+            //found an enemy piece
             if (board.getTakenPiecesMap().get(currentPosition) != null) {
                 return;
             }

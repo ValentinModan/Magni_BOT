@@ -4,7 +4,6 @@ import board.Board;
 import board.MovementMap;
 import board.Position;
 import board.moves.Move;
-import board.pieces.Piece;
 import board.pieces.PieceType;
 import board.setup.BoardSetup;
 import game.gameSetupOptions.GameOptions;
@@ -237,10 +236,10 @@ public class SingleThreadCalculator
             //is a checkmate move
             if (possibleMovesCalculatorsList.isEmpty()) {
                 if (KingSafety.isTheKingAttacked(board)) {
-                    movementMap.getCurrentMove().setCheckMate(true);
+                    movementMap.getCurrentMove().setCheckMate();
                 }
                 else {
-                    movementMap.getCurrentMove().setStaleMate(true);
+                    movementMap.getCurrentMove().setStaleMate();
                 }
             }
             else {

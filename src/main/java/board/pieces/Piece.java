@@ -2,6 +2,7 @@ package board.pieces;
 
 import java.util.Objects;
 
+//TODO: replace Piece with interface
 public abstract class Piece
 {
     private final boolean isWhite;

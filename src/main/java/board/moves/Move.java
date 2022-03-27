@@ -59,9 +59,9 @@ public class Move implements Comparable<Move>
         return isStaleMate;
     }
 
-    public void setStaleMate(boolean staleMate)
+    public void setStaleMate()
     {
-        isStaleMate = staleMate;
+        isStaleMate = true;
     }
 
     public boolean isCheckMate()
@@ -69,9 +69,9 @@ public class Move implements Comparable<Move>
         return isCheckMate;
     }
 
-    public void setCheckMate(boolean checkMate)
+    public void setCheckMate()
     {
-        isCheckMate = checkMate;
+        isCheckMate = true;
     }
 
     public boolean isCastleMove()
@@ -251,8 +251,7 @@ public class Move implements Comparable<Move>
     @Override
     public String toString()
     {
-        if(isPawnPromotion)
-        {
+        if (isPawnPromotion) {
             return "" + initialPosition + finalPosition + promotionPiece.toFen();
         }
         return "" + initialPosition + finalPosition;
