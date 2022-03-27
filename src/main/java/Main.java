@@ -9,17 +9,19 @@ public class Main
 {
     public static void main(String[] args) throws FileNotFoundException, InterruptedException
     {
-        configureOutputFileForLogging();
-//        PossibleMovesCalculator1 possibleMovesCalculator1;
 
-        GameBoard gameBoard = new GameBoard();
-        try {
-            //  gameBoard.waitForChallengeAndAcceptIt();
-            gameBoard.challengePlayer("turochamp-1ply", 600, 30, true);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Testing.test(null);
+//        configureOutputFileForLogging();
+////        PossibleMovesCalculator1 possibleMovesCalculator1;
+//
+//        GameBoard gameBoard = new GameBoard();
+//        try {
+//            //  gameBoard.waitForChallengeAndAcceptIt();
+//            gameBoard.challengePlayer("turochamp-1ply", 600, 30, true);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 

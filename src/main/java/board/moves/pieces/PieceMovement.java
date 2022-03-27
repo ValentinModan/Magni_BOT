@@ -5,6 +5,7 @@ import board.pieces.Piece;
 
 import java.util.List;
 
+@FunctionalInterface
 public interface PieceMovement
 {
 

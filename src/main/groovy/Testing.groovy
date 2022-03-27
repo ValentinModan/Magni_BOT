@@ -8,6 +8,7 @@ class Testing {
 
     static void test(Piece piece)
     { piece?.isOpponentOf(piece)
+        println "meh"
 
     }
 }

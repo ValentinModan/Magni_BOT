@@ -21,6 +21,7 @@ import static java.lang.Thread.sleep;
 @Slf4j
 public class GameBoard
 {
+    //todo: make setup file
     public static int depth = 3;
 
     public static GetMyOwnGoingGames getMyOwnGoingGames;

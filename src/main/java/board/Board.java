@@ -108,7 +108,7 @@ public class Board implements Cloneable
 
     public void undoMove(Move move)
     {
-        moveController.undoMove1(this, move);
+        moveController.undoMove(this, move);
     }
 
     public void addPiece(Position position, Piece piece)

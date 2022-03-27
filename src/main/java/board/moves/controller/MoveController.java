@@ -56,6 +56,7 @@ public class MoveController
 
     }
 
+    //todo implement strategy for types of moves
     public void undoMove(Board board, Move move)
     {
         board.allMoves.remove(board.allMoves.size() - 1);
