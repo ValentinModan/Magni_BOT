@@ -17,6 +17,16 @@ public class PawnMovement implements PieceMovement
     private static final List<Movement> whiteAttackList = new ArrayList<>(Arrays.asList(Movement.UP_LEFT, Movement.UP_RIGHT));
     private static final List<Movement> blackAttackList = new ArrayList<>(Arrays.asList(Movement.LEFT_DOWN, Movement.DOWN_RIGHT));
 
+    private static final PawnMovement pawnMovement = new PawnMovement();
+
+    private PawnMovement()
+    {
+    }
+
+    public static PawnMovement getInstance() {
+        return pawnMovement;
+    }
+
     @Override
     public List<Movement> getMovements(Piece piece)
     {

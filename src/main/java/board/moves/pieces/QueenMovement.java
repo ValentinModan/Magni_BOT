@@ -9,6 +9,7 @@ import java.util.List;
 
 public class QueenMovement implements PieceMovement
 {
+    private static final QueenMovement queenMovement = new QueenMovement();
 
     private static final List<Movement> queenMovementList =
             new ArrayList<>(Arrays.asList(
@@ -20,6 +21,14 @@ public class QueenMovement implements PieceMovement
                     Movement.DOWN_RIGHT,
                     Movement.RIGHT,
                     Movement.UP_RIGHT));
+
+    private QueenMovement(){
+
+    }
+
+    public static QueenMovement getInstance() {
+        return queenMovement;
+    }
 
     @Override
     public List<Movement> getMovements(Piece piece)

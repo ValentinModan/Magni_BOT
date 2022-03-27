@@ -5,31 +5,31 @@ import board.pieces.Piece;
 
 import java.util.List;
 
-public class MovementCalculator {
+public class MovementCalculator
+{
 
     public static List<Movement> getPossibleMoves(Piece piece)
     {
         PieceMovement pieceMovement;
 
-        switch (piece.getPieceType())
-        {
+        switch (piece.getPieceType()) {
             case PAWN:
-                pieceMovement = new PawnMovement();
+                pieceMovement = PawnMovement.getInstance();
                 break;
             case ROOK:
-                pieceMovement = new RookMovement();
+                pieceMovement = RookMovement.getInstance();
                 break;
             case KING:
-                pieceMovement = new KingMovement();
+                pieceMovement = KingMovement.getInstance();
                 break;
             case QUEEN:
-                pieceMovement = new QueenMovement();
+                pieceMovement = QueenMovement.getInstance();
                 break;
             case KNIGHT:
-                pieceMovement = new KnightMovement();
+                pieceMovement = KnightMovement.getInstance();
                 break;
             case BISHOP:
-                pieceMovement = new BishopMovement();
+                pieceMovement = BishopMovement.getInstance();
                 break;
             default:
                 throw new IllegalStateException("Unknown piece type: " + piece.getPieceType());

@@ -24,7 +24,7 @@ public class MovesCalculator
         Collections.sort(moveList);
         if (depth == 1) {
             if (moveList.isEmpty()) {
-                Move move = GameOptions.checkMate();
+                return GameOptions.checkMate();
             }
             Move bestMove = moveList.get(0);
             for (Move move : moveList) {

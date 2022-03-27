@@ -9,7 +9,20 @@ import java.util.List;
 
 import static board.moves.Movement.*;
 
-public class KingMovement implements PieceMovement {
+public class KingMovement implements PieceMovement
+{
+
+    private static KingMovement kingMovement = new KingMovement();
+
+    private KingMovement()
+    {
+
+    }
+
+    public static KingMovement getInstance()
+    {
+        return kingMovement;
+    }
 
     private static final List<Movement> kingPieceMovement = new ArrayList<>(Arrays.asList(
             UP_LEFT,
@@ -22,7 +35,8 @@ public class KingMovement implements PieceMovement {
             UP));
 
     @Override
-    public List<Movement> getMovements(Piece piece) {
+    public List<Movement> getMovements(Piece piece)
+    {
         return kingPieceMovement;
     }
 

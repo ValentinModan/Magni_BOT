@@ -16,6 +16,16 @@ public class RookMovement implements PieceMovement{
             Movement.RIGHT
     ));
 
+    private static final RookMovement rookMovement = new RookMovement();
+
+    private RookMovement()
+    {
+    }
+
+    public static RookMovement getInstance() {
+        return rookMovement;
+    }
+
     @Override
     public List<Movement> getMovements(Piece piece) {
         return rookMovementList;

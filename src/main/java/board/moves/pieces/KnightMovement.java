@@ -19,6 +19,16 @@ public class KnightMovement implements PieceMovement{
             Movement.KNIGHT_RIGHT_UP,
             Movement.KNIGHT_UP_RIGHT));
 
+    private static final KnightMovement knightMovement = new KnightMovement();
+
+    private KnightMovement()
+    {
+    }
+
+    public static KnightMovement getInstance(){
+        return knightMovement;
+    }
+
     @Override
     public List<Movement> getMovements(Piece piece) {
         return knightsPossibleMovements;

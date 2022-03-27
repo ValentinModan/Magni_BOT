@@ -15,6 +15,18 @@ public class BishopMovement implements PieceMovement{
             Movement.DOWN_RIGHT,
             Movement.UP_RIGHT
     ));
+
+    private static final BishopMovement bishopMovement = new BishopMovement();
+
+    private BishopMovement()
+    {
+    }
+
+    public static BishopMovement getInstance()
+    {
+        return bishopMovement;
+    }
+
     @Override
     public List<Movement> getMovements(Piece piece) {
         return bishopMovementList;
