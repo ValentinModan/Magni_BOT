@@ -24,12 +24,6 @@ public class Move implements Comparable<Move>
     private boolean isStaleMate;
     private Move bestResponse;
 
-    public Move(boolean isCheckMate)
-    {
-        this.isCheckMate = isCheckMate;
-        score = 10000;
-    }
-
     public Move(int score)
     {
         this.score = score;
@@ -58,9 +52,6 @@ public class Move implements Comparable<Move>
     {
         this.initialPosition = initialPosition;
         this.finalPosition = finalPosition;
-        if (initialPosition.equals(finalPosition)) {
-            int x = 0;
-        }
     }
 
     public boolean isStaleMate()

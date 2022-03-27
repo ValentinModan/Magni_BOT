@@ -23,6 +23,7 @@ public class GameOptions
         return new Move(CHECK_MATE_SCORE * (10 - depth));
     }
 
+    //TODO: always return the same object
     public static Move checkMate()
     {
         return new Move(CHECK_MATE_SCORE);
