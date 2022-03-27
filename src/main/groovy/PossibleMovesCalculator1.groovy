@@ -3,7 +3,6 @@ import board.Position
 import board.moves.Move
 import board.moves.calculator.PieceMoveStrategy
 import board.moves.calculator.pieces.PieceMoveCalculator
-import board.pieces.Piece
 
 import java.util.stream.Collectors
 
@@ -20,7 +19,7 @@ class PossibleMovesCalculator1 {
     }
 
     static List<Move> computeAllPossibleMovesFromPosition(Board board, Position position) throws Exception {
-        PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.generatePieceCalculatorStrategy(board.getMovingPiece(position).getPieceType());
+        PieceMoveCalculator pieceMoveCalculator = PieceMoveStrategy.getPieceCalculatorStrategy(board.getMovingPiece(position).getPieceType());
 
         return pieceMoveCalculator.computeMoves(board, position)
     }

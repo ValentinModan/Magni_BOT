@@ -20,7 +20,7 @@ public class BishopPossibleMovesTest
 
     Piece secondWhiteBishop;
 
-    BishopMoveCalculator bishopMoveCalculator = new BishopMoveCalculator();
+    BishopMoveCalculator bishopMoveCalculator = BishopMoveCalculator.getInstance();
 
     @BeforeEach
     private void setUp()

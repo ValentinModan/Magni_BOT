@@ -13,6 +13,16 @@ import java.util.List;
 
 public class BishopMoveCalculator extends PieceMoveCalculator
 {
+    private static final BishopMoveCalculator bishopMoveCalculator = new BishopMoveCalculator();
+
+    private BishopMoveCalculator()
+    {
+    }
+
+    public static BishopMoveCalculator getInstance()
+    {
+        return bishopMoveCalculator;
+    }
 
     @Override
     public List<Move> computeMoves(Board board, Position position) throws Exception

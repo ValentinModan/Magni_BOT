@@ -14,7 +14,7 @@ public class ComplexPositionsTest
 
     Board board;
 
-    QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
+    QueenMoveCalculator queenMoveCalculator = QueenMoveCalculator.getInstance();
 
     @BeforeEach
     public void setUp()

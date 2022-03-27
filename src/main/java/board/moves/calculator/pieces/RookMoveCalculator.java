@@ -11,6 +11,17 @@ import java.util.List;
 
 public class RookMoveCalculator extends PieceMoveCalculator
 {
+    private static final RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
+
+    private RookMoveCalculator()
+    {
+    }
+
+    public static RookMoveCalculator getInstance()
+    {
+        return rookMoveCalculator;
+    }
+
     @Override
     public List<Move> computeMoves(Board board, Position position)
     {

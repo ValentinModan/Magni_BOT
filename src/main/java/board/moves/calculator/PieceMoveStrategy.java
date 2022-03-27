@@ -1,30 +1,28 @@
 package board.moves.calculator;
 
 import board.moves.calculator.pieces.*;
-import board.pieces.Piece;
 import board.pieces.PieceType;
-import com.sun.jdi.InvalidTypeException;
 
 public class PieceMoveStrategy
 {
-    public static PieceMoveCalculator generatePieceCalculatorStrategy(PieceType pieceType)
+    public static PieceMoveCalculator getPieceCalculatorStrategy(PieceType pieceType) throws Exception
     {
         switch (pieceType)
         {
             case KING:
-                return new KingMoveCalculator();
+                return KingMoveCalculator.getInstance();
             case QUEEN:
-                return new QueenMoveCalculator();
+                return QueenMoveCalculator.getInstance();
             case ROOK:
-                return new RookMoveCalculator();
+                return RookMoveCalculator.getInstance();
             case BISHOP:
-                return new BishopMoveCalculator();
+                return BishopMoveCalculator.getInstance();
             case KNIGHT:
-                return new KnightMoveCalculator();
+                return KnightMoveCalculator.getInstance();
             case PAWN:
-                return new PawnMoveCalculator();
+                return PawnMoveCalculator.getInstance();
             default:
-                return null;
+                throw new Exception("No such type " + pieceType);
         }
     }
 }

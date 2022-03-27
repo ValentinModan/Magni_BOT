@@ -18,7 +18,7 @@ public class KnightPossibleMovesTest
     private Piece whiteKnight;
     private Piece          blackKnight;
     private Piece          secondWhiteKnight;
-    private KnightMoveCalculator knightMoveCalculator = new KnightMoveCalculator();
+    private final KnightMoveCalculator knightMoveCalculator = KnightMoveCalculator.getInstance();
 
 
     @BeforeEach

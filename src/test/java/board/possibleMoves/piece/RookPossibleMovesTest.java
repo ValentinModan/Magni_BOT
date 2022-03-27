@@ -16,9 +16,9 @@ public class RookPossibleMovesTest
 {
     Board board;
     Piece whiteRook;
-    Piece              blackRook;
-    Piece              secondWhiteRook;
-    RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
+    Piece blackRook;
+    Piece secondWhiteRook;
+    RookMoveCalculator rookMoveCalculator = RookMoveCalculator.getInstance();
 
     @BeforeEach
     public void setUp()
@@ -44,7 +44,7 @@ public class RookPossibleMovesTest
     {
         Position cornerPosition = new Position('a', 1);
 
-        RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
+        RookMoveCalculator rookMoveCalculator = RookMoveCalculator.getInstance();
 
         board.addPiece(cornerPosition, whiteRook);
 
@@ -60,7 +60,7 @@ public class RookPossibleMovesTest
     @Test
     public void sameLineRooks()
     {
-        Position firstWhiteRookPosition  = new Position('b', 2);
+        Position firstWhiteRookPosition = new Position('b', 2);
         Position secondWhiteRookPosition = new Position('f', 2);
 
         board.addPiece(firstWhiteRookPosition, whiteRook);
@@ -83,7 +83,7 @@ public class RookPossibleMovesTest
 
         MovesGenerator.makeMoves(board, firstMoves);
 
-        RookMoveCalculator rookMoveCalculator = new RookMoveCalculator();
+        RookMoveCalculator rookMoveCalculator = RookMoveCalculator.getInstance();
 
         int rookMoves = rookMoveCalculator.computeMoves(board, new Position('h', 1)).size();
 

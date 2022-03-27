@@ -26,7 +26,7 @@ public class PossibleMovesCalculator
     public static List<Move> computeAllPossibleMovesFromPosition(Board board, Position position)
     {
         return PieceMoveStrategy
-                .generatePieceCalculatorStrategy(board.getMovingPiece(position).getPieceType())
+                .getPieceCalculatorStrategy(board.getMovingPiece(position).getPieceType())
                 .computeMoves(board, position);
     }
 

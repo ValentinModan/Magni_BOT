@@ -14,9 +14,9 @@ public class PawnPossibleMovesTest
 
     private Board board;
     private Piece whitePawn;
-    private Piece          blackPawn;
+    private Piece blackPawn;
 
-    private PawnMoveCalculator pawnMoveCalculator = new PawnMoveCalculator();
+    private PawnMoveCalculator pawnMoveCalculator = PawnMoveCalculator.getInstance();
 
 
     @BeforeEach
@@ -54,8 +54,8 @@ public class PawnPossibleMovesTest
     @Test
     public void fourPossibleMovesPawn()
     {
-        Position whitePawnPosition        = new Position('b', 2);
-        Position upLeftBlackPawnPosition  = new Position('a', 3);
+        Position whitePawnPosition = new Position('b', 2);
+        Position upLeftBlackPawnPosition = new Position('a', 3);
         Position upRightBlackPawnPosition = new Position('c', 3);
 
         board.addPiece(whitePawnPosition, whitePawn);
@@ -69,8 +69,8 @@ public class PawnPossibleMovesTest
     @Test
     public void threePossibleMovesPawn()
     {
-        Position whitePawnPosition        = new Position('b', 3);
-        Position upLeftBlackPawnPosition  = new Position('a', 4);
+        Position whitePawnPosition = new Position('b', 3);
+        Position upLeftBlackPawnPosition = new Position('a', 4);
         Position upRightBlackPawnPosition = new Position('c', 4);
 
         board.addPiece(whitePawnPosition, whitePawn);
@@ -87,7 +87,6 @@ public class PawnPossibleMovesTest
         Position whitePawnPosition = new Position('a', 7);
 
         board.addPiece(whitePawnPosition, whitePawn);
-
 
 
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 4;
@@ -108,8 +107,8 @@ public class PawnPossibleMovesTest
     @Test
     public void blackPawnPromotions()
     {
-        Position blackPawnPosition    = new Position('b', 2);
-        Position knightPosition       = new Position('a', 1);
+        Position blackPawnPosition = new Position('b', 2);
+        Position knightPosition = new Position('a', 1);
         Position secondKnightPosition = new Position('c', 1);
         board.addPiece(blackPawnPosition, blackPawn);
         board.addPiece(knightPosition, new Knight(true));

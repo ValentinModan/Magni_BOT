@@ -78,7 +78,7 @@ class BoardTest
 
         board.addPiece(pawnPosition, new Pawn(true));
 
-        PawnMoveCalculator pawnMoveCalculator = new PawnMoveCalculator();
+        PawnMoveCalculator pawnMoveCalculator = PawnMoveCalculator.getInstance();
 
         int moves = pawnMoveCalculator.computeMoves(board, pawnPosition).size();
 

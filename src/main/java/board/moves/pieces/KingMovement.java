@@ -16,7 +16,6 @@ public class KingMovement implements PieceMovement
 
     private KingMovement()
     {
-
     }
 
     public static KingMovement getInstance()

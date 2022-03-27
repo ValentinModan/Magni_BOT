@@ -26,6 +26,17 @@ public class KingMoveCalculator extends PieceMoveCalculator
     private static final Position BLACK_LEFT_ROOK_POSITION = new Position('a', 8);
     private static final Position BLACK_RIGHT_ROOK_POSITION = new Position('h', 8);
 
+    private static final KingMoveCalculator kingMoveCalculator = new KingMoveCalculator();
+
+    private KingMoveCalculator()
+    {
+    }
+
+    public static KingMoveCalculator getInstance()
+    {
+        return kingMoveCalculator;
+    }
+
     @Override
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {

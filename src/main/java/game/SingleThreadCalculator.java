@@ -25,7 +25,7 @@ public class SingleThreadCalculator
     private static final int ZERO = 0;
     private static final int NUMBER_OF_MOVES = 6000000;
     public static int number_of_computes = 400000;
-    public static boolean numberStrategy = false;
+    public static boolean numberStrategy = true;
 
     Map<String, Integer> previousMovesMap = new HashMap<>();
 

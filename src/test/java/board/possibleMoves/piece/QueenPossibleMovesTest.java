@@ -14,9 +14,9 @@ public class QueenPossibleMovesTest
 {
     Board board;
     Piece whiteQueen;
-    Piece               blackQueen;
-    Piece               secondWhiteQueen;
-    QueenMoveCalculator queenMoveCalculator = new QueenMoveCalculator();
+    Piece blackQueen;
+    Piece secondWhiteQueen;
+    QueenMoveCalculator queenMoveCalculator = QueenMoveCalculator.getInstance();
 
     @BeforeEach
     private void setUp()
@@ -48,10 +48,10 @@ public class QueenPossibleMovesTest
         board.addPiece(blackQueenPosition, blackQueen);
 
         int result = queenMoveCalculator.computeMoves(board, whiteQueenPosition).size();
-        Assertions.assertEquals(24,result);
+        Assertions.assertEquals(24, result);
 
         result = queenMoveCalculator.computeMoves(board, whiteQueenPosition).size();
-        Assertions.assertEquals(24,result);
+        Assertions.assertEquals(24, result);
 
     }
 
@@ -71,9 +71,9 @@ public class QueenPossibleMovesTest
         board.addPiece(new Position('d', 4).move(Movement.UP_RIGHT), blackQueen);
 
 
-       int result =  queenMoveCalculator.computeMoves(board, new Position('d', 4)).size();
+        int result = queenMoveCalculator.computeMoves(board, new Position('d', 4)).size();
 
 
-        Assertions.assertEquals(8,result);
+        Assertions.assertEquals(8, result);
     }
 }

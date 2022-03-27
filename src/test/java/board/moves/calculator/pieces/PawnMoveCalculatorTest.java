@@ -19,7 +19,7 @@ class PawnMoveCalculatorTest
     public void setUp()
     {
         board = new Board();
-        pawnMoveCalculator = new PawnMoveCalculator();
+        pawnMoveCalculator = PawnMoveCalculator.getInstance();
     }
 
     @Test
