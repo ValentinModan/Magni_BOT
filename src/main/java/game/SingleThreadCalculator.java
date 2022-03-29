@@ -4,7 +4,7 @@ import board.Board;
 import board.MovementMap;
 import board.Position;
 import board.moves.Move;
-import board.pieces.PieceType;
+import board.moves.MoveChecker;
 import board.setup.BoardSetup;
 import game.gameSetupOptions.GameOptions;
 import game.kingcheck.attacked.KingSafety;
@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static board.pieces.PieceType.PAWN;
 
 @Slf4j
 public class SingleThreadCalculator
@@ -42,7 +44,7 @@ public class SingleThreadCalculator
             setupHasBeenMade = true;
             setup(board);
             computeDoubleTree();
-       //     computeDoubleTree();
+            //     computeDoubleTree();
         }
         else {
             MovementMap.makeMovement(board.lastMove());
@@ -113,17 +115,19 @@ public class SingleThreadCalculator
     private int moveBonusScore(MovementMap movementMap, Board board) throws Exception
     {
         int new_value = 0;
-
         Move move = movementMap.getCurrentMove();
 
-        if(move.isCastleMove())
-        {
-            new_value+=5;
+        ScoreCalculator.resetScore();
+
+        if (move.isCastleMove()) {
+            ScoreCalculator.addCastleMoveScore();
         }
-        if (move.getMovingPiece().getPieceType() == PieceType.KNIGHT && (move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getRow() == 8)) {
-            new_value += 10;
+
+        if (MoveChecker.moveKnightFromFirstRow(move)) {
+            ScoreCalculator.withKnightOnFirstRow();
         }
-        if (move.getMovingPiece().getPieceType() == PieceType.PAWN) {
+
+        if (move.getMovingPiece().getPieceType() == PAWN) {
             Position leftDiagonalPosition = move.getFinalPosition().leftDiagonal(move.getMovingPiece().isWhite());
             Position rightDiagonalPosition = move.getFinalPosition().rightDiagonal(move.getMovingPiece().isWhite());
 
@@ -134,11 +138,8 @@ public class SingleThreadCalculator
                 new_value++;
             }
         }
-        if (move.getMovingPiece() != null && move.getMovingPiece().getPieceType() == PieceType.PAWN) {
-            new_value += 1;
-            if (Board.actualMoves.size() > 80) {
-                new_value += 1;
-            }
+        if (MoveChecker.isPawnMove(move)) {
+            ScoreCalculator.withPawnMove(Board.actualMoves.size());
         }
 
         Board board1 = movementMap.generateBoardForCurrentPosition();
@@ -155,7 +156,7 @@ public class SingleThreadCalculator
                 new_value += 30;
             }
         }
-        return new_value;
+        return new_value + ScoreCalculator.compute();
     }
 
     private int getMovementMapScore(MovementMap movementMap, int depth)
