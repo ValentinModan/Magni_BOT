@@ -34,11 +34,9 @@ public class MoveUpdateHelper
         if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
             move.setPawnPromotion(true);
         }
-        if(move.isPawnPromotion()&&move.getPromotionPiece()==null)
-        {
+        if (move.isPawnPromotion() && move.getPromotionPiece() == null) {
             char c = move.getPromotionSmithNotation();
-            switch (c)
-            {
+            switch (c) {
                 case 'N':
                     move.setPromotionPiece(new Knight(move.getMovingPiece().isWhite()));
                     break;
@@ -90,8 +88,7 @@ public class MoveUpdateHelper
         }
         Pawn pawn = (Pawn) move.getMovingPiece();
         Movement movement = initialPosition.getDiagonalMovement(move.getFinalPosition());
-        if(movement==null)
-        {
+        if (movement == null) {
             return;
         }
         Movement line = movement.lineFromDiagonal();

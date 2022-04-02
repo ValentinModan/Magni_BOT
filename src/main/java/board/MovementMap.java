@@ -3,6 +3,7 @@ package board;
 import board.moves.Move;
 import game.GameBoard;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -39,16 +40,14 @@ public class MovementMap
 
     public int numberOfChildren()
     {
-        if(movementMap!=null && !movementMap.isEmpty())
-        {
-            int sum = 0;
-            for(MovementMap movementMap1: movementMap.values())
-            {
-                sum+=movementMap1.numberOfChildren();
-            }
-            return sum;
+        if (CollectionUtils.isEmpty(movementMap)) {
+            return 1;
         }
-        return 1;
+        int sum = 0;
+        for (MovementMap movementMap1 : movementMap.values()) {
+            sum += movementMap1.numberOfChildren();
+        }
+        return sum;
     }
 
     //to reduce memory, compute the moves since it will only take a few moves
@@ -109,7 +108,7 @@ public class MovementMap
             if (!chosenMove.equals(move)) {
                 //make move impossible
                 movementMap.get(move).markMovesAsImpossible();
-               // movementMap.remove(move);
+                // movementMap.remove(move);
             }
         }
         movementMap.entrySet().removeIf(map -> !map.getValue().isCurrentMovePossible());
@@ -133,8 +132,7 @@ public class MovementMap
 
     public Map<Move, MovementMap> getMovementMap()
     {
-        if(movementMap==null)
-        {
+        if (movementMap == null) {
             movementMap = new WeakHashMap<>();
         }
         return movementMap;

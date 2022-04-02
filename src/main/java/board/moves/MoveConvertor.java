@@ -1,9 +1,15 @@
 package board.moves;
 
 import board.Position;
+import board.PositionEnum;
 
 public class MoveConvertor
 {
+    public static Move moveFrom(PositionEnum initialPosition, PositionEnum finalPosition)
+    {
+        return new Move(initialPosition.getPosition(), finalPosition.getPosition());
+    }
+
     public static Move stringToMove(String string)
     {
         Move move = new Move(new Position(string.charAt(0), string.charAt(1) - '0'),

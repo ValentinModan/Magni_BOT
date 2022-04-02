@@ -14,6 +14,7 @@ import static board.pieces.PieceType.KING;
 //Makes sure not to make illegal move
 public class KingAttackStrategy implements AttackStrategy
 {
+    //TODO: just check the enemy king position if it's distance is more than 1
     @Override
     public boolean isAttackingTheKing(Board board)
     {

@@ -74,7 +74,6 @@ public class Board implements Cloneable
     }
 
     //TODO: this can be done with a strategy instead
-
     public void updateKingPosition(Position position)
     {
         if (isWhiteToMove) {
@@ -109,6 +108,11 @@ public class Board implements Cloneable
     public void undoMove(Move move)
     {
         moveController.undoMove(this, move);
+    }
+
+    public void addPiece(PositionEnum positionEnum, Piece piece)
+    {
+        addPiece(positionEnum.getPosition(), piece);
     }
 
     public void addPiece(Position position, Piece piece)
@@ -311,7 +315,7 @@ public class Board implements Cloneable
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                String l = piece != null ? piece.toString() + "  " : EMPTY_POSITION;
+                String l = piece != null ? piece + "  " : EMPTY_POSITION;
                 stringBuilder.append(l);
                 //  stringBuilder.append(' ');
             }

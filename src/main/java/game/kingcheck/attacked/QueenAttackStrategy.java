@@ -1,6 +1,7 @@
 package game.kingcheck.attacked;
 
 import board.Board;
+import board.BoardHelper;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.moves.pieces.QueenMovement;
@@ -9,6 +10,7 @@ import board.pieces.Piece;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static board.BoardHelper.opponentHas;
 import static board.pieces.PieceType.QUEEN;
 
 public class QueenAttackStrategy implements AttackStrategy
@@ -18,9 +20,7 @@ public class QueenAttackStrategy implements AttackStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        if (!board.getTakenPiecesMap().values().stream()
-                .map(Piece::getPieceType)
-                .collect(Collectors.toList()).contains(QUEEN)) {
+        if (!opponentHas(board, QUEEN)) {
             return false;
         }
         for (Movement movement : queenMovementList) {

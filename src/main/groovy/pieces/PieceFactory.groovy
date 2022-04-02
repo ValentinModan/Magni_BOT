@@ -1,5 +1,6 @@
 package pieces
 
+import board.ColorEnum
 import board.pieces.Bishop
 import board.pieces.King
 import board.pieces.Knight
@@ -20,13 +21,17 @@ class PieceFactory {
     private static Map<PieceType, Piece> whitePieceChache = new HashMap<>()
     private static Map<PieceType, Piece> blackPieceCache = new HashMap<>();
 
+    static Piece createPiece(ColorEnum colorEnum, PieceType pieceType) {
+        return createPiece(pieceType, colorEnum == ColorEnum.WHITE);
+    }
+
     static Piece createPiece(PieceType pieceType, Boolean isWhite) {
         def cacheMap = isWhite ? whitePieceChache : blackPieceCache;
 
         if (cacheMap.containsKey(pieceType)) {
             return cacheMap.get(pieceType)
         }
-        switch (PieceType) {
+        switch (pieceType) {
             case PAWN:
                 cacheMap.put(PAWN, new Pawn(isWhite))
                 break;

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+//TODO: break into multiple clases
 public class Move implements Comparable<Move>
 {
     private Position initialPosition;
@@ -213,7 +214,6 @@ public class Move implements Comparable<Move>
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
 
         Move move = (Move) o;
         if (promotionPiece == null && move.promotionPiece != null) {

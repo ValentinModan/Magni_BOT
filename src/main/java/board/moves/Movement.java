@@ -12,6 +12,7 @@ public enum Movement
     UP_RIGHT(1, 1),
     LEFT_DOWN(-1, -1),
     DOWN_RIGHT(1, -1),
+    //knight moves
     KNIGHT_UP_LEFT(-1, 2),
     KNIGHT_LEFT_UP(-2, 1),
     KNIGHT_LEFT_DOWN(-2, -1),

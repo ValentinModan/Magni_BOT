@@ -1,6 +1,7 @@
 package game.kingcheck.attacked;
 
 import board.Board;
+import board.BoardHelper;
 import board.moves.Movement;
 import board.moves.calculator.pieces.BishopMoveCalculator;
 import board.moves.pieces.BishopMovement;
@@ -19,9 +20,7 @@ public class BishopAttackStrategy implements AttackStrategy
     @Override
     public boolean isAttackingTheKing(Board board)
     {
-        if (!board.getTakenPiecesMap().values().stream()
-                .map(Piece::getPieceType)
-                .collect(Collectors.toList()).contains(BISHOP)) {
+        if (!BoardHelper.opponentHas(board, BISHOP)) {
             return false;
         }
         for (Movement movement : bishopMovementList) {

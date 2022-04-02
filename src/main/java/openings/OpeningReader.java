@@ -16,7 +16,6 @@ public class OpeningReader
             BufferedReader reader      = new BufferedReader(new FileReader(file));
             String         currentLine = reader.readLine();
 
-
             while (currentLine != null) {
 
                 currentLine = reader.readLine();
