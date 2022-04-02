@@ -20,7 +20,7 @@ public abstract class PieceMoveCalculator
         for (Movement movement : MovementCalculator.getPossibleMoves(movingPiece)) {
             Position finalPosition = position.move(movement);
             Piece destinationPiece = board.getPieceAt(finalPosition);
-            if (finalPosition.isValid() && movingPiece.isOpponentOf(destinationPiece)) {
+            if (finalPosition.isValid() && (destinationPiece == null || movingPiece.isOpponentOf(destinationPiece))) {
                 moveList.add(new Move(position, finalPosition));
             }
         }

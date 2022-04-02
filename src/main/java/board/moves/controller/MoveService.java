@@ -10,9 +10,9 @@ import board.pieces.Piece;
 import board.pieces.PieceType;
 import board.pieces.Rook;
 
-public class MoveController
+public class MoveService
 {
-    public MoveController()
+    public MoveService()
     {
     }
 

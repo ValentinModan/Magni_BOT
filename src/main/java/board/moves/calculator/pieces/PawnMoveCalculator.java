@@ -4,6 +4,7 @@ import board.Board;
 import board.Position;
 import board.moves.movetypes.Move;
 import board.moves.Movement;
+import board.moves.movetypes.PawnPromotionMove;
 import board.moves.pieces.BlackPawnMovement;
 import board.moves.pieces.WhitePawnMovement;
 import board.pieces.*;
@@ -145,10 +146,10 @@ public class PawnMoveCalculator extends PieceMoveCalculator
         }
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(new Move(initialPosition, destinationPosition, new Rook(isWhite), true));
-        moveList.add(new Move(initialPosition, destinationPosition, new Bishop(isWhite), true));
-        moveList.add(new Move(initialPosition, destinationPosition, new Knight(isWhite), true));
-        moveList.add(new Move(initialPosition, destinationPosition, new Queen(isWhite), true));
+        moveList.add(new PawnPromotionMove(initialPosition, destinationPosition, new Rook(isWhite)));
+        moveList.add(new PawnPromotionMove(initialPosition, destinationPosition, new Bishop(isWhite)));
+        moveList.add(new PawnPromotionMove(initialPosition, destinationPosition, new Knight(isWhite)));
+        moveList.add(new PawnPromotionMove(initialPosition, destinationPosition, new Queen(isWhite)));
         return moveList;
     }
 }

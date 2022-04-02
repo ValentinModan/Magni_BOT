@@ -239,6 +239,8 @@ class SingleThreadCalculatorTest
         board.computePossibleMoves();
 
         singleThreadCalculator.setup(board);
+
+
         singleThreadCalculator.computeDoubleTree();
         singleThreadCalculator.computeDoubleTree();
 

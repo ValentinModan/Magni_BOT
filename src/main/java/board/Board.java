@@ -2,7 +2,7 @@ package board;
 
 import board.moves.movetypes.Move;
 import board.moves.calculator.PossibleMovesCalculator;
-import board.moves.controller.MoveController;
+import board.moves.controller.MoveService;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
@@ -21,7 +21,7 @@ public class Board implements Cloneable
     private Map<Position, Piece> whitePiecesMap = new HashMap<>();
     private Map<Position, Piece> blackPiecesMap = new HashMap<>();
 
-    private final MoveController moveController = new MoveController();
+    private final MoveService moveService = new MoveService();
 
     private static final String EMPTY_POSITION = ".  ";
 
@@ -59,7 +59,7 @@ public class Board implements Cloneable
 
     public void move(Move move)
     {
-        moveController.move(this, move);
+        moveService.move(this, move);
     }
 
     //todo: use this at xray moves class?
@@ -107,7 +107,7 @@ public class Board implements Cloneable
 
     public void undoMove(Move move)
     {
-        moveController.undoMove(this, move);
+        moveService.undoMove(this, move);
     }
 
     public void addPiece(PositionEnum positionEnum, Piece piece)
