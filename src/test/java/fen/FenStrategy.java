@@ -1,7 +1,7 @@
 package fen;
 
 import board.Board;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import game.GameBoard;
 import game.SingleThreadCalculator;
 

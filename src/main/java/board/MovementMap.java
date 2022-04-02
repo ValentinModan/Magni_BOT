@@ -1,6 +1,6 @@
 package board;
 
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import game.GameBoard;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;

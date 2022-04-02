@@ -1,6 +1,6 @@
 package board;
 
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.calculator.PossibleMovesCalculator;
 import board.moves.controller.MoveController;
 import board.pieces.King;
@@ -159,6 +159,7 @@ public class Board implements Cloneable
         return getPossibleMoves();
     }
 
+    //TODO: just remove check verification for performance improvement?
     public void computePossibleMoves()
     {
         possibleMoves = PossibleMovesCalculator.getPossibleMoves(this).stream()

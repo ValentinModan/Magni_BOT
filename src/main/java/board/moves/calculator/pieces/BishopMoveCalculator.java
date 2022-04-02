@@ -2,12 +2,9 @@ package board.moves.calculator.pieces;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.Movement;
 import board.moves.pieces.BishopMovement;
-import board.moves.pieces.MovementCalculator;
-import board.pieces.Bishop;
-import board.pieces.Piece;
 import game.kingcheck.attacked.Xray;
 
 import java.util.List;

@@ -3,27 +3,21 @@ package board.moves.calculator.pieces;
 import board.Board;
 import board.Position;
 import board.PositionEnum;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.Movement;
 import board.pieces.King;
 import board.pieces.Piece;
 import game.kingcheck.attacked.KingSafety;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
-import java.util.Objects;
 
+import static board.PositionEnum.*;
 import static board.moves.Movement.LEFT;
 import static board.moves.Movement.RIGHT;
 import static board.pieces.PieceType.ROOK;
 
 public class KingMoveCalculator extends PieceMoveCalculator
 {
-    //maybe will be used for castling
-    private static final Position WHITE_LEFT_ROOK_POSITION = new Position('a', 1);
-    private static final Position WHITE_RIGHT_ROOK_POSITION = new Position('h', 1);
-    private static final Position BLACK_LEFT_ROOK_POSITION = new Position('a', 8);
-    private static final Position BLACK_RIGHT_ROOK_POSITION = new Position('h', 8);
 
     private static final KingMoveCalculator kingMoveCalculator = new KingMoveCalculator();
 
@@ -44,10 +38,10 @@ public class KingMoveCalculator extends PieceMoveCalculator
         if (canSideCastle((Board) board.clone(), LEFT)) {
             Move move;
             if (board.isWhiteToMove()) {
-                move = new Move(PositionEnum.INITIAL_WHITE_KING_POSITION.getPosition(), PositionEnum.WHITE_ROOK_LEFT_INITIAL_POSITION.getPosition());
+                move = new Move(INITIAL_WHITE_KING_POSITION, WHITE_ROOK_LEFT_INITIAL_POSITION);
             }
             else {
-                move = new Move(PositionEnum.INITIAL_BLACK_KING_POSITION.getPosition(), PositionEnum.BLACK_ROOK_LEFT_INITIAL_POSITION.getPosition());
+                move = new Move(INITIAL_BLACK_KING_POSITION, BLACK_ROOK_LEFT_INITIAL_POSITION);
             }
             move.setCastleMove(true);
             moveList.add(move);
@@ -56,10 +50,10 @@ public class KingMoveCalculator extends PieceMoveCalculator
         if (canSideCastle((Board) board.clone(), RIGHT)) {
             Move move;
             if (board.isWhiteToMove()) {
-                move = new Move(PositionEnum.INITIAL_WHITE_KING_POSITION.getPosition(), PositionEnum.WHITE_ROOK_RIGHT_INITIAL_POSITION.getPosition());
+                move = new Move(INITIAL_WHITE_KING_POSITION, PositionEnum.WHITE_ROOK_RIGHT_INITIAL_POSITION);
             }
             else {
-                move = new Move(PositionEnum.INITIAL_BLACK_KING_POSITION.getPosition(), PositionEnum.BLACK_ROOK_RIGHT_INITIAL_POSITION.getPosition());
+                move = new Move(INITIAL_BLACK_KING_POSITION, PositionEnum.BLACK_ROOK_RIGHT_INITIAL_POSITION);
             }
             move.setCastleMove(true);
             moveList.add(move);
@@ -70,17 +64,17 @@ public class KingMoveCalculator extends PieceMoveCalculator
     boolean isInitialPosition(Position position, King king)
     {
         if (king.isWhite()) {
-            return position.equals(PositionEnum.INITIAL_WHITE_KING_POSITION.getPosition());
+            return position.equals(INITIAL_WHITE_KING_POSITION.getPosition());
         }
-        return position.equals(PositionEnum.INITIAL_BLACK_KING_POSITION.getPosition());
+        return position.equals(INITIAL_BLACK_KING_POSITION.getPosition());
     }
 
     Position initalRookPosition(Movement direction, boolean isWhiteToMove)
     {
         if (direction == LEFT) {
-            return isWhiteToMove ? WHITE_LEFT_ROOK_POSITION : BLACK_LEFT_ROOK_POSITION;
+            return isWhiteToMove ? WHITE_ROOK_LEFT_INITIAL_POSITION.getPosition() : BLACK_ROOK_LEFT_INITIAL_POSITION.getPosition();
         }
-        return isWhiteToMove ? WHITE_RIGHT_ROOK_POSITION : BLACK_RIGHT_ROOK_POSITION;
+        return isWhiteToMove ? WHITE_ROOK_RIGHT_INITIAL_POSITION.getPosition() : BLACK_ROOK_RIGHT_INITIAL_POSITION.getPosition();
     }
 
     boolean canSideCastle(Board board, Movement direction) throws Exception

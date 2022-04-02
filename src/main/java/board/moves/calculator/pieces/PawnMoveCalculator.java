@@ -2,10 +2,9 @@ package board.moves.calculator.pieces;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.Movement;
 import board.moves.pieces.BlackPawnMovement;
-import board.moves.pieces.MovementCalculator;
 import board.moves.pieces.WhitePawnMovement;
 import board.pieces.*;
 

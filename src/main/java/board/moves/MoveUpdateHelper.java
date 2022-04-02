@@ -2,6 +2,7 @@ package board.moves;
 
 import board.Board;
 import board.Position;
+import board.moves.movetypes.Move;
 import board.pieces.*;
 import game.gameSetupOptions.GameOptions;
 import lombok.extern.slf4j.Slf4j;

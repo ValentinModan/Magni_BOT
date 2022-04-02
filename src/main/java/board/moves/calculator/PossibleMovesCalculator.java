@@ -2,7 +2,7 @@ package board.moves.calculator;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PossibleMovesCalculator
 {
-
     public static List<Move> getPossibleMoves(Board board)
     {
         return board.getMovingPiecesMap().keySet().stream()

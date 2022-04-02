@@ -1,6 +1,6 @@
 package board;
 
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveConvertor;
 import board.moves.calculator.pieces.PawnMoveCalculator;
 import board.pieces.Pawn;

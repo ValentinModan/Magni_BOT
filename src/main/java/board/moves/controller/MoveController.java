@@ -2,7 +2,7 @@ package board.moves.controller;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveUpdateHelper;
 import board.moves.Movement;
 import board.pieces.Pawn;

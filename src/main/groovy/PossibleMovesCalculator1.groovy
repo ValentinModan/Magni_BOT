@@ -1,6 +1,6 @@
 import board.Board
 import board.Position
-import board.moves.Move
+import board.moves.movetypes.Move
 import board.moves.calculator.PieceMoveStrategy
 import board.moves.calculator.pieces.PieceMoveCalculator
 

@@ -1,7 +1,7 @@
 package threads;
 
 import board.Board;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveUpdateHelper;
 import board.setup.BoardSetup;
 import game.GameBoard;

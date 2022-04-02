@@ -2,7 +2,7 @@ package board.possibleMoves.piece;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.calculator.pieces.KnightMoveCalculator;
 import board.pieces.Knight;
 import board.pieces.Piece;

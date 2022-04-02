@@ -1,7 +1,7 @@
 package board.possibleMoves.resource;
 
 import board.Board;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import game.kingcheck.attacked.KingSafety;
 
 import java.util.List;

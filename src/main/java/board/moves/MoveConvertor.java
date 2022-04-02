@@ -2,6 +2,7 @@ package board.moves;
 
 import board.Position;
 import board.PositionEnum;
+import board.moves.movetypes.Move;
 
 public class MoveConvertor
 {

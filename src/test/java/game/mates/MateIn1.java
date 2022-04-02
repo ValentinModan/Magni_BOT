@@ -2,7 +2,7 @@ package game.mates;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveConvertor;
 import board.pieces.King;
 import board.pieces.Queen;

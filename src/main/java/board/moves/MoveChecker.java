@@ -1,5 +1,7 @@
 package board.moves;
 
+import board.moves.movetypes.Move;
+
 import static board.pieces.PieceType.KNIGHT;
 import static board.pieces.PieceType.PAWN;
 

@@ -2,7 +2,7 @@ package board.moves.calculator.pieces;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 
 import java.util.List;
 

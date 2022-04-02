@@ -2,12 +2,11 @@ package game.kingcheck.attacked;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.Movement;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

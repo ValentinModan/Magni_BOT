@@ -1,6 +1,7 @@
-package board.moves;
+package board.moves.movetypes;
 
 import board.Position;
+import board.PositionEnum;
 import board.pieces.Piece;
 import game.gameSetupOptions.GameOptions;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +50,12 @@ public class Move implements Comparable<Move>
         this.takenAnPassant = takenAnPassant;
     }
 
+    public Move(PositionEnum initialPosition, PositionEnum finalPosition)
+    {
+        this(initialPosition.getPosition(), finalPosition.getPosition());
+    }
+
+    //TODO: implement flyweight pattern for moves
     public Move(Position initialPosition, Position finalPosition)
     {
         this.initialPosition = initialPosition;

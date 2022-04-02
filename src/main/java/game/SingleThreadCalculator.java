@@ -3,7 +3,7 @@ package game;
 import board.Board;
 import board.MovementMap;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveChecker;
 import board.setup.BoardSetup;
 import game.gameSetupOptions.GameOptions;

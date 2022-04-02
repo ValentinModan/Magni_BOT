@@ -1,7 +1,7 @@
 package fen.mate;
 
 import board.Board;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
 import fen.FenStrategy;

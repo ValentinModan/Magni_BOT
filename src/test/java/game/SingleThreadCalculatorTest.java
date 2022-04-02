@@ -2,23 +2,17 @@ package game;
 
 import board.Board;
 import board.MovementMap;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.MoveConvertor;
-import board.moves.Movement;
-import fen.FenStrategy;
-import game.kingcheck.attacked.KingSafety;
 import helper.MovementMapCounter;
 import helper.MovesGenerator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.lang.instrument.Instrumentation;
-import java.util.concurrent.TimeUnit;
 
 import static helper.MovementMapCounter.countChildrenMovesWithDepth;
 import static org.junit.jupiter.api.Assertions.*;

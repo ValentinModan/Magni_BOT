@@ -2,14 +2,13 @@ package board.moves.calculator.pieces;
 
 import board.Board;
 import board.Position;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public abstract class PieceMoveCalculator
 {
@@ -21,7 +20,7 @@ public abstract class PieceMoveCalculator
         for (Movement movement : MovementCalculator.getPossibleMoves(movingPiece)) {
             Position finalPosition = position.move(movement);
             Piece destinationPiece = board.getPieceAt(finalPosition);
-            if (finalPosition.isValid() && (destinationPiece == null || destinationPiece.isOpponentOf(movingPiece))) {
+            if (finalPosition.isValid() && movingPiece.isOpponentOf(destinationPiece)) {
                 moveList.add(new Move(position, finalPosition));
             }
         }

@@ -1,12 +1,10 @@
 package fen.mate;
 
 import board.Board;
-import board.moves.Move;
-import board.moves.MoveConvertor;
+import board.moves.movetypes.Move;
 import board.setup.BoardSetup;
 import fen.FenStrategy;
 import org.apache.logging.log4j.util.Strings;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

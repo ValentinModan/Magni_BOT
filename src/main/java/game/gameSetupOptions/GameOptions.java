@@ -1,7 +1,7 @@
 package game.gameSetupOptions;
 
 import board.Board;
-import board.moves.Move;
+import board.moves.movetypes.Move;
 import board.pieces.Piece;
 import board.pieces.PieceType;
 
