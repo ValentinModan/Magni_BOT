@@ -1,27 +1,17 @@
 package board.pieces;
 
-public class King extends Piece {
-
+public class King extends Piece
+{
     private final int KING_SCORE = 100;
 
-    public King(boolean isWhite) {
+    public King(boolean isWhite)
+    {
         super(isWhite);
     }
 
-    private boolean moved = false;
-
-    public boolean hasMoved()
-    {
-        return moved;
-    }
-
-    public void setMoved(boolean moved)
-    {
-        this.moved = moved;
-    }
-
     @Override
-    public PieceType getPieceType() {
+    public PieceType getPieceType()
+    {
         return PieceType.KING;
     }
 
@@ -38,7 +28,8 @@ public class King extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return isWhite() ? "♔" : "♚";
     }
 }

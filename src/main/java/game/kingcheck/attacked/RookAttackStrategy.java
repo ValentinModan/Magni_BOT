@@ -3,27 +3,28 @@ package game.kingcheck.attacked;
 import board.Board;
 import board.moves.Movement;
 import board.moves.pieces.MovementCalculator;
-import board.pieces.EmptyPiece;
+import board.moves.pieces.RookMovement;
 import board.pieces.Piece;
-import board.pieces.PieceType;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static board.pieces.PieceType.ROOK;
+
 public class RookAttackStrategy implements AttackStrategy
 {
-    private static final List<Movement> rookMovementList = MovementCalculator.getPossibleMoves(EmptyPiece.ROOK);
+    private static final List<Movement> rookMovementList = RookMovement.getInstance().getMovements();
 
     @Override
     public boolean isAttackingTheKing(Board board)
     {
         if (!board.getTakenPiecesMap().values().stream()
                 .map(Piece::getPieceType)
-                .collect(Collectors.toList()).contains(PieceType.ROOK)) {
+                .collect(Collectors.toList()).contains(ROOK)) {
             return false;
         }
         for (Movement movement : rookMovementList) {
-            if (Xray.isXRayAttacked(board, movement, PieceType.ROOK)) {
+            if (Xray.isXRayAttacked(board, movement, ROOK)) {
                 return true;
             }
         }

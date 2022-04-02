@@ -4,6 +4,7 @@ import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
+import board.moves.pieces.BishopMovement;
 import board.moves.pieces.MovementCalculator;
 import board.pieces.Bishop;
 import board.pieces.Piece;
@@ -25,8 +26,7 @@ public class BishopMoveCalculator extends PieceMoveCalculator
     @Override
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
-        Bishop bishop = (Bishop) board.getPieceAt(position);
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(bishop);
+        List<Movement> movementList = BishopMovement.getInstance().getMovements();
 
         return Xray.xRayMoveList(board, position, movementList);
     }

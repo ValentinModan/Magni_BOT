@@ -3,7 +3,8 @@ package game.kingcheck.attacked;
 import board.Board;
 import board.Position;
 import board.moves.Movement;
-import board.moves.pieces.PawnMovement;
+import board.moves.pieces.BlackPawnMovement;
+import board.moves.pieces.WhitePawnMovement;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
@@ -34,7 +35,7 @@ public class PawnAttackStrategy implements AttackStrategy
         }
         Position       kingPosition = board.getKingPosition();
         King           king         = (King) board.getPieceAt(kingPosition);
-        List<Movement> movementList = PawnMovement.attackMovements(board.isWhiteToMove());
+        List<Movement> movementList = board.isWhiteToMove()? WhitePawnMovement.attackMovements(): BlackPawnMovement.attackMovements();
 
         for (Movement movement : movementList) {
             Piece possibleAttackingPiece = board.getTakenPiecesMap().get(kingPosition.move(movement));

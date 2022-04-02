@@ -1,7 +1,6 @@
 package board.moves.pieces;
 
 import board.moves.Movement;
-import board.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +33,7 @@ public class KingMovement implements PieceMovement
             UP));
 
     @Override
-    public List<Movement> getMovements(Piece piece)
+    public List<Movement> getMovements()
     {
         return kingPieceMovement;
     }

@@ -4,7 +4,9 @@ import board.Board;
 import board.Position;
 import board.moves.Move;
 import board.moves.Movement;
+import board.moves.pieces.BlackPawnMovement;
 import board.moves.pieces.MovementCalculator;
+import board.moves.pieces.WhitePawnMovement;
 import board.pieces.*;
 
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ public class PawnMoveCalculator extends PieceMoveCalculator
     {
     }
 
-    public static PawnMoveCalculator getInstance(){
+    public static PawnMoveCalculator getInstance()
+    {
         return pawnMoveCalculator;
     }
 
@@ -31,11 +34,12 @@ public class PawnMoveCalculator extends PieceMoveCalculator
     {
         List<Move> moveList = new ArrayList<>();
         Pawn piece = (Pawn) board.getMovingPiece(position);
-        List<Movement> movementList = MovementCalculator.getPossibleMoves(piece);
+        List<Movement> movementList = piece.isWhite() ?
+                WhitePawnMovement.getInstance().getMovements() :
+                BlackPawnMovement.getInstance().getMovements();
 
         for (Movement movement : movementList) {
             moveList.addAll(moveCalculator(board, movement, position, piece));
-
         }
         return moveList;
     }

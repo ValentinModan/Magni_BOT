@@ -2,19 +2,19 @@ package board.moves.pieces;
 
 import board.moves.Movement;
 import board.pieces.Piece;
+import board.pieces.PieceType;
 
 import java.util.List;
 
 public class MovementCalculator
 {
-
     public static List<Movement> getPossibleMoves(Piece piece)
     {
         PieceMovement pieceMovement;
 
         switch (piece.getPieceType()) {
             case PAWN:
-                pieceMovement = PawnMovement.getInstance();
+                pieceMovement = piece.isWhite() ? WhitePawnMovement.getInstance() : BlackPawnMovement.getInstance();
                 break;
             case ROOK:
                 pieceMovement = RookMovement.getInstance();
@@ -34,7 +34,7 @@ public class MovementCalculator
             default:
                 throw new IllegalStateException("Unknown piece type: " + piece.getPieceType());
         }
-        return pieceMovement.getMovements(piece);
+        return pieceMovement.getMovements();
 
     }
 }
