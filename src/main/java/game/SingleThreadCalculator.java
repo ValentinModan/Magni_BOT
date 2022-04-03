@@ -24,9 +24,9 @@ public class SingleThreadCalculator
 {
     boolean setupHasBeenMade = false;
     private static final int ZERO = 0;
-    private static final int NUMBER_OF_MOVES = 6000000;
+    private static final int NUMBER_OF_MOVES = 1000000;
     public static int number_of_computes = 400000;
-    public static boolean numberStrategy = false;
+    public static boolean numberStrategy = true;
 
     Map<String, Integer> previousMovesMap = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class SingleThreadCalculator
             setupHasBeenMade = true;
             setup(board);
             computeDoubleTree();
-            //     computeDoubleTree();
+            computeDoubleTree();
         }
         else {
             MovementMap.makeMovement(board.lastMove());
