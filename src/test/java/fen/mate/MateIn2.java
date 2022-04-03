@@ -4,7 +4,7 @@ import board.Board;
 import board.moves.movetypes.Move;
 import board.moves.MoveConvertor;
 import board.setup.BoardSetup;
-import fen.FenStrategy;
+import helper.FenStrategy;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

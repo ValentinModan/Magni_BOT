@@ -2,6 +2,7 @@ package board.possibleMoves.piece;
 
 import board.Board;
 import board.Position;
+import board.PositionEnum;
 import board.moves.Movement;
 import board.moves.calculator.pieces.QueenMoveCalculator;
 import board.pieces.Piece;
@@ -9,6 +10,8 @@ import board.pieces.Queen;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static board.PositionEnum.D4;
 
 public class QueenPossibleMovesTest
 {
@@ -60,20 +63,17 @@ public class QueenPossibleMovesTest
     {
 
         //maybe use queen direction movements instead
-        board.addPiece(new Position('d', 4), whiteQueen);
-        board.addPiece(new Position('d', 4).move(Movement.UP), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.UP_LEFT), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.LEFT), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.LEFT_DOWN), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.DOWN), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.DOWN_RIGHT), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.RIGHT), blackQueen);
-        board.addPiece(new Position('d', 4).move(Movement.UP_RIGHT), blackQueen);
+        board.addPiece(D4, whiteQueen);
+        board.addPiece(blackQueen,
+                       D4.move(Movement.UP),
+                       D4.move(Movement.UP_LEFT),
+                       D4.move(Movement.LEFT),
+                       D4.move(Movement.LEFT_DOWN),
+                       D4.move(Movement.DOWN),
+                       D4.move(Movement.DOWN_RIGHT),
+                       D4.move(Movement.RIGHT),
+                       D4.move(Movement.UP_RIGHT));
 
-
-        int result = queenMoveCalculator.computeMoves(board, new Position('d', 4)).size();
-
-
-        Assertions.assertEquals(8, result);
+        Assertions.assertEquals(8, queenMoveCalculator.computeMoves(board, D4.getPosition()).size());
     }
 }

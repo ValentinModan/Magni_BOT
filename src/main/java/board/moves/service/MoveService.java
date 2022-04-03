@@ -1,4 +1,4 @@
-package board.moves.controller;
+package board.moves.service;
 
 import board.Board;
 import board.Position;

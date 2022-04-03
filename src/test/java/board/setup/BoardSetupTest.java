@@ -6,6 +6,7 @@ import board.pieces.PieceType;
 import org.junit.jupiter.api.Test;
 
 import static board.PositionEnum.*;
+import static board.pieces.PieceType.KING;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardSetupTest
@@ -18,8 +19,8 @@ class BoardSetupTest
         BoardSetup.fenNotationBoardSetup(board, fenNotationString);
         System.out.println(board);
 
-        assertEquals(PieceType.KING, board.getPieceAt(G8.getPosition()).getPieceType());
-        assertEquals(PieceType.KING, board.getPieceAt(G1.getPosition()).getPieceType());
+        assertEquals(KING, board.getPieceAt(G8.getPosition()).getPieceType());
+        assertEquals(KING, board.getPieceAt(G1.getPosition()).getPieceType());
 
         assertFalse(board.isWhiteToMove());
     }
@@ -32,8 +33,8 @@ class BoardSetupTest
         BoardSetup.fenNotationBoardSetup(board, fenNotationString);
         System.out.println(board);
 
-        assertEquals(PieceType.KING, board.getPieceAt(PositionEnum.E8.getPosition()).getPieceType());
-        assertEquals(PieceType.KING, board.getPieceAt(G1.getPosition()).getPieceType());
+        assertEquals(KING, board.getPieceAt(E8.getPosition()).getPieceType());
+        assertEquals(KING, board.getPieceAt(G1.getPosition()).getPieceType());
 
         assertTrue(board.isWhiteToMove());
     }

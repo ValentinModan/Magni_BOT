@@ -1,6 +1,9 @@
 package board.possibleMoves.piece;
 
 import board.Board;
+import board.ColorEnum;
+import board.PositionEnum;
+import board.pieces.PieceType;
 import helper.MovesGenerator;
 import board.Position;
 import board.moves.Movement;
@@ -11,6 +14,11 @@ import board.setup.BoardSetup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pieces.PieceFactory;
+
+import static board.ColorEnum.WHITE;
+import static board.PositionEnum.A1;
+import static board.pieces.PieceType.ROOK;
 
 public class RookPossibleMovesTest
 {
@@ -32,11 +40,8 @@ public class RookPossibleMovesTest
     @Test
     public void singleRook()
     {
-        Position cornerPosition = new Position('a', 1);
-
-        board.addPiece(cornerPosition, whiteRook);
-
-        assert rookMoveCalculator.computeMoves(board, cornerPosition).size() == 14;
+        board.addPiece(A1, PieceFactory.createPiece(WHITE, ROOK));
+        Assertions.assertEquals(14, rookMoveCalculator.computeMoves(board, A1.getPosition()).size());
     }
 
     @Test
@@ -46,10 +51,9 @@ public class RookPossibleMovesTest
 
         RookMoveCalculator rookMoveCalculator = RookMoveCalculator.getInstance();
 
-        board.addPiece(cornerPosition, whiteRook);
-
-        board.addPiece(cornerPosition.move(Movement.UP), blackRook);
-        board.addPiece(cornerPosition.move(Movement.RIGHT), blackRook);
+        board.addPiece(A1, whiteRook);
+        board.addPiece(A1.move(Movement.UP), blackRook);
+        board.addPiece(A1.move(Movement.RIGHT), blackRook);
 
         int result = rookMoveCalculator.computeMoves(board, cornerPosition).size();
 

@@ -19,10 +19,7 @@ public abstract class Piece
 
     abstract public PieceType getPieceType();
 
-    public int getScore()
-    {
-        return 0;
-    }
+    public abstract int getScore();
 
     public boolean isOpponentOf(Piece piece)
     {
@@ -45,10 +42,11 @@ public abstract class Piece
         return isWhite == piece.isWhite;
     }
 
+    //todo: check if it's necessary to also have type
     @Override
     public int hashCode()
     {
-        return Objects.hash(isWhite);
+        return Objects.hash(isWhite) + Objects.hashCode(getPieceType());
     }
 
     public String toFen()

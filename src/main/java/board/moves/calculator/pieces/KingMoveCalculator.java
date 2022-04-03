@@ -80,8 +80,8 @@ public class KingMoveCalculator extends PieceMoveCalculator
     boolean canSideCastle(Board board, Movement direction) throws Exception
     {
         Position initialKingPosition = board.getKingPosition();
-        Position INITIAL_ROOK_POSITION = initalRookPosition(direction, board.isWhiteToMove());
-        Piece pieceAtLeftRookInitialPosition = board.getMovingPiece(INITIAL_ROOK_POSITION);
+        Position initalRookPosition = initalRookPosition(direction, board.isWhiteToMove());
+        Piece pieceAtLeftRookInitialPosition = board.getMovingPiece(initalRookPosition);
 
         //king is attacked or has moved
         if (!isInitialPosition(board.getKingPosition(), board.getKing())) {
@@ -106,12 +106,10 @@ public class KingMoveCalculator extends PieceMoveCalculator
         if (direction == LEFT && board.getPieceAt(board.getKingPosition().move(direction).move(direction).move(direction)) != null) {
             return false;
         }
-
         if (pieceHasMoved(board.allMoves, initialKingPosition)) {
             return false;
         }
-
-        if (pieceHasMoved(board.allMoves, INITIAL_ROOK_POSITION)) {
+        if (pieceHasMoved(board.allMoves, initalRookPosition)) {
             return false;
         }
 

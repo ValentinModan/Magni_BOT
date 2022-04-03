@@ -12,6 +12,7 @@ import java.util.List;
 
 public abstract class PieceMoveCalculator
 {
+
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
         List<Move> moveList = new ArrayList<>();

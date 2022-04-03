@@ -5,20 +5,24 @@ import board.moves.MoveConvertor;
 import board.moves.calculator.pieces.PawnMoveCalculator;
 import board.pieces.Pawn;
 import board.pieces.Piece;
-import board.possibleMoves.resource.DepthCalculator;
+import board.pieces.PieceType;
+import helper.resource.DepthCalculator;
 import board.setup.BoardSetup;
 import org.junit.jupiter.api.Test;
+import pieces.PieceFactory;
 
+import static board.ColorEnum.WHITE;
+import static board.PositionEnum.A2;
+import static board.pieces.PieceType.PAWN;
 import static org.junit.jupiter.api.Assertions.*;
+import static pieces.PieceFactory.createPiece;
 
 class BoardTest
 {
-
-
     @Test
     void moveThenUndoMove()
     {
-        Board board         = new Board();
+        Board board = new Board();
         Board originalBoard = new Board();
 
         BoardSetup.setupBoard(originalBoard);
@@ -36,53 +40,24 @@ class BoardTest
     }
 
     @Test
-    void singlePieceTest()
-    {
-        Board board         = new Board();
-        Board originalBoard = new Board();
-
-        Piece    piece      = new Pawn(true);
-        Piece    secondPawn = new Pawn(true);
-        Position position   = new Position('a', 2);
-        Position position1  = new Position('a', 2);
-
-        board.addPiece(position, piece);
-
-        originalBoard.addPiece(position1, secondPawn);
-
-        assertEquals(board, originalBoard);
-    }
-
-    @Test
-    void blackPieceMove()
+    void twoBoardWithSamePosition()
     {
         Board board = new Board();
-        BoardSetup.setupBoard(board);
-        board.setWhiteToMove(false);
+        Board secondBoard = new Board();
 
-        //Move move = MoveConvertor.toMove("b8c6");
+        board.addPiece(A2, createPiece(WHITE, PAWN));
+        secondBoard.addPiece(A2, createPiece(WHITE, PAWN));
 
-
-        board.computePossibleMoves();
-        System.out.println(board.getPossibleMoves());
-        // assert board.isValidMove(move);
-
-        System.out.println(board.getPossibleMoves().size());
+        assertEquals(board, secondBoard);
     }
 
     @Test
     void firstMove()
     {
-        Board    board        = new Board();
-        Position pawnPosition = new Position(2, 2);
+        Board board = new Board();
+        board.addPiece(A2, createPiece(WHITE, PAWN));
 
-        board.addPiece(pawnPosition, new Pawn(true));
-
-        PawnMoveCalculator pawnMoveCalculator = PawnMoveCalculator.getInstance();
-
-        int moves = pawnMoveCalculator.computeMoves(board, pawnPosition).size();
-
-        assertEquals(2, moves);
+        assertEquals(2, PawnMoveCalculator.getInstance().computeMoves(board, A2.getPosition()).size());
     }
 
     @Test
@@ -91,19 +66,16 @@ class BoardTest
         Board board = new Board();
 
         BoardSetup.setupBoard(board);
-
-        assert DepthCalculator.possibleMoves(board, 1) == 20;
+        assertEquals(20, DepthCalculator.possibleMoves(board, 1));
     }
 
     @Test
     void twoMovesTest()
     {
         Board board = new Board();
-
         BoardSetup.setupBoard(board);
 
-        int result = DepthCalculator.possibleMoves(board, 2);
-        assert result == 400;
+        assertEquals(400, DepthCalculator.possibleMoves(board, 2));
     }
 
     @Test
@@ -126,49 +98,5 @@ class BoardTest
         int result = DepthCalculator.possibleMoves(board, 4);
 
         assertEquals(197281, result);
-    }
-
-
-    void fiveMovesTest()
-    {
-        Board board = new Board();
-
-        BoardSetup.setupBoard(board);
-        int  n         = 5;
-        long startTime = System.nanoTime();
-        for (int i = 1; i <= n; i++) {
-            int result = DepthCalculator.possibleMoves(board, 5);
-        }
-        double elapsedTime = (double) (System.nanoTime() - startTime) / 1_000_000_000.0;
-        System.out.println(elapsedTime / n);
-
-        //  assert result == 197742;
-
-        // assertEquals(4865609, result);
-    }
-
-    // @Test
-    void fiveeMovesTest()
-    {
-        Board board = new Board();
-
-
-        BoardSetup.setupBoard(board);
-        int result = DepthCalculator.possibleMoves(board, 5);
-        //  assert result == 197742;
-        assertEquals(4865609, result);
-    }
-
-
-   // @Test
-    void sixMovesTest()
-    {
-        Board board = new Board();
-
-
-        BoardSetup.setupBoard(board);
-        int result = DepthCalculator.possibleMoves(board, 6);
-        //  assert result == 197742;
-        assertEquals(119060324, result);
     }
 }

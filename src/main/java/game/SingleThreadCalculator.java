@@ -175,7 +175,7 @@ public class SingleThreadCalculator
                 .stream().map(it -> getMovementMapScore(it, depth - 1))
                 .mapToInt(it -> it)
                 .max().orElse(ZERO);
-        movementMap.final_score = moveScore - maxResponseScore;
+        movementMap.finalScore = moveScore - maxResponseScore;
 
         return moveScore - maxResponseScore;
     }

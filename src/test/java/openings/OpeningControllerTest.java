@@ -27,8 +27,6 @@ class OpeningControllerTest
         Board board = new Board();
         BoardSetup.setupBoard(board);
         MovesGenerator.makeMoves(board, move);
-
-       System.out.println(board);
     }
 
     private static Stream<Object> allOpenings()

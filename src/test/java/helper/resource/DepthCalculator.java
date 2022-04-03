@@ -1,4 +1,4 @@
-package board.possibleMoves.resource;
+package helper.resource;
 
 import board.Board;
 import board.moves.movetypes.Move;

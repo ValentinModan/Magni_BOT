@@ -2,12 +2,14 @@ package board.possibleMoves.piece;
 
 import board.Board;
 import board.Position;
+import board.PositionEnum;
 import board.moves.calculator.pieces.BishopMoveCalculator;
 import board.pieces.Bishop;
 import board.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static board.PositionEnum.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BishopPossibleMovesTest
@@ -34,27 +36,22 @@ public class BishopPossibleMovesTest
     @Test
     public void singleWhiteBishop() throws Exception
     {
-        Position whiteBishopPosition = new Position('a', 1);
+        board.addPiece(A1, whiteBishop);
+        int bishopMoves = bishopMoveCalculator.computeMoves(board, A1.getPosition()).size();
 
-        board.addPiece(whiteBishopPosition, whiteBishop);
-
-
-        int bishopMoves = bishopMoveCalculator.computeMoves(board, whiteBishopPosition).size();
-
-
-        assertEquals(7,bishopMoves);
+        assertEquals(7, bishopMoves);
     }
 
     @Test
     public void twoAdjacentWhiteBishops() throws Exception
     {
-        Position firstWhitePosition  = new Position('d', 4);
+        Position firstWhitePosition = new Position('d', 4);
         Position secondWhitePosition = new Position('e', 5);
 
         board.addPiece(firstWhitePosition, whiteBishop);
         board.addPiece(secondWhitePosition, secondWhiteBishop);
 
-        int firstBishopMoves  = bishopMoveCalculator.computeMoves(board, firstWhitePosition).size();
+        int firstBishopMoves = bishopMoveCalculator.computeMoves(board, firstWhitePosition).size();
         int secondBishopMoves = bishopMoveCalculator.computeMoves(board, secondWhitePosition).size();
 
         assertEquals(firstBishopMoves, 9);
@@ -64,17 +61,11 @@ public class BishopPossibleMovesTest
     @Test
     public void twoAdjacentOppositeBishops() throws Exception
     {
-        Position whitePosition = new Position('d', 4);
-        Position blackPosition = new Position('e', 5);
+        board.addPiece(D4, whiteBishop);
+        board.addPiece(E5, blackBishop);
 
-        board.addPiece(whitePosition, whiteBishop);
-        board.addPiece(blackPosition, blackBishop);
-
-        int whiteMoves = bishopMoveCalculator.computeMoves(board, whitePosition).size();
+        assertEquals(10, bishopMoveCalculator.computeMoves(board, D4.getPosition()).size());
         board.setWhiteToMove(false);
-        int blackMoves = bishopMoveCalculator.computeMoves(board, blackPosition).size();
-
-        assertEquals(10, whiteMoves);
-        assertEquals(10, blackMoves);
+        assertEquals(10, bishopMoveCalculator.computeMoves(board, E5.getPosition()).size());
     }
 }

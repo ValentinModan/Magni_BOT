@@ -2,7 +2,7 @@ package board;
 
 import board.moves.movetypes.Move;
 import board.moves.calculator.PossibleMovesCalculator;
-import board.moves.controller.MoveService;
+import board.moves.service.MoveService;
 import board.pieces.King;
 import board.pieces.Piece;
 import board.pieces.PieceType;
@@ -108,6 +108,20 @@ public class Board implements Cloneable
     public void undoMove(Move move)
     {
         moveService.undoMove(this, move);
+    }
+
+    public void addPiece(Piece piece, Position... positions)
+    {
+        for (Position position : positions) {
+            addPiece(position, piece);
+        }
+    }
+
+    public void addPiece(Piece piece, PositionEnum... positionEnums)
+    {
+        for (PositionEnum positionEnum : positionEnums) {
+            addPiece(positionEnum, piece);
+        }
     }
 
     public void addPiece(PositionEnum positionEnum, Piece piece)

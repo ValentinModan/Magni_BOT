@@ -19,7 +19,7 @@ public class MovementMap
     private MovementMap parent;
 
     public int score;
-    public int final_score;
+    public int finalScore;
 
     //the current move
     private Move currentMove;
@@ -56,7 +56,6 @@ public class MovementMap
         Stack<Move> moveStack = getMovesStack();
 
         Board board = (Board) GameBoard.actualBoard.clone();
-
         while (!moveStack.isEmpty()) {
             Move move = moveStack.pop();
             board.move(move);
@@ -141,7 +140,7 @@ public class MovementMap
     @Override
     public String toString()
     {
-        return "" + final_score + " " + score + "MovementMap{" +
+        return "" + finalScore + " " + score + "MovementMap{" +
                 "currentMove=" + currentMove +
                 ", isMovePossibleForCurrentGame=" + isMovePossibleForCurrentGame +
                 ", parent=" + parent +

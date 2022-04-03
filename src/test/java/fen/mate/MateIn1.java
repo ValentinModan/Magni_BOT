@@ -3,7 +3,7 @@ package fen.mate;
 import board.Board;
 import board.moves.movetypes.Move;
 import board.setup.BoardSetup;
-import fen.FenStrategy;
+import helper.FenStrategy;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

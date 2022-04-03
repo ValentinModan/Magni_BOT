@@ -30,7 +30,7 @@ public class MateIn1
     }
 
     @Test
-    public void scholarsMate_depth_search_1() throws Exception
+    public void scholarsMate_depth_search_1()
     {
         String firstMoves = "f2f3 e7e6 g2g4 d8h4 a2a3";
         MovesGenerator.makeMoves(board, firstMoves);
@@ -43,7 +43,7 @@ public class MateIn1
 
 
     @Test
-    public void scholarsMate_depth_search_2() throws Exception
+    public void scholarsMate_depth_search_2()
     {
         String firstMoves = "f2f3 e7e6 g2g4";
         MovesGenerator.makeMoves(board, firstMoves);
@@ -55,7 +55,7 @@ public class MateIn1
     }
 
     @Test
-    public void twoRooksMate() throws CloneNotSupportedException, InterruptedException
+    public void twoRooksMate()
     {
         Board board = new Board();
         GameBoard.actualBoard = board;
@@ -84,7 +84,7 @@ public class MateIn1
 
 
     @Test
-    public void mateIn1TwoQueens() throws CloneNotSupportedException, InterruptedException
+    public void mateIn1TwoQueens()
     {
         Board board = new Board();
         GameBoard.actualBoard = board;
@@ -106,7 +106,7 @@ public class MateIn1
     }
 
     @Test
-    public void notStaleMate() throws CloneNotSupportedException, InterruptedException
+    public void notStaleMate()
     {
         MovesGenerator.makeMoves(board, "e2e4 e7e5 f2f4 f7f5 e4f5 g8f6 f4e5 b8c6 e5f6 b7b6 f6g7 c8b7 g7f8 e8f8 a2a3 d8h4 g2g3 h8g8 g3h4 g8g1 h1g1 c6d4 h4h5 b7f3 d1f3 d7d6 f3a8 f8f7 a8a7 f7f6 a7b6 f6e5 b6d4 e5d4 c2c3 d4e5 c3c4 e5d4 a3a4 d4e5 a4a5 e5f4 f5f6 f4e5 a5a6 e5f4 f6f7 f4e5 f7f8 e5e4 f8d6 c7c5 d6c5 h7h6 a6a7 e4f4");
 
@@ -117,7 +117,7 @@ public class MateIn1
     }
 
     @Test
-    public void matein1() throws CloneNotSupportedException, InterruptedException
+    public void matein1()
     {
         String moves = "d2d4 g8f6 c2c4 e7e6 b1c3 f8b4 g1f3 d7d5 c4c5 e6e5 a2a3 b4c3 b2c3 e5d4 c3d4 a7a6 e2e3 c7c6 f1d3 b7b6 e1h1 b6c5 d4c5 h7h6 d1b3 a6a5 c1b2 h6h5 a1b1 h5h4 b2c3 a5a4 c3f6 a4b3 b1b3 g7f6 d3f5 c8f5 f1b1 f5b1 b3b1 a8a3 f3d4 a3e3 b1b8";
 

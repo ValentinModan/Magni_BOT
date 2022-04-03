@@ -1,5 +1,7 @@
 package board;
 
+import board.moves.Movement;
+
 public enum PositionEnum
 {
     A1('a', 1),
@@ -88,5 +90,10 @@ public enum PositionEnum
     public Position getPosition()
     {
         return position;
+    }
+
+    public Position move(Movement movement)
+    {
+        return getPosition().move(movement);
     }
 }

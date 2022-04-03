@@ -1,4 +1,4 @@
-package fen;
+package helper;
 
 import board.Board;
 import board.moves.movetypes.Move;

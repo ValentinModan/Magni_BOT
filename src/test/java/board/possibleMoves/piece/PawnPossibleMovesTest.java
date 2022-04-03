@@ -18,7 +18,6 @@ public class PawnPossibleMovesTest
 
     private PawnMoveCalculator pawnMoveCalculator = PawnMoveCalculator.getInstance();
 
-
     @BeforeEach
     private void setUp()
     {
@@ -33,7 +32,6 @@ public class PawnPossibleMovesTest
         Position whitePawnPosition = new Position('a', 2);
         board.addPiece(whitePawnPosition, whitePawn);
 
-
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 2;
     }
 
@@ -44,7 +42,6 @@ public class PawnPossibleMovesTest
         Position blackPawnPosition = new Position('b', 3);
         board.addPiece(whitePawnPosition, whitePawn);
         board.addPiece(blackPawnPosition, blackPawn);
-
 
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 0;
         board.nextTurn();
@@ -62,7 +59,6 @@ public class PawnPossibleMovesTest
         board.addPiece(upLeftBlackPawnPosition, new Pawn(false));
         board.addPiece(upRightBlackPawnPosition, new Pawn(false));
 
-
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 4;
     }
 
@@ -77,7 +73,6 @@ public class PawnPossibleMovesTest
         board.addPiece(upLeftBlackPawnPosition, new Pawn(false));
         board.addPiece(upRightBlackPawnPosition, new Pawn(false));
 
-
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 3;
     }
 
@@ -87,7 +82,6 @@ public class PawnPossibleMovesTest
         Position whitePawnPosition = new Position('a', 7);
 
         board.addPiece(whitePawnPosition, whitePawn);
-
 
         assert pawnMoveCalculator.computeMoves(board, whitePawnPosition).size() == 4;
     }
@@ -115,7 +109,6 @@ public class PawnPossibleMovesTest
         board.addPiece(secondKnightPosition, new Knight(true));
 
         board.setWhiteToMove(false);
-
 
         assert pawnMoveCalculator.computeMoves(board, blackPawnPosition).size() == 12;
     }
