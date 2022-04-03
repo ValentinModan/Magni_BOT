@@ -5,6 +5,14 @@ import board.Position;
 import board.pieces.King;
 import board.pieces.Rook;
 import org.junit.jupiter.api.BeforeEach;
+import pieces.PieceFactory;
+
+import static board.ColorEnum.BLACK;
+import static board.ColorEnum.WHITE;
+import static board.PositionEnum.*;
+import static board.PositionEnum.A6;
+import static board.pieces.PieceType.KING;
+import static board.pieces.PieceType.ROOK;
 
 public class MateIn3
 {
@@ -14,23 +22,12 @@ public class MateIn3
     public void setUp()
     {
         board = new Board();
-        Position whiteKingPosition = new Position('a',1);
-        Position blackKingPosition = new Position('g',7);
-        Position firstWhiteRookPosition = new Position('b',5);
-        Position secondWhiteRookPosition = new Position('a',4);
 
-        board.addPiece(whiteKingPosition, new King(true));
-        board.addPiece(blackKingPosition, new King(false));
-        board.addPiece(firstWhiteRookPosition, new Rook(true));
-        board.addPiece(secondWhiteRookPosition, new Rook(true));
+        board.addPiece(A1, PieceFactory.createPiece(WHITE, KING));
+        board.addPiece(G7, PieceFactory.createPiece(BLACK, KING));
+        board.addPiece(B5, PieceFactory.createPiece(WHITE, ROOK));
+        board.addPiece(A6, PieceFactory.createPiece(WHITE, ROOK));
     }
-
-
-
-
-
-
-
 
 
 }

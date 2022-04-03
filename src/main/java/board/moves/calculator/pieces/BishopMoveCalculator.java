@@ -23,8 +23,6 @@ public class BishopMoveCalculator extends PieceMoveCalculator
     @Override
     public List<Move> computeMoves(Board board, Position position) throws Exception
     {
-        List<Movement> movementList = BishopMovement.getInstance().getMovements();
-
-        return Xray.xRayMoveList(board, position, movementList);
+        return Xray.xRayMoveList(board, position, BishopMovement.getInstance().getMovements());
     }
 }

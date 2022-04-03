@@ -48,7 +48,6 @@ public class PawnMoveCalculator extends PieceMoveCalculator
     {
         List<Move> moveList = new ArrayList<>();
         Position destinationPosition = initialPosition.move(movement);
-        Piece takenPiece = board.getTakenPiecesMap().get(destinationPosition);
 
         if (!destinationPosition.isValid()) {
             return Collections.emptyList();
@@ -69,12 +68,12 @@ public class PawnMoveCalculator extends PieceMoveCalculator
             case UP_TWO:
             case DOWN_TWO:
                 //can not double jump over pieces
-                if (movement == UP_TWO && (board.pieceExistsAt(initialPosition.move(UP))
-                        || board.pieceExistsAt(initialPosition.move(UP_TWO)))) {
+                if (movement == UP_TWO && (
+                        board.pieceExistsAt(initialPosition.move(UP)) || board.pieceExistsAt(initialPosition.move(UP_TWO)))) {
                     return Collections.emptyList();
                 }
-                if (movement == DOWN_TWO && board.pieceExistsAt(initialPosition.move(DOWN)) ||
-                        board.pieceExistsAt(initialPosition.move(DOWN_TWO))) {
+                if (movement == DOWN_TWO && (board.pieceExistsAt(initialPosition.move(DOWN)) ||
+                        board.pieceExistsAt(initialPosition.move(DOWN_TWO)))) {
                     return Collections.emptyList();
                 }
                 if (canDoubleJump(pawn, initialPosition)) {
@@ -85,7 +84,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator
             case UP_RIGHT:
             case DOWN_RIGHT:
             case LEFT_DOWN:
-
+                Piece takenPiece = board.getTakenPiecesMap().get(destinationPosition);
                 if (pawn.isOpponentOf(takenPiece)) {
                     if (isPawnPromotion(pawn, destinationPosition)) {
                         moveList.addAll(allPromotions(initialPosition, destinationPosition, pawn.isWhite()));

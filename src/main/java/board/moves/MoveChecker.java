@@ -9,10 +9,8 @@ public class MoveChecker
 {
     public static boolean moveKnightFromFirstRow(Move move)
     {
-        if (move.getMovingPiece().getPieceType() == KNIGHT && (move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getRow() == 8)) {
-            return true;
-        }
-        return false;
+        return move.getMovingPiece().getPieceType() == KNIGHT &&
+                (move.getInitialPosition().getRow() == 1 || move.getInitialPosition().getRow() == 8);
     }
 
     public static boolean isPawnMove(Move move)

@@ -7,6 +7,7 @@ public class ScoreCalculator
 {
     private static int score = 0;
     private static final int CASTLE_MOVE = 5;
+    private static final int MOVES_NUMBER_BONUS_PAWN = 80;
 
     public static void addCastleMoveScore()
     {
@@ -16,7 +17,7 @@ public class ScoreCalculator
     public static void withPawnMove(int movesNumber)
     {
         score += 1;
-        if (movesNumber > 80) {
+        if (movesNumber > MOVES_NUMBER_BONUS_PAWN) {
             score += 1;
         }
     }
@@ -30,7 +31,6 @@ public class ScoreCalculator
     {
         score = 0;
     }
-
 
     public static int compute()
     {

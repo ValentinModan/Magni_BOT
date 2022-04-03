@@ -1,11 +1,16 @@
 package board.setup;
 
 import board.Board;
+import board.ColorEnum;
 import board.Position;
 import board.PositionEnum;
 import board.pieces.*;
+import pieces.PieceFactory;
 
+import static board.ColorEnum.WHITE;
 import static board.PositionEnum.*;
+import static board.pieces.PieceType.PAWN;
+import static pieces.PieceFactory.createPiece;
 
 //TODO: replace positions with enums (not worth the time)
 public class BoardSetup
@@ -33,13 +38,15 @@ public class BoardSetup
     {
         int score = 0;
         for (Piece piece : board.getPieceMap(Board.myColorWhite).values()) {
-            if(piece.getPieceType()!=PieceType.PAWN)
-            score += piece.getScore();
+            if (piece.getPieceType() != PAWN) {
+                score += piece.getScore();
+            }
         }
 
         for (Piece piece : board.getPieceMap(!Board.myColorWhite).values()) {
-            if(piece.getPieceType()!=PieceType.PAWN)
-            score -= piece.getScore();
+            if (piece.getPieceType() != PAWN) {
+                score -= piece.getScore();
+            }
         }
         return score;
     }
@@ -135,8 +142,8 @@ public class BoardSetup
     private static void addPawns(Board board)
     {
         for (char letter = 'a'; letter <= 'h'; letter++) {
-            board.addPiece(new Position(letter, 2), new Pawn(WHITE));
-            board.addPiece(new Position(letter, 7), new Pawn(BLACK));
+            board.addPiece(new Position(letter, 2), createPiece(ColorEnum.WHITE, PAWN));
+            board.addPiece(new Position(letter, 7), createPiece(ColorEnum.BLACK, PAWN));
         }
     }
 

@@ -22,7 +22,6 @@ public class QueenMovement implements PieceMovement
                     Movement.UP_RIGHT));
 
     private QueenMovement(){
-
     }
 
     public static QueenMovement getInstance() {

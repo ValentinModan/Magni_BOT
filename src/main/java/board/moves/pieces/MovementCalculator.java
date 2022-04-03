@@ -11,7 +11,6 @@ public class MovementCalculator
     public static List<Movement> getPossibleMoves(Piece piece)
     {
         PieceMovement pieceMovement;
-
         switch (piece.getPieceType()) {
             case PAWN:
                 pieceMovement = piece.isWhite() ? WhitePawnMovement.getInstance() : BlackPawnMovement.getInstance();
@@ -35,6 +34,5 @@ public class MovementCalculator
                 throw new IllegalStateException("Unknown piece type: " + piece.getPieceType());
         }
         return pieceMovement.getMovements();
-
     }
 }

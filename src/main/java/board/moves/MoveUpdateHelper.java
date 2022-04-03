@@ -1,14 +1,17 @@
 package board.moves;
 
 import board.Board;
+import board.ColorEnum;
 import board.Position;
 import board.moves.movetypes.Move;
 import board.pieces.*;
 import game.gameSetupOptions.GameOptions;
 import lombok.extern.slf4j.Slf4j;
+import pieces.PieceFactory;
 
-import static board.pieces.PieceType.KING;
-import static board.pieces.PieceType.ROOK;
+import static board.ColorEnum.BLACK;
+import static board.ColorEnum.WHITE;
+import static board.pieces.PieceType.*;
 
 @Slf4j
 public class MoveUpdateHelper
@@ -26,32 +29,34 @@ public class MoveUpdateHelper
 
     public static void updatePawnPromotion(Move move)
     {
-        if (move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+        ColorEnum colorEnum = move.getMovingPiece().isWhite() ? WHITE : ColorEnum.BLACK;
+        if (move.getMovingPiece().getPieceType() != PAWN) {
             return;
         }
-        if (move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 7) {
+        if ((colorEnum == WHITE) && (move.getInitialPosition().getRow() == 7)) {
             move.setPawnPromotion(true);
         }
-        if (!move.getMovingPiece().isWhite() && move.getInitialPosition().getRow() == 2) {
+        if (colorEnum == BLACK && move.getInitialPosition().getRow() == 2) {
             move.setPawnPromotion(true);
         }
         if (move.isPawnPromotion() && move.getPromotionPiece() == null) {
-            char c = move.getPromotionSmithNotation();
-            switch (c) {
-                case 'N':
-                    move.setPromotionPiece(new Knight(move.getMovingPiece().isWhite()));
-                    break;
-                case 'R':
-                    move.setPromotionPiece(new Rook(move.getMovingPiece().isWhite()));
-                    break;
-                case 'B':
-                    move.setPromotionPiece(new Bishop(move.getMovingPiece().isWhite()));
-                    break;
-                case 'Q':
-                default:
-                    move.setPromotionPiece(new Queen(move.getMovingPiece().isWhite()));
-            }
-            move.setPromotionPiece(new Queen(move.getMovingPiece().isWhite()));
+            PieceType pieceType = getPieceTypeFromCharacter(move.getPromotionSmithNotation());
+            move.setPromotionPiece(PieceFactory.createPiece(pieceType, move.getMovingPiece().isWhite()));
+        }
+    }
+
+    private static PieceType getPieceTypeFromCharacter(char c)
+    {
+        switch (c) {
+            case 'N':
+                return KNIGHT;
+            case 'R':
+                return ROOK;
+            case 'B':
+                return BISHOP;
+            case 'Q':
+            default:
+                return QUEEN;
         }
     }
 
@@ -84,7 +89,7 @@ public class MoveUpdateHelper
     {
         Position initialPosition = move.getInitialPosition();
 
-        if (move.getMovingPiece().getPieceType() != PieceType.PAWN) {
+        if (move.getMovingPiece().getPieceType() != PAWN) {
             return;
         }
         Pawn pawn = (Pawn) move.getMovingPiece();
@@ -99,9 +104,8 @@ public class MoveUpdateHelper
         }
         Position linePosition = initialPosition.move(line);
 
-
         Piece linePiece = board.getTakenPiecesMap().get(linePosition);
-        if (linePiece == null || linePiece.getPieceType() != PieceType.PAWN) {
+        if (linePiece == null || linePiece.getPieceType() != PAWN) {
             return;
         }
         Move lastMove = board.lastMove();

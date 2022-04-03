@@ -4,6 +4,7 @@ import board.Board;
 import board.MovementMap;
 import board.moves.MoveUpdateHelper;
 import game.GameBoardHelper;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,12 +13,9 @@ import java.util.stream.Collectors;
 
 public class MovementMapCounter
 {
-    public static Map<String, Integer> pieceMap = new HashMap<>();
-
-    public static int countChildrenMovesWithDepth(MovementMap movementMap, int depth) throws CloneNotSupportedException
+    public static int countChildrenMovesWithDepth(MovementMap movementMap, int depth)
     {
         int sum = 0;
-
         if (depth == 0) {
             return 1;
         }
@@ -26,15 +24,12 @@ public class MovementMapCounter
                 sum += countChildrenMovesWithDepth(movementMap1, depth - 1);
             }
         }
-
         return sum;
     }
 
 
     public static int countChildrenMoves(MovementMap movementMap) throws CloneNotSupportedException
     {
-        int sum = 0;
-
         if (movementMap.getParent() != null) {
             Board parentBoard = movementMap.getParent().generateBoardForCurrentPosition();
             MoveUpdateHelper.moveUpdate(parentBoard, movementMap.getCurrentMove());
@@ -45,18 +40,13 @@ public class MovementMapCounter
                 captures++;
             }
         }
-
-        if (movementMap.getMovementMap() == null) {
+        if (CollectionUtils.isEmpty(movementMap.getMovementMap())) {
             return 1;
         }
-        if (movementMap.getMovementMap().isEmpty()) {
-            return 1;
-        }
-
+        int sum = 0;
         for (MovementMap movementMap1 : movementMap.getMovementMap().values()) {
             sum += countChildrenMoves(movementMap1);
         }
-
         return sum;
     }
 

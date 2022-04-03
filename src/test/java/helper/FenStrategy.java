@@ -10,9 +10,6 @@ public class FenStrategy
     private static String strategy = "singleThread";
     SingleThreadCalculator singleThreadCalculator = new SingleThreadCalculator();
 
-
-
-
     public static Move bestResponse(Board board)
     {
         try {
