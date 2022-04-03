@@ -74,7 +74,7 @@ public class GameBoard
 
             if (GameBoardHelper.isFirstMoveOfTheGame(nowPlaying)) {
                 //do the first move
-                firstMove(nowPlaying.getGameId());
+                ownMoveCalculator(nowPlaying.getGameId());
             }
             else {
                 Board.displayAllMoves();
@@ -130,19 +130,5 @@ public class GameBoard
         log.info("Enemy made a move:");
         log.info(actualBoard.toString());
 
-    }
-
-    private void firstMove(String gameId)
-    {
-        Move actualMove = MoveConvertor.stringToMove(openingController.nextMove());
-
-        actualBoard.actualMove(actualMove);
-        Board.myColorWhite = true;
-        //set black to move
-        actualBoard.nextTurn();
-
-        //send the actual move
-        MakeABotMove makeABotMove = new MakeABotMove(gameId, actualMove.move());
-        RequestController.sendRequest(makeABotMove);
     }
 }

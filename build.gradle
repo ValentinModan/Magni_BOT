@@ -4,11 +4,19 @@ plugins {
     id 'org.springframework.boot' version '2.4.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
+apply plugin: "groovy"
+
+sourceSets {
+    main {
+        java { srcDirs = [] }    // no source dirs for the java compiler
+        groovy { srcDirs = ["src/main/java", "src/main/groovy"] }  // compile   everything in src/ with groovy
+    }
+}
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'src.main.java.Main.java'
+                'Main-Class': 'Main.java'
         )
     }
 }
@@ -16,7 +24,7 @@ jar {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
-apply plugin: "groovy"
+
 
 repositories {
     mavenCentral()

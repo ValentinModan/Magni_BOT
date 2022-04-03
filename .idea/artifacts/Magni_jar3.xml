@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="Magni:jar2">
-    <output-path>$PROJECT_DIR$/out/artifacts/Magni_jar2</output-path>
+  <artifact type="jar" name="Magni:jar3">
+    <output-path>$PROJECT_DIR$/out/artifacts/Magni_jar3</output-path>
     <root id="archive" name="Magni.jar">
       <element id="module-output" name="Magni.main" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/2.4.0/4f1ba27a364170a26bbd448b14ba3907d21f2154/spring-boot-starter-logging-2.4.0.jar" path-in-jar="/" />

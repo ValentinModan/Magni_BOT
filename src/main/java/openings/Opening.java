@@ -18,7 +18,7 @@ public class Opening
 
     public static void updateMovesStringWithMove(String move)
     {
-        if (movesUntilNow.isEmpty()) {
+        if (movesUntilNow == null || movesUntilNow.isEmpty()) {
             movesUntilNow = move;
         }
         else {

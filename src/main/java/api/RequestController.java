@@ -61,7 +61,7 @@ public class RequestController
 
         Map<String, Object> map = new HashMap<>();
         map.put("body", "A powerful tool for building web apps.");
-        map.put("color", "white");
+        map.put("color", "black");
         map.put("rated", rated);
 
         Map<String, Object> timeMap = new HashMap<>();
