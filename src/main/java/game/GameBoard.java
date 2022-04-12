@@ -48,6 +48,11 @@ public class GameBoard
         startPlayerGame();
     }
 
+    public void challengePlayer()
+    {
+
+    }
+
     public void challengePlayer(String player) throws InterruptedException, CloneNotSupportedException
     {
         challengePlayer(player, 600, 15, true);
